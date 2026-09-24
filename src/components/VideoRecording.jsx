@@ -6,8 +6,9 @@ const VideoRecording = () => {
   const [isRecording, setIsRecording] = useState(false);
   const [stream, setStream] = useState(null);
   const [videoUrl, setVideoUrl] = useState(null);
-  const [previousVideoUrl, setPreviousVideoURL] = useState(null);
   const [recorderState, setRecorderState] = useState("inactive");
+  const [videoUrlList, setVideoUrlList] = useState([]);
+  const [showPreview, setShowPreview] = useState(false);
 
   //   starting the video
   const handleStartRecording = async () => {
@@ -68,8 +69,12 @@ const VideoRecording = () => {
 
   function handleUrl(e) {
     const blob = new Blob([e.data], { type: "video/mp4" });
-    const url = URL.createObjectURL(blob);
-    return url;
+    const url2 = URL.createObjectURL(blob);
+    setVideoUrlList((prevList) => [
+      ...prevList,
+      { url: url2, size: blob.size },
+    ]);
+    return url2;
   }
 
   const setHandleUrl = (type, e, url) => {
@@ -85,12 +90,41 @@ const VideoRecording = () => {
 
   //   Handling record again video
   const handleRecordAgain = () => {
-    setPreviousVideoURL(videoUrl);
+    console.log(videoUrlList);
     setVideoUrl(null);
+    setShowPreview(false);
     handleStartRecording();
   };
 
-  const handlePreviousVideo = () => setHandleUrl("prev", {}, previousVideoUrl);
+  //   Showing the previous videos
+  const handlePreviousVideo = () => {
+    setShowPreview(true);
+  };
+
+  //   Showing the only current value
+  const handleCurrentVideo = () => {
+    setShowPreview(false);
+  };
+
+  //   Creating a list of previous video
+  const videoList = videoUrlList.map((video) => (
+    <li key={video}>
+      (
+      <video
+        src={video.url}
+        width={400}
+        controls
+        loop
+        className="rounded border-solid border-2"
+      />
+      )<p>FIle Size : {(video.size / (1024 * 1024)).toFixed(2)} MB</p>
+    </li>
+  ));
+
+  //   handling the delete button to deleteing the current video
+  const handleDeleteVideo = () => {
+    setVideoUrl(null);
+  };
 
   return (
     <div className="bg-gray color-white">
@@ -136,8 +170,12 @@ const VideoRecording = () => {
       {videoUrl ? (
         <>
           <div>
-            <div className="text-center my-6">Preview</div>
-            <div>
+            {showPreview ? (
+              <div>
+                <h1>Preview</h1>
+                <ul>{videoList}</ul>
+              </div>
+            ) : (
               <div>
                 <h1>Video</h1>
                 <video
@@ -148,11 +186,14 @@ const VideoRecording = () => {
                   className="rounded border-solid border-2"
                 />
               </div>
-            </div>
+            )}
             <div>
               <div className="flex justify-around my-[20px]">
                 {/* Delete Button */}
-                <button className="bg-PiWhiteBackground text-PiButton border-solid border-2 border-PiButton rounded py-[0.25rem] px-[0.75rem]">
+                <button
+                  onClick={handleDeleteVideo}
+                  className="bg-PiWhiteBackground text-PiButton border-solid border-2 border-PiButton rounded py-[0.25rem] px-[0.75rem]"
+                >
                   Delete Video
                 </button>
 
@@ -165,12 +206,21 @@ const VideoRecording = () => {
                 </button>
 
                 {/* Previous Video */}
-                <button
-                  onClick={handlePreviousVideo}
-                  className="bg-PiWhiteBackground text-PiButton border-solid border-2 border-PiButton rounded py-[0.25rem] px-[0.75rem]"
-                >
-                  Previous Video
-                </button>
+                {!showPreview ? (
+                  <button
+                    onClick={handlePreviousVideo}
+                    className="bg-PiWhiteBackground text-PiButton border-solid border-2 border-PiButton rounded py-[0.25rem] px-[0.75rem]"
+                  >
+                    Previous Video
+                  </button>
+                ) : (
+                  <button
+                    onClick={handleCurrentVideo}
+                    className="bg-PiWhiteBackground text-PiButton border-solid border-2 border-PiButton rounded py-[0.25rem] px-[0.75rem]"
+                  >
+                    Current Video
+                  </button>
+                )}
               </div>
             </div>
           </div>
