@@ -9,7 +9,6 @@ const VideoRecording = () => {
   const [recorderState, setRecorderState] = useState("inactive");
   const [videoUrlList, setVideoUrlList] = useState([]);
   const [showPreview, setShowPreview] = useState(false);
-  const [initialSecond, setInitialSecond] = useState(300);
 
   //   starting the video
   const handleStartRecording = async () => {
@@ -26,7 +25,6 @@ const VideoRecording = () => {
       );
       mediaRecorderRef.current.start();
       setRecorderState("active");
-      setInitialSecond(300);
       setIsRecording(true);
       setStream(stream);
     } catch (err) {
@@ -95,10 +93,8 @@ const VideoRecording = () => {
 
   //   Handling record again video
   const handleRecordAgain = () => {
-    console.log(videoUrlList);
     setVideoUrl(null);
     setShowPreview(false);
-    handleStartRecording();
   };
 
   //   Showing the previous videos
@@ -128,21 +124,30 @@ const VideoRecording = () => {
 
   //   handling the delete button to deleteing the current video
   const handleDeleteVideo = () => {
+    const updatedList = videoUrlList.filter((video) => video.url !== videoUrl);
+    setVideoUrlList(updatedList);
     setVideoUrl(null);
   };
 
   //   Creating a counter time
-  const [count, setCount] = useState(initialSecond);
+  const [count, setCount] = useState(10);
 
   useEffect(() => {
-    if (count <= 0) return;
+    if (count <= 0 || !isRecording) {
+      setCount(10);
+      return;
+    }
+
+    if (recorderState === "pause") {
+      return;
+    }
 
     const time = setTimeout(() => {
       setCount((count) => count - 1);
     }, 1000);
 
     return () => time;
-  }, [count]);
+  }, [count, isRecording, recorderState]);
 
   //   minutes left from count
   const minutes = Math.floor(count / 60);
