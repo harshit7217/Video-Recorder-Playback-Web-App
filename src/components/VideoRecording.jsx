@@ -9,6 +9,7 @@ const VideoRecording = () => {
   const [recorderState, setRecorderState] = useState("inactive");
   const [videoUrlList, setVideoUrlList] = useState([]);
   const [showPreview, setShowPreview] = useState(false);
+  const [initialSecond, setInitialSecond] = useState(300);
 
   //   starting the video
   const handleStartRecording = async () => {
@@ -25,6 +26,7 @@ const VideoRecording = () => {
       );
       mediaRecorderRef.current.start();
       setRecorderState("active");
+      setInitialSecond(300);
       setIsRecording(true);
       setStream(stream);
     } catch (err) {
@@ -33,7 +35,7 @@ const VideoRecording = () => {
   };
 
   //   handling the stop of video
-  const handleStopRecording = () => {
+  function handleStop() {
     mediaRecorderRef.current.stop();
     setRecorderState("inactive");
     setIsRecording(false);
@@ -42,6 +44,9 @@ const VideoRecording = () => {
         track.stop();
       });
     }
+  }
+  const handleStopRecording = () => {
+    handleStop();
   };
 
   //   handling the pause of recording
@@ -126,6 +131,28 @@ const VideoRecording = () => {
     setVideoUrl(null);
   };
 
+  //   Creating a counter time
+  const [count, setCount] = useState(initialSecond);
+
+  useEffect(() => {
+    if (count <= 0) return;
+
+    const time = setTimeout(() => {
+      setCount((count) => count - 1);
+    }, 1000);
+
+    return () => time;
+  }, [count]);
+
+  //   minutes left from count
+  const minutes = Math.floor(count / 60);
+  const remaningSeconds = count % 60;
+
+  if (count === 0) {
+    handleStop();
+    setCount((count) => count - 1);
+  }
+
   return (
     <div className="bg-gray color-white">
       {!videoUrl ? (
@@ -146,6 +173,11 @@ const VideoRecording = () => {
                 >
                   Stop Recording Video
                 </button>
+                <div>
+                  <span>
+                    TimeLeft: {minutes}:{remaningSeconds}
+                  </span>
+                </div>
                 {recorderState === "active" ? (
                   <button
                     onClick={handlePauseRecording}
