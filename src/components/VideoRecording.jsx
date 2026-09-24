@@ -6,6 +6,7 @@ const VideoRecording = (props) => {
   const [isRecording, setIsRecording] = useState(false);
   const [stream, setStream] = useState(null);
   const [videoUrl, setVideoUrl] = useState(null);
+  const [recorderState, setRecorderState] = useState("inactive");
 
   const handleStartRecording = async () => {
     try {
@@ -20,6 +21,7 @@ const VideoRecording = (props) => {
         handleDataAvailable,
       );
       mediaRecorderRef.current.start();
+      setRecorderState("active");
       setIsRecording(true);
       setStream(stream);
     } catch (err) {
@@ -29,11 +31,33 @@ const VideoRecording = (props) => {
 
   const handleStopRecording = () => {
     mediaRecorderRef.current.stop();
+    setRecorderState("inactive");
     setIsRecording(false);
     if (stream) {
       stream.getTracks().forEach((track) => {
         track.stop();
       });
+    }
+  };
+
+  const handlePauseRecording = () => {
+    if (
+      mediaRecorderRef.current &&
+      mediaRecorderRef.current.state === "recording"
+    ) {
+      mediaRecorderRef.current.pause();
+      setRecorderState("pause");
+      console.log(mediaRecorderRef.current);
+    }
+  };
+
+  const handleResumeRecording = () => {
+    if (
+      mediaRecorderRef.current &&
+      mediaRecorderRef.current.state === "paused"
+    ) {
+      mediaRecorderRef.current.resume();
+      setRecorderState("active");
     }
   };
 
@@ -60,12 +84,29 @@ const VideoRecording = (props) => {
                 Start Recording Video
               </button>
             ) : (
-              <button
-                onClick={handleStopRecording}
-                className="  text-black border-solid border-2 bg-PiButton  p-[8px] mr-[15px] rounded-3xl text-center "
-              >
-                Stop Recording Video
-              </button>
+              <div>
+                <button
+                  onClick={handleStopRecording}
+                  className="  text-black border-solid border-2 bg-PiButton  p-[8px] mr-[15px] rounded-3xl text-center "
+                >
+                  Stop Recording Video
+                </button>
+                {recorderState === "active" ? (
+                  <button
+                    onClick={handlePauseRecording}
+                    className="  text-black border-solid border-2 bg-PiButton  p-[8px] mr-[15px] rounded-3xl text-center "
+                  >
+                    Pause Recording Video
+                  </button>
+                ) : (
+                  <button
+                    onClick={handleResumeRecording}
+                    className="  text-black border-solid border-2 bg-PiButton  p-[8px] mr-[15px] rounded-3xl text-center "
+                  >
+                    Resume Recording Video
+                  </button>
+                )}
+              </div>
             )}
           </div>
         </>
