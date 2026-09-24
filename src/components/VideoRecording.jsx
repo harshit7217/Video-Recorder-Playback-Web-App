@@ -1,13 +1,15 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
-const VideoRecording = (props) => {
+const VideoRecording = () => {
   const videoRef = useRef(null);
   const mediaRecorderRef = useRef(null);
   const [isRecording, setIsRecording] = useState(false);
   const [stream, setStream] = useState(null);
   const [videoUrl, setVideoUrl] = useState(null);
+  const [previousVideoUrl, setPreviousVideoURL] = useState(null);
   const [recorderState, setRecorderState] = useState("inactive");
 
+  //   starting the video
   const handleStartRecording = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
@@ -29,6 +31,7 @@ const VideoRecording = (props) => {
     }
   };
 
+  //   handling the stop of video
   const handleStopRecording = () => {
     mediaRecorderRef.current.stop();
     setRecorderState("inactive");
@@ -40,6 +43,7 @@ const VideoRecording = (props) => {
     }
   };
 
+  //   handling the pause of recording
   const handlePauseRecording = () => {
     if (
       mediaRecorderRef.current &&
@@ -51,6 +55,7 @@ const VideoRecording = (props) => {
     }
   };
 
+  //   handling the resume recording
   const handleResumeRecording = () => {
     if (
       mediaRecorderRef.current &&
@@ -61,15 +66,31 @@ const VideoRecording = (props) => {
     }
   };
 
-  const handleDataAvailable = async (e) => {
+  function handleUrl(e) {
     const blob = new Blob([e.data], { type: "video/mp4" });
     const url = URL.createObjectURL(blob);
-    setVideoUrl(url);
+    return url;
+  }
+
+  const setHandleUrl = (type, e, url) => {
+    if (type == "stop") {
+      const url = handleUrl(e);
+      setVideoUrl(url);
+    } else if (url) {
+      setVideoUrl(url);
+    }
   };
 
-  const resetVideo = async () => {
+  const handleDataAvailable = async (e) => setHandleUrl("stop", e);
+
+  //   Handling record again video
+  const handleRecordAgain = () => {
+    setPreviousVideoURL(videoUrl);
     setVideoUrl(null);
+    handleStartRecording();
   };
+
+  const handlePreviousVideo = () => setHandleUrl("prev", {}, previousVideoUrl);
 
   return (
     <div className="bg-gray color-white">
@@ -117,21 +138,38 @@ const VideoRecording = (props) => {
           <div>
             <div className="text-center my-6">Preview</div>
             <div>
-              <video
-                src={videoUrl}
-                width="400"
-                controls
-                loop
-                className="rounded border-solid border-2"
-              />
+              <div>
+                <h1>Video</h1>
+                <video
+                  src={videoUrl}
+                  width="400"
+                  controls
+                  loop
+                  className="rounded border-solid border-2"
+                />
+              </div>
             </div>
             <div>
               <div className="flex justify-around my-[20px]">
+                {/* Delete Button */}
+                <button className="bg-PiWhiteBackground text-PiButton border-solid border-2 border-PiButton rounded py-[0.25rem] px-[0.75rem]">
+                  Delete Video
+                </button>
+
+                {/* Record Again Button */}
                 <button
-                  onClick={resetVideo}
+                  onClick={handleRecordAgain}
                   className="bg-PiWhiteBackground text-PiButton border-solid border-2 border-PiButton rounded py-[0.25rem] px-[0.75rem]"
                 >
-                  Cancel
+                  Record Again
+                </button>
+
+                {/* Previous Video */}
+                <button
+                  onClick={handlePreviousVideo}
+                  className="bg-PiWhiteBackground text-PiButton border-solid border-2 border-PiButton rounded py-[0.25rem] px-[0.75rem]"
+                >
+                  Previous Video
                 </button>
               </div>
             </div>
