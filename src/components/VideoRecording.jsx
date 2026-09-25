@@ -9,6 +9,14 @@ const VideoRecording = () => {
   const [recorderState, setRecorderState] = useState("inactive");
   const [videoUrlList, setVideoUrlList] = useState([]);
   const [showPreview, setShowPreview] = useState(false);
+  //   Creating a counter time fpr max length of the recording
+  const [count, setCount] = useState(300);
+  //   duration of recording video
+  const [duration, setDuration] = useState(300);
+  // formated a time of recording video duration
+  const formattedRefs = useRef("");
+  // Storing the latest data for previous videos
+  const [blobSize, setBlobSize] = useState(0);
 
   //   starting the video
   const handleStartRecording = async () => {
@@ -33,19 +41,18 @@ const VideoRecording = () => {
   };
 
   //   handling the stop of video
-  function handleStop() {
+  async function handleStop() {
+    if (!mediaRecorderRef.current) return;
+
     mediaRecorderRef.current.stop();
+
+    if (stream) {
+      stream.getTracks().forEach((track) => track.stop());
+    }
+
     setRecorderState("inactive");
     setIsRecording(false);
-    if (stream) {
-      stream.getTracks().forEach((track) => {
-        track.stop();
-      });
-    }
   }
-  const handleStopRecording = () => {
-    handleStop();
-  };
 
   //   handling the pause of recording
   const handlePauseRecording = () => {
@@ -55,7 +62,6 @@ const VideoRecording = () => {
     ) {
       mediaRecorderRef.current.pause();
       setRecorderState("pause");
-      console.log(mediaRecorderRef.current);
     }
   };
 
@@ -72,33 +78,50 @@ const VideoRecording = () => {
 
   function handleUrl(e) {
     const blob = new Blob([e.data], { type: "video/mp4" });
+    setBlobSize(blob.size);
     const url2 = URL.createObjectURL(blob);
-    setVideoUrlList((prevList) => [
-      ...prevList,
-      { url: url2, size: blob.size },
-    ]);
     return url2;
   }
 
-  const setHandleUrl = (type, e, url) => {
+  const setHandleUrl = (type, e) => {
     if (type == "stop") {
       const url = handleUrl(e);
-      setVideoUrl(url);
-    } else if (url) {
       setVideoUrl(url);
     }
   };
 
-  const handleDataAvailable = async (e) => setHandleUrl("stop", e);
+  const handleDataAvailable = async (e) => {
+    setHandleUrl("stop", e);
+  };
 
   //   Handling record again video
   const handleRecordAgain = () => {
+    storingData();
     setVideoUrl(null);
     setShowPreview(false);
   };
 
+  function storingData() {
+    length();
+
+    const videoSize = `${(blobSize / (1024 * 1024)).toFixed(2)} MB`;
+    console.log(videoUrl);
+    setVideoUrlList((prev) => {
+      const duplicate = prev.some((item) => item.url === videoUrl);
+
+      if (duplicate) {
+        return prev;
+      }
+      return [
+        ...prev,
+        { url: videoUrl, size: videoSize, duration: formattedRefs.current },
+      ];
+    });
+  }
+
   //   Showing the previous videos
   const handlePreviousVideo = () => {
+    storingData();
     setShowPreview(true);
   };
 
@@ -109,8 +132,7 @@ const VideoRecording = () => {
 
   //   Creating a list of previous video
   const videoList = videoUrlList.map((video) => (
-    <li key={video}>
-      (
+    <li key={video.url}>
       <video
         src={video.url}
         width={400}
@@ -118,7 +140,8 @@ const VideoRecording = () => {
         loop
         className="rounded border-solid border-2"
       />
-      )<p>FIle Size : {(video.size / (1024 * 1024)).toFixed(2)} MB</p>
+      <span>File Size : {video.size}</span>
+      <span>Video Duration: {video.duration}</span>
     </li>
   ));
 
@@ -129,12 +152,22 @@ const VideoRecording = () => {
     setVideoUrl(null);
   };
 
-  //   Creating a counter time
-  const [count, setCount] = useState(10);
+  // formatted the video length
+  function length() {
+    // video duration
+    const exactTime = 300 - duration;
+    const durationMinutes = Math.floor(exactTime / 60);
+    let durationSeconds = exactTime % 60;
+    const durationFormattedMintues = String(durationMinutes).padStart(2, "0");
+    if (durationSeconds < 10) {
+      durationSeconds = String(durationSeconds).padStart(2, "0");
+    }
+    formattedRefs.current = `${durationFormattedMintues}:${durationSeconds}`;
+  }
 
   useEffect(() => {
     if (count <= 0 || !isRecording) {
-      setCount(10);
+      setCount(300);
       return;
     }
 
@@ -144,8 +177,8 @@ const VideoRecording = () => {
 
     const time = setTimeout(() => {
       setCount((count) => count - 1);
+      setDuration(count);
     }, 1000);
-
     return () => time;
   }, [count, isRecording, recorderState]);
 
@@ -173,7 +206,7 @@ const VideoRecording = () => {
             ) : (
               <div>
                 <button
-                  onClick={handleStopRecording}
+                  onClick={handleStop}
                   className="  text-black border-solid border-2 bg-PiButton  p-[8px] mr-[15px] rounded-3xl text-center "
                 >
                   Stop Recording Video
