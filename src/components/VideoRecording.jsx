@@ -17,6 +17,8 @@ const VideoRecording = () => {
   const formattedRefs = useRef("");
   // Storing the latest data for previous videos
   const [blobSize, setBlobSize] = useState(0);
+  // the video length will not be less than 5 sec.
+  const [minDuration, setMinDuration] = useState(0);
 
   //   starting the video
   const handleStartRecording = async () => {
@@ -191,6 +193,16 @@ const VideoRecording = () => {
     setCount((count) => count - 1);
   }
 
+  useEffect(() => {
+    if (minDuration > 5 || !isRecording) {
+      return;
+    }
+    console.log(minDuration);
+    const time = setTimeout(() => {
+      setMinDuration((temp) => temp + 1);
+    }, 1000);
+  }, [minDuration, isRecording]);
+
   return (
     <div className="bg-gray color-white">
       {!videoUrl ? (
@@ -205,12 +217,21 @@ const VideoRecording = () => {
               </button>
             ) : (
               <div>
-                <button
-                  onClick={handleStop}
-                  className="  text-black border-solid border-2 bg-PiButton  p-[8px] mr-[15px] rounded-3xl text-center "
-                >
-                  Stop Recording Video
-                </button>
+                {minDuration > 5 ? (
+                  <button
+                    onClick={handleStop}
+                    className="  text-black border-solid border-2 bg-PiButton  p-[8px] mr-[15px] rounded-3xl text-center "
+                  >
+                    Stop Recording Video
+                  </button>
+                ) : (
+                  <button
+                    onClick={handleStop}
+                    className="  text-black border-solid border-2 bg-PiButton  p-[8px] mr-[15px] rounded-3xl text-center invisible"
+                  >
+                    Stop Recording Video
+                  </button>
+                )}
                 <div>
                   <span>
                     TimeLeft: {minutes}:{remaningSeconds}
