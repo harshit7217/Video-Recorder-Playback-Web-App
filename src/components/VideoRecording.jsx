@@ -39,6 +39,7 @@ const VideoRecording = () => {
       mediaRecorderRef.current.start();
       setRecorderState("active");
       setChecking(true);
+      setStart(3);
       setStream(stream);
       setMinDuration(0);
     } catch (err) {
@@ -224,6 +225,7 @@ const VideoRecording = () => {
   // Starting count down
   useEffect(() => {
     if (start < 0 || !checking) {
+      setChecking(false);
       return;
     }
 
@@ -243,17 +245,18 @@ const VideoRecording = () => {
           <div className="text-center m-[1rem]">
             {!isRecording ? (
               <div>
-                <button
-                  onClick={handleStartRecording}
-                  className=" bg-PiWhiteBackground text-PiButton border-solid border-2 border-PiButton  p-[8px] mr-[15px] rounded-3xl text-center "
-                >
-                  Start Recording Video
-                </button>
                 {checking ? (
                   <span>
                     <strong>Start in: </strong>0{start} sec
                   </span>
-                ) : null}
+                ) : (
+                  <button
+                    onClick={handleStartRecording}
+                    className=" bg-PiWhiteBackground text-PiButton border-solid border-2 border-PiButton  p-[8px] mr-[15px] rounded-3xl text-center "
+                  >
+                    Start Recording Video
+                  </button>
+                )}
               </div>
             ) : (
               <div>
@@ -321,12 +324,14 @@ const VideoRecording = () => {
             <div>
               <div className="flex justify-around my-[20px]">
                 {/* Delete Button */}
-                <button
-                  onClick={handleDeleteVideo}
-                  className="bg-PiWhiteBackground text-PiButton border-solid border-2 border-PiButton rounded py-[0.25rem] px-[0.75rem]"
-                >
-                  Delete Video
-                </button>
+                {!showPreview ? (
+                  <button
+                    onClick={handleDeleteVideo}
+                    className="bg-PiWhiteBackground text-PiButton border-solid border-2 border-PiButton rounded py-[0.25rem] px-[0.75rem]"
+                  >
+                    Delete Video
+                  </button>
+                ) : null}
 
                 {/* Record Again Button */}
                 <button
