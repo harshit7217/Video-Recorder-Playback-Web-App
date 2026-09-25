@@ -19,6 +19,9 @@ const VideoRecording = () => {
   const [blobSize, setBlobSize] = useState(0);
   // the video length will not be less than 5 sec.
   const [minDuration, setMinDuration] = useState(0);
+  // starting countdown
+  const [checking, setChecking] = useState(false);
+  const [start, setStart] = useState(3);
 
   //   starting the video
   const handleStartRecording = async () => {
@@ -35,7 +38,7 @@ const VideoRecording = () => {
       );
       mediaRecorderRef.current.start();
       setRecorderState("active");
-      setIsRecording(true);
+      setChecking(true);
       setStream(stream);
       setMinDuration(0);
     } catch (err) {
@@ -207,14 +210,31 @@ const VideoRecording = () => {
     setCount((count) => count - 1);
   }
 
+  // set the minimum 5 sec duration for video
+
   useEffect(() => {
     if (minDuration > 5 || !isRecording) {
       return;
     }
-    const time = setTimeout(() => {
+    setTimeout(() => {
       setMinDuration((temp) => temp + 1);
     }, 1000);
   }, [minDuration, isRecording]);
+
+  // Starting count down
+  useEffect(() => {
+    if (start < 0 || !checking) {
+      return;
+    }
+
+    if (start === 0) {
+      setIsRecording(true);
+    }
+
+    setTimeout(() => {
+      setStart((temp) => temp - 1);
+    }, 1000);
+  }, [start, checking]);
 
   return (
     <div className="bg-gray color-white">
@@ -222,12 +242,19 @@ const VideoRecording = () => {
         <>
           <div className="text-center m-[1rem]">
             {!isRecording ? (
-              <button
-                onClick={handleStartRecording}
-                className=" bg-PiWhiteBackground text-PiButton border-solid border-2 border-PiButton  p-[8px] mr-[15px] rounded-3xl text-center "
-              >
-                Start Recording Video
-              </button>
+              <div>
+                <button
+                  onClick={handleStartRecording}
+                  className=" bg-PiWhiteBackground text-PiButton border-solid border-2 border-PiButton  p-[8px] mr-[15px] rounded-3xl text-center "
+                >
+                  Start Recording Video
+                </button>
+                {checking ? (
+                  <span>
+                    <strong>Start in: </strong>0{start} sec
+                  </span>
+                ) : null}
+              </div>
             ) : (
               <div>
                 {minDuration > 5 ? (
@@ -247,7 +274,7 @@ const VideoRecording = () => {
                 )}
                 <div>
                   <span>
-                    TimeLeft: {minutes}:{remaningSeconds}
+                    <strong>TimeLeft:</strong> {minutes}:{remaningSeconds}
                   </span>
                 </div>
                 {recorderState === "active" ? (
