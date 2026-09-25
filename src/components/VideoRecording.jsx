@@ -37,6 +37,7 @@ const VideoRecording = () => {
       setRecorderState("active");
       setIsRecording(true);
       setStream(stream);
+      setMinDuration(0);
     } catch (err) {
       console.error(err);
     }
@@ -107,7 +108,6 @@ const VideoRecording = () => {
     length();
 
     const videoSize = `${(blobSize / (1024 * 1024)).toFixed(2)} MB`;
-    console.log(videoUrl);
     setVideoUrlList((prev) => {
       const duplicate = prev.some((item) => item.url === videoUrl);
 
@@ -116,7 +116,12 @@ const VideoRecording = () => {
       }
       return [
         ...prev,
-        { url: videoUrl, size: videoSize, duration: formattedRefs.current },
+        {
+          url: videoUrl,
+          size: videoSize,
+          duration: formattedRefs.current,
+          createdAt: new Date().toLocaleTimeString(),
+        },
       ];
     });
   }
@@ -142,8 +147,17 @@ const VideoRecording = () => {
         loop
         className="rounded border-solid border-2"
       />
-      <span>File Size : {video.size}</span>
-      <span>Video Duration: {video.duration}</span>
+      <div>
+        <span>
+          <strong>File Size :</strong> {video.size}
+        </span>
+        <span>
+          <strong>Video Duration:</strong> {video.duration}
+        </span>
+        <span>
+          <strong>Created At:</strong> {video.createdAt}
+        </span>
+      </div>
     </li>
   ));
 
@@ -197,7 +211,6 @@ const VideoRecording = () => {
     if (minDuration > 5 || !isRecording) {
       return;
     }
-    console.log(minDuration);
     const time = setTimeout(() => {
       setMinDuration((temp) => temp + 1);
     }, 1000);
