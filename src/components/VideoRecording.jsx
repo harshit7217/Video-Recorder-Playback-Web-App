@@ -143,15 +143,18 @@ const VideoRecording = () => {
 
   //   Creating a list of previous video
   const videoList = videoUrlList.map((video) => (
-    <li key={video.url}>
+    <li
+      key={video.url}
+      className="snap-center shrink-0 w-full h-full flex flex-col justify-center items-center"
+    >
       <video
         src={video.url}
         width={400}
         controls
         loop
-        className="rounded border-solid border-2"
+        className="w-[42vw] h-[60vh] shadow-2xl rounded gap-10"
       />
-      <div>
+      <div className="flex gap-10">
         <span>
           <strong>File Size :</strong> {video.size}
         </span>
@@ -217,10 +220,15 @@ const VideoRecording = () => {
     if (minDuration > 5 || !isRecording) {
       return;
     }
+
+    if (recorderState === "pause") {
+      return;
+    }
+
     setTimeout(() => {
       setMinDuration((temp) => temp + 1);
     }, 1000);
-  }, [minDuration, isRecording]);
+  }, [minDuration, isRecording, recorderState]);
 
   // Starting count down
   useEffect(() => {
@@ -239,58 +247,56 @@ const VideoRecording = () => {
   }, [start, checking]);
 
   return (
-    <div className="bg-gray color-white">
+    <div className="bg-[#FFFDEB] h-auto mt-3 flex justify-around">
       {!videoUrl ? (
         <>
-          <div className="text-center m-[1rem]">
+          <div className="">
             {!isRecording ? (
-              <div>
+              <div className="h-[100%] w-[30vw] shadow-2xl flex flex-col justify-center items-center">
                 {checking ? (
-                  <span>
-                    <strong>Start in: </strong>0{start} sec
-                  </span>
+                  <div className="w-[25vw] px-6 py-3 bg-[#EEF2FF] text-[#676FA3] font-medium rounded-lg text-l transition duration-200 shadow-md text-center">
+                    Start in: 0{start} sec
+                  </div>
                 ) : (
                   <button
                     onClick={handleStartRecording}
-                    className=" bg-PiWhiteBackground text-PiButton border-solid border-2 border-PiButton  p-[8px] mr-[15px] rounded-3xl text-center "
+                    className="w-[25vw] px-6 py-3 bg-[#EEF2FF] hover:bg-[#676FA3] text-[#676FA3] hover:text-[#EEF2FF] cursor-pointer font-medium rounded-lg text-xl transition duration-200 shadow-md"
                   >
                     Start Recording Video
                   </button>
                 )}
               </div>
             ) : (
-              <div>
+              <div className="h-[100%] w-[30vw] shadow-2xl flex flex-col justify-center items-center gap-10">
                 {minDuration > 5 ? (
                   <button
                     onClick={handleStop}
-                    className="  text-black border-solid border-2 bg-PiButton  p-[8px] mr-[15px] rounded-3xl text-center "
+                    className="w-[25vw] px-6 py-3 bg-[#EEF2FF] hover:bg-[#676FA3] text-[#676FA3] hover:text-[#EEF2FF] cursor-pointer font-medium rounded-lg text-xl transition duration-200 shadow-md"
                   >
                     Stop Recording Video
                   </button>
                 ) : (
                   <button
                     onClick={handleStop}
-                    className="  text-black border-solid border-2 bg-PiButton  p-[8px] mr-[15px] rounded-3xl text-center invisible"
+                    className="w-[25vw] px-6 py-3 bg-[#EEF2FF] hover:bg-[#676FA3] text-[#676FA3] hover:text-[#EEF2FF] cursor-pointer font-medium rounded-lg text-xl transition duration-200 shadow-md hidden"
                   >
                     Stop Recording Video
                   </button>
                 )}
-                <div>
-                  <span>
-                    <strong>TimeLeft:</strong> {minutes}:{remaningSeconds}
-                  </span>
+                <div className="w-[25vw] px-6 py-3 bg-[#EEF2FF] text-[#676FA3] font-medium rounded-lg text-l transition duration-200 shadow-md text-center">
+                  TimeLeft: {minutes}:{remaningSeconds}
                 </div>
                 {recorderState === "active" ? (
                   <button
                     onClick={handlePauseRecording}
-                    className="  text-black border-solid border-2 bg-PiButton  p-[8px] mr-[15px] rounded-3xl text-center "
+                    className="w-[25vw] px-6 py-3 bg-[#EEF2FF] hover:bg-[#676FA3] text-[#676FA3] hover:text-[#EEF2FF] cursor-pointer font-medium rounded-lg text-xl transition duration-200 shadow-md"
                   >
                     Pause Recording Video
                   </button>
                 ) : (
                   <button
                     onClick={handleResumeRecording}
-                    className="  text-black border-solid border-2 bg-PiButton  p-[8px] mr-[15px] rounded-3xl text-center "
+                    className="w-[25vw] px-6 py-3 bg-[#EEF2FF] hover:bg-[#676FA3] text-[#676FA3] hover:text-[#EEF2FF] cursor-pointer font-medium rounded-lg text-xl transition duration-200 shadow-md"
                   >
                     Resume Recording Video
                   </button>
@@ -303,61 +309,63 @@ const VideoRecording = () => {
 
       {videoUrl ? (
         <>
-          <div>
-            {showPreview ? (
-              <div>
-                <h1>Preview</h1>
-                <ul>{videoList}</ul>
-              </div>
-            ) : (
-              <div>
-                <h1>Video</h1>
+          <div className="h-[85vh] w-[100%] shadow-2xl flex justify-around items-center">
+            <div className="h-[85vh] w-[30vw] shadow-2xl flex flex-col justify-center items-center gap-10">
+              {/* Delete Button */}
+              {!showPreview ? (
+                <button
+                  onClick={handleDeleteVideo}
+                  className="w-[25vw] px-6 py-3 bg-[#EEF2FF] hover:bg-[#676FA3] text-[#676FA3] hover:text-[#EEF2FF] cursor-pointer font-medium rounded-lg text-xl transition duration-200 shadow-md"
+                >
+                  Delete Video
+                </button>
+              ) : null}
+              {/* Record Again Button */}
+              <button
+                onClick={handleRecordAgain}
+                className="w-[25vw] px-6 py-3 bg-[#EEF2FF] hover:bg-[#676FA3] text-[#676FA3] hover:text-[#EEF2FF] cursor-pointer font-medium rounded-lg text-xl transition duration-200 shadow-md"
+              >
+                Record Again
+              </button>
+              {/* Previous Video */}
+              {!showPreview ? (
+                <button
+                  onClick={handlePreviousVideo}
+                  className="w-[25vw] px-6 py-3 bg-[#EEF2FF] hover:bg-[#676FA3] text-[#676FA3] hover:text-[#EEF2FF] cursor-pointer font-medium rounded-lg text-xl transition duration-200 shadow-md"
+                >
+                  Previous Video
+                </button>
+              ) : (
+                <button
+                  onClick={handleCurrentVideo}
+                  className="w-[25vw] px-6 py-3 bg-[#EEF2FF] hover:bg-[#676FA3] text-[#676FA3] hover:text-[#EEF2FF] cursor-pointer font-medium rounded-lg text-xl transition duration-200 shadow-md"
+                >
+                  Current Video
+                </button>
+              )}
+            </div>
+
+            <div>
+              {showPreview ? (
+                <div>
+                  <h2 className="text-center text-xl font-medium text-[#030164]">
+                    Previous Video
+                  </h2>
+                  <div className="h-[70vh] w-auto py-4">
+                    <ul className="flex flex-col gap-10 h-full w-full overflow-y-auto snap-y snap-mandatory scroll-smooth py-2 px-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+                      {videoList}
+                    </ul>
+                  </div>
+                </div>
+              ) : (
                 <video
                   src={videoUrl}
                   width="400"
                   controls
                   loop
-                  className="rounded border-solid border-2"
+                  className="w-[50vw] h-[85vh] shadow-2xl rounded"
                 />
-              </div>
-            )}
-            <div>
-              <div className="flex justify-around my-[20px]">
-                {/* Delete Button */}
-                {!showPreview ? (
-                  <button
-                    onClick={handleDeleteVideo}
-                    className="bg-PiWhiteBackground text-PiButton border-solid border-2 border-PiButton rounded py-[0.25rem] px-[0.75rem]"
-                  >
-                    Delete Video
-                  </button>
-                ) : null}
-
-                {/* Record Again Button */}
-                <button
-                  onClick={handleRecordAgain}
-                  className="bg-PiWhiteBackground text-PiButton border-solid border-2 border-PiButton rounded py-[0.25rem] px-[0.75rem]"
-                >
-                  Record Again
-                </button>
-
-                {/* Previous Video */}
-                {!showPreview ? (
-                  <button
-                    onClick={handlePreviousVideo}
-                    className="bg-PiWhiteBackground text-PiButton border-solid border-2 border-PiButton rounded py-[0.25rem] px-[0.75rem]"
-                  >
-                    Previous Video
-                  </button>
-                ) : (
-                  <button
-                    onClick={handleCurrentVideo}
-                    className="bg-PiWhiteBackground text-PiButton border-solid border-2 border-PiButton rounded py-[0.25rem] px-[0.75rem]"
-                  >
-                    Current Video
-                  </button>
-                )}
-              </div>
+              )}
             </div>
           </div>
         </>
@@ -369,7 +377,7 @@ const VideoRecording = () => {
             autoPlay
             muted
             playsInline
-            className="rounded border-solid border-2"
+            className="w-[50vw] h-[85vh] shadow-2xl rounded"
           />
         </>
       )}
