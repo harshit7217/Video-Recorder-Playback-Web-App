@@ -6,10 +6,10 @@ function Header() {
       <div className="flex justify-around items-center">
         {/* Logo */}
         <div>
-          <img src={vr_pwa_logo} alt="logo" className="h-[11vh] w-auto" />
+          <img src={vr_pwa_logo} alt="logo" className="w-auto h-[11vh]" />
         </div>
         {/* Project Name */}
-        <h1 className="font-semibold font-serif">
+        <h1 className="font-semibold font-serif text-xs sm:text-xs md:text-xl lg:text-2xl xl:text-4xl">
           <span className="text-[#030164]">Video Recorder &</span>{" "}
           <span className="text-[#8B1E2D]">Playback Web App</span>
         </h1>
