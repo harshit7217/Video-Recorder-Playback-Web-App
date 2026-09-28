@@ -9,12 +9,10 @@ function Header() {
           <img src={vr_pwa_logo} alt="logo" className="h-[11vh] w-auto" />
         </div>
         {/* Project Name */}
-        <div>
-          <h1 className="font-semibold font-serif">
-            <span className="text-[#030164]">Video Recorder &</span>{" "}
-            <span className="text-[#8B1E2D]">Playback Web App</span>
-          </h1>
-        </div>
+        <h1 className="font-semibold font-serif">
+          <span className="text-[#030164]">Video Recorder &</span>{" "}
+          <span className="text-[#8B1E2D]">Playback Web App</span>
+        </h1>
       </div>
     </header>
   );

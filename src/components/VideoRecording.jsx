@@ -9,7 +9,7 @@ const VideoRecording = () => {
   const [recorderState, setRecorderState] = useState("inactive");
   const [videoUrlList, setVideoUrlList] = useState([]);
   const [showPreview, setShowPreview] = useState(false);
-  //   Creating a counter time fpr max length of the recording
+  //   Creating a counter time for max length of the recording
   const [count, setCount] = useState(300);
   //   duration of recording video
   const [duration, setDuration] = useState(300);
