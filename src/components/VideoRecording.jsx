@@ -133,10 +133,9 @@ const VideoRecording = () => {
     >
       <video
         src={video.url}
-        width={400}
         controls
         loop
-        className="w-[42vw] h-[60vh] shadow-2xl rounded gap-10"
+        className="w-[300px] md:w-[600px]  rounded gap-10"
       />
       <div className="flex gap-10">
         <span>
@@ -172,6 +171,8 @@ const VideoRecording = () => {
     formattedRefs.current = `${durationFormattedMintues}:${durationSeconds}`;
   }
 
+  // This hooks helps to tracking the time of the recording - Time Left
+
   useEffect(() => {
     if (count <= 0 || !isRecording) {
       setCount(300);
@@ -190,7 +191,11 @@ const VideoRecording = () => {
 
   //   minutes left from count
   const minutes = Math.floor(count / 60);
-  const remaningSeconds = count % 60;
+  const formattedMinutes = String(minutes).padStart(2, "0");
+  let remaningSeconds = count % 60;
+  if (remaningSeconds < 10) {
+    remaningSeconds = String(remaningSeconds).padStart(2, "0");
+  }
 
   if (count === 0) {
     handleStop();
@@ -230,10 +235,14 @@ const VideoRecording = () => {
     }, 1000);
   }, [start, checking]);
 
+  // This arrow function helps to set up the 3 sec count down then starting the recording.
+
   const handleStart = () => {
     setStart(3);
     setChecking(true);
   };
+
+  //  This async function helps to view the camera without starting the recording
 
   async function opening() {
     try {
@@ -252,47 +261,49 @@ const VideoRecording = () => {
     }
   }
 
+  // This useEffect helps to showing the view camera
+
   useEffect(() => {
     opening();
   }, [videoUrl]);
 
   return (
-    <div className="bg-[#FFFDEB] h-auto mt-3 flex justify-around">
+    <div className="bg-[#FFFDEB] mt-3 gap-5 flex justify-center items-center flex-col">
       {!videoUrl ? (
         <>
-          <div className="">
+          <div>
             {!isRecording ? (
-              <div className="h-[100%] w-[30vw] shadow-2xl flex flex-col justify-center items-center">
+              <div className=" flex flex-col mt-2 ">
                 {checking ? (
-                  <div className="w-[25vw] px-6 py-3 bg-[#EEF2FF] text-[#676FA3] font-medium rounded-lg text-l transition duration-200 shadow-md text-center">
+                  <div className="text-xs sm:text-s md:text-md lg:text-lg xl:text-xl px-6 py-3 bg-[#EEF2FF] text-[#676FA3] font-medium rounded-lg text-l transition duration-200  text-center">
                     Start in: 0{start} sec
                   </div>
                 ) : (
                   <button
                     onClick={handleStart}
-                    className="w-[25vw] px-6 py-3 bg-[#EEF2FF] hover:bg-[#676FA3] text-[#676FA3] hover:text-[#EEF2FF] cursor-pointer font-medium rounded-lg text-xl transition duration-200 shadow-md"
+                    className="text-xs sm:text-s md:text-md lg:text-lg xl:text-xl px-6 py-3 bg-[#EEF2FF] hover:bg-[#676FA3] text-[#676FA3] hover:text-[#EEF2FF] cursor-pointer font-medium rounded-lg text-xl transition duration-200 "
                   >
                     Start Recording Video
                   </button>
                 )}
               </div>
             ) : (
-              <div className="h-[100%] w-[30vw] shadow-2xl ">
-                <div className="w-[25vw] px-6 py-3 bg-[#EEF2FF] text-[#676FA3] font-medium rounded-lg text-l transition duration-200 shadow-md text-center absolute top-34 left-[4.2rem] ml-12">
-                  TimeLeft: {minutes}:{remaningSeconds}
+              <div className="w-[100%] mt-2">
+                <div className="text-xs sm:text-s md:text-md lg:text-lg xl:text-xl  text-[#676FA3] font-medium rounded-lg transition duration-200 text-center absolute top-[22vh] md:top-[17vh] xl:top-[23vh] left-[70vw] md:left-[85vw] lg:left-[75vw] xl:left-[65vw]">
+                  TimeLeft: {formattedMinutes}:{remaningSeconds}
                 </div>
-                <div className="h-[100%] w-[30vw] shadow-2xl flex flex-col justify-center items-center gap-10">
+                <div className=" flex justify-left items-center gap-2">
                   {minDuration > 5 ? (
                     <button
                       onClick={handleStop}
-                      className="w-[25vw] px-6 py-3 bg-[#EEF2FF] hover:bg-[#676FA3] text-[#676FA3] hover:text-[#EEF2FF] cursor-pointer font-medium rounded-lg text-xl transition duration-200 shadow-md"
+                      className="text-xs sm:text-s md:text-s lg:text-lg xl:text-xl  px-6 py-3 bg-[#EEF2FF] hover:bg-[#676FA3] text-[#676FA3] hover:text-[#EEF2FF] cursor-pointer font-medium rounded-lg transition duration-200 "
                     >
                       Stop Recording Video
                     </button>
                   ) : (
                     <button
                       onClick={handleStop}
-                      className="w-[25vw] px-6 py-3 bg-[#EEF2FF] hover:bg-[#676FA3] text-[#676FA3] hover:text-[#EEF2FF] cursor-pointer font-medium rounded-lg text-xl transition duration-200 shadow-md hidden"
+                      className="text-xs sm:text-s md:text-md lg:text-lg xl:text-xl  px-6 py-3 bg-[#EEF2FF] hover:bg-[#676FA3] text-[#676FA3] hover:text-[#EEF2FF] cursor-pointer font-medium rounded-lgtransition duration-200  hidden"
                     >
                       Stop Recording Video
                     </button>
@@ -300,14 +311,14 @@ const VideoRecording = () => {
                   {recorderState === "active" ? (
                     <button
                       onClick={handlePauseRecording}
-                      className="w-[25vw] px-6 py-3 bg-[#EEF2FF] hover:bg-[#676FA3] text-[#676FA3] hover:text-[#EEF2FF] cursor-pointer font-medium rounded-lg text-xl transition duration-200 shadow-md"
+                      className="text-xs sm:text-s md:text-md lg:text-lg xl:text-xl  px-6 py-3 bg-[#EEF2FF] hover:bg-[#676FA3] text-[#676FA3] hover:text-[#EEF2FF] cursor-pointer font-medium rounded-lg transition duration-200 "
                     >
                       Pause Recording Video
                     </button>
                   ) : (
                     <button
                       onClick={handleResumeRecording}
-                      className="w-[25vw] px-6 py-3 bg-[#EEF2FF] hover:bg-[#676FA3] text-[#676FA3] hover:text-[#EEF2FF] cursor-pointer font-medium rounded-lg text-xl transition duration-200 shadow-md"
+                      className="text-xs sm:text-s md:text-md lg:text-lg xl:text-xl  px-6 py-3 bg-[#EEF2FF] hover:bg-[#676FA3] text-[#676FA3] hover:text-[#EEF2FF] cursor-pointer font-medium rounded-lg text-xl transition duration-200 "
                     >
                       Resume Recording Video
                     </button>
@@ -321,13 +332,13 @@ const VideoRecording = () => {
 
       {videoUrl ? (
         <>
-          <div className="h-[85vh] w-[100%] shadow-2xl flex justify-around items-center">
-            <div className="h-[85vh] w-[30vw] shadow-2xl flex flex-col justify-center items-center gap-10">
+          <div className=" flex flex-col justify-around items-center gap-10">
+            <div className="flex justify-center items-center gap-5 mt-2">
               {/* Delete Button */}
               {!showPreview ? (
                 <button
                   onClick={handleDeleteVideo}
-                  className="w-[25vw] px-6 py-3 bg-[#EEF2FF] hover:bg-[#676FA3] text-[#676FA3] hover:text-[#EEF2FF] cursor-pointer font-medium rounded-lg text-xl transition duration-200 shadow-md"
+                  className="text-xs sm:text-s md:text-md lg:text-lg xl:text-xl  px-6 py-3 bg-[#EEF2FF] hover:bg-[#676FA3] text-[#676FA3] hover:text-[#EEF2FF] cursor-pointer font-medium rounded-lg  transition duration-200 "
                 >
                   Delete Video
                 </button>
@@ -335,7 +346,7 @@ const VideoRecording = () => {
               {/* Record Again Button */}
               <button
                 onClick={handleRecordAgain}
-                className="w-[25vw] px-6 py-3 bg-[#EEF2FF] hover:bg-[#676FA3] text-[#676FA3] hover:text-[#EEF2FF] cursor-pointer font-medium rounded-lg text-xl transition duration-200 shadow-md"
+                className="text-xs sm:text-s md:text-md lg:text-lg xl:text-xl  px-6 py-3 bg-[#EEF2FF] hover:bg-[#676FA3] text-[#676FA3] hover:text-[#EEF2FF] cursor-pointer font-medium rounded-lg transition duration-200 "
               >
                 Record Again
               </button>
@@ -343,14 +354,14 @@ const VideoRecording = () => {
               {!showPreview ? (
                 <button
                   onClick={handlePreviousVideo}
-                  className="w-[25vw] px-6 py-3 bg-[#EEF2FF] hover:bg-[#676FA3] text-[#676FA3] hover:text-[#EEF2FF] cursor-pointer font-medium rounded-lg text-xl transition duration-200 shadow-md"
+                  className="text-xs sm:text-s md:text-md lg:text-lg xl:text-xl  px-6 py-3 bg-[#EEF2FF] hover:bg-[#676FA3] text-[#676FA3] hover:text-[#EEF2FF] cursor-pointer font-medium rounded-lg transition duration-200 "
                 >
                   Previous Video
                 </button>
               ) : (
                 <button
                   onClick={handleCurrentVideo}
-                  className="w-[25vw] px-6 py-3 bg-[#EEF2FF] hover:bg-[#676FA3] text-[#676FA3] hover:text-[#EEF2FF] cursor-pointer font-medium rounded-lg text-xl transition duration-200 shadow-md"
+                  className="text-xs sm:text-s md:text-md lg:text-lg xl:text-xl  px-6 py-3 bg-[#EEF2FF] hover:bg-[#676FA3] text-[#676FA3] hover:text-[#EEF2FF] cursor-pointer font-medium rounded-lg transition duration-200 "
                 >
                   Current Video
                 </button>
@@ -363,7 +374,7 @@ const VideoRecording = () => {
                   <h2 className="text-center text-xl font-medium text-[#030164]">
                     Previous Video
                   </h2>
-                  <div className="h-[70vh] w-auto py-4">
+                  <div className="w-[320px] m-2 md:w-[768px] py-4">
                     <ul className="flex flex-col gap-10 h-full w-full overflow-y-auto snap-y snap-mandatory scroll-smooth py-2 px-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
                       {videoList}
                     </ul>
@@ -372,26 +383,25 @@ const VideoRecording = () => {
               ) : (
                 <video
                   src={videoUrl}
-                  width="400"
                   controls
                   loop
-                  className="w-[50vw] h-[85vh] shadow-2xl rounded"
+                  autoplay
+                  className="w-[400px] md:w-[800px]  rounded"
                 />
               )}
             </div>
           </div>
         </>
       ) : (
-        <>
+        <div className="w-[320px] m-2 md:w-[768px] flex jsutify-center items-center">
           <video
             ref={videoRef}
-            width="400"
             autoPlay
             muted
             playsInline
-            className="w-[50vw] h-[85vh] shadow-2xl rounded"
+            className="w-[320px] md:w-[768px]  rounded"
           />
-        </>
+        </div>
       )}
     </div>
   );
