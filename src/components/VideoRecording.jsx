@@ -18,7 +18,7 @@ const VideoRecording = () => {
   // Storing the latest data for previous videos
   const [blobSize, setBlobSize] = useState(0);
   // the video length will not be less than 5 sec.
-  const [minDuration, setMinDuration] = useState(0);
+  const [minDuration, setMinDuration] = useState(1);
   // starting countdown
   const [checking, setChecking] = useState(false);
   const [start, setStart] = useState(3);
@@ -28,7 +28,7 @@ const VideoRecording = () => {
     mediaRecorderRef.current.start();
     setRecorderState("active");
     setStream(stream);
-    setMinDuration(0);
+    setMinDuration(1);
   };
 
   //   handling the stop of video
@@ -230,7 +230,12 @@ const VideoRecording = () => {
     }, 1000);
   }, [start, checking]);
 
-  const handleStart = async () => {
+  const handleStart = () => {
+    setStart(3);
+    setChecking(true);
+  };
+
+  async function opening() {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
         audio: true,
@@ -242,12 +247,14 @@ const VideoRecording = () => {
         "dataavailable",
         handleDataAvailable,
       );
-      setStart(3);
-      setChecking(true);
     } catch (err) {
       console.error(err);
     }
-  };
+  }
+
+  useEffect(() => {
+    opening();
+  }, [videoUrl]);
 
   return (
     <div className="bg-[#FFFDEB] h-auto mt-3 flex justify-around">
@@ -270,40 +277,42 @@ const VideoRecording = () => {
                 )}
               </div>
             ) : (
-              <div className="h-[100%] w-[30vw] shadow-2xl flex flex-col justify-center items-center gap-10">
-                {minDuration > 5 ? (
-                  <button
-                    onClick={handleStop}
-                    className="w-[25vw] px-6 py-3 bg-[#EEF2FF] hover:bg-[#676FA3] text-[#676FA3] hover:text-[#EEF2FF] cursor-pointer font-medium rounded-lg text-xl transition duration-200 shadow-md"
-                  >
-                    Stop Recording Video
-                  </button>
-                ) : (
-                  <button
-                    onClick={handleStop}
-                    className="w-[25vw] px-6 py-3 bg-[#EEF2FF] hover:bg-[#676FA3] text-[#676FA3] hover:text-[#EEF2FF] cursor-pointer font-medium rounded-lg text-xl transition duration-200 shadow-md hidden"
-                  >
-                    Stop Recording Video
-                  </button>
-                )}
-                <div className="w-[25vw] px-6 py-3 bg-[#EEF2FF] text-[#676FA3] font-medium rounded-lg text-l transition duration-200 shadow-md text-center">
+              <div className="h-[100%] w-[30vw] shadow-2xl ">
+                <div className="w-[25vw] px-6 py-3 bg-[#EEF2FF] text-[#676FA3] font-medium rounded-lg text-l transition duration-200 shadow-md text-center absolute top-34 left-[4.2rem] ml-12">
                   TimeLeft: {minutes}:{remaningSeconds}
                 </div>
-                {recorderState === "active" ? (
-                  <button
-                    onClick={handlePauseRecording}
-                    className="w-[25vw] px-6 py-3 bg-[#EEF2FF] hover:bg-[#676FA3] text-[#676FA3] hover:text-[#EEF2FF] cursor-pointer font-medium rounded-lg text-xl transition duration-200 shadow-md"
-                  >
-                    Pause Recording Video
-                  </button>
-                ) : (
-                  <button
-                    onClick={handleResumeRecording}
-                    className="w-[25vw] px-6 py-3 bg-[#EEF2FF] hover:bg-[#676FA3] text-[#676FA3] hover:text-[#EEF2FF] cursor-pointer font-medium rounded-lg text-xl transition duration-200 shadow-md"
-                  >
-                    Resume Recording Video
-                  </button>
-                )}
+                <div className="h-[100%] w-[30vw] shadow-2xl flex flex-col justify-center items-center gap-10">
+                  {minDuration > 5 ? (
+                    <button
+                      onClick={handleStop}
+                      className="w-[25vw] px-6 py-3 bg-[#EEF2FF] hover:bg-[#676FA3] text-[#676FA3] hover:text-[#EEF2FF] cursor-pointer font-medium rounded-lg text-xl transition duration-200 shadow-md"
+                    >
+                      Stop Recording Video
+                    </button>
+                  ) : (
+                    <button
+                      onClick={handleStop}
+                      className="w-[25vw] px-6 py-3 bg-[#EEF2FF] hover:bg-[#676FA3] text-[#676FA3] hover:text-[#EEF2FF] cursor-pointer font-medium rounded-lg text-xl transition duration-200 shadow-md hidden"
+                    >
+                      Stop Recording Video
+                    </button>
+                  )}
+                  {recorderState === "active" ? (
+                    <button
+                      onClick={handlePauseRecording}
+                      className="w-[25vw] px-6 py-3 bg-[#EEF2FF] hover:bg-[#676FA3] text-[#676FA3] hover:text-[#EEF2FF] cursor-pointer font-medium rounded-lg text-xl transition duration-200 shadow-md"
+                    >
+                      Pause Recording Video
+                    </button>
+                  ) : (
+                    <button
+                      onClick={handleResumeRecording}
+                      className="w-[25vw] px-6 py-3 bg-[#EEF2FF] hover:bg-[#676FA3] text-[#676FA3] hover:text-[#EEF2FF] cursor-pointer font-medium rounded-lg text-xl transition duration-200 shadow-md"
+                    >
+                      Resume Recording Video
+                    </button>
+                  )}
+                </div>
               </div>
             )}
           </div>
