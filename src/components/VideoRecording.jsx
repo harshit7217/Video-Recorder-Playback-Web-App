@@ -25,26 +25,10 @@ const VideoRecording = () => {
 
   //   starting the video
   const handleStartRecording = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        audio: true,
-        video: true,
-      }); // We are enabling both audio and video.
-      videoRef.current.srcObject = stream;
-      mediaRecorderRef.current = new MediaRecorder(stream);
-      mediaRecorderRef.current.addEventListener(
-        "dataavailable",
-        handleDataAvailable,
-      );
-      mediaRecorderRef.current.start();
-      setRecorderState("active");
-      setChecking(true);
-      setStart(3);
-      setStream(stream);
-      setMinDuration(0);
-    } catch (err) {
-      console.error(err);
-    }
+    mediaRecorderRef.current.start();
+    setRecorderState("active");
+    setStream(stream);
+    setMinDuration(0);
   };
 
   //   handling the stop of video
@@ -119,13 +103,13 @@ const VideoRecording = () => {
         return prev;
       }
       return [
-        ...prev,
         {
           url: videoUrl,
           size: videoSize,
           duration: formattedRefs.current,
           createdAt: new Date().toLocaleTimeString(),
         },
+        ...prev,
       ];
     });
   }
@@ -198,11 +182,10 @@ const VideoRecording = () => {
       return;
     }
 
-    const time = setTimeout(() => {
+    setTimeout(() => {
       setCount((count) => count - 1);
       setDuration(count);
     }, 1000);
-    return () => time;
   }, [count, isRecording, recorderState]);
 
   //   minutes left from count
@@ -238,6 +221,7 @@ const VideoRecording = () => {
     }
 
     if (start === 0) {
+      handleStartRecording();
       setIsRecording(true);
     }
 
@@ -245,6 +229,25 @@ const VideoRecording = () => {
       setStart((temp) => temp - 1);
     }, 1000);
   }, [start, checking]);
+
+  const handleStart = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: true,
+        video: true,
+      }); // We are enabling both audio and video.
+      videoRef.current.srcObject = stream;
+      mediaRecorderRef.current = new MediaRecorder(stream);
+      mediaRecorderRef.current.addEventListener(
+        "dataavailable",
+        handleDataAvailable,
+      );
+      setStart(3);
+      setChecking(true);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <div className="bg-[#FFFDEB] h-auto mt-3 flex justify-around">
@@ -259,7 +262,7 @@ const VideoRecording = () => {
                   </div>
                 ) : (
                   <button
-                    onClick={handleStartRecording}
+                    onClick={handleStart}
                     className="w-[25vw] px-6 py-3 bg-[#EEF2FF] hover:bg-[#676FA3] text-[#676FA3] hover:text-[#EEF2FF] cursor-pointer font-medium rounded-lg text-xl transition duration-200 shadow-md"
                   >
                     Start Recording Video
