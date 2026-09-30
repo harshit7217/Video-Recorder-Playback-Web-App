@@ -34,8 +34,8 @@ const VideoRecording = () => {
   const [recorderState, setRecorderState] = useState("inactive");
   const [videoUrlList, setVideoUrlList] = useState([]);
   const [showPreview, setShowPreview] = useState(false);
-  const [count, setCount] = useState(300);
-  const [minDuration, setMinDuration] = useState(1);
+  const [count, setCount] = useState(299);
+  const [minDuration, setMinDuration] = useState(0);
   const [checking, setChecking] = useState(false);
   const [start, setStart] = useState(3);
   const [blurOn, setBlurOn] = useState(false);
@@ -76,7 +76,7 @@ const VideoRecording = () => {
 
   useEffect(() => {
     if (count < 0 || !isRecording) {
-      setCount(300);
+      setCount(299);
       return;
     }
     if (count === 0) {
@@ -86,13 +86,14 @@ const VideoRecording = () => {
     if (recorderState === "paused") {
       return;
     }
-    setTimeout(() => {
+    const timeout = setTimeout(() => {
       timerRef.current = count - 1;
       setCount((count) => count - 1);
-      if (count > 295) {
+      if (count > 294) {
         setMinDuration((temp) => temp + 1);
       }
     }, 1000);
+    return () => clearTimeout(timeout);
   }, [count, isRecording, recorderState]);
 
   useEffect(() => {
@@ -187,16 +188,16 @@ const VideoRecording = () => {
     cancelAnimationFrame(rafRef.current);
   }, []);
 
-  function handleUrl(e) {
+  const handleUrl = useCallback((e) => {
     const mimeType = mediaRecorderRef.current?.mimeType || "video/webm";
     const blob = new Blob([e.data], { type: mimeType });
     const url = URL.createObjectURL(blob);
     return [url, blob.size];
-  }
+  });
 
   const handleDataAvailable = async (e) => {
     const [url, size] = handleUrl(e);
-    const time = 300 - timerRef.current;
+    const time = 299 - timerRef.current;
     const timeFormat = timeParser(time);
     const videoSize = `${(size / (1024 * 1024)).toFixed(2)} MB`;
     setVideoUrlList((prev) =>
@@ -227,7 +228,7 @@ const VideoRecording = () => {
     if (start === 0) {
       mediaRecorderRef.current.start();
       setRecorderState("active");
-      setMinDuration(1);
+      setMinDuration(0);
       setIsRecording(true);
     }
 
@@ -237,7 +238,7 @@ const VideoRecording = () => {
   }, [start, checking]);
 
   // time limit - format
-  const timeParser = (duration) => {
+  const timeParser = useCallback((duration) => {
     const durationMinutes = Math.floor(duration / 60);
     let durationSeconds = duration % 60;
     const durationFormattedMintues = String(durationMinutes).padStart(2, "0");
@@ -245,16 +246,16 @@ const VideoRecording = () => {
       durationSeconds = String(durationSeconds).padStart(2, "0");
     }
     return `${durationFormattedMintues}:${durationSeconds}`;
-  };
+  });
 
   //   Handling record again video
-  const handleRecordAgain = () => {
+  const handleRecordAgain = useCallback(() => {
     setVideoIndex((prev) => prev + 1);
     setShowPreview(false);
-  };
+  });
 
   //   handling the stop of video
-  async function handleStop() {
+  const handleStop = async () => {
     if (!mediaRecorderRef.current) return;
     mediaRecorderRef.current.stop();
     stopLoop();
@@ -263,7 +264,7 @@ const VideoRecording = () => {
     }
     setRecorderState("inactive");
     setIsRecording(false);
-  }
+  };
 
   const handlePauseOrResumingRecording = useCallback((recordingState) => {
     if (recordingState === "active") {
@@ -286,13 +287,13 @@ const VideoRecording = () => {
   });
 
   //   handling the delete button to deleteing the current video
-  const handleDeleteVideo = () => {
+  const handleDeleteVideo = useCallback(() => {
     const updatedList = videoUrlList.filter(
       (video) => video.url !== videoUrlList[videoIndex].url,
     );
     setVideoUrlList(updatedList);
     setVideoIndex((videoIndex) => videoIndex - 1);
-  };
+  });
 
   // Called by MediaPipe with the frame + a person mask.
   const drawBlurred = useCallback((results) => {
@@ -575,7 +576,7 @@ const VideoRecording = () => {
                   TimeLeft: {timeParser(count)}
                 </div>
                 <div className=" flex justify-left items-center gap-2">
-                  {minDuration > 5 ? (
+                  {minDuration > 3 ? (
                     <button
                       onClick={handleStop}
                       className="text-xs sm:text-s md:text-s lg:text-lg xl:text-xl  px-6 py-3 bg-[#EEF2FF] hover:bg-[#676FA3] text-[#676FA3] hover:text-[#EEF2FF] cursor-pointer font-medium rounded-lg transition duration-200 "
