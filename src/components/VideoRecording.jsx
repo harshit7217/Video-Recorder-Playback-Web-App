@@ -1,9 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 
-// ---------------------------------------------------------------
-// Background-blur helpers (previously lived in VideoRecorder.jsx,
-// now folded directly into this component's own recording pipeline)
-// ---------------------------------------------------------------
 const MEDIAPIPE_URL =
   "https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation";
 
@@ -33,41 +29,27 @@ function loadSegmentationScript() {
 }
 
 const VideoRecording = () => {
-  const videoRef = useRef(null); // hidden source <video>, fed by getUserMedia
-  const canvasRef = useRef(null); // visible preview AND what gets recorded
-  const mediaRecorderRef = useRef(null);
-  const streamRef = useRef(null); // raw camera+mic MediaStream
-
   const [isRecording, setIsRecording] = useState(false);
-  const [stream, setStream] = useState(null);
-  const [videoUrl, setVideoUrl] = useState(null);
+  const [videoIndex, setVideoIndex] = useState(-1);
   const [recorderState, setRecorderState] = useState("inactive");
   const [videoUrlList, setVideoUrlList] = useState([]);
   const [showPreview, setShowPreview] = useState(false);
-  //   Creating a counter time for max length of the recording
   const [count, setCount] = useState(300);
-  //   duration of recording video
-  const [duration, setDuration] = useState(300);
-  // formated a time of recording video duration
-  const formattedRefs = useRef("");
-  // Storing the latest data for previous videos
-  const [blobSize, setBlobSize] = useState(0);
-  // the video length will not be less than 5 sec.
   const [minDuration, setMinDuration] = useState(1);
-  // starting countdown
   const [checking, setChecking] = useState(false);
   const [start, setStart] = useState(3);
-
-  // ---- background blur state ----
   const [blurOn, setBlurOn] = useState(false);
   const [officeBackgroundOn, setOfficeBackgroundOn] = useState(false);
   const [secondBackgroundOn, setSecondBackgroundOn] = useState(false);
-  const [modelStatus, setModelStatus] = useState("idle"); // idle | loading | ready
+  const [modelStatus, setModelStatus] = useState("idle");
   const [blurError, setBlurError] = useState("");
   const [officeBackgroundError, setOfficeBackgroundError] = useState("");
   const [secondBackgroundError, setSecondBackgroundError] = useState("");
 
-  // ---- refs the draw loop needs without re-creating it ----
+  const videoRef = useRef(null);
+  const canvasRef = useRef(null);
+  const mediaRecorderRef = useRef(null);
+  const streamRef = useRef(null);
   const segmenterRef = useRef(null);
   const rafRef = useRef(null);
   const runningRef = useRef(false);
@@ -80,9 +62,84 @@ const VideoRecording = () => {
   const secondBackgroundImageRef = useRef(null);
   const timerRef = useRef(0);
 
-  // ---------------------------------------------------------------
-  // Drawing: every frame lands on the canvas, blurred or not
-  // ---------------------------------------------------------------
+  // Starting the app it calling the opening function
+  useEffect(() => {
+    opening();
+    return () => {
+      stopLoop();
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach((track) => track.stop());
+        streamRef.current = null;
+      }
+    };
+  }, [videoIndex]);
+
+  useEffect(() => {
+    if (count < 0 || !isRecording) {
+      setCount(300);
+      return;
+    }
+    if (count === 0) {
+      handleStop();
+      setCount((count) => count - 1);
+    }
+    if (recorderState === "pause") {
+      return;
+    }
+    setTimeout(() => {
+      timerRef.current = count - 1;
+      setCount((count) => count - 1);
+      if (count > 295) {
+        setMinDuration((temp) => temp + 1);
+      }
+    }, 1000);
+  }, [count, isRecording, recorderState]);
+
+  useEffect(() => {
+    return () => {
+      segmenterRef.current?.close?.();
+    };
+  }, []);
+
+  // opening using to start a audio and video of representing
+  const opening = async () => {
+    try {
+      const userStream = await navigator.mediaDevices.getUserMedia({
+        audio: true,
+        video: true,
+      });
+      streamRef.current = userStream;
+
+      const video = videoRef.current;
+      video.srcObject = userStream;
+      video.muted = true; // avoid feedback from the hidden preview
+      await video.play();
+
+      const canvas = canvasRef.current;
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+
+      startLoop();
+
+      // Video comes from the canvas (blur included, if it's on);
+      // audio comes straight from the mic.
+      const canvasStream = canvas.captureStream(30);
+      userStream.getAudioTracks().forEach((t) => canvasStream.addTrack(t));
+
+      const mimeType = pickMimeType();
+      mediaRecorderRef.current = new MediaRecorder(
+        canvasStream,
+        mimeType ? { mimeType } : undefined,
+      );
+      mediaRecorderRef.current.addEventListener("dataavailable", (e) =>
+        handleDataAvailable(e),
+      );
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  // This draw image
   const drawPlain = useCallback(() => {
     const canvas = canvasRef.current;
     const video = videoRef.current;
@@ -91,6 +148,153 @@ const VideoRecording = () => {
     ctx.filter = "none";
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
   }, []);
+
+  // Using for background
+  const startLoop = useCallback(() => {
+    runningRef.current = true;
+
+    const loop = async () => {
+      if (!runningRef.current) return;
+      const video = videoRef.current;
+
+      if (video && video.readyState >= 2 && !busyRef.current) {
+        busyRef.current = true;
+        try {
+          if (
+            (blurOnRef.current ||
+              officeBackgroundRef.current ||
+              secondBackgroundRef.current) &&
+            segmenterRef.current
+          ) {
+            await segmenterRef.current.send({ image: video });
+          } else {
+            drawPlain();
+          }
+        } catch (err) {
+          console.error("Frame error:", err);
+        } finally {
+          busyRef.current = false;
+        }
+      }
+      rafRef.current = requestAnimationFrame(loop);
+    };
+
+    rafRef.current = requestAnimationFrame(loop);
+  }, [drawPlain]);
+
+  const stopLoop = useCallback(() => {
+    runningRef.current = false;
+    cancelAnimationFrame(rafRef.current);
+  }, []);
+
+  function handleUrl(e) {
+    const mimeType = mediaRecorderRef.current?.mimeType || "video/webm";
+    const blob = new Blob([e.data], { type: mimeType });
+    const url = URL.createObjectURL(blob);
+    return [url, blob.size];
+  }
+
+  const handleDataAvailable = async (e) => {
+    const [url, size] = handleUrl(e);
+    const time = 300 - timerRef.current;
+    const timeFormat = timeParser(time);
+    const videoSize = `${(size / (1024 * 1024)).toFixed(2)} MB`;
+    setVideoUrlList((prev) =>
+      prev.concat({
+        url: url,
+        size: videoSize,
+        duration: timeFormat,
+        createdAt: new Date().toLocaleTimeString(),
+      }),
+    );
+    setVideoIndex(
+      videoIndex + 1 === videoUrlList.length ? videoIndex + 1 : videoIndex,
+    );
+  };
+
+  // This arrow function helps to set up the 3 sec count down then starting the recording.
+  const handleStart = useCallback(() => {
+    setStart(3);
+    setChecking(true);
+  });
+
+  useEffect(() => {
+    if (start < 0 || !checking) {
+      setChecking(false);
+      return;
+    }
+
+    if (start === 0) {
+      mediaRecorderRef.current.start();
+      setRecorderState("active");
+      setMinDuration(1);
+      setIsRecording(true);
+    }
+
+    setTimeout(() => {
+      setStart((temp) => temp - 1);
+    }, 1000);
+  }, [start, checking]);
+
+  // time limit - format
+  const timeParser = (duration) => {
+    const durationMinutes = Math.floor(duration / 60);
+    let durationSeconds = duration % 60;
+    const durationFormattedMintues = String(durationMinutes).padStart(2, "0");
+    if (durationSeconds < 10) {
+      durationSeconds = String(durationSeconds).padStart(2, "0");
+    }
+    return `${durationFormattedMintues}:${durationSeconds}`;
+  };
+
+  //   Handling record again video
+  const handleRecordAgain = () => {
+    setVideoIndex((prev) => prev + 1);
+    setShowPreview(false);
+  };
+
+  //   handling the stop of video
+  async function handleStop() {
+    if (!mediaRecorderRef.current) return;
+    mediaRecorderRef.current.stop();
+    stopLoop();
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach((track) => track.stop());
+    }
+    setRecorderState("inactive");
+    setIsRecording(false);
+  }
+
+  //   handling the pause of recording
+  const handlePauseRecording = () => {
+    if (
+      mediaRecorderRef.current &&
+      mediaRecorderRef.current.state === "recording"
+    ) {
+      mediaRecorderRef.current.pause();
+      setRecorderState("pause");
+    }
+  };
+
+  //   handling the resume recording
+  const handleResumeRecording = () => {
+    if (
+      mediaRecorderRef.current &&
+      mediaRecorderRef.current.state === "paused"
+    ) {
+      mediaRecorderRef.current.resume();
+      setRecorderState("active");
+    }
+  };
+
+  //   handling the delete button to deleteing the current video
+  const handleDeleteVideo = () => {
+    const updatedList = videoUrlList.filter(
+      (video) => video.url !== videoUrlList[videoIndex].url,
+    );
+    setVideoUrlList(updatedList);
+    setVideoIndex((videoIndex) => videoIndex - 1);
+  };
 
   // Called by MediaPipe with the frame + a person mask.
   const drawBlurred = useCallback((results) => {
@@ -151,20 +355,15 @@ const VideoRecording = () => {
 
   useEffect(() => {
     const image = new Image();
-
     image.crossOrigin = "anonymous";
-
     image.onload = () => {
       backgroundImageRef.current = image;
     };
-
     image.onerror = (error) => {
       console.error("Failed to load background image", error);
     };
-
     image.src =
       "https://images.pexels.com/photos/159839/office-home-house-desk-159839.jpeg";
-
     return () => {
       backgroundImageRef.current = null;
     };
@@ -224,43 +423,6 @@ const VideoRecording = () => {
     return () => {
       secondBackgroundImageRef.current = null;
     };
-  }, []);
-
-  const startLoop = useCallback(() => {
-    runningRef.current = true;
-
-    const loop = async () => {
-      if (!runningRef.current) return;
-      const video = videoRef.current;
-
-      if (video && video.readyState >= 2 && !busyRef.current) {
-        busyRef.current = true;
-        try {
-          if (
-            (blurOnRef.current ||
-              officeBackgroundRef.current ||
-              secondBackgroundRef.current) &&
-            segmenterRef.current
-          ) {
-            await segmenterRef.current.send({ image: video });
-          } else {
-            drawPlain();
-          }
-        } catch (err) {
-          console.error("Frame error:", err);
-        } finally {
-          busyRef.current = false;
-        }
-      }
-      rafRef.current = requestAnimationFrame(loop);
-    };
-
-    rafRef.current = requestAnimationFrame(loop);
-  }, [drawPlain]);
-
-  const stopLoop = useCallback(() => {
-    runningRef.current = false;
-    cancelAnimationFrame(rafRef.current);
   }, []);
 
   const ensureSegmenter = async () => {
@@ -364,106 +526,6 @@ const VideoRecording = () => {
     setSecondBackgroundOn(next);
   };
 
-  //   starting the video
-  const handleStartRecording = async () => {
-    mediaRecorderRef.current.start();
-    setRecorderState("active");
-    setMinDuration(1);
-  };
-
-  //   handling the stop of video
-  async function handleStop() {
-    if (!mediaRecorderRef.current) return;
-
-    mediaRecorderRef.current.stop();
-    stopLoop();
-
-    if (streamRef.current) {
-      streamRef.current.getTracks().forEach((track) => track.stop());
-    }
-
-    setRecorderState("inactive");
-    setIsRecording(false);
-  }
-
-  //   handling the pause of recording
-  const handlePauseRecording = () => {
-    if (
-      mediaRecorderRef.current &&
-      mediaRecorderRef.current.state === "recording"
-    ) {
-      mediaRecorderRef.current.pause();
-      setRecorderState("pause");
-    }
-  };
-
-  //   handling the resume recording
-  const handleResumeRecording = () => {
-    if (
-      mediaRecorderRef.current &&
-      mediaRecorderRef.current.state === "paused"
-    ) {
-      mediaRecorderRef.current.resume();
-      setRecorderState("active");
-    }
-  };
-
-  function handleUrl(e) {
-    // Use the recorder's own mime type (webm on Chrome/Firefox, mp4 on
-    // Safari) instead of hardcoding one, since the recorded stream now
-    // comes from the canvas rather than the raw camera stream.
-    const mimeType = mediaRecorderRef.current?.mimeType || "video/webm";
-    const blob = new Blob([e.data], { type: mimeType });
-    const url = URL.createObjectURL(blob);
-    return [url, blob.size];
-  }
-
-  const handleDataAvailable = async (e) => {
-    const [url, size] = handleUrl(e);
-    const time = 300 - timerRef.current;
-    const timeFormat = timeParser(time);
-    const videoSize = `${(size / (1024 * 1024)).toFixed(2)} MB`;
-    setVideoUrlList((prev) =>
-      prev.concat({
-        url: url,
-        size: videoSize,
-        duration: timeFormat,
-        createdAt: new Date().toLocaleTimeString(),
-      }),
-    );
-    setVideoUrl(url);
-  };
-
-  // time limit - format
-  const timeParser = (duration) => {
-    const durationMinutes = Math.floor(duration / 60);
-    let durationSeconds = duration % 60;
-    const durationFormattedMintues = String(durationMinutes).padStart(2, "0");
-    if (durationSeconds < 10) {
-      durationSeconds = String(durationSeconds).padStart(2, "0");
-    }
-    return `${durationFormattedMintues}:${durationSeconds}`;
-  };
-
-  //   Handling record again video
-  const handleRecordAgain = () => {
-    setVideoUrl(null);
-    setShowPreview(false);
-  };
-
-  function storingData(url) {}
-
-  //   Showing the previous videos
-  const handlePreviousVideo = () => {
-    setShowPreview(true);
-  };
-
-  //   Showing the only current value
-  const handleCurrentVideo = () => {
-    setShowPreview(false);
-  };
-
-  //   Creating a list of previous video
   const videoList = videoUrlList.map((video) => (
     <li
       key={video.url}
@@ -489,151 +551,9 @@ const VideoRecording = () => {
     </li>
   ));
 
-  //   handling the delete button to deleteing the current video
-  const handleDeleteVideo = () => {
-    const updatedList = videoUrlList.filter((video) => video.url !== videoUrl);
-    setVideoUrlList(updatedList);
-    setVideoUrl(null);
-  };
-
-  // This hooks helps to tracking the time of the recording - Time Left
-
-  useEffect(() => {
-    if (count <= 0 || !isRecording) {
-      setCount(300);
-      return;
-    }
-
-    if (recorderState === "pause") {
-      return;
-    }
-
-    setTimeout(() => {
-      timerRef.current = count - 1;
-      setCount((count) => count - 1);
-      setDuration(count);
-    }, 1000);
-  }, [count, isRecording, recorderState]);
-
-  //   minutes left from count
-  const minutes = Math.floor(count / 60);
-  const formattedMinutes = String(minutes).padStart(2, "0");
-  let remaningSeconds = count % 60;
-  if (remaningSeconds < 10) {
-    remaningSeconds = String(remaningSeconds).padStart(2, "0");
-  }
-
-  if (count === 0) {
-    handleStop();
-    setCount((count) => count - 1);
-  }
-
-  // set the minimum 5 sec duration for video
-
-  useEffect(() => {
-    if (minDuration > 5 || !isRecording) {
-      return;
-    }
-
-    if (recorderState === "pause") {
-      return;
-    }
-
-    setTimeout(() => {
-      setMinDuration((temp) => temp + 1);
-    }, 1000);
-  }, [minDuration, isRecording, recorderState]);
-
-  // Starting count down
-  useEffect(() => {
-    if (start < 0 || !checking) {
-      setChecking(false);
-      return;
-    }
-
-    if (start === 0) {
-      handleStartRecording();
-      setIsRecording(true);
-    }
-
-    setTimeout(() => {
-      setStart((temp) => temp - 1);
-    }, 1000);
-  }, [start, checking]);
-
-  // This arrow function helps to set up the 3 sec count down then starting the recording.
-
-  const handleStart = () => {
-    setStart(3);
-    setChecking(true);
-  };
-
-  //  This async function opens the camera, starts the blur-capable draw
-  //  loop, and builds the MediaRecorder from the CANVAS stream (so any
-  //  blur that's on gets baked into the recording) plus the mic audio.
-
-  async function opening() {
-    try {
-      const userStream = await navigator.mediaDevices.getUserMedia({
-        audio: true,
-        video: true,
-      });
-      streamRef.current = userStream;
-      setStream(userStream);
-
-      const video = videoRef.current;
-      video.srcObject = userStream;
-      video.muted = true; // avoid feedback from the hidden preview
-      await video.play();
-
-      const canvas = canvasRef.current;
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-
-      startLoop();
-
-      // Video comes from the canvas (blur included, if it's on);
-      // audio comes straight from the mic.
-      const canvasStream = canvas.captureStream(30);
-      userStream.getAudioTracks().forEach((t) => canvasStream.addTrack(t));
-
-      const mimeType = pickMimeType();
-      mediaRecorderRef.current = new MediaRecorder(
-        canvasStream,
-        mimeType ? { mimeType } : undefined,
-      );
-      mediaRecorderRef.current.addEventListener("dataavailable", (e) =>
-        handleDataAvailable(e),
-      );
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
-  // This useEffect helps to showing the view camera, and tears the
-  // previous camera session + draw loop down before opening a new one.
-
-  useEffect(() => {
-    opening();
-    return () => {
-      stopLoop();
-      if (streamRef.current) {
-        streamRef.current.getTracks().forEach((track) => track.stop());
-        streamRef.current = null;
-      }
-    };
-  }, [videoUrl]);
-
-  // Close the segmentation model when the component unmounts.
-  useEffect(() => {
-    return () => {
-      segmenterRef.current?.close?.();
-    };
-  }, []);
-
   return (
     <div className="bg-[#FFFDEB] mt-3 gap-5 flex justify-center items-center flex-col">
-      {!videoUrl ? (
+      {!videoUrlList[videoIndex] ? (
         <>
           <div>
             {!isRecording ? (
@@ -654,7 +574,7 @@ const VideoRecording = () => {
             ) : (
               <div className="w-[100%] mt-2">
                 <div className="text-xs sm:text-s md:text-md lg:text-lg xl:text-xl  text-[#676FA3] font-medium rounded-lg transition duration-200 text-center absolute top-[22vh] md:top-[17vh] xl:top-[23vh] left-[70vw] md:left-[85vw] lg:left-[75vw] xl:left-[65vw]">
-                  TimeLeft: {formattedMinutes}:{remaningSeconds}
+                  TimeLeft: {timeParser(count)}
                 </div>
                 <div className=" flex justify-left items-center gap-2">
                   {minDuration > 5 ? (
@@ -664,14 +584,7 @@ const VideoRecording = () => {
                     >
                       Stop Recording Video
                     </button>
-                  ) : (
-                    <button
-                      onClick={handleStop}
-                      className="text-xs sm:text-s md:text-md lg:text-lg xl:text-xl  px-6 py-3 bg-[#EEF2FF] hover:bg-[#676FA3] text-[#676FA3] hover:text-[#EEF2FF] cursor-pointer font-medium rounded-lgtransition duration-200  hidden"
-                    >
-                      Stop Recording Video
-                    </button>
-                  )}
+                  ) : null}
                   {recorderState === "active" ? (
                     <button
                       onClick={handlePauseRecording}
@@ -694,12 +607,12 @@ const VideoRecording = () => {
         </>
       ) : null}
 
-      {videoUrl ? (
+      {videoUrlList[videoIndex] ? (
         <>
           <div className=" flex flex-col justify-around items-center gap-10">
             <div className="flex justify-center items-center gap-5 mt-2">
               {/* Delete Button */}
-              {!showPreview ? (
+              {showPreview ? (
                 <button
                   onClick={handleDeleteVideo}
                   className="text-xs sm:text-s md:text-md lg:text-lg xl:text-xl  px-6 py-3 bg-[#EEF2FF] hover:bg-[#676FA3] text-[#676FA3] hover:text-[#EEF2FF] cursor-pointer font-medium rounded-lg  transition duration-200 "
@@ -717,14 +630,14 @@ const VideoRecording = () => {
               {/* Previous Video */}
               {!showPreview ? (
                 <button
-                  onClick={handlePreviousVideo}
+                  onClick={() => setShowPreview(true)}
                   className="text-xs sm:text-s md:text-md lg:text-lg xl:text-xl  px-6 py-3 bg-[#EEF2FF] hover:bg-[#676FA3] text-[#676FA3] hover:text-[#EEF2FF] cursor-pointer font-medium rounded-lg transition duration-200 "
                 >
                   Previous Video
                 </button>
               ) : (
                 <button
-                  onClick={handleCurrentVideo}
+                  onClick={() => setShowPreview(false)}
                   className="text-xs sm:text-s md:text-md lg:text-lg xl:text-xl  px-6 py-3 bg-[#EEF2FF] hover:bg-[#676FA3] text-[#676FA3] hover:text-[#EEF2FF] cursor-pointer font-medium rounded-lg transition duration-200 "
                 >
                   Current Video
@@ -746,7 +659,7 @@ const VideoRecording = () => {
                 </div>
               ) : (
                 <video
-                  src={videoUrl}
+                  src={videoUrlList[videoIndex].url}
                   controls
                   loop
                   autoPlay
@@ -767,38 +680,41 @@ const VideoRecording = () => {
           />
 
           {/* Background blur controls */}
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            <label className="flex items-center gap-2 text-[#676FA3] font-medium cursor-pointer">
-              <input
-                type="checkbox"
-                checked={blurOn}
-                onChange={toggleBlur}
-                disabled={modelStatus === "loading"}
-              />
-              Blur background
-            </label>
-            <label className="flex items-center gap-2 text-[#676FA3] font-medium cursor-pointer">
-              <input
-                type="checkbox"
-                checked={officeBackgroundOn}
-                onChange={toggleOfficeBackground}
-                disabled={modelStatus === "loading"}
-              />
-              Office Background
-            </label>
-            <label className="flex items-center gap-2 text-[#676FA3] font-medium cursor-pointer">
-              <input
-                type="checkbox"
-                checked={secondBackgroundOn}
-                onChange={toggleSecondBackground}
-                disabled={modelStatus === "loading"}
-              />
-              Sunflower Background
-            </label>
-            {modelStatus === "loading" && (
-              <span className="text-sm text-[#676FA3]">Loading model…</span>
-            )}
-          </div>
+          {recorderState === "active" ||
+            (!checking && (
+              <div className="flex flex-wrap items-center justify-center gap-4">
+                <label className="flex items-center gap-2 text-[#676FA3] font-medium cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={blurOn}
+                    onChange={toggleBlur}
+                    disabled={modelStatus === "loading"}
+                  />
+                  Blur background
+                </label>
+                <label className="flex items-center gap-2 text-[#676FA3] font-medium cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={officeBackgroundOn}
+                    onChange={toggleOfficeBackground}
+                    disabled={modelStatus === "loading"}
+                  />
+                  Office Background
+                </label>
+                <label className="flex items-center gap-2 text-[#676FA3] font-medium cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={secondBackgroundOn}
+                    onChange={toggleSecondBackground}
+                    disabled={modelStatus === "loading"}
+                  />
+                  Sunflower Background
+                </label>
+                {modelStatus === "loading" && (
+                  <span className="text-sm text-[#676FA3]">Loading model…</span>
+                )}
+              </div>
+            ))}
           {(blurError || officeBackgroundError || secondBackgroundError) && (
             <p className="text-sm text-red-600" role="alert">
               {blurError}
