@@ -83,7 +83,7 @@ const VideoRecording = () => {
       handleStop();
       setCount((count) => count - 1);
     }
-    if (recorderState === "pause") {
+    if (recorderState === "paused") {
       return;
     }
     setTimeout(() => {
@@ -265,27 +265,25 @@ const VideoRecording = () => {
     setIsRecording(false);
   }
 
-  //   handling the pause of recording
-  const handlePauseRecording = () => {
-    if (
-      mediaRecorderRef.current &&
-      mediaRecorderRef.current.state === "recording"
-    ) {
-      mediaRecorderRef.current.pause();
-      setRecorderState("pause");
+  const handlePauseOrResumingRecording = useCallback((recordingState) => {
+    if (recordingState === "active") {
+      if (
+        mediaRecorderRef.current &&
+        mediaRecorderRef.current.state === "recording"
+      ) {
+        mediaRecorderRef.current.pause();
+        setRecorderState("paused");
+      }
+    } else if (recordingState === "paused") {
+      if (
+        mediaRecorderRef.current &&
+        mediaRecorderRef.current.state === "paused"
+      ) {
+        mediaRecorderRef.current.resume();
+        setRecorderState("active");
+      }
     }
-  };
-
-  //   handling the resume recording
-  const handleResumeRecording = () => {
-    if (
-      mediaRecorderRef.current &&
-      mediaRecorderRef.current.state === "paused"
-    ) {
-      mediaRecorderRef.current.resume();
-      setRecorderState("active");
-    }
-  };
+  });
 
   //   handling the delete button to deleteing the current video
   const handleDeleteVideo = () => {
@@ -587,14 +585,14 @@ const VideoRecording = () => {
                   ) : null}
                   {recorderState === "active" ? (
                     <button
-                      onClick={handlePauseRecording}
+                      onClick={() => handlePauseOrResumingRecording("active")}
                       className="text-xs sm:text-s md:text-md lg:text-lg xl:text-xl  px-6 py-3 bg-[#EEF2FF] hover:bg-[#676FA3] text-[#676FA3] hover:text-[#EEF2FF] cursor-pointer font-medium rounded-lg transition duration-200 "
                     >
                       Pause Recording Video
                     </button>
                   ) : (
                     <button
-                      onClick={handleResumeRecording}
+                      onClick={() => handlePauseOrResumingRecording("paused")}
                       className="text-xs sm:text-s md:text-md lg:text-lg xl:text-xl  px-6 py-3 bg-[#EEF2FF] hover:bg-[#676FA3] text-[#676FA3] hover:text-[#EEF2FF] cursor-pointer font-medium rounded-lg text-xl transition duration-200 "
                     >
                       Resume Recording Video
