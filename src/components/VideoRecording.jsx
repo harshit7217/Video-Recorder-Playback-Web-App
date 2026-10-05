@@ -54,7 +54,6 @@ const VideoRecording = () => {
   const busyRef = useRef(false);
   const blurOnRef = useRef(false);
   const backgroundImageRef = useRef([]);
-  const timerRef = useRef(0);
   const bgImageRef = useRef([]);
   const normalOnRef = useRef(true);
   const cancelRef = useRef(false);
@@ -83,7 +82,6 @@ const VideoRecording = () => {
       return;
     }
     const timeout = setTimeout(() => {
-      timerRef.current = count - 1;
       setCount((count) => count - 1);
       if (count > 295) {
         setMinDuration((temp) => temp + 1);
@@ -225,15 +223,12 @@ const VideoRecording = () => {
 
   const handleDataAvailable = async (e, message) => {
     const [url, size] = handleUrl(e);
-    const time = 299 - timerRef.current;
-    const timeFormat = timeParser(time);
     const videoSize = `${(size / (1024 * 1024)).toFixed(2)} MB`;
     if (message) {
       setVideoUrlList((prev) =>
         prev.concat({
           url: url,
           size: videoSize,
-          duration: timeFormat,
           createdAt: new Date().toLocaleTimeString(),
         }),
       );
