@@ -58,7 +58,6 @@ const VideoRecording = () => {
   const normalOnRef = useRef(true);
   const cancelRef = useRef(false);
 
-  // Starting the app it calling the opening function
   useEffect(() => {
     opening();
     return () => {
@@ -577,7 +576,7 @@ const VideoRecording = () => {
                   <div className="flex justify-center">
                     <button
                       onClick={handleStart}
-                      className="group flex items-center gap-3 rounded-xl bg-[#676FA3] px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-[#676FA3]/20 transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#555E91] hover:shadow-xl active:translate-y-0"
+                      className="cursor-pointer group flex items-center gap-3 rounded-xl bg-[#676FA3] px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-[#676FA3]/20 transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#555E91] hover:shadow-xl active:translate-y-0"
                     >
                       <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/15">
                         <svg
@@ -598,7 +597,7 @@ const VideoRecording = () => {
                     {minDuration == 5 && (
                       <button
                         onClick={handleStop}
-                        className="rounded-xl border border-red-200 bg-red-50 px-5 py-3 text-sm font-semibold text-red-600 transition hover:bg-red-100"
+                        className="cursor-pointer rounded-xl border border-red-200 bg-red-50 px-5 py-3 text-sm font-semibold text-red-600 transition hover:bg-red-100"
                       >
                         Stop Recording
                       </button>
@@ -607,21 +606,21 @@ const VideoRecording = () => {
                     {recorderState === "active" ? (
                       <button
                         onClick={() => handlePauseOrResumingRecording("active")}
-                        className="rounded-xl bg-[#EEF2FF] px-5 py-3 text-sm font-semibold text-[#676FA3] transition hover:bg-[#676FA3] hover:text-white"
+                        className="cursor-pointer rounded-xl bg-[#EEF2FF] px-5 py-3 text-sm font-semibold text-[#676FA3] transition hover:bg-[#676FA3] hover:text-white"
                       >
                         Pause Recording
                       </button>
                     ) : (
                       <button
                         onClick={() => handlePauseOrResumingRecording("paused")}
-                        className="rounded-xl bg-[#676FA3] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#555E91]"
+                        className="cursor-pointer rounded-xl bg-[#676FA3] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#555E91]"
                       >
                         Resume Recording
                       </button>
                     )}
                     <button
                       onClick={() => handleCancel()}
-                      className="rounded-xl bg-[#EEF2FF] px-5 py-3 text-sm font-semibold text-[#676FA3] transition hover:bg-[#676FA3] hover:text-white"
+                      className="cursor-pointer rounded-xl bg-[#EEF2FF] px-5 py-3 text-sm font-semibold text-[#676FA3] transition hover:bg-[#676FA3] hover:text-white"
                     >
                       Cancel Recording
                     </button>
@@ -793,7 +792,7 @@ const VideoRecording = () => {
                   {showPreview && (
                     <button
                       onClick={handleDeleteVideo}
-                      className="rounded-xl border border-red-200 bg-red-50 px-5 py-2.5 text-sm font-semibold text-red-600 transition hover:bg-red-100"
+                      className="cursor-pointer rounded-xl border border-red-200 bg-red-50 px-5 py-2.5 text-sm font-semibold text-red-600 transition hover:bg-red-100"
                     >
                       Delete
                     </button>
@@ -801,14 +800,14 @@ const VideoRecording = () => {
 
                   <button
                     onClick={handleRecordAgain}
-                    className="rounded-xl bg-[#676FA3] px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#555E91]"
+                    className="cursor-pointer rounded-xl bg-[#676FA3] px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#555E91]"
                   >
                     Record Again
                   </button>
 
                   <button
                     onClick={() => setShowPreview(!showPreview)}
-                    className="rounded-xl border border-[#DCDFF0] bg-white px-5 py-2.5 text-sm font-semibold text-[#676FA3] transition hover:bg-[#F5F6FF]"
+                    className="cursor-pointer rounded-xl border border-[#DCDFF0] bg-white px-5 py-2.5 text-sm font-semibold text-[#676FA3] transition hover:bg-[#F5F6FF]"
                   >
                     {showPreview ? "Current Video" : "Previous Videos"}
                   </button>
