@@ -35,7 +35,7 @@ const VideoRecording = () => {
   const [videoUrlList, setVideoUrlList] = useState([]);
   const [showPreview, setShowPreview] = useState(false);
   const [count, setCount] = useState(299);
-  const [minDuration, setMinDuration] = useState(0);
+  const [minDuration, setMinDuration] = useState(1);
   const [checking, setChecking] = useState(false);
   const [start, setStart] = useState(3);
   const [normalOn, setNormalOn] = useState(true);
@@ -85,7 +85,7 @@ const VideoRecording = () => {
     const timeout = setTimeout(() => {
       timerRef.current = count - 1;
       setCount((count) => count - 1);
-      if (count > 294) {
+      if (count > 295) {
         setMinDuration((temp) => temp + 1);
       }
     }, 1000);
@@ -106,7 +106,7 @@ const VideoRecording = () => {
       if (recorder && recorder.state === "inactive") {
         recorder.start();
         setRecorderState("active");
-        setMinDuration(0);
+        setMinDuration(1);
         setIsRecording(true);
       }
       setChecking(false);
@@ -595,7 +595,7 @@ const VideoRecording = () => {
                 {/* Recording Controls */}
                 {isRecording && (
                   <div className="flex flex-wrap items-center justify-center gap-3">
-                    {minDuration > 3 && (
+                    {minDuration == 5 && (
                       <button
                         onClick={handleStop}
                         className="rounded-xl border border-red-200 bg-red-50 px-5 py-3 text-sm font-semibold text-red-600 transition hover:bg-red-100"
