@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback, use } from "react";
+import VideoDuration from "./VideoDuration.jsx";
 
 const MEDIAPIPE_URL =
   "https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation";
@@ -486,7 +487,8 @@ const VideoRecording = () => {
           <strong>File Size :</strong> {video.size}
         </span>
         <span>
-          <strong>Video Duration:</strong> {video.duration}
+          <strong>Video Duration:</strong>{" "}
+          <VideoDuration videoUrl={video.url} />
         </span>
         <span>
           <strong>Created At:</strong> {video.createdAt}
