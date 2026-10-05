@@ -56,6 +56,7 @@ const VideoRecording = () => {
   const timerRef = useRef(0);
   const bgImageRef = useRef([]);
   const normalOnRef = useRef(true);
+  const cancelRef = useRef(false);
 
   // Starting the app it calling the opening function
   useEffect(() => {
@@ -98,21 +99,22 @@ const VideoRecording = () => {
   }, []);
 
   useEffect(() => {
-    if (start < 0 || !checking) {
+    if (!checking) return;
+
+    if (start <= 0) {
+      const recorder = mediaRecorderRef.current;
+      if (recorder && recorder.state === "inactive") {
+        recorder.start();
+        setRecorderState("active");
+        setMinDuration(0);
+        setIsRecording(true);
+      }
       setChecking(false);
       return;
     }
 
-    if (start === 0) {
-      mediaRecorderRef.current.start();
-      setRecorderState("active");
-      setMinDuration(0);
-      setIsRecording(true);
-    }
-
-    setTimeout(() => {
-      setStart((temp) => temp - 1);
-    }, 1000);
+    const timer = setTimeout(() => setStart((s) => s - 1), 1000);
+    return () => clearTimeout(timer);
   }, [start, checking]);
 
   useEffect(() => {
@@ -159,7 +161,7 @@ const VideoRecording = () => {
         mimeType ? { mimeType } : undefined,
       );
       mediaRecorderRef.current.addEventListener("dataavailable", (e) =>
-        handleDataAvailable(e),
+        handleDataAvailable(e, cancelRef.current),
       );
     } catch (err) {
       console.error(err);
@@ -221,28 +223,31 @@ const VideoRecording = () => {
     return [url, blob.size];
   });
 
-  const handleDataAvailable = async (e) => {
+  const handleDataAvailable = async (e, message) => {
     const [url, size] = handleUrl(e);
     const time = 299 - timerRef.current;
     const timeFormat = timeParser(time);
     const videoSize = `${(size / (1024 * 1024)).toFixed(2)} MB`;
-    setVideoUrlList((prev) =>
-      prev.concat({
-        url: url,
-        size: videoSize,
-        duration: timeFormat,
-        createdAt: new Date().toLocaleTimeString(),
-      }),
-    );
-    setVideoIndex(
-      videoIndex + 1 === videoUrlList.length ? videoIndex + 1 : videoIndex,
-    );
+    if (message) {
+      setVideoUrlList((prev) =>
+        prev.concat({
+          url: url,
+          size: videoSize,
+          duration: timeFormat,
+          createdAt: new Date().toLocaleTimeString(),
+        }),
+      );
+      setVideoIndex(
+        videoIndex + 1 === videoUrlList.length ? videoIndex + 1 : videoIndex,
+      );
+    }
   };
 
   // This arrow function helps to set up the 3 sec count down then starting the recording.
   const handleStart = useCallback(() => {
     setStart(3);
     setChecking(true);
+    cancelRef.current = true;
   });
 
   // time limit - format
@@ -302,6 +307,12 @@ const VideoRecording = () => {
     setVideoUrlList(updatedList);
     setVideoIndex((videoIndex) => videoIndex - 1);
   });
+
+  const handleCancel = useCallback(async () => {
+    cancelRef.current = false;
+    handleStop();
+    opening();
+  }, []);
 
   const handleBackground = useCallback((imageUrl, index) => {
     const image = new Image();
@@ -608,6 +619,12 @@ const VideoRecording = () => {
                         Resume Recording
                       </button>
                     )}
+                    <button
+                      onClick={() => handleCancel()}
+                      className="rounded-xl bg-[#EEF2FF] px-5 py-3 text-sm font-semibold text-[#676FA3] transition hover:bg-[#676FA3] hover:text-white"
+                    >
+                      Cancel Recording
+                    </button>
                   </div>
                 )}
 
