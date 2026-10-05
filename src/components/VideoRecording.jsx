@@ -139,7 +139,7 @@ const VideoRecording = () => {
 
       const video = videoRef.current;
       video.srcObject = userStream;
-      video.muted = true; // avoid feedback from the hidden preview
+      video.muted = true;
       await video.play();
 
       const canvas = canvasRef.current;
