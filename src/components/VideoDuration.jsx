@@ -30,6 +30,5 @@ export default function VideoDuration({ videoUrl }) {
 
     return () => ws.destroy();
   }, [videoUrl]);
-  console.log(duration);
   return formatDuration(duration);
 }

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback, use } from "react";
+import { useState, useRef, useEffect, useCallback, use } from "react";
 import VideoDuration from "./VideoDuration.jsx";
 
 const MEDIAPIPE_URL =
