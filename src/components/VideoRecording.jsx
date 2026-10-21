@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useCallback, use } from "react";
 import VideoDuration from "./VideoDuration.jsx";
+import { emitRecordingEvent, socket } from "../socket.js";
 
 const MEDIAPIPE_URL =
   "https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation";
@@ -43,6 +44,9 @@ const VideoRecording = () => {
   const [blurOn, setBlurOn] = useState(false);
   const [bgImageState, setBgImageState] = useState([false, false]);
   const [modelStatus, setModelStatus] = useState("idle");
+  const [socketStatus, setSocketStatus] = useState(
+    socket.connected ? "connected" : "connecting",
+  );
 
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
@@ -57,6 +61,27 @@ const VideoRecording = () => {
   const bgImageRef = useRef([]);
   const normalOnRef = useRef(true);
   const cancelRef = useRef(false);
+
+  useEffect(() => {
+    const handleConnect = () => setSocketStatus("connected");
+    const handleDisconnect = () => setSocketStatus("disconnected");
+    const handleConnectError = (error) => {
+      setSocketStatus("disconnected");
+      console.error("Socket connection failed:", error.message);
+    };
+
+    socket.on("connect", handleConnect);
+    socket.on("disconnect", handleDisconnect);
+    socket.on("connect_error", handleConnectError);
+    socket.connect();
+
+    return () => {
+      socket.off("connect", handleConnect);
+      socket.off("disconnect", handleDisconnect);
+      socket.off("connect_error", handleConnectError);
+      socket.disconnect();
+    };
+  }, []);
 
   useEffect(() => {
     opening();
@@ -103,6 +128,7 @@ const VideoRecording = () => {
       const recorder = mediaRecorderRef.current;
       if (recorder && recorder.state === "inactive") {
         recorder.start();
+        emitRecordingEvent("recording:started", { reason: "started" });
         setRecorderState("active");
         setMinDuration(1);
         setIsRecording(true);
@@ -263,9 +289,11 @@ const VideoRecording = () => {
   });
 
   //   handling the stop of video
-  const handleStop = async () => {
-    if (!mediaRecorderRef.current) return;
-    mediaRecorderRef.current.stop();
+  const handleStop = async (reason = "stopped") => {
+    const recorder = mediaRecorderRef.current;
+    if (!recorder || recorder.state === "inactive") return;
+    emitRecordingEvent("recording:stopped", { reason });
+    recorder.stop();
     stopLoop();
     if (streamRef.current) {
       streamRef.current.getTracks().forEach((track) => track.stop());
@@ -281,6 +309,7 @@ const VideoRecording = () => {
         mediaRecorderRef.current.state === "recording"
       ) {
         mediaRecorderRef.current.pause();
+        emitRecordingEvent("recording:paused", { reason: "paused" });
         setRecorderState("paused");
       }
     } else if (recordingState === "paused") {
@@ -289,6 +318,7 @@ const VideoRecording = () => {
         mediaRecorderRef.current.state === "paused"
       ) {
         mediaRecorderRef.current.resume();
+        emitRecordingEvent("recording:resumed", { reason: "resumed" });
         setRecorderState("active");
       }
     }
@@ -305,7 +335,7 @@ const VideoRecording = () => {
 
   const handleCancel = useCallback(async () => {
     cancelRef.current = false;
-    handleStop();
+    handleStop("cancelled");
     opening();
   }, []);
 
@@ -506,6 +536,23 @@ const VideoRecording = () => {
               <p className="mt-1 text-sm text-gray-500">
                 Record your video and customize the background
               </p>
+              <p
+                className={`mt-2 flex items-center gap-2 text-xs ${
+                  socketStatus === "connected"
+                    ? "text-green-700"
+                    : "text-amber-700"
+                }`}
+                role="status"
+              >
+                <span
+                  className={`h-2 w-2 rounded-full ${
+                    socketStatus === "connected"
+                      ? "bg-green-500"
+                      : "bg-amber-500"
+                  }`}
+                />
+                Socket server: {socketStatus}
+              </p>
             </div>
 
             {isRecording && (
@@ -593,7 +640,7 @@ const VideoRecording = () => {
                   <div className="flex flex-wrap items-center justify-center gap-3">
                     {minDuration == 5 && (
                       <button
-                        onClick={handleStop}
+                        onClick={() => handleStop("stopped")}
                         className="cursor-pointer rounded-xl border border-red-200 bg-red-50 px-5 py-3 text-sm font-semibold text-red-600 transition hover:bg-red-100"
                       >
                         Stop Recording
