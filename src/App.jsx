@@ -1,12 +1,21 @@
-import Header from "./components/Header.jsx";
+import { BrowserRouter, Link, Routes, Route } from "react-router";
 import VideoRecording from "./components/VideoRecording.jsx";
+import Details from "./components/Details.jsx";
+import Sidebar from "./components/SideBar.jsx";
+import Header from "./components/Header.jsx";
 
 function App() {
   return (
-    <div className="h-[100vh]">
+    <BrowserRouter className="h-[100vh]">
+      <Sidebar />
       <Header />
-      <VideoRecording />
-    </div>
+      <main className="p-4">
+        <Routes>
+          <Route path="/" element={<VideoRecording />} />
+          <Route path="/details" element={<Details />} />
+        </Routes>
+      </main>
+    </BrowserRouter>
   );
 }
 
