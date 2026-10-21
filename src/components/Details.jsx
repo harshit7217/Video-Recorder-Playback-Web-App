@@ -4,7 +4,7 @@ const API = "http://localhost:3001/api/details";
 
 const CATEGORIES = ["all", "camera", "recording", "text", "window", "screen"];
 
-const categoryOf = (event = "") => event.split(":")[0];
+const categoryOf = (eventName = "") => eventName.split(":")[0];
 
 function formatTime(iso) {
   if (!iso) return "-";
@@ -53,7 +53,7 @@ export default function Details() {
 
   const load = useCallback(async () => {
     try {
-      const res = await fetch(API);
+      const res = await fetch(API, { method: "GET" });
       if (!res.ok) throw new Error(`Server returned ${res.status}`);
       setRows(await res.json());
       setError("");
@@ -66,9 +66,7 @@ export default function Details() {
 
   useEffect(() => {
     load();
-    const id = setInterval(load, 3000);
-    return () => clearInterval(id);
-  }, [load]);
+  }, []);
 
   const clearAll = async () => {
     await fetch(API, { method: "DELETE" });
@@ -77,7 +75,8 @@ export default function Details() {
 
   const stats = useMemo(() => {
     const count = (cat) =>
-      rows.filter((r) => categoryOf(r.event) === cat).length;
+      rows.filter((r) => categoryOf(r.eventName) === cat).length;
+
     return [
       { label: "Total events", value: rows.length },
       { label: "Recording", value: count("recording") },
@@ -90,7 +89,7 @@ export default function Details() {
     () =>
       [...rows]
         .reverse()
-        .filter((r) => filter === "all" || categoryOf(r.event) === filter),
+        .filter((r) => filter === "all" || categoryOf(r.eventName) === filter),
     [rows, filter],
   );
 
@@ -185,7 +184,7 @@ export default function Details() {
               </thead>
               <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
                 {visible.map((row, i) => {
-                  const cat = categoryOf(row.event);
+                  categoryOf(row.eventName);
                   return (
                     <tr
                       key={`${row.timestamp}-${i}`}

@@ -12,7 +12,7 @@ function App() {
       <main className="p-4">
         <Routes>
           <Route path="/" element={<VideoRecording />} />
-          <Route path="/details" element={<Details />} />
+          <Route path="/api/details" element={<Details />} />
         </Routes>
       </main>
     </BrowserRouter>
