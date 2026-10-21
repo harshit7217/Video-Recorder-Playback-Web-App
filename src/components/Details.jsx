@@ -66,11 +66,15 @@ export default function Details() {
 
   useEffect(() => {
     load();
-  }, []);
+  }, [rows]);
 
   const clearAll = async () => {
-    await fetch(API, { method: "DELETE" });
-    setRows([]);
+    try {
+      await fetch(API, { method: "OPTIONS" });
+      setRows([]);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const stats = useMemo(() => {

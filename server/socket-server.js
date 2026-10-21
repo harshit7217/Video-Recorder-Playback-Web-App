@@ -14,7 +14,8 @@ const httpServer = createServer((req, res) => {
     return;
   }
 
-  if (req.method === "DELETE" && req.url === "/api/details") {
+  if (req.method === "OPTIONS" && req.url === "/api/details") {
+    console.log(data);
     data = [];
     res.writeHead(204);
     res.end();
