@@ -97,7 +97,6 @@ const VideoRecording = () => {
     } catch (err) {
       console.error(err);
     } finally {
-      console.log("a");
       emitRecordingEvent("camera:connected", { reason: "camera:connected" });
     }
   };

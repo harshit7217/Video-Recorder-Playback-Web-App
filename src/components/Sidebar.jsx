@@ -15,7 +15,7 @@ export default function Sidebar() {
           <NavLink to="/" end className={linkClass}>
             Home
           </NavLink>
-          <NavLink to="/details" className={linkClass}>
+          <NavLink to="/api/details" className={linkClass}>
             Details
           </NavLink>
         </nav>
