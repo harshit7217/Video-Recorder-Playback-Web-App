@@ -15,14 +15,27 @@ io.on("connection", (socket) => {
   console.info(`Socket connected: ${socket.id}`);
 
   for (const eventName of [
+    "camera:connected",
+    "camera:disconnected",
     "recording:started",
     "recording:paused",
     "recording:resumed",
     "recording:stopped",
+    "text:copy",
+    "text:paste",
+    "window:onFocus",
+    "window:onBlur",
+    "window:size",
+    "screen:full-screen",
+    "screen:not-full-screen",
   ]) {
+    let data;
     socket.on(eventName, (details) => {
       console.info(`${eventName} from ${socket.id}`, details);
+      data = details;
     });
+
+    io.emit(eventName, data);
   }
 
   socket.on("disconnect", (reason) => {

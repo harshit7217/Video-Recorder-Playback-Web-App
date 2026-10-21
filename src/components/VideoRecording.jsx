@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, useCallback, use } from "react";
 import VideoDuration from "./VideoDuration.jsx";
 import { emitRecordingEvent, socket } from "../socket.js";
+import { FullScreen, useFullScreenHandle } from "react-full-screen";
 
 const MEDIAPIPE_URL =
   "https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation";
@@ -62,98 +63,6 @@ const VideoRecording = () => {
   const normalOnRef = useRef(true);
   const cancelRef = useRef(false);
 
-  useEffect(() => {
-    const handleConnect = () => setSocketStatus("connected");
-    const handleDisconnect = () => setSocketStatus("disconnected");
-    const handleConnectError = (error) => {
-      setSocketStatus("disconnected");
-      console.error("Socket connection failed:", error.message);
-    };
-
-    socket.on("connect", handleConnect);
-    socket.on("disconnect", handleDisconnect);
-    socket.on("connect_error", handleConnectError);
-    socket.connect();
-
-    return () => {
-      socket.off("connect", handleConnect);
-      socket.off("disconnect", handleDisconnect);
-      socket.off("connect_error", handleConnectError);
-      socket.disconnect();
-    };
-  }, []);
-
-  useEffect(() => {
-    opening();
-    return () => {
-      stopLoop();
-      if (streamRef.current) {
-        streamRef.current.getTracks().forEach((track) => track.stop());
-        streamRef.current = null;
-      }
-    };
-  }, [videoIndex]);
-
-  useEffect(() => {
-    if (count < 0 || !isRecording) {
-      setCount(299);
-      return;
-    }
-    if (count === 0) {
-      handleStop();
-      setCount((count) => count - 1);
-    }
-    if (recorderState === "paused") {
-      return;
-    }
-    const timeout = setTimeout(() => {
-      setCount((count) => count - 1);
-      if (count > 295) {
-        setMinDuration((temp) => temp + 1);
-      }
-    }, 1000);
-    return () => clearTimeout(timeout);
-  }, [count, isRecording, recorderState]);
-
-  useEffect(() => {
-    return () => {
-      segmenterRef.current?.close?.();
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!checking) return;
-
-    if (start <= 0) {
-      const recorder = mediaRecorderRef.current;
-      if (recorder && recorder.state === "inactive") {
-        recorder.start();
-        emitRecordingEvent("recording:started", { reason: "started" });
-        setRecorderState("active");
-        setMinDuration(1);
-        setIsRecording(true);
-      }
-      setChecking(false);
-      return;
-    }
-
-    const timer = setTimeout(() => setStart((s) => s - 1), 1000);
-    return () => clearTimeout(timer);
-  }, [start, checking]);
-
-  useEffect(() => {
-    // Frist Background
-    handleBackground(
-      "https://images.pexels.com/photos/159839/office-home-house-desk-159839.jpeg",
-      0,
-    );
-    // Second background
-    handleBackground(
-      "https://as2.ftcdn.net/v2/jpg/12/43/81/49/1000_F_1243814925_JVTsWRfjqOi4gyB3yhDte9syfMAY8BJK.jpg",
-      1,
-    );
-  }, []);
-
   // opening using to start a audio and video of representing
   const opening = async () => {
     try {
@@ -174,8 +83,6 @@ const VideoRecording = () => {
 
       startLoop();
 
-      // Video comes from the canvas (blur included, if it's on);
-      // audio comes straight from the mic.
       const canvasStream = canvas.captureStream(30);
       userStream.getAudioTracks().forEach((t) => canvasStream.addTrack(t));
 
@@ -189,6 +96,9 @@ const VideoRecording = () => {
       );
     } catch (err) {
       console.error(err);
+    } finally {
+      console.log("a");
+      emitRecordingEvent("camera:connected", { reason: "camera:connected" });
     }
   };
 
@@ -289,7 +199,7 @@ const VideoRecording = () => {
   });
 
   //   handling the stop of video
-  const handleStop = async (reason = "stopped") => {
+  const handleStop = async (reason = "recording:stopped") => {
     const recorder = mediaRecorderRef.current;
     if (!recorder || recorder.state === "inactive") return;
     emitRecordingEvent("recording:stopped", { reason });
@@ -300,6 +210,9 @@ const VideoRecording = () => {
     }
     setRecorderState("inactive");
     setIsRecording(false);
+    emitRecordingEvent("camera:disconnected", {
+      reason: "camera:disconnected",
+    });
   };
 
   const handlePauseOrResumingRecording = useCallback((recordingState) => {
@@ -309,7 +222,7 @@ const VideoRecording = () => {
         mediaRecorderRef.current.state === "recording"
       ) {
         mediaRecorderRef.current.pause();
-        emitRecordingEvent("recording:paused", { reason: "paused" });
+        emitRecordingEvent("recording:paused", { reason: "recording:paused" });
         setRecorderState("paused");
       }
     } else if (recordingState === "paused") {
@@ -318,7 +231,9 @@ const VideoRecording = () => {
         mediaRecorderRef.current.state === "paused"
       ) {
         mediaRecorderRef.current.resume();
-        emitRecordingEvent("recording:resumed", { reason: "resumed" });
+        emitRecordingEvent("recording:resumed", {
+          reason: "recording:resumed",
+        });
         setRecorderState("active");
       }
     }
@@ -496,6 +411,147 @@ const VideoRecording = () => {
     setBlurOn(next);
   }, []);
 
+  const handleFullScreen = useFullScreenHandle();
+
+  useEffect(() => {
+    handleFullScreen.active
+      ? emitRecordingEvent("screen:full-screen", { reason: "full screen" })
+      : emitRecordingEvent("screen:not-full-screen", {
+          reason: "not full screen",
+        });
+  }, [handleFullScreen]);
+
+  const handleCopyAndPaste = (status) => {
+    status === "copy"
+      ? emitRecordingEvent("text:copy", { reason: "text-copy" })
+      : emitRecordingEvent("text:paste", { reason: "text-paste" });
+  };
+
+  function onResize() {
+    emitRecordingEvent("window:size", {
+      reason: `width: ${window.innerWidth} and height:${window.innerHeight}`,
+    });
+  }
+
+  useEffect(() => {
+    onResize();
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  const onFocus = () => {
+    emitRecordingEvent("window:onFocus", { reason: "Tab is in focus" });
+  };
+
+  const onBlur = () => {
+    emitRecordingEvent("window:onBlur", { reason: "Tab is blurred" });
+  };
+
+  useEffect(() => {
+    window.addEventListener("focus", onFocus);
+    window.addEventListener("blur", onBlur);
+
+    onFocus();
+    return () => {
+      window.removeEventListener("focus", onFocus);
+      window.removeEventListener("blur", onBlur);
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleConnect = () => setSocketStatus("connected");
+    const handleDisconnect = () => setSocketStatus("disconnected");
+    const handleConnectError = (error) => {
+      setSocketStatus("disconnected");
+      console.error("Socket connection failed:", error.message);
+    };
+
+    socket.on("connect", handleConnect);
+    socket.on("disconnect", handleDisconnect);
+    socket.on("connect_error", handleConnectError);
+    socket.connect();
+
+    return () => {
+      socket.off("connect", handleConnect);
+      socket.off("disconnect", handleDisconnect);
+      socket.off("connect_error", handleConnectError);
+      socket.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
+    opening();
+    return () => {
+      stopLoop();
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach((track) => track.stop());
+        streamRef.current = null;
+      }
+    };
+  }, [videoIndex]);
+
+  useEffect(() => {
+    if (count < 0 || !isRecording) {
+      setCount(299);
+      return;
+    }
+    if (count === 0) {
+      handleStop();
+      setCount((count) => count - 1);
+    }
+    if (recorderState === "paused") {
+      return;
+    }
+    const timeout = setTimeout(() => {
+      setCount((count) => count - 1);
+      if (count > 295) {
+        setMinDuration((temp) => temp + 1);
+      }
+    }, 1000);
+    return () => clearTimeout(timeout);
+  }, [count, isRecording, recorderState]);
+
+  useEffect(() => {
+    return () => {
+      segmenterRef.current?.close?.();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!checking) return;
+
+    if (start <= 0) {
+      const recorder = mediaRecorderRef.current;
+      if (recorder && recorder.state === "inactive") {
+        recorder.start();
+        emitRecordingEvent("recording:started", {
+          reason: "recording:started",
+        });
+        setRecorderState("active");
+        setMinDuration(1);
+        setIsRecording(true);
+      }
+      setChecking(false);
+      return;
+    }
+
+    const timer = setTimeout(() => setStart((s) => s - 1), 1000);
+    return () => clearTimeout(timer);
+  }, [start, checking]);
+
+  useEffect(() => {
+    // Frist Background
+    handleBackground(
+      "https://images.pexels.com/photos/159839/office-home-house-desk-159839.jpeg",
+      0,
+    );
+    // Second background
+    handleBackground(
+      "https://as2.ftcdn.net/v2/jpg/12/43/81/49/1000_F_1243814925_JVTsWRfjqOi4gyB3yhDte9syfMAY8BJK.jpg",
+      1,
+    );
+  }, []);
+
   const videoList = videoUrlList.map((video) => (
     <li
       key={video.url}
@@ -523,8 +579,15 @@ const VideoRecording = () => {
   ));
 
   return (
-    <div className="min-h-[500px] w-full bg-gradient-to-br from-[#FFFDEB] via-white to-[#F5F6FF] px-4 py-6 md:px-8">
-      <div className="mx-auto w-full max-w-5xl">
+    <FullScreen
+      handle={handleFullScreen}
+      className="min-h-[500px] w-full bg-gradient-to-br from-[#FFFDEB] via-white to-[#F5F6FF] px-4 py-6 md:px-8"
+    >
+      <div
+        className="mx-auto w-full max-w-5xl"
+        onCopy={() => handleCopyAndPaste("copy")}
+        onPaste={() => handleCopyAndPaste("paste")}
+      >
         {/* Main Recorder Card */}
         <div className="overflow-hidden rounded-3xl border border-[#E7E8F5] bg-white shadow-[0_20px_60px_rgba(103,111,163,0.12)]">
           {/* Header */}
@@ -555,12 +618,24 @@ const VideoRecording = () => {
               </p>
             </div>
 
-            {isRecording && (
-              <div className="flex items-center gap-2 self-start rounded-full bg-red-50 px-3 py-1.5 text-sm font-medium text-red-600">
-                <span className="h-2 w-2 animate-pulse rounded-full bg-red-500" />
-                Recording
-              </div>
-            )}
+            <div className="flex flex-col justify-between gap-2">
+              {isRecording && (
+                <div className="flex items-center gap-2 self-start rounded-full bg-red-50 px-3 py-1.5 text-sm font-medium text-red-600">
+                  <span className="h-2 w-2 animate-pulse rounded-full bg-red-500" />
+                  Recording
+                </div>
+              )}
+              <button
+                className="cursor-pointer rounded-xl bg-[#676FA3] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#555E91]"
+                onClick={
+                  handleFullScreen.active
+                    ? handleFullScreen.exit
+                    : handleFullScreen.enter
+                }
+              >
+                {handleFullScreen.active ? "Exit Full Screen" : "Full Screen"}
+              </button>
+            </div>
           </div>
 
           {/* Content */}
@@ -891,7 +966,7 @@ const VideoRecording = () => {
           </div>
         </div>
       </div>
-    </div>
+    </FullScreen>
   );
 };
 
