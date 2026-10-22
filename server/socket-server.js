@@ -19,7 +19,9 @@ let data = [];
 io.on("connection", (socket) => {
   console.info(`Socket connected: ${socket.id}`);
 
-  io.emit("data", data);
+  socket.on("data", () => {
+    io.emit("data", data);
+  });
 
   socket.on("event", (details) => {
     data.push(details);

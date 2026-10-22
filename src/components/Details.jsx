@@ -51,7 +51,6 @@ export default function Details() {
   const [loading, setLoading] = useState(true);
 
   const handleData = (data) => {
-    fetchingData();
     if (!Array.isArray(data)) {
       setLoading(false);
       return;
@@ -76,6 +75,7 @@ export default function Details() {
   };
 
   const fetchingData = () => {
+    socket.emit("data");
     socket.on("data", handleData);
     socket.connect();
 
@@ -99,7 +99,7 @@ export default function Details() {
       { label: "Focus / window", value: count("window") },
       { label: "Copy / paste", value: count("text") },
     ];
-  }, [rows]);
+  });
 
   const visible = useMemo(
     () =>
@@ -124,7 +124,7 @@ export default function Details() {
           </div>
           <div className="flex gap-2">
             <button
-              onClick={handleData}
+              onClick={fetchingData}
               className="rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-sm font-medium transition hover:border-indigo-500 active:scale-95 dark:border-slate-800 dark:bg-slate-900"
             >
               Refresh
