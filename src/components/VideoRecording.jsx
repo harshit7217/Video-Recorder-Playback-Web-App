@@ -1,7 +1,10 @@
 import { useState, useRef, useEffect, useCallback, use } from "react";
 import VideoDuration from "./VideoDuration.jsx";
-import { emitRecordingEvent, socket } from "../socket.js";
+import { emitRecordingEvent } from "../socket.js";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
+import VideoRecordingHeader from "./VideoRecordingHeader.jsx";
+import VideoRecordingScreen from "./VideoRecordingScreen.jsx";
+import VideoResult from "./VideoResult.jsx";
 
 const MEDIAPIPE_URL =
   "https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation";
@@ -31,7 +34,7 @@ function loadSegmentationScript() {
   });
 }
 
-const VideoRecording = () => {
+const VideoRecording = ({ socketStatus }) => {
   const [isRecording, setIsRecording] = useState(false);
   const [videoIndex, setVideoIndex] = useState(-1);
   const [recorderState, setRecorderState] = useState("inactive");
@@ -45,9 +48,6 @@ const VideoRecording = () => {
   const [blurOn, setBlurOn] = useState(false);
   const [bgImageState, setBgImageState] = useState([false, false]);
   const [modelStatus, setModelStatus] = useState("idle");
-  const [socketStatus, setSocketStatus] = useState(
-    socket.connected ? "connected" : "connecting",
-  );
 
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
@@ -97,7 +97,10 @@ const VideoRecording = () => {
     } catch (err) {
       console.error(err);
     } finally {
-      emitRecordingEvent("camera:connected", { reason: "camera:connected" });
+      emitRecordingEvent("event", {
+        reason: "device_initialized_successfully",
+        eventName: "camera:connected",
+      });
     }
   };
 
@@ -201,7 +204,10 @@ const VideoRecording = () => {
   const handleStop = async (reason = "recording:stopped") => {
     const recorder = mediaRecorderRef.current;
     if (!recorder || recorder.state === "inactive") return;
-    emitRecordingEvent("recording:stopped", { reason });
+    emitRecordingEvent("event", {
+      reason: "user requested stop",
+      eventName: "recording:stopped",
+    });
     recorder.stop();
     stopLoop();
     if (streamRef.current) {
@@ -209,8 +215,9 @@ const VideoRecording = () => {
     }
     setRecorderState("inactive");
     setIsRecording(false);
-    emitRecordingEvent("camera:disconnected", {
-      reason: "camera:disconnected",
+    emitRecordingEvent("event", {
+      reason: "connection lost",
+      eventName: "camera:disconnected",
     });
   };
 
@@ -221,7 +228,10 @@ const VideoRecording = () => {
         mediaRecorderRef.current.state === "recording"
       ) {
         mediaRecorderRef.current.pause();
-        emitRecordingEvent("recording:paused", { reason: "recording:paused" });
+        emitRecordingEvent("event", {
+          reason: "user requested pause",
+          eventName: "recording:paused",
+        });
         setRecorderState("paused");
       }
     } else if (recordingState === "paused") {
@@ -230,8 +240,9 @@ const VideoRecording = () => {
         mediaRecorderRef.current.state === "paused"
       ) {
         mediaRecorderRef.current.resume();
-        emitRecordingEvent("recording:resumed", {
-          reason: "recording:resumed",
+        emitRecordingEvent("event", {
+          reason: "user requested resume",
+          eventName: "recording:resumed",
         });
         setRecorderState("active");
       }
@@ -412,23 +423,22 @@ const VideoRecording = () => {
 
   const handleFullScreen = useFullScreenHandle();
 
-  useEffect(() => {
-    handleFullScreen.active
-      ? emitRecordingEvent("screen:full-screen", { reason: "full screen" })
-      : emitRecordingEvent("screen:not-full-screen", {
-          reason: "not full screen",
-        });
-  }, [handleFullScreen]);
-
   const handleCopyAndPaste = (status) => {
     status === "copy"
-      ? emitRecordingEvent("text:copy", { reason: "text-copy" })
-      : emitRecordingEvent("text:paste", { reason: "text-paste" });
+      ? emitRecordingEvent("event", {
+          reason: "user copied text to clipboard",
+          eventName: "text:copy",
+        })
+      : emitRecordingEvent("event", {
+          reason: "user pasted text to clipboard",
+          eventName: "text:paste",
+        });
   };
 
   function onResize() {
-    emitRecordingEvent("window:size", {
-      reason: `width: ${window.innerWidth} and height:${window.innerHeight}`,
+    emitRecordingEvent("event", {
+      reason: "window dimensions changed ",
+      eventName: "window:size",
     });
   }
 
@@ -439,11 +449,17 @@ const VideoRecording = () => {
   }, []);
 
   const onFocus = () => {
-    emitRecordingEvent("window:onFocus", { reason: "Tab is in focus" });
+    emitRecordingEvent("event", {
+      reason: "user returned to window",
+      eventName: "window:OnFocus",
+    });
   };
 
   const onBlur = () => {
-    emitRecordingEvent("window:onBlur", { reason: "Tab is blurred" });
+    emitRecordingEvent("event", {
+      reason: "user switched to another window",
+      eventName: "window:onBlur",
+    });
   };
 
   useEffect(() => {
@@ -454,27 +470,6 @@ const VideoRecording = () => {
     return () => {
       window.removeEventListener("focus", onFocus);
       window.removeEventListener("blur", onBlur);
-    };
-  }, []);
-
-  useEffect(() => {
-    const handleConnect = () => setSocketStatus("connected");
-    const handleDisconnect = () => setSocketStatus("disconnected");
-    const handleConnectError = (error) => {
-      setSocketStatus("disconnected");
-      console.error("Socket connection failed:", error.message);
-    };
-
-    socket.on("connect", handleConnect);
-    socket.on("disconnect", handleDisconnect);
-    socket.on("connect_error", handleConnectError);
-    socket.connect();
-
-    return () => {
-      socket.off("connect", handleConnect);
-      socket.off("disconnect", handleDisconnect);
-      socket.off("connect_error", handleConnectError);
-      socket.disconnect();
     };
   }, []);
 
@@ -523,8 +518,9 @@ const VideoRecording = () => {
       const recorder = mediaRecorderRef.current;
       if (recorder && recorder.state === "inactive") {
         recorder.start();
-        emitRecordingEvent("recording:started", {
-          reason: "recording:started",
+        emitRecordingEvent("event", {
+          reason: "user initiated recording",
+          eventName: "recording:started",
         });
         setRecorderState("active");
         setMinDuration(1);
@@ -590,377 +586,49 @@ const VideoRecording = () => {
         {/* Main Recorder Card */}
         <div className="overflow-hidden rounded-3xl border border-[#E7E8F5] bg-white shadow-[0_20px_60px_rgba(103,111,163,0.12)]">
           {/* Header */}
-          <div className="flex flex-col gap-3 border-b border-[#EEF0F7] px-5 py-4 sm:flex-row sm:items-center sm:justify-between md:px-7">
-            <div>
-              <h2 className="text-lg font-semibold text-[#030164] md:text-xl">
-                Video Recording
-              </h2>
-              <p className="mt-1 text-sm text-gray-500">
-                Record your video and customize the background
-              </p>
-              <p
-                className={`mt-2 flex items-center gap-2 text-xs ${
-                  socketStatus === "connected"
-                    ? "text-green-700"
-                    : "text-amber-700"
-                }`}
-                role="status"
-              >
-                <span
-                  className={`h-2 w-2 rounded-full ${
-                    socketStatus === "connected"
-                      ? "bg-green-500"
-                      : "bg-amber-500"
-                  }`}
-                />
-                Socket server: {socketStatus}
-              </p>
-            </div>
-
-            <div className="flex flex-col justify-between gap-2">
-              {isRecording && (
-                <div className="flex items-center gap-2 self-start rounded-full bg-red-50 px-3 py-1.5 text-sm font-medium text-red-600">
-                  <span className="h-2 w-2 animate-pulse rounded-full bg-red-500" />
-                  Recording
-                </div>
-              )}
-              <button
-                className="cursor-pointer rounded-xl bg-[#676FA3] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#555E91]"
-                onClick={
-                  handleFullScreen.active
-                    ? handleFullScreen.exit
-                    : handleFullScreen.enter
-                }
-              >
-                {handleFullScreen.active ? "Exit Full Screen" : "Full Screen"}
-              </button>
-            </div>
-          </div>
+          <VideoRecordingHeader
+            socketStatus={socketStatus}
+            isRecording={isRecording}
+            handleFullScreen={handleFullScreen}
+          />
 
           {/* Content */}
           <div className="p-4 sm:p-6 md:p-8">
             {/* ================= START SCREEN ================= */}
             {!videoUrlList[videoIndex] && (
-              <div className="space-y-6">
-                {/* Video Preview */}
-                <div className="relative mx-auto w-full max-w-3xl overflow-hidden rounded-2xl bg-[#11142B] shadow-lg">
-                  {/* Timer */}
-                  {isRecording && (
-                    <div className="absolute right-4 top-4 z-20 flex items-center gap-2 rounded-full bg-black/60 px-4 py-2 text-sm font-medium text-white backdrop-blur-md">
-                      <span className="h-2 w-2 animate-pulse rounded-full bg-red-500" />
-                      {timeParser(count)}
-                    </div>
-                  )}
-
-                  {/* Hidden source video */}
-                  <video
-                    ref={videoRef}
-                    playsInline
-                    muted
-                    style={{ display: "none" }}
-                  />
-
-                  <canvas
-                    ref={canvasRef}
-                    className="aspect-video w-full object-cover"
-                    style={{ transform: "scaleX(-1)" }}
-                  />
-
-                  {/* Empty state */}
-                  {!isRecording && !checking && (
-                    <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-                      <div className="rounded-2xl bg-black/30 px-5 py-3 text-center text-white backdrop-blur-sm">
-                        <p className="text-sm font-medium">Camera preview</p>
-                        <p className="mt-1 text-xs text-white/70">
-                          Click start when you're ready
-                        </p>
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                {/* Countdown */}
-                {checking && (
-                  <div className="flex justify-center">
-                    <div className="rounded-full bg-[#EEF2FF] px-6 py-3 text-base font-semibold text-[#676FA3] shadow-sm">
-                      Starting in{" "}
-                      <span className="text-[#030164]">0{start}s</span>
-                    </div>
-                  </div>
-                )}
-
-                {/* Start Button */}
-                {!isRecording && !checking && (
-                  <div className="flex justify-center">
-                    <button
-                      onClick={handleStart}
-                      className="cursor-pointer group flex items-center gap-3 rounded-xl bg-[#676FA3] px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-[#676FA3]/20 transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#555E91] hover:shadow-xl active:translate-y-0"
-                    >
-                      <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/15">
-                        <svg
-                          className="h-4 w-4 fill-current"
-                          viewBox="0 0 24 24"
-                        >
-                          <path d="M8 5v14l11-7z" />
-                        </svg>
-                      </span>
-                      Start Recording
-                    </button>
-                  </div>
-                )}
-
-                {/* Recording Controls */}
-                {isRecording && (
-                  <div className="flex flex-wrap items-center justify-center gap-3">
-                    {minDuration == 5 && (
-                      <button
-                        onClick={() => handleStop("stopped")}
-                        className="cursor-pointer rounded-xl border border-red-200 bg-red-50 px-5 py-3 text-sm font-semibold text-red-600 transition hover:bg-red-100"
-                      >
-                        Stop Recording
-                      </button>
-                    )}
-
-                    {recorderState === "active" ? (
-                      <button
-                        onClick={() => handlePauseOrResumingRecording("active")}
-                        className="cursor-pointer rounded-xl bg-[#EEF2FF] px-5 py-3 text-sm font-semibold text-[#676FA3] transition hover:bg-[#676FA3] hover:text-white"
-                      >
-                        Pause Recording
-                      </button>
-                    ) : (
-                      <button
-                        onClick={() => handlePauseOrResumingRecording("paused")}
-                        className="cursor-pointer rounded-xl bg-[#676FA3] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#555E91]"
-                      >
-                        Resume Recording
-                      </button>
-                    )}
-                    <button
-                      onClick={() => handleCancel()}
-                      className="cursor-pointer rounded-xl bg-[#EEF2FF] px-5 py-3 text-sm font-semibold text-[#676FA3] transition hover:bg-[#676FA3] hover:text-white"
-                    >
-                      Cancel Recording
-                    </button>
-                  </div>
-                )}
-
-                {/* Background Controls */}
-                {!checking &&
-                  recorderState !== "active" &&
-                  recorderState !== "paused" && (
-                    <div className="rounded-2xl border border-[#E8E9F3] bg-[#FAFAFD] p-4 md:p-5">
-                      <div className="mb-4 flex items-center justify-between">
-                        <div>
-                          <h3 className="text-sm font-semibold text-[#030164]">
-                            Background
-                          </h3>
-                          <p className="mt-1 text-xs text-gray-500">
-                            Choose how your background should appear
-                          </p>
-                        </div>
-
-                        {modelStatus === "loading" && (
-                          <div className="flex items-center gap-2 text-xs font-medium text-[#676FA3]">
-                            <span className="h-3 w-3 animate-spin rounded-full border-2 border-[#676FA3]/30 border-t-[#676FA3]" />
-                            Loading...
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4">
-                        {/* Normal */}
-                        <label
-                          className={`cursor-pointer rounded-xl border p-3 transition ${
-                            normalOn
-                              ? "border-[#676FA3] bg-[#EEF2FF] shadow-sm"
-                              : "border-gray-200 bg-white hover:border-[#676FA3]/40"
-                          }`}
-                        >
-                          <input
-                            type="checkbox"
-                            checked={normalOn}
-                            onChange={() => toggleBg("normal")}
-                            disabled={modelStatus === "loading"}
-                            className="sr-only"
-                          />
-
-                          <div className="flex items-center gap-3">
-                            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gray-100 text-lg">
-                              ◯
-                            </div>
-
-                            <div>
-                              <p className="text-sm font-medium text-gray-800">
-                                Normal
-                              </p>
-                              <p className="text-xs text-gray-500">
-                                Original background
-                              </p>
-                            </div>
-                          </div>
-                        </label>
-
-                        {/* Blur */}
-                        <label
-                          className={`cursor-pointer rounded-xl border p-3 transition ${
-                            blurOn
-                              ? "border-[#676FA3] bg-[#EEF2FF] shadow-sm"
-                              : "border-gray-200 bg-white hover:border-[#676FA3]/40"
-                          }`}
-                        >
-                          <input
-                            type="checkbox"
-                            checked={blurOn}
-                            onChange={() => toggleBg("blur")}
-                            disabled={modelStatus === "loading"}
-                            className="sr-only"
-                          />
-
-                          <div className="flex items-center gap-3">
-                            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-50 text-lg">
-                              ◌
-                            </div>
-
-                            <div>
-                              <p className="text-sm font-medium text-gray-800">
-                                Blur
-                              </p>
-                              <p className="text-xs text-gray-500">
-                                Soft background
-                              </p>
-                            </div>
-                          </div>
-                        </label>
-
-                        {/* Office */}
-                        <label
-                          className={`cursor-pointer rounded-xl border p-3 transition ${
-                            bgImageState[0]
-                              ? "border-[#676FA3] bg-[#EEF2FF] shadow-sm"
-                              : "border-gray-200 bg-white hover:border-[#676FA3]/40"
-                          }`}
-                        >
-                          <input
-                            type="checkbox"
-                            checked={bgImageState[0]}
-                            onChange={() => toggleBg("image", 0)}
-                            disabled={modelStatus === "loading"}
-                            className="sr-only"
-                          />
-
-                          <div className="flex items-center gap-3">
-                            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-amber-50 text-lg">
-                              🏢
-                            </div>
-
-                            <div>
-                              <p className="text-sm font-medium text-gray-800">
-                                Office
-                              </p>
-                              <p className="text-xs text-gray-500">
-                                Professional setting
-                              </p>
-                            </div>
-                          </div>
-                        </label>
-
-                        {/* Sunflower */}
-                        <label
-                          className={`cursor-pointer rounded-xl border p-3 transition ${
-                            bgImageState[1]
-                              ? "border-[#676FA3] bg-[#EEF2FF] shadow-sm"
-                              : "border-gray-200 bg-white hover:border-[#676FA3]/40"
-                          }`}
-                        >
-                          <input
-                            type="checkbox"
-                            checked={bgImageState[1]}
-                            onChange={() => toggleBg("image", 1)}
-                            disabled={modelStatus === "loading"}
-                            className="sr-only"
-                          />
-
-                          <div className="flex items-center gap-3">
-                            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-yellow-50 text-lg">
-                              🌻
-                            </div>
-
-                            <div>
-                              <p className="text-sm font-medium text-gray-800">
-                                Sunflower
-                              </p>
-                              <p className="text-xs text-gray-500">
-                                Bright background
-                              </p>
-                            </div>
-                          </div>
-                        </label>
-                      </div>
-                    </div>
-                  )}
-              </div>
+              <VideoRecordingScreen
+                isRecording={isRecording}
+                videoRef={videoRef}
+                canvasRef={canvasRef}
+                checking={checking}
+                handleStart={handleStart}
+                recorderState={recorderState}
+                modelStatus={modelStatus}
+                normalOn={normalOn}
+                blurOn={blurOn}
+                bgImageState={bgImageState}
+                start={start}
+                timeParser={timeParser}
+                count={count}
+                minDuration={minDuration}
+                handlePauseOrResumingRecording={handlePauseOrResumingRecording}
+                handleStop={handleStop}
+                handleCancel={handleCancel}
+                toggleBg={toggleBg}
+              />
             )}
 
             {/* ================= VIDEO RESULT ================= */}
             {videoUrlList[videoIndex] && (
-              <div className="space-y-6">
-                {/* Action Bar */}
-                <div className="flex flex-wrap items-center justify-center gap-2">
-                  {showPreview && (
-                    <button
-                      onClick={handleDeleteVideo}
-                      className="cursor-pointer rounded-xl border border-red-200 bg-red-50 px-5 py-2.5 text-sm font-semibold text-red-600 transition hover:bg-red-100"
-                    >
-                      Delete
-                    </button>
-                  )}
-
-                  <button
-                    onClick={handleRecordAgain}
-                    className="cursor-pointer rounded-xl bg-[#676FA3] px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#555E91]"
-                  >
-                    Record Again
-                  </button>
-
-                  <button
-                    onClick={() => setShowPreview(!showPreview)}
-                    className="cursor-pointer rounded-xl border border-[#DCDFF0] bg-white px-5 py-2.5 text-sm font-semibold text-[#676FA3] transition hover:bg-[#F5F6FF]"
-                  >
-                    {showPreview ? "Current Video" : "Previous Videos"}
-                  </button>
-                </div>
-
-                {/* Video Content */}
-                {showPreview ? (
-                  <div className="rounded-2xl border border-[#E8E9F3] bg-[#FAFAFD] p-4 md:p-6">
-                    <div className="mb-5 flex items-center justify-between">
-                      <div>
-                        <h2 className="text-lg font-semibold text-[#030164]">
-                          Previous Videos
-                        </h2>
-                        <p className="mt-1 text-sm text-gray-500">
-                          Review your earlier recordings
-                        </p>
-                      </div>
-                    </div>
-
-                    <ul className="flex max-h-[600px] flex-col gap-5 overflow-y-auto scroll-smooth pr-2 [scrollbar-width:thin]">
-                      {videoList}
-                    </ul>
-                  </div>
-                ) : (
-                  <div className="overflow-hidden rounded-2xl bg-black shadow-xl">
-                    <video
-                      src={videoUrlList[videoIndex].url}
-                      controls
-                      loop
-                      autoPlay
-                      className="aspect-video w-full object-contain"
-                    />
-                  </div>
-                )}
-              </div>
+              <VideoResult
+                showPreview={showPreview}
+                handleDeleteVideo={handleDeleteVideo}
+                handleRecordAgain={handleRecordAgain}
+                setShowPreview={setShowPreview}
+                videoList={videoList}
+                videoUrlList={videoUrlList}
+                videoIndex={videoIndex}
+              />
             )}
           </div>
         </div>
