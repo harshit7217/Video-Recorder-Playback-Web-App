@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState, useRef } from "react";
 import { emitRecordingEvent } from "../socket.js";
+import Button from "./Button.jsx";
 
 const MEDIAPIPE_URL =
   "https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation";
@@ -498,17 +499,7 @@ const VideoRecordingScreen = ({
       {/* Start Button */}
       {!isRecording && !checking && (
         <div className="flex justify-center">
-          <button
-            onClick={handleStart}
-            className="cursor-pointer group flex items-center gap-3 rounded-xl bg-[#676FA3] px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-[#676FA3]/20 transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#555E91] hover:shadow-xl active:translate-y-0"
-          >
-            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/15">
-              <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
-                <path d="M8 5v14l11-7z" />
-              </svg>
-            </span>
-            Start Recording
-          </button>
+          <Button title={"Start Recording"} onClick={handleStart} />
         </div>
       )}
 
@@ -516,35 +507,24 @@ const VideoRecordingScreen = ({
       {isRecording && (
         <div className="flex flex-wrap items-center justify-center gap-3">
           {minDuration == 5 && (
-            <button
+            <Button
+              title={"Stop Recording"}
               onClick={() => handleStop("stopped")}
-              className="cursor-pointer rounded-xl border border-red-200 bg-red-50 px-5 py-3 text-sm font-semibold text-red-600 transition hover:bg-red-100"
-            >
-              Stop Recording
-            </button>
+            />
           )}
 
           {recorderState === "active" ? (
-            <button
+            <Button
+              title={"Pause Recording"}
               onClick={() => handlePauseOrResumingRecording("active")}
-              className="cursor-pointer rounded-xl bg-[#EEF2FF] px-5 py-3 text-sm font-semibold text-[#676FA3] transition hover:bg-[#676FA3] hover:text-white"
-            >
-              Pause Recording
-            </button>
+            />
           ) : (
-            <button
+            <Button
+              title={"Resume Recording"}
               onClick={() => handlePauseOrResumingRecording("paused")}
-              className="cursor-pointer rounded-xl bg-[#676FA3] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#555E91]"
-            >
-              Resume Recording
-            </button>
+            />
           )}
-          <button
-            onClick={() => handleCancel()}
-            className="cursor-pointer rounded-xl bg-[#EEF2FF] px-5 py-3 text-sm font-semibold text-[#676FA3] transition hover:bg-[#676FA3] hover:text-white"
-          >
-            Cancel Recording
-          </button>
+          <Button title={"Cancel Recording"} onClick={() => handleCancel()} />
         </div>
       )}
 
