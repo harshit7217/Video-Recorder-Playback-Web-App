@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { emitRecordingEvent } from "../socket.js";
+import Button from "./Button.jsx";
 
 const VideoRecordingHeader = ({
   socketStatus,
@@ -49,16 +50,14 @@ const VideoRecordingHeader = ({
             Recording
           </div>
         )}
-        <button
-          className="cursor-pointer rounded-xl bg-[#676FA3] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#555E91]"
+        <Button
+          title={handleFullScreen.active ? "Exit Full Screen" : "Full Screen"}
           onClick={
             handleFullScreen.active
               ? handleFullScreen.exit
               : handleFullScreen.enter
           }
-        >
-          {handleFullScreen.active ? "Exit Full Screen" : "Full Screen"}
-        </button>
+        />
       </div>
     </div>
   );
