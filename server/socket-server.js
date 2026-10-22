@@ -21,28 +21,10 @@ io.on("connection", (socket) => {
 
   io.emit("data", data);
 
-  for (const eventName of [
-    "camera:connected",
-    "camera:disconnected",
-    "recording:started",
-    "recording:paused",
-    "recording:resumed",
-    "recording:stopped",
-    "text:copy",
-    "text:paste",
-    "window:onFocus",
-    "window:onBlur",
-    "window:size",
-    "screen:full-screen",
-    "screen:not-full-screen",
-  ]) {
-    socket.on(eventName, (details) => {
-      console.info(`${eventName} from ${socket.id}`, details);
-      details = { ...details, eventName: eventName };
-      data.push(details);
-      io.emit("data", data);
-    });
-  }
+  socket.on("event", (details) => {
+    data.push(details);
+    io.emit("data", data);
+  });
 
   socket.on("clear", () => {
     data.length = 0;
