@@ -1,4 +1,23 @@
-const VideoRecordingScreen = ({ isRecording, videoRef, canvasRef, checking, handleStart, recorderState, modelStatus, normalOn, blurOn, bgImageState }) => {
+const VideoRecordingScreen = ({
+  isRecording,
+  videoRef,
+  canvasRef,
+  checking,
+  handleStart,
+  recorderState,
+  modelStatus,
+  normalOn,
+  blurOn,
+  bgImageState,
+  start,
+  timeParser,
+  count,
+  minDuration,
+  handlePauseOrResumingRecording,
+  handleCancel,
+  handleStop,
+  toggleBg,
+}) => {
   return (
     <div className="space-y-6">
       {/* Video Preview */}
