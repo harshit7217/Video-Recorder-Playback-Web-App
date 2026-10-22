@@ -4,7 +4,7 @@ export const socket = io(
   import.meta.env.VITE_SOCKET_URL || "http://localhost:3001",
   {
     autoConnect: false,
-    path: import.meta.env.VITE_SOCKET_PATH || "/socket.io",
+    path: import.meta.env.VITE_SOCKET_PATH,
   },
 );
 

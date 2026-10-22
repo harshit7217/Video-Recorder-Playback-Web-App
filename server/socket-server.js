@@ -5,28 +5,9 @@ import { Server } from "socket.io";
 const port = Number(process.env.SOCKET_PORT || 3001);
 const clientOrigin = process.env.CLIENT_ORIGIN || "http://localhost:5173";
 const httpServer = createServer((req, res) => {
-  // CORS for the plain HTTP route (Socket.IO handles its own)
   res.setHeader("Access-Control-Allow-Origin", clientOrigin);
-
-  if (req.method === "GET" && req.url === "/api/details") {
-    res.writeHead(200, { "Content-Type": "application/json" });
-    res.end(JSON.stringify(data));
-    return;
-  }
-
-  if (req.method === "OPTIONS" && req.url === "/api/details") {
-    console.log(data);
-    data = [];
-    res.writeHead(204);
-    res.end();
-    return;
-  }
-
-  // Socket.IO answers /socket.io/ requests itself; everything else is 404
-  if (!req.url.startsWith("/socket.io")) {
-    res.writeHead(404);
-    res.end();
-  }
+  res.setHeader("Access-Control-Allow-Methods", "GET, DELETE, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 });
 
 const io = new Server(httpServer, {
@@ -39,6 +20,8 @@ let data = [];
 
 io.on("connection", (socket) => {
   console.info(`Socket connected: ${socket.id}`);
+
+  io.emit("data", data);
 
   for (const eventName of [
     "camera:connected",
@@ -56,15 +39,19 @@ io.on("connection", (socket) => {
     "screen:not-full-screen",
   ]) {
     socket.on(eventName, (details) => {
-      // console.info(`${eventName} from ${socket.id}`, details);
+      console.info(`${eventName} from ${socket.id}`, details);
       details = { ...details, eventName: eventName };
       data.push(details);
+      io.emit("data", data);
     });
   }
 
+  socket.on("clear", () => {
+    data.length = 0;
+  });
+
   socket.on("disconnect", (reason) => {
     console.info(`Socket disconnected: ${socket.id} (${reason})`);
-    console.log(data);
   });
 });
 

@@ -1,6 +1,5 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-
-const API = "http://localhost:3001/api/details";
+import { useEffect, useMemo, useState } from "react";
+import { socket } from "../socket.js";
 
 const CATEGORIES = ["all", "camera", "recording", "text", "window", "screen"];
 
@@ -16,8 +15,9 @@ function formatTime(iso) {
 }
 
 function DetailChips({ row, events }) {
-  const { timestamp, event, socketId, ...rest } = row;
-  const entries = Object.entries(rest);
+  const entries = Object.entries(row).filter(
+    ([key]) => !["timestamp", "event", "socketId"].includes(key),
+  );
   if (!entries.length) return <span className="text-slate-400">-</span>;
 
   if (events === "events") {
@@ -49,33 +49,40 @@ export default function Details() {
   const [rows, setRows] = useState([]);
   const [filter, setFilter] = useState("all");
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
 
-  const load = useCallback(async () => {
-    try {
-      const res = await fetch(API, { method: "GET" });
-      if (!res.ok) throw new Error(`Server returned ${res.status}`);
-      setRows(await res.json());
-      setError("");
-    } catch (e) {
-      setError(e.message || "Could not reach the server");
-    } finally {
+  const handleData = (data) => {
+    fetchingData();
+    if (!Array.isArray(data)) {
       setLoading(false);
+      return;
     }
-  }, []);
+    setRows(data);
+    setLoading(false);
+  };
+
+  const handleClear = () => {
+    fetchingClearData();
+    setRows([]);
+  };
+
+  const fetchingClearData = () => {
+    socket.emit("clear");
+    socket.connect();
+  };
+
+  const fetchingData = () => {
+    socket.on("data", handleData);
+    socket.connect();
+
+    return () => {
+      socket.off("data", handleData);
+      socket.disconnect();
+    };
+  };
 
   useEffect(() => {
-    load();
-  }, [rows]);
-
-  const clearAll = async () => {
-    try {
-      await fetch(API, { method: "OPTIONS" });
-      setRows([]);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+    fetchingData();
+  }, []);
 
   const stats = useMemo(() => {
     const count = (cat) =>
@@ -112,13 +119,13 @@ export default function Details() {
           </div>
           <div className="flex gap-2">
             <button
-              onClick={load}
+              onClick={handleData}
               className="rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-sm font-medium transition hover:border-indigo-500 active:scale-95 dark:border-slate-800 dark:bg-slate-900"
             >
               Refresh
             </button>
             <button
-              onClick={clearAll}
+              onClick={handleClear}
               disabled={!rows.length}
               className="rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-sm font-medium transition hover:border-red-500 hover:text-red-600 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-slate-200 disabled:hover:text-inherit dark:border-slate-800 dark:bg-slate-900"
             >
@@ -160,12 +167,6 @@ export default function Details() {
             </button>
           ))}
         </nav>
-
-        {error && (
-          <div className="mb-4 rounded-lg border border-red-500/30 bg-red-500/10 px-3.5 py-2.5 text-sm text-red-600 dark:text-red-400">
-            {error}
-          </div>
-        )}
 
         {/* Table */}
         <section className="overflow-x-auto rounded-xl border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900">
