@@ -6,8 +6,6 @@ const port = Number(process.env.SOCKET_PORT || 3001);
 const clientOrigin = process.env.CLIENT_ORIGIN || "http://localhost:5173";
 const httpServer = createServer((req, res) => {
   res.setHeader("Access-Control-Allow-Origin", clientOrigin);
-  res.setHeader("Access-Control-Allow-Methods", "GET, DELETE, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 });
 
 const io = new Server(httpServer, {

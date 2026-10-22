@@ -68,6 +68,11 @@ export default function Details() {
   const fetchingClearData = () => {
     socket.emit("clear");
     socket.connect();
+
+    return () => {
+      socket.off("clear");
+      socket.disconnect();
+    };
   };
 
   const fetchingData = () => {
