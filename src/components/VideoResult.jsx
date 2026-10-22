@@ -1,3 +1,4 @@
+import Button from "./Button";
 import VideoDuration from "./VideoDuration";
 import { useCallback, useState } from "react";
 
@@ -53,28 +54,13 @@ const VideoResult = ({
     <div className="space-y-6">
       {/* Action Bar */}
       <div className="flex flex-wrap items-center justify-center gap-2">
-        {showPreview && (
-          <button
-            onClick={handleDeleteVideo}
-            className="cursor-pointer rounded-xl border border-red-200 bg-red-50 px-5 py-2.5 text-sm font-semibold text-red-600 transition hover:bg-red-100"
-          >
-            Delete
-          </button>
-        )}
+        {showPreview && <Button title={"Delete"} onClick={handleDeleteVideo} />}
+        <Button title={"Record Again"} onClick={handleRecordAgain} />
 
-        <button
-          onClick={handleRecordAgain}
-          className="cursor-pointer rounded-xl bg-[#676FA3] px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#555E91]"
-        >
-          Record Again
-        </button>
-
-        <button
+        <Button
+          title={showPreview ? "Current Video" : "Previous Videos"}
           onClick={() => setShowPreview(!showPreview)}
-          className="cursor-pointer rounded-xl border border-[#DCDFF0] bg-white px-5 py-2.5 text-sm font-semibold text-[#676FA3] transition hover:bg-[#F5F6FF]"
-        >
-          {showPreview ? "Current Video" : "Previous Videos"}
-        </button>
+        />
       </div>
 
       {/* Video Content */}
