@@ -1,12 +1,54 @@
+import VideoDuration from "./VideoDuration";
+import { useCallback, useState } from "react";
+
 const VideoResult = ({
-  showPreview,
-  handleDeleteVideo,
-  handleRecordAgain,
-  setShowPreview,
-  videoList,
   videoUrlList,
   videoIndex,
+  setVideoIndex,
+  setVideoUrlList,
 }) => {
+  const [showPreview, setShowPreview] = useState(false);
+
+  //   Handling record again video
+  const handleRecordAgain = useCallback(() => {
+    setVideoIndex((prev) => prev + 1);
+    setShowPreview(false);
+  });
+
+  //   handling the delete button to deleteing the current video
+  const handleDeleteVideo = useCallback(() => {
+    const updatedList = videoUrlList.filter(
+      (video) => video.url !== videoUrlList[videoIndex].url,
+    );
+    setVideoUrlList(updatedList);
+    setVideoIndex((videoIndex) => videoIndex - 1);
+  });
+
+  const videoList = videoUrlList.map((video) => (
+    <li
+      key={video.url}
+      className="snap-center shrink-0 w-full h-full flex flex-col justify-center items-center"
+    >
+      <video
+        src={video.url}
+        controls
+        loop
+        className="w-[300px] md:w-[600px]  rounded gap-10"
+      />
+      <div className="flex gap-10">
+        <span>
+          <strong>File Size :</strong> {video.size}
+        </span>
+        <span>
+          <strong>Video Duration:</strong>{" "}
+          <VideoDuration videoUrl={video.url} />
+        </span>
+        <span>
+          <strong>Created At:</strong> {video.createdAt}
+        </span>
+      </div>
+    </li>
+  ));
   return (
     <div className="space-y-6">
       {/* Action Bar */}
