@@ -25,7 +25,7 @@ io.on("connection", (socket) => {
 
   socket.on("activities", (details) => {
     data.push(details);
-    io.emit("data", data);
+    io.emit("activities", details);
   });
 
   socket.on("clear", () => {

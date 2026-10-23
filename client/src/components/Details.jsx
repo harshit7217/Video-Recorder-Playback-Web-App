@@ -52,10 +52,10 @@ export default function Details() {
 
   const handleData = (data) => {
     if (!Array.isArray(data)) {
-      setLoading(false);
-      return;
+      setRows((prev) => [...prev, data]);
+    } else {
+      setRows(data);
     }
-    setRows(data);
     setLoading(false);
   };
 
@@ -77,16 +77,25 @@ export default function Details() {
   const fetchingData = () => {
     socket.emit("data");
     socket.on("data", handleData);
-    socket.connect();
 
     return () => {
-      socket.off("data", handleData);
+      socket.off("data");
       socket.disconnect();
     };
   };
 
   useEffect(() => {
     fetchingData();
+  }, []);
+
+  useEffect(() => {
+    socket.on("activities", handleData);
+    socket.connect();
+
+    return () => {
+      socket.off("activities", handleData);
+      socket.disconnect();
+    };
   }, []);
 
   const stats = useMemo(() => {
@@ -119,7 +128,8 @@ export default function Details() {
               Session details
             </h1>
             <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-              Live activity captured from the recorder
+              Live activity captured from the recorder and socket id:{" "}
+              {socket.id}
             </p>
           </div>
           <div className="flex gap-2">

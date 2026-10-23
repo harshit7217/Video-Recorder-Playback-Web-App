@@ -25,12 +25,10 @@ const VideoRecording = ({ socketStatus }) => {
     image.src = imageUrl;
   });
 
-  
-
   // window size changes event handling
   function onResize() {
     emitRecordingEvent("activities", {
-      reason: "window dimensions changed ",
+      reason: `window dimensions changed - (width: ${window.innerWidth}px, height: ${window.innerHeight}px)`,
       eventName: "window:size",
     });
   }
@@ -77,9 +75,7 @@ const VideoRecording = ({ socketStatus }) => {
 
   return (
     <div className="min-h-[500px] w-full bg-gradient-to-br from-[#FFFDEB] via-white to-[#F5F6FF] px-4 py-6 md:px-8">
-      <div
-        className="mx-auto w-full max-w-5xl"
-      >
+      <div className="mx-auto w-full max-w-5xl">
         {/* Main Recorder Card */}
         <div className="overflow-hidden rounded-3xl border border-[#E7E8F5] bg-white shadow-[0_20px_60px_rgba(103,111,163,0.12)]">
           {/* Header */}
