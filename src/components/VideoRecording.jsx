@@ -11,7 +11,6 @@ const VideoRecording = ({ socketStatus }) => {
   const [videoUrlList, setVideoUrlList] = useState([]);
 
   const videoRef = useRef(null);
-  const canvasRef = useRef(null);
   const bgImageRef = useRef([]);
 
   const handleBackground = useCallback((imageUrl, index) => {
@@ -117,7 +116,6 @@ const VideoRecording = ({ socketStatus }) => {
               <VideoRecordingScreen
                 isRecording={isRecording}
                 videoRef={videoRef}
-                canvasRef={canvasRef}
                 setIsRecording={setIsRecording}
                 videoIndex={videoIndex}
                 setVideoUrlList={setVideoUrlList}

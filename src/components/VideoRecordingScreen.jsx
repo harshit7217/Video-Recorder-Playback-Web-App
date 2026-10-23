@@ -16,7 +16,6 @@ const pickMimeType = () =>
 const VideoRecordingScreen = ({
   isRecording,
   videoRef,
-  canvasRef,
   setIsRecording,
   videoIndex,
   setVideoUrlList,
@@ -29,10 +28,6 @@ const VideoRecordingScreen = ({
   const [recorderState, setRecorderState] = useState("inactive");
   const [start, setStart] = useState(3);
   const [count, setCount] = useState(299);
-  const [bgImageState, setBgImageState] = useState([false, false]);
-  const [normalOn, setNormalOn] = useState(true);
-  const [blurOn, setBlurOn] = useState(false);
-  const [modelStatus, setModelStatus] = useState("idle");
 
   const busyRef = useRef(false);
   const cancelRef = useRef(false);
@@ -43,7 +38,7 @@ const VideoRecordingScreen = ({
   const blurOnRef = useRef(false);
   const backgroundImageRef = useRef([]);
   const segmenterRef = useRef(null);
-  const normalOnRef = useRef(true);
+  const canvasRef = useRef(null);
 
   // This draw image
   const drawPlain = useCallback(() => {
@@ -371,20 +366,11 @@ const VideoRecordingScreen = ({
         recorderState !== "active" &&
         recorderState !== "paused" && (
           <BackgroundControllers
-            modelStatus={modelStatus}
-            normalOn={normalOn}
-            blurOn={blurOn}
-            bgImageState={bgImageState}
-            setModelStatus={setModelStatus}
             canvasRef={canvasRef}
             segmenterRef={segmenterRef}
             bgImageRef={bgImageRef}
             blurOnRef={blurOnRef}
             backgroundImageRef={backgroundImageRef}
-            normalOnRef={normalOnRef}
-            setBgImageState={setBgImageState}
-            setNormalOn={setNormalOn}
-            setBlurOn={setBlurOn}
           />
         )}
     </div>

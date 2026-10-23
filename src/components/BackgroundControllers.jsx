@@ -1,4 +1,7 @@
-import { useCallback } from "react";
+import { useCallback, useState, useRef } from "react";
+import NormalBackground from "./Background/NormalBackground";
+import BlurBackground from "./Background/BlurBackground";
+import ImageBackground from "./Background/ImageBackground";
 
 const MEDIAPIPE_URL =
   "https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation";
@@ -19,21 +22,19 @@ function loadSegmentationScript() {
 }
 
 const BackgroundControllers = ({
-  modelStatus,
-  normalOn,
-  blurOn,
-  bgImageState,
-  setModelStatus,
   canvasRef,
   segmenterRef,
   bgImageRef,
   blurOnRef,
   backgroundImageRef,
-  normalOnRef,
-  setBgImageState,
-  setNormalOn,
-  setBlurOn,
 }) => {
+  const [modelStatus, setModelStatus] = useState("idle");
+  const [normalOn, setNormalOn] = useState(true);
+  const [blurOn, setBlurOn] = useState(false);
+  const [bgImageState, setBgImageState] = useState([false, false]);
+
+  const normalOnRef = useRef(true);
+
   const ensureSegmenter = async () => {
     if (segmenterRef.current) return;
     setModelStatus("loading");
@@ -199,116 +200,44 @@ const BackgroundControllers = ({
 
       <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4">
         {/* Normal */}
-        <label
-          className={`cursor-pointer rounded-xl border p-3 transition ${
-            normalOn
-              ? "border-[#676FA3] bg-[#EEF2FF] shadow-sm"
-              : "border-gray-200 bg-white hover:border-[#676FA3]/40"
-          }`}
-        >
-          <input
-            type="checkbox"
-            checked={normalOn}
-            onChange={() => toggleBg("normal")}
-            disabled={modelStatus === "loading"}
-            className="sr-only"
-          />
-
-          <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gray-100 text-lg">
-              ◯
-            </div>
-
-            <div>
-              <p className="text-sm font-medium text-gray-800">Normal</p>
-              <p className="text-xs text-gray-500">Original background</p>
-            </div>
-          </div>
-        </label>
+        <NormalBackground
+          normalOn={normalOn}
+          toggleBg={() => toggleBg("normal")}
+          modelStatus={modelStatus}
+          icon={"◯"}
+          title={"Normal"}
+          subtitle={"Original background"}
+        />
 
         {/* Blur */}
-        <label
-          className={`cursor-pointer rounded-xl border p-3 transition ${
-            blurOn
-              ? "border-[#676FA3] bg-[#EEF2FF] shadow-sm"
-              : "border-gray-200 bg-white hover:border-[#676FA3]/40"
-          }`}
-        >
-          <input
-            type="checkbox"
-            checked={blurOn}
-            onChange={() => toggleBg("blur")}
-            disabled={modelStatus === "loading"}
-            className="sr-only"
-          />
-
-          <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-50 text-lg">
-              ◌
-            </div>
-
-            <div>
-              <p className="text-sm font-medium text-gray-800">Blur</p>
-              <p className="text-xs text-gray-500">Soft background</p>
-            </div>
-          </div>
-        </label>
+        <BlurBackground
+          blurOn={blurOn}
+          toggleBg={() => toggleBg("blur")}
+          modelStatus={modelStatus}
+          icon={"◌"}
+          title={"Blur"}
+          subtitle={"Soft background"}
+        />
 
         {/* Office */}
-        <label
-          className={`cursor-pointer rounded-xl border p-3 transition ${
-            bgImageState[0]
-              ? "border-[#676FA3] bg-[#EEF2FF] shadow-sm"
-              : "border-gray-200 bg-white hover:border-[#676FA3]/40"
-          }`}
-        >
-          <input
-            type="checkbox"
-            checked={bgImageState[0]}
-            onChange={() => toggleBg("image", 0)}
-            disabled={modelStatus === "loading"}
-            className="sr-only"
-          />
-
-          <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-amber-50 text-lg">
-              🏢
-            </div>
-
-            <div>
-              <p className="text-sm font-medium text-gray-800">Office</p>
-              <p className="text-xs text-gray-500">Professional setting</p>
-            </div>
-          </div>
-        </label>
+        <ImageBackground
+          bgImageState={bgImageState}
+          toggleBg={() => toggleBg("image", 0)}
+          modelStatus={modelStatus}
+          icon={"🏢"}
+          title={"Office"}
+          subtitle={"Professional setting"}
+        />
 
         {/* Sunflower */}
-        <label
-          className={`cursor-pointer rounded-xl border p-3 transition ${
-            bgImageState[1]
-              ? "border-[#676FA3] bg-[#EEF2FF] shadow-sm"
-              : "border-gray-200 bg-white hover:border-[#676FA3]/40"
-          }`}
-        >
-          <input
-            type="checkbox"
-            checked={bgImageState[1]}
-            onChange={() => toggleBg("image", 1)}
-            disabled={modelStatus === "loading"}
-            className="sr-only"
-          />
-
-          <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-yellow-50 text-lg">
-              🌻
-            </div>
-
-            <div>
-              <p className="text-sm font-medium text-gray-800">Sunflower</p>
-              <p className="text-xs text-gray-500">Bright background</p>
-            </div>
-          </div>
-        </label>
+        <ImageBackground
+          bgImageState={bgImageState}
+          toggleBg={() => toggleBg("image", 1)}
+          modelStatus={modelStatus}
+          icon={"🌻"}
+          title={"Sunflower"}
+          subtitle={"Bright background"}
+        />
       </div>
     </div>
   );
