@@ -2,6 +2,10 @@ import { useCallback, useEffect, useState, useRef } from "react";
 import { emitRecordingEvent } from "../socket.js";
 import Button from "./Button.jsx";
 import BackgroundControllers from "./BackgroundControllers.jsx";
+import CanvasFrame from "./Frame/CanvasFrame.jsx";
+import HiddenVideoFrame from "./Frame/HiddenVideoFrame.jsx";
+import TimeLeft from "./TimeLeft.jsx";
+import StartingCountDown from "./StartingCountDown.jsx";
 
 const MIME_CANDIDATES = [
   "video/webm;codecs=vp9,opus",
@@ -214,17 +218,6 @@ const VideoRecordingScreen = ({
     });
   };
 
-  // time limit - format
-  const timeParser = useCallback((duration) => {
-    const durationMinutes = Math.floor(duration / 60);
-    let durationSeconds = duration % 60;
-    const durationFormattedMintues = String(durationMinutes).padStart(2, "0");
-    if (durationSeconds < 10) {
-      durationSeconds = String(durationSeconds).padStart(2, "0");
-    }
-    return `${durationFormattedMintues}:${durationSeconds}`;
-  });
-
   useEffect(() => {
     if (count < 0 || !isRecording) {
       setCount(299);
@@ -291,21 +284,12 @@ const VideoRecordingScreen = ({
       {/* Video Preview */}
       <div className="relative mx-auto w-full max-w-3xl overflow-hidden rounded-2xl bg-[#11142B] shadow-lg">
         {/* Timer */}
-        {isRecording && (
-          <div className="absolute right-4 top-4 z-20 flex items-center gap-2 rounded-full bg-black/60 px-4 py-2 text-sm font-medium text-white backdrop-blur-md">
-            <span className="h-2 w-2 animate-pulse rounded-full bg-red-500" />
-            {timeParser(count)}
-          </div>
-        )}
+        {isRecording && <TimeLeft count={count} />}
 
         {/* Hidden source video */}
-        <video ref={videoRef} playsInline muted style={{ display: "none" }} />
+        <HiddenVideoFrame videoRef={videoRef} />
 
-        <canvas
-          ref={canvasRef}
-          className="aspect-video w-full object-cover"
-          style={{ transform: "scaleX(-1)" }}
-        />
+        <CanvasFrame canvasRef={canvasRef} />
 
         {/* Empty state */}
         {!isRecording && !checking && (
@@ -321,13 +305,7 @@ const VideoRecordingScreen = ({
       </div>
 
       {/* Countdown */}
-      {checking && (
-        <div className="flex justify-center">
-          <div className="rounded-full bg-[#EEF2FF] px-6 py-3 text-base font-semibold text-[#676FA3] shadow-sm">
-            Starting in <span className="text-[#030164]">0{start}s</span>
-          </div>
-        </div>
-      )}
+      {checking && <StartingCountDown start={start} />}
 
       {/* Start Button */}
       {!isRecording && !checking && (
