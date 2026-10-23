@@ -1,9 +1,9 @@
 import { useState, useRef, useEffect, useCallback, use } from "react";
 import { emitRecordingEvent } from "../socket.js";
-import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import VideoRecordingHeader from "./VideoRecordingHeader.jsx";
 import VideoRecordingScreen from "./VideoRecordingScreen.jsx";
 import VideoResult from "./VideoResult.jsx";
+import debounce from "debounce";
 
 const VideoRecording = ({ socketStatus }) => {
   const [isRecording, setIsRecording] = useState(false);
@@ -25,8 +25,7 @@ const VideoRecording = ({ socketStatus }) => {
     image.src = imageUrl;
   });
 
-  const handleFullScreen = useFullScreenHandle();
-
+  // copy paste event handling
   const handleCopyAndPaste = (status) => {
     status === "copy"
       ? emitRecordingEvent("event", {
@@ -39,6 +38,7 @@ const VideoRecording = ({ socketStatus }) => {
         });
   };
 
+  // window size changes event handling
   function onResize() {
     emitRecordingEvent("event", {
       reason: "window dimensions changed ",
@@ -46,11 +46,7 @@ const VideoRecording = ({ socketStatus }) => {
     });
   }
 
-  useEffect(() => {
-    onResize();
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, []);
+  window.onresize = debounce(onResize, 500);
 
   const onFocus = () => {
     emitRecordingEvent("event", {
@@ -91,10 +87,7 @@ const VideoRecording = ({ socketStatus }) => {
   }, []);
 
   return (
-    <FullScreen
-      handle={handleFullScreen}
-      className="min-h-[500px] w-full bg-gradient-to-br from-[#FFFDEB] via-white to-[#F5F6FF] px-4 py-6 md:px-8"
-    >
+    <div className="min-h-[500px] w-full bg-gradient-to-br from-[#FFFDEB] via-white to-[#F5F6FF] px-4 py-6 md:px-8">
       <div
         className="mx-auto w-full max-w-5xl"
         onCopy={() => handleCopyAndPaste("copy")}
@@ -106,9 +99,7 @@ const VideoRecording = ({ socketStatus }) => {
           <VideoRecordingHeader
             socketStatus={socketStatus}
             isRecording={isRecording}
-            handleFullScreen={handleFullScreen}
           />
-
           {/* Content */}
           <div className="p-4 sm:p-6 md:p-8">
             {/* ================= START SCREEN ================= */}
@@ -124,7 +115,6 @@ const VideoRecording = ({ socketStatus }) => {
                 bgImageRef={bgImageRef}
               />
             )}
-
             {/* ================= VIDEO RESULT ================= */}
             {videoUrlList[videoIndex] && (
               <VideoResult
@@ -137,7 +127,7 @@ const VideoRecording = ({ socketStatus }) => {
           </div>
         </div>
       </div>
-    </FullScreen>
+    </div>
   );
 };
 

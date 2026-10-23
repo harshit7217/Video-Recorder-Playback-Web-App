@@ -1,23 +1,26 @@
-import { useEffect } from "react";
+import { useState } from "react";
 import { emitRecordingEvent } from "../socket.js";
 import Button from "./Button.jsx";
 
-const VideoRecordingHeader = ({
-  socketStatus,
-  isRecording,
-  handleFullScreen,
-}) => {
-  useEffect(() => {
-    handleFullScreen.active
-      ? emitRecordingEvent("event", {
-          reason: "user entred full screen",
-          eventName: "screen:full-screen",
-        })
-      : emitRecordingEvent("event", {
-          reason: "user exit full screen",
-          eventName: "screen:not-full-screen",
-        });
-  }, []);
+const VideoRecordingHeader = ({ socketStatus, isRecording }) => {
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  const toggleFullscreen = async () => {
+    if (!document.fullscreenElement) {
+      await document.documentElement.requestFullscreen();
+      emitRecordingEvent("event", {
+        reason: "user entred full screen",
+        eventName: "screen:full-screen",
+      });
+    } else {
+      await document.exitFullscreen();
+      emitRecordingEvent("event", {
+        reason: "user exit full screen",
+        eventName: "screen:not-full-screen",
+      });
+    }
+    setIsFullscreen(!isFullscreen);
+  };
 
   return (
     <div className="flex flex-col gap-3 border-b border-[#EEF0F7] px-5 py-4 sm:flex-row sm:items-center sm:justify-between md:px-7">
@@ -51,12 +54,8 @@ const VideoRecordingHeader = ({
           </div>
         )}
         <Button
-          title={handleFullScreen.active ? "Exit Full Screen" : "Full Screen"}
-          onClick={
-            handleFullScreen.active
-              ? handleFullScreen.exit
-              : handleFullScreen.enter
-          }
+          title={isFullscreen ? "Exit Full Screen" : "Full Screen"}
+          onClick={toggleFullscreen}
         />
       </div>
     </div>
