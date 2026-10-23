@@ -23,7 +23,7 @@ io.on("connection", (socket) => {
     io.emit("data", data);
   });
 
-  socket.on("event", (details) => {
+  socket.on("activities", (details) => {
     data.push(details);
     io.emit("data", data);
   });

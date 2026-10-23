@@ -144,7 +144,7 @@ const VideoRecordingScreen = ({
     } catch (err) {
       console.error(err);
     } finally {
-      emitRecordingEvent("event", {
+      emitRecordingEvent("activities", {
         reason: "device_initialized_successfully",
         eventName: "camera:connected",
       });
@@ -165,7 +165,7 @@ const VideoRecordingScreen = ({
         mediaRecorderRef.current.state === "recording"
       ) {
         mediaRecorderRef.current.pause();
-        emitRecordingEvent("event", {
+        emitRecordingEvent("activities", {
           reason: "user requested pause",
           eventName: "recording:paused",
         });
@@ -177,7 +177,7 @@ const VideoRecordingScreen = ({
         mediaRecorderRef.current.state === "paused"
       ) {
         mediaRecorderRef.current.resume();
-        emitRecordingEvent("event", {
+        emitRecordingEvent("activities", {
           reason: "user requested resume",
           eventName: "recording:resumed",
         });
@@ -201,7 +201,7 @@ const VideoRecordingScreen = ({
   const handleStop = async (reason = "recording:stopped") => {
     const recorder = mediaRecorderRef.current;
     if (!recorder || recorder.state === "inactive") return;
-    emitRecordingEvent("event", {
+    emitRecordingEvent("activities", {
       reason: "user requested stop",
       eventName: "recording:stopped",
     });
@@ -212,7 +212,7 @@ const VideoRecordingScreen = ({
     }
     setRecorderState("inactive");
     setIsRecording(false);
-    emitRecordingEvent("event", {
+    emitRecordingEvent("activities", {
       reason: "connection lost",
       eventName: "camera:disconnected",
     });
@@ -246,7 +246,7 @@ const VideoRecordingScreen = ({
       const recorder = mediaRecorderRef.current;
       if (recorder && recorder.state === "inactive") {
         recorder.start();
-        emitRecordingEvent("event", {
+        emitRecordingEvent("activities", {
           reason: "user initiated recording",
           eventName: "recording:started",
         });

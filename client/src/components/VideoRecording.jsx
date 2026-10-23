@@ -28,11 +28,11 @@ const VideoRecording = ({ socketStatus }) => {
   // copy paste event handling
   const handleCopyAndPaste = (status) => {
     status === "copy"
-      ? emitRecordingEvent("event", {
+      ? emitRecordingEvent("activities", {
           reason: "user copied text to clipboard",
           eventName: "text:copy",
         })
-      : emitRecordingEvent("event", {
+      : emitRecordingEvent("activities", {
           reason: "user pasted text to clipboard",
           eventName: "text:paste",
         });
@@ -40,7 +40,7 @@ const VideoRecording = ({ socketStatus }) => {
 
   // window size changes event handling
   function onResize() {
-    emitRecordingEvent("event", {
+    emitRecordingEvent("activities", {
       reason: "window dimensions changed ",
       eventName: "window:size",
     });
@@ -49,14 +49,14 @@ const VideoRecording = ({ socketStatus }) => {
   window.onresize = debounce(onResize, 500);
 
   const onFocus = () => {
-    emitRecordingEvent("event", {
+    emitRecordingEvent("activities", {
       reason: "user returned to window",
       eventName: "window:OnFocus",
     });
   };
 
   const onBlur = () => {
-    emitRecordingEvent("event", {
+    emitRecordingEvent("activities", {
       reason: "user switched to another window",
       eventName: "window:onBlur",
     });

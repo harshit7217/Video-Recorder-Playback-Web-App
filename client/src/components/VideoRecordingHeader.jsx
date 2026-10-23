@@ -8,13 +8,13 @@ const VideoRecordingHeader = ({ socketStatus, isRecording }) => {
   const toggleFullscreen = async () => {
     if (!document.fullscreenElement) {
       await document.documentElement.requestFullscreen();
-      emitRecordingEvent("event", {
+      emitRecordingEvent("activities", {
         reason: "user entred full screen",
         eventName: "screen:full-screen",
       });
     } else {
       await document.exitFullscreen();
-      emitRecordingEvent("event", {
+      emitRecordingEvent("activities", {
         reason: "user exit full screen",
         eventName: "screen:not-full-screen",
       });
