@@ -118,6 +118,10 @@ export default function Details() {
     [rows, filter],
   );
 
+  // const storingData = () => {
+  //   socket.emit("storedata", rows);
+  // };
+
   return (
     <main className="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
       <div className="mx-auto max-w-5xl px-5 pb-16 pt-8">
@@ -139,6 +143,12 @@ export default function Details() {
             >
               Refresh
             </button>
+            {/* <button
+              onClick={storingData}
+              className="rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-sm font-medium transition hover:border-indigo-500 active:scale-95 dark:border-slate-800 dark:bg-slate-900"
+            >
+              Store Data
+            </button> */}
             <button
               onClick={handleClear}
               disabled={!rows.length}

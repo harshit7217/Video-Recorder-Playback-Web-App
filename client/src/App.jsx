@@ -13,7 +13,9 @@ function App() {
   );
 
   const handleConnect = () => setSocketStatus("connected");
-  const handleDisconnect = () => setSocketStatus("disconnected");
+  const handleDisconnect = () => {
+    setSocketStatus("disconnected")
+  };
 
   useEffect(() => {
     socket.on("connect", handleConnect);
@@ -25,7 +27,7 @@ function App() {
       socket.off("disconnect", handleDisconnect);
       socket.disconnect();
     };
-  }, []);
+  }, [socketStatus]);
 
   // copy paste event handling
   const handleCopyAndPaste = (event, status) => {
@@ -53,7 +55,12 @@ function App() {
           <Routes>
             <Route
               path="/"
-              element={<VideoRecording socketStatus={socketStatus} />}
+              element={
+                <VideoRecording
+                  socketStatus={socketStatus}
+                  handleConnect={handleConnect}
+                />
+              }
             />
             <Route path="/api/details" element={<Details />} />
           </Routes>
