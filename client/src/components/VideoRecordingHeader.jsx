@@ -12,14 +12,15 @@ const VideoRecordingHeader = ({ socketStatus, isRecording }) => {
         reason: "user entred full screen",
         eventName: "screen:full-screen",
       });
+      setIsFullscreen(true);
     } else {
       await document.exitFullscreen();
       emitRecordingEvent("activities", {
         reason: "user exit full screen",
         eventName: "screen:not-full-screen",
       });
+      setIsFullscreen(false);
     }
-    setIsFullscreen(!isFullscreen);
   };
 
   return (
@@ -54,7 +55,7 @@ const VideoRecordingHeader = ({ socketStatus, isRecording }) => {
           </div>
         )}
         <Button
-          title={isFullscreen ? "Full Screen" : "Exit Full Screen"}
+          title={isFullscreen ? "Exit Full Screen" : "Full Screen"}
           onClick={toggleFullscreen}
         />
       </div>
