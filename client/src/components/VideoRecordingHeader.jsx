@@ -54,7 +54,7 @@ const VideoRecordingHeader = ({ socketStatus, isRecording }) => {
           </div>
         )}
         <Button
-          title={isFullscreen ? "Exit Full Screen" : "Full Screen"}
+          title={isFullscreen ? "Full Screen" : "Exit Full Screen"}
           onClick={toggleFullscreen}
         />
       </div>

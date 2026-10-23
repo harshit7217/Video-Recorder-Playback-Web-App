@@ -5,6 +5,7 @@ import Sidebar from "./components/SideBar.jsx";
 import Header from "./components/Header.jsx";
 import { socket } from "./socket.js";
 import { useState, useEffect } from "react";
+import { emitRecordingEvent } from "./socket.js";
 
 function App() {
   const [socketStatus, setSocketStatus] = useState(
@@ -26,19 +27,38 @@ function App() {
     };
   }, []);
 
+  // copy paste event handling
+  const handleCopyAndPaste = (event, status) => {
+    event.preventDefault();
+    status === "copy"
+      ? emitRecordingEvent("activities", {
+          reason: `user copied text to clipboard - (${window.getSelection().toString()})`,
+          eventName: "text:copy",
+        })
+      : emitRecordingEvent("activities", {
+          reason: `user pasted text to clipboard - (${(event.clipboardData || window.clipboardData).getData("text")})`,
+          eventName: "text:paste",
+        });
+  };
+
   return (
     <BrowserRouter className="h-[100vh]">
-      <Sidebar />
-      <Header />
-      <main className="p-4">
-        <Routes>
-          <Route
-            path="/"
-            element={<VideoRecording socketStatus={socketStatus} />}
-          />
-          <Route path="/api/details" element={<Details />} />
-        </Routes>
-      </main>
+      <div
+        onCopy={() => handleCopyAndPaste(event, "copy")}
+        onPaste={() => handleCopyAndPaste(event, "paste")}
+      >
+        <Sidebar />
+        <Header />
+        <main className="p-4">
+          <Routes>
+            <Route
+              path="/"
+              element={<VideoRecording socketStatus={socketStatus} />}
+            />
+            <Route path="/api/details" element={<Details />} />
+          </Routes>
+        </main>
+      </div>
     </BrowserRouter>
   );
 }

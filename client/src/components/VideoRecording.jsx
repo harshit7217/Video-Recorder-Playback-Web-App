@@ -25,18 +25,7 @@ const VideoRecording = ({ socketStatus }) => {
     image.src = imageUrl;
   });
 
-  // copy paste event handling
-  const handleCopyAndPaste = (status) => {
-    status === "copy"
-      ? emitRecordingEvent("activities", {
-          reason: "user copied text to clipboard",
-          eventName: "text:copy",
-        })
-      : emitRecordingEvent("activities", {
-          reason: "user pasted text to clipboard",
-          eventName: "text:paste",
-        });
-  };
+  
 
   // window size changes event handling
   function onResize() {
@@ -90,8 +79,6 @@ const VideoRecording = ({ socketStatus }) => {
     <div className="min-h-[500px] w-full bg-gradient-to-br from-[#FFFDEB] via-white to-[#F5F6FF] px-4 py-6 md:px-8">
       <div
         className="mx-auto w-full max-w-5xl"
-        onCopy={() => handleCopyAndPaste("copy")}
-        onPaste={() => handleCopyAndPaste("paste")}
       >
         {/* Main Recorder Card */}
         <div className="overflow-hidden rounded-3xl border border-[#E7E8F5] bg-white shadow-[0_20px_60px_rgba(103,111,163,0.12)]">
