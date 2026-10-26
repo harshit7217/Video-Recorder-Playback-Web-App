@@ -2,22 +2,8 @@ import { createServer } from "node:http";
 import { Server } from "socket.io";
 import express from "express";
 import cors from "cors";
-// import sqlite3 from "sqlite3";
-// import { open } from "sqlite";
-
-// const db = await open({
-//   filename: "data.db",
-//   driver: sqlite3.Database,
-// });
-
-// await db.exec(`
-//   CREATE TABLE IF NOT EXISTS monitoring (
-//     id INTEGER PRIMARY KEY AUTOINCREMENT,
-//     reason TEXT,
-//     eventName TEXT,
-//     timestamp TEXT
-//   )
-// `);
+import { once } from "node:events";
+import { appendFile, open } from "node:fs/promises";
 
 const port = Number(process.env.SOCKET_PORT || 3001);
 const clientOrigin = process.env.CLIENT_ORIGIN || "http://localhost:5173";
@@ -39,27 +25,49 @@ const io = new Server(httpServer, {
 });
 
 let data = [];
-
-io.on("connection", (socket) => {
+const d = new Date();
+const day = String(d.getDate()).padStart(2, "0");
+const month = String(d.getMonth() + 1).padStart(2, "0");
+const year = d.getFullYear();
+const fileName = day + "-" + month + "-" + year + ".txt";
+await appendFile(`data/${fileName}`, "");
+let clientId;
+io.on("connection", async (socket) => {
   console.info(`Socket connected: ${socket.id}`);
 
-  // socket.on("storedata", (data) => {
-  //   let result;
-  //   data.map(async (d) => {
-  //     try {
-  //       result = await db.run(
-  //         "INSERT INTO monitoring (reason, eventName, timestamp ) VALUES (d.reason, d.eventName, d.timestamp)",
-  //         d,
-  //       );
-  //     } catch (error) {
-  //       console.log("database error: ", error);
-  //     }
-  //   });
-  //   console.log("database data: ", result);
-  // });
+  socket.on("clientId", () => {
+    clientId = socket.id;
+  });
 
-  socket.on("data", () => {
+  socket.on("getData", () => {
     io.emit("data", data);
+  });
+
+  socket.on("disconnect", async () => {
+    console.info(`Socket disconnected: ${socket.id}`);
+
+    if (clientId === socket.id) {
+      const fd = await open(`data/${fileName}`, "a");
+      try {
+        const stream = await fd.createWriteStream({ autoClose: true });
+        const finished = once(stream, "finish");
+        for (const obj of data) {
+          const chunk = JSON.stringify(obj) + "\n";
+
+          if (!stream.write(chunk)) {
+            await stream.write(chunk);
+          }
+        }
+        stream.end();
+        await finished;
+      } catch (err) {
+        console.error("there was an error", err);
+      } finally {
+        await fd.close();
+        io.emit("disconnet");
+        data.length = 0;
+      }
+    }
   });
 
   socket.on("activities", (details) => {
@@ -69,10 +77,6 @@ io.on("connection", (socket) => {
 
   socket.on("clear", () => {
     data.length = 0;
-  });
-
-  socket.on("disconnect", (reason) => {
-    console.info(`Socket disconnected: ${socket.id} (${reason})`);
   });
 });
 
