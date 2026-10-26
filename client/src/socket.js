@@ -10,6 +10,7 @@ export const socket = io.connect(
 
 export function emitRecordingEvent(eventName, details = {}) {
   socket.emit(eventName, {
+    key: crypto.randomUUID(),
     ...details,
     timestamp: new Date().toISOString(),
   });

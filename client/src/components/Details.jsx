@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { socket } from "../socket.js";
+import Button from "./Button.jsx";
 
 const CATEGORIES = ["all", "camera", "recording", "text", "window", "screen"];
 
@@ -49,7 +50,6 @@ export default function Details() {
   const [rows, setRows] = useState([]);
   const [filter, setFilter] = useState("all");
   const [loading, setLoading] = useState(true);
-
   const handleData = (data) => {
     if (!Array.isArray(data)) {
       setRows((prev) => [...prev, data]);
@@ -75,7 +75,7 @@ export default function Details() {
   };
 
   const fetchingData = () => {
-    socket.emit("data");
+    socket.emit("getData");
     socket.on("data", handleData);
 
     return () => {
@@ -91,7 +91,6 @@ export default function Details() {
   useEffect(() => {
     socket.on("activities", handleData);
     socket.connect();
-
     return () => {
       socket.off("activities", handleData);
       socket.disconnect();
@@ -118,10 +117,6 @@ export default function Details() {
     [rows, filter],
   );
 
-  // const storingData = () => {
-  //   socket.emit("storedata", rows);
-  // };
-
   return (
     <main className="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
       <div className="mx-auto max-w-5xl px-5 pb-16 pt-8">
@@ -132,30 +127,12 @@ export default function Details() {
               Session details
             </h1>
             <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-              Live activity captured from the recorder and socket id:{" "}
-              {socket.id}
+              Live activity captured from the recorder
             </p>
           </div>
           <div className="flex gap-2">
-            <button
-              onClick={fetchingData}
-              className="rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-sm font-medium transition hover:border-indigo-500 active:scale-95 dark:border-slate-800 dark:bg-slate-900"
-            >
-              Refresh
-            </button>
-            {/* <button
-              onClick={storingData}
-              className="rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-sm font-medium transition hover:border-indigo-500 active:scale-95 dark:border-slate-800 dark:bg-slate-900"
-            >
-              Store Data
-            </button> */}
-            <button
-              onClick={handleClear}
-              disabled={!rows.length}
-              className="rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-sm font-medium transition hover:border-red-500 hover:text-red-600 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-slate-200 disabled:hover:text-inherit dark:border-slate-800 dark:bg-slate-900"
-            >
-              Clear
-            </button>
+            <Button title={"Refresh"} onClick={fetchingData} />
+            <Button title={"Clear"} onClick={handleClear} />
           </div>
         </header>
 

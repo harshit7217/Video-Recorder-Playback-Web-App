@@ -1,27 +1,62 @@
 import { useState } from "react";
 import { emitRecordingEvent } from "../socket.js";
 import Button from "./Button.jsx";
+import { useEffect } from "react";
 
 const VideoRecordingHeader = ({ socketStatus, isRecording }) => {
   const [isFullscreen, setIsFullscreen] = useState(false);
 
-  const toggleFullscreen = async () => {
+  const toggleFullscreen = () => {
     if (!document.fullscreenElement) {
-      await document.documentElement.requestFullscreen();
-      emitRecordingEvent("activities", {
-        reason: "user entred full screen",
-        eventName: "screen:full-screen",
-      });
-      setIsFullscreen(true);
+      entredFullScreen();
     } else {
-      await document.exitFullscreen();
-      emitRecordingEvent("activities", {
-        reason: "user exit full screen",
-        eventName: "screen:not-full-screen",
-      });
-      setIsFullscreen(false);
+      exitFullScreen();
     }
   };
+
+  const exitFullScreen = async () => {
+    await document.exitFullscreen();
+    emitRecordingEvent("activities", {
+      reason: "user exit full screen",
+      eventName: "screen:not-full-screen",
+    });
+    setIsFullscreen(false);
+  };
+
+  const entredFullScreen = async () => {
+    await document.documentElement.requestFullscreen();
+    emitRecordingEvent("activities", {
+      reason: "user enter full screen",
+      eventName: "screen:full-screen",
+    });
+    setIsFullscreen(true);
+  };
+
+  useEffect(() => {
+    const escHandler = (e) => {
+      if (
+        !document.webkitIsFullScreen &&
+        !document.mozFullScreen &&
+        !document.msFullscreenElement
+      ) {
+        emitRecordingEvent("activities", {
+          reason: "user exit full screen",
+          eventName: "screen:not-full-screen",
+        });
+        setIsFullscreen(false);
+      }
+    };
+    document.addEventListener("webkitfullscreenchange", escHandler, false);
+    document.addEventListener("mozfullscreenchange", escHandler, false);
+    document.addEventListener("fullscreenchange", escHandler, false);
+    document.addEventListener("MSFullscreenChange", escHandler, false);
+    return () => {
+      document.removeEventListener("webkitfullscreenchange", escHandler, false);
+      document.removeEventListener("mozfullscreenchange", escHandler, false);
+      document.removeEventListener("fullscreenchange", escHandler, false);
+      document.removeEventListener("MSFullscreenChange", escHandler, false);
+    };
+  }, []);
 
   return (
     <div className="flex flex-col gap-3 border-b border-[#EEF0F7] px-5 py-4 sm:flex-row sm:items-center sm:justify-between md:px-7">

@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback, use } from "react";
-import { emitRecordingEvent } from "../socket.js";
+import { emitRecordingEvent, socket } from "../socket.js";
 import VideoRecordingHeader from "./VideoRecordingHeader.jsx";
 import VideoRecordingScreen from "./VideoRecordingScreen.jsx";
 import VideoResult from "./VideoResult.jsx";
@@ -35,25 +35,27 @@ const VideoRecording = ({ socketStatus }) => {
 
   window.onresize = debounce(onResize, 500);
 
-  const onFocus = () => {
-    emitRecordingEvent("activities", {
-      reason: "user returned to window",
-      eventName: "window:OnFocus",
-    });
-  };
-
-  const onBlur = () => {
-    emitRecordingEvent("activities", {
-      reason: "user switched to another window",
-      eventName: "window:onBlur",
-    });
-  };
+  useEffect(() => {
+    socket.emit("clientId");
+  }, []);
 
   useEffect(() => {
+    const onFocus = () => {
+      emitRecordingEvent("activities", {
+        reason: "user returned to window",
+        eventName: "window:OnFocus",
+      });
+    };
+
+    const onBlur = () => {
+      emitRecordingEvent("activities", {
+        reason: "user switched to another window",
+        eventName: "window:onBlur",
+      });
+    };
     window.addEventListener("focus", onFocus);
     window.addEventListener("blur", onBlur);
 
-    onFocus();
     return () => {
       window.removeEventListener("focus", onFocus);
       window.removeEventListener("blur", onBlur);

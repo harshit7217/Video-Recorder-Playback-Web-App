@@ -11,17 +11,15 @@ function App() {
   const [socketStatus, setSocketStatus] = useState(
     socket.connected ? "connected" : "connecting",
   );
-
   const handleConnect = () => setSocketStatus("connected");
   const handleDisconnect = () => {
-    setSocketStatus("disconnected")
+    setSocketStatus("disconnected");
   };
 
   useEffect(() => {
     socket.on("connect", handleConnect);
     socket.on("disconnect", handleDisconnect);
     socket.connect();
-
     return () => {
       socket.off("connect", handleConnect);
       socket.off("disconnect", handleDisconnect);
@@ -42,7 +40,6 @@ function App() {
           eventName: "text:paste",
         });
   };
-
   return (
     <BrowserRouter className="h-[100vh]">
       <div
