@@ -24,21 +24,44 @@ const io = new Server(httpServer, {
   },
 });
 
+// temporary data store
 let data = [];
+
+const socketActivity = {
+  "camera-connected": "1",
+  "camera:disconnected": "2",
+  "recording:started": "3",
+  "recording:paused": "4",
+  "recording:resumed": "5",
+  "recording:stopped": "6",
+  "text:copied": "7",
+  "text:pasted": "8",
+  "window:resized": "9",
+  "window:focused": "10",
+  "window:blurred": "11",
+  "screen:fullscreen-entered": "12",
+  "screen:fullscreen-exited": "13",
+};
+
+// Creating a file name of current date
 const d = new Date();
 const day = String(d.getDate()).padStart(2, "0");
 const month = String(d.getMonth() + 1).padStart(2, "0");
 const year = d.getFullYear();
 const fileName = day + "-" + month + "-" + year + ".txt";
 await appendFile(`data/${fileName}`, "");
-let clientId;
-io.on("connection", async (socket) => {
-  console.info(`Socket connected: ${socket.id}`);
 
-  socket.on("clientId", () => {
-    clientId = socket.id;
+// socket id store of the videorecording's connection
+let clientId;
+
+io.on("connection", async (socket) => {
+  socket.on("connect", () => {
+    console.info(`Socket connected: ${socket.id}`);
   });
 
+  socket.on("clientId", async () => {
+    clientId = socket.id;
+  });
   socket.on("getData", () => {
     io.emit("data", data);
   });
@@ -70,7 +93,10 @@ io.on("connection", async (socket) => {
     }
   });
 
-  socket.on("activities", (details) => {
+  socket.on("activities", async (details) => {
+    for (const key in details) {
+      details[key] = socketActivity[details[key]] ?? details[key];
+    }
     data.push(details);
     io.emit("activities", details);
   });
