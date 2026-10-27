@@ -1,9 +1,25 @@
 import { useEffect } from "react";
 import { socket } from "../socket";
 import { useState } from "react";
+import Modal from "react-modal";
+import InterviewerList from "./InterviewList";
+
+const customStyles = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+  },
+};
+
+Modal.setAppElement("#root");
 
 const Details = () => {
   const [fileNames, setFileNames] = useState([]);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   useEffect(() => {
     const handleFilesRead = (receivedFileNames) => {
@@ -19,12 +35,28 @@ const Details = () => {
     };
   }, []);
 
+  const openModal = () => {
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
+
   const fileNameItems = fileNames.map((fileName) => (
     <li
       key={fileName}
       className="flex items-center gap-3 px-4 py-3 sm:px-6
              transition-colors hover:bg-blue-50 cursor-pointer"
+      onClick={openModal}
     >
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        style={customStyles}
+      >
+        <InterviewerList />
+      </Modal>
       <div
         className="flex h-10 w-10 shrink-0 items-center justify-center
                   rounded-lg bg-blue-100 text-blue-600"
