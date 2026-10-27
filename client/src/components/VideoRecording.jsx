@@ -29,7 +29,7 @@ const VideoRecording = ({ socketStatus }) => {
   function onResize() {
     emitRecordingEvent("activities", {
       reason: `window dimensions changed - (width: ${window.innerWidth}px, height: ${window.innerHeight}px)`,
-      eventName: "window:size",
+      eventName: "window:resized",
     });
   }
 
@@ -43,14 +43,14 @@ const VideoRecording = ({ socketStatus }) => {
     const onFocus = () => {
       emitRecordingEvent("activities", {
         reason: "user returned to window",
-        eventName: "window:OnFocus",
+        eventName: "window:focused",
       });
     };
 
     const onBlur = () => {
       emitRecordingEvent("activities", {
         reason: "user switched to another window",
-        eventName: "window:onBlur",
+        eventName: "window:blurred",
       });
     };
     window.addEventListener("focus", onFocus);

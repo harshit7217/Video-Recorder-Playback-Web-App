@@ -18,7 +18,7 @@ const VideoRecordingHeader = ({ socketStatus, isRecording }) => {
     await document.exitFullscreen();
     emitRecordingEvent("activities", {
       reason: "user exit full screen",
-      eventName: "screen:not-full-screen",
+      eventName: "screen:fullscreen-exited",
     });
     setIsFullscreen(false);
   };
@@ -27,7 +27,7 @@ const VideoRecordingHeader = ({ socketStatus, isRecording }) => {
     await document.documentElement.requestFullscreen();
     emitRecordingEvent("activities", {
       reason: "user enter full screen",
-      eventName: "screen:full-screen",
+      eventName: "screen:fullscreen-entered",
     });
     setIsFullscreen(true);
   };
@@ -41,7 +41,7 @@ const VideoRecordingHeader = ({ socketStatus, isRecording }) => {
       ) {
         emitRecordingEvent("activities", {
           reason: "user exit full screen",
-          eventName: "screen:not-full-screen",
+          eventName: "screen:fullscreen-exited",
         });
         setIsFullscreen(false);
       }

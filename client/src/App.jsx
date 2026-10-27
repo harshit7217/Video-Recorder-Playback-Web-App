@@ -1,11 +1,12 @@
 import { BrowserRouter, Routes, Route } from "react-router";
 import VideoRecording from "./components/VideoRecording.jsx";
-import Details from "./components/Details.jsx";
+import LiveProctoring from "./components/LiveProctoring.jsx";
 import Sidebar from "./components/SideBar.jsx";
 import Header from "./components/Header.jsx";
 import { socket } from "./socket.js";
 import { useState, useEffect } from "react";
 import { emitRecordingEvent } from "./socket.js";
+import Details from "./components/Details.jsx";
 
 function App() {
   const [socketStatus, setSocketStatus] = useState(
@@ -33,11 +34,11 @@ function App() {
     status === "copy"
       ? emitRecordingEvent("activities", {
           reason: `user copied text to clipboard - (${window.getSelection().toString()})`,
-          eventName: "text:copy",
+          eventName: "text:copied",
         })
       : emitRecordingEvent("activities", {
           reason: `user pasted text to clipboard - (${(event.clipboardData || window.clipboardData).getData("text")})`,
-          eventName: "text:paste",
+          eventName: "text:pasted",
         });
   };
   return (
@@ -59,7 +60,8 @@ function App() {
                 />
               }
             />
-            <Route path="/api/details" element={<Details />} />
+            <Route path="/api/live-proctoring" element={<LiveProctoring />} />
+            <Route path="api/details" element={<Details />} />
           </Routes>
         </main>
       </div>

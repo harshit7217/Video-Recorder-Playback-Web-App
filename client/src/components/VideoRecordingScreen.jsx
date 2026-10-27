@@ -146,7 +146,7 @@ const VideoRecordingScreen = ({
     } finally {
       emitRecordingEvent("activities", {
         reason: "device_initialized_successfully",
-        eventName: "camera:connected",
+        eventName: "camera-connected",
       });
     }
   };

@@ -15,6 +15,9 @@ export default function Sidebar() {
           <NavLink to="/" end className={linkClass}>
             Home
           </NavLink>
+          <NavLink to="/api/live-proctoring" className={linkClass}>
+            Live Proctoring
+          </NavLink>
           <NavLink to="/api/details" className={linkClass}>
             Details
           </NavLink>
