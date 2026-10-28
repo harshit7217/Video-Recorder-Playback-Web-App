@@ -4,26 +4,16 @@ import { useState } from "react";
 import Modal from "react-modal";
 import InterviewerList from "./InterviewList";
 
-const customStyles = {
-  content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-  },
-};
-
 Modal.setAppElement("#root");
 
 const Details = () => {
-  const [fileNames, setFileNames] = useState([]);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [availableFiles, setAvailableFiles] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedFileName, setSelectedFileName] = useState("");
 
   useEffect(() => {
     const handleFilesRead = (receivedFileNames) => {
-      setFileNames(receivedFileNames.reverse());
+      setAvailableFiles(receivedFileNames.reverse());
     };
 
     socket.connect();
@@ -36,27 +26,25 @@ const Details = () => {
   }, []);
 
   const openModal = () => {
-    setModalIsOpen(true);
+    setIsModalOpen(true);
   };
 
   const closeModal = () => {
-    setModalIsOpen(false);
+    setIsModalOpen(false);
   };
 
-  const fileNameItems = fileNames.map((fileName) => (
+  const handleFileSelection = (fileName) => {
+    setSelectedFileName(fileName);
+    openModal();
+  };
+
+  const fileListItems = availableFiles.map((fileName) => (
     <li
       key={fileName}
       className="flex items-center gap-3 px-4 py-3 sm:px-6
              transition-colors hover:bg-blue-50 cursor-pointer"
-      onClick={openModal}
+      onClick={() => handleFileSelection(fileName)}
     >
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        style={customStyles}
-      >
-        <InterviewerList />
-      </Modal>
       <div
         className="flex h-10 w-10 shrink-0 items-center justify-center
                   rounded-lg bg-blue-100 text-blue-600"
@@ -94,8 +82,11 @@ const Details = () => {
           <p className="text-sm text-gray-500">Your available files</p>
         </div>
 
-        <ul className="divide-y divide-gray-100">{fileNameItems}</ul>
+        <ul className="divide-y divide-gray-100">{fileListItems}</ul>
       </div>
+      <Modal isOpen={isModalOpen} onRequestClose={closeModal}>
+        <InterviewerList filename={selectedFileName} closeModal={closeModal} />
+      </Modal>
     </div>
   );
 };
