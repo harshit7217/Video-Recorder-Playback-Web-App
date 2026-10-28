@@ -33,7 +33,9 @@ const VideoRecording = ({ socketStatus }) => {
     });
   }
 
-  window.onresize = debounce(onResize, 500);
+  useEffect(() => {
+    window.onresize = debounce(onResize, 500);
+  }, []);
 
   useEffect(() => {
     socket.emit("clientId");

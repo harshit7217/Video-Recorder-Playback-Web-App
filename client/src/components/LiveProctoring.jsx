@@ -66,11 +66,9 @@ export default function Details() {
 
   const fetchingClearData = () => {
     socket.emit("clear");
-    socket.connect();
 
     return () => {
       socket.off("clear");
-      socket.disconnect();
     };
   };
 
@@ -89,11 +87,12 @@ export default function Details() {
   }, []);
 
   useEffect(() => {
+    // socket.connect();
     socket.on("activities", handleData);
-    socket.connect();
+
     return () => {
       socket.off("activities", handleData);
-      socket.disconnect();
+      // socket.disconnect();
     };
   }, []);
 

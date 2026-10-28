@@ -12,21 +12,47 @@ function App() {
   const [socketStatus, setSocketStatus] = useState(
     socket.connected ? "connected" : "connecting",
   );
-  const handleConnect = () => setSocketStatus("connected");
-  const handleDisconnect = () => {
-    setSocketStatus("disconnected");
-  };
+  // const handleConnect = () => setSocketStatus("connected");
+  // const handleDisconnect = () => {
+  //   setSocketStatus("disconnected");
+  // };
 
   useEffect(() => {
+    const handleConnect = () => {
+      setSocketStatus("connected");
+      console.log("Socket connected:", socket.id);
+    };
+
+    const handleDisconnect = (reason) => {
+      setSocketStatus("disconnected");
+      console.log("Socket disconnected:", reason);
+    };
+
+    const handleConnectError = (error) => {
+      console.error("Socket connection error:", error.message);
+      setSocketStatus("connecting");
+    };
+
     socket.on("connect", handleConnect);
     socket.on("disconnect", handleDisconnect);
-    socket.connect();
+    socket.on("connect_error", handleConnectError);
+
+    // Set the initial status and initiate the connection
+    setSocketStatus(socket.connected ? "connected" : "connecting");
+
+    if (!socket.connected) {
+      socket.connect();
+    }
+
     return () => {
       socket.off("connect", handleConnect);
       socket.off("disconnect", handleDisconnect);
+      socket.off("connect_error", handleConnectError);
+
+      // Disconnect only if this component owns the socket lifecycle.
       socket.disconnect();
     };
-  }, [socketStatus]);
+  }, []);
 
   // copy paste event handling
   const handleCopyAndPaste = (event, status) => {
@@ -53,12 +79,7 @@ function App() {
           <Routes>
             <Route
               path="/"
-              element={
-                <VideoRecording
-                  socketStatus={socketStatus}
-                  handleConnect={handleConnect}
-                />
-              }
+              element={<VideoRecording socketStatus={socketStatus} />}
             />
             <Route path="/api/live-proctoring" element={<LiveProctoring />} />
             <Route path="api/details" element={<Details />} />
