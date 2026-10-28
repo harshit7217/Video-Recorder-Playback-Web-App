@@ -1,0 +1,15 @@
+export const socketActivity = {
+  "camera-connected": "1",
+  "camera:disconnected": "2",
+  "recording:started": "3",
+  "recording:paused": "4",
+  "recording:resumed": "5",
+  "recording:stopped": "6",
+  "text:copied": "7",
+  "text:pasted": "8",
+  "window:resized": "9",
+  "window:focused": "10",
+  "window:blurred": "11",
+  "screen:fullscreen-entered": "12",
+  "screen:fullscreen-exited": "13",
+};
