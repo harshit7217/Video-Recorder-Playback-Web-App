@@ -1,9 +1,15 @@
 import { useEffect } from "react";
 import { socket } from "../socket";
 import { useState } from "react";
+import Modal from "react-modal";
+import InterviewActivityDetails from "./InterviewActivityDetails";
+
+Modal.setAppElement("#root");
 
 const InterviewerList = ({ filename, closeModal }) => {
   const [fileIds, setFileIds] = useState([]);
+  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
+  const [selectedId, setSelectedId] = useState("");
 
   useEffect(() => {
     const handleFileKeys = (keys) => {
@@ -18,9 +24,22 @@ const InterviewerList = ({ filename, closeModal }) => {
     };
   }, [filename]);
 
+  const openDetailsModal = () => {
+    setIsDetailsModalOpen(true);
+  };
+
+  const closeDetailsModal = () => {
+    setIsDetailsModalOpen(false);
+  };
+
+  const handleSelectedId = (id) => {
+    setSelectedId(id);
+    openDetailsModal();
+  };
 
   const idListItems = fileIds.map((id, index) => (
     <li
+      onClick={() => handleSelectedId(id)}
       key={id ?? index}
       className="group flex items-center gap-3 rounded-xl border border-gray-100 bg-white p-3 transition hover:border-blue-200 hover:bg-blue-50/60 cursor-pointer"
     >
@@ -83,6 +102,12 @@ const InterviewerList = ({ filename, closeModal }) => {
           </button>
         </div>
       </div>
+      <Modal isOpen={isDetailsModalOpen} onRequestClose={closeDetailsModal}>
+        <InterviewActivityDetails
+          selectedId={selectedId}
+          closeDetailsModal={closeDetailsModal}
+        />
+      </Modal>
     </div>
   );
 };
