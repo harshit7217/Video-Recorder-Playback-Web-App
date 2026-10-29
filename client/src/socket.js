@@ -8,8 +8,8 @@ export const socket = io.connect(
   },
 );
 
-export function emitRecordingEvent(eventName, details = {}) {
-  socket.emit(eventName, {
+export function emitRecordingActivity(details = {}) {
+  socket.emit("recordActivity", {
     key: socket.id,
     ...details,
     timestamp: new Date().toISOString(),

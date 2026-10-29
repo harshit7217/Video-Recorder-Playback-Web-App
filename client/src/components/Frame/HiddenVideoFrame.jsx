@@ -1,5 +1,12 @@
-const HiddenVideoFrame = ({ videoRef }) => {
-  return <video ref={videoRef} playsInline muted style={{ display: "none" }} />;
+const HiddenVideoFrame = ({ videoElementRef }) => {
+  return (
+    <video
+      ref={videoElementRef}
+      playsInline
+      muted
+      style={{ display: "none" }}
+    />
+  );
 };
 
 export default HiddenVideoFrame;

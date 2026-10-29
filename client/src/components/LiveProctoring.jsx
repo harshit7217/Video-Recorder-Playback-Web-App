@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import { socket } from "../socket.js";
 import Button from "./Button.jsx";
+import { categoryMap } from "./categoryMap.js";
 
 const CATEGORIES = ["all", "camera", "recording", "text", "window", "screen"];
 
-const categoryOf = (eventName = "") => eventName.split(":")[0];
+const getEventCategory = (eventName = "") => eventName.split(":")[0];
 
 function formatTime(iso) {
   if (!iso) return "-";
@@ -47,75 +48,78 @@ function DetailChips({ row, events }) {
 }
 
 export default function Details() {
-  const [rows, setRows] = useState([]);
-  const [filter, setFilter] = useState("all");
-  const [loading, setLoading] = useState(true);
-  const handleData = (data) => {
+  const [activityRows, setActivityRows] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [isLoading, setIsLoading] = useState(true);
+  const handleActivityData = (data) => {
     if (!Array.isArray(data)) {
-      setRows((prev) => [...prev, data]);
+      setActivityRows((prev) => [...prev, data]);
     } else {
-      setRows(data);
+      setActivityRows(data);
     }
-    setLoading(false);
+    setIsLoading(false);
   };
 
   const handleClear = () => {
-    fetchingClearData();
-    setRows([]);
+    clearActivityData();
+    setActivityRows([]);
   };
 
-  const fetchingClearData = () => {
-    socket.emit("clear");
+  const clearActivityData = () => {
+    socket.emit("clearActivities");
 
     return () => {
-      socket.off("clear");
+      socket.off("clearActivities");
     };
   };
 
-  const fetchingData = () => {
-    socket.emit("getData");
-    socket.on("data", handleData);
+  const loadActivityData = () => {
+    socket.emit("requestData");
+    socket.on("recordingData", handleActivityData);
 
     return () => {
-      socket.off("data");
+      socket.off("recordingData");
       socket.disconnect();
     };
   };
 
   useEffect(() => {
-    socket.on("activities", handleData);
-    socket.on("connect", fetchingData);
+    socket.on("activityRecorded", handleActivityData);
+    socket.on("connect", loadActivityData);
 
     socket.connect();
-    if (loading === true) {
-      fetchingData();
+    if (isLoading === true) {
+      loadActivityData();
     }
     return () => {
-      socket.off("activities", handleData);
-      socket.off("connect", fetchingData);
+      socket.off("activityRecorded", handleActivityData);
+      socket.off("connect", loadActivityData);
     };
   }, []);
 
   const stats = useMemo(() => {
-    const count = (cat) =>
-      rows.filter((r) => categoryOf(r.eventName) === cat).length;
+    const remainingSeconds = (cat) =>
+      activityRows.filter((r) => getEventCategory(r.eventName) === cat).length;
 
     return [
-      { label: "Total events", value: rows.length },
-      { label: "Recording", value: count("recording") },
-      { label: "Focus / window", value: count("window") },
-      { label: "Copy / paste", value: count("text") },
+      { label: "Total events", value: activityRows.length },
+      { label: "Recording", value: remainingSeconds("recording") },
+      { label: "Focus / window", value: remainingSeconds("window") },
+      { label: "Copy / paste", value: remainingSeconds("text") },
     ];
   });
-
-  const visible = useMemo(
+  // const selectedCategoryValue = categoryMap[selectedCategory];
+  const filteredActivityRows = useMemo(
     () =>
-      [...rows]
+      [...activityRows]
         .reverse()
-        .filter((r) => filter === "all" || categoryOf(r.eventName) === filter),
-    [rows, filter],
+        .filter(
+          (r) =>
+            selectedCategory === "all" ||
+            getEventCategory(r.eventName) === selectedCategory,
+        ),
+    [activityRows, selectedCategory],
   );
-
   return (
     <main className="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
       <div className="mx-auto max-w-5xl px-5 pb-16 pt-8">
@@ -130,8 +134,8 @@ export default function Details() {
             </p>
           </div>
           <div className="flex gap-2">
-            <Button title={"Refresh"} onClick={fetchingData} />
-            <Button title={"Clear"} onClick={handleClear} />
+            <Button label={"Refresh"} onClick={loadActivityData} />
+            <Button label={"Clear"} onClick={handleClear} />
           </div>
         </header>
 
@@ -157,9 +161,9 @@ export default function Details() {
           {CATEGORIES.map((c) => (
             <button
               key={c}
-              onClick={() => setFilter(c)}
+              onClick={() => setSelectedCategory(c)}
               className={`rounded-full border px-3.5 py-1.5 text-sm capitalize transition ${
-                filter === c
+                selectedCategory === c
                   ? "border-indigo-600 bg-indigo-600 text-white"
                   : "border-slate-200 bg-white text-slate-500 hover:text-slate-900 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400 dark:hover:text-slate-100"
               }`}
@@ -171,11 +175,11 @@ export default function Details() {
 
         {/* Table */}
         <section className="overflow-x-auto rounded-xl border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900">
-          {loading ? (
+          {isLoading ? (
             <div className="px-4 py-12 text-center text-slate-500">
               Loading...
             </div>
-          ) : visible.length === 0 ? (
+          ) : filteredActivityRows.length === 0 ? (
             <div className="px-4 py-12 text-center text-slate-500">
               No events yet
             </div>
@@ -189,8 +193,8 @@ export default function Details() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
-                {visible.map((row, i) => {
-                  categoryOf(row.eventName);
+                {filteredActivityRows.map((row, i) => {
+                  getEventCategory(row.eventName);
                   return (
                     <tr
                       key={`${row.timestamp}-${i}`}

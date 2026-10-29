@@ -1,4 +1,4 @@
-const BlurBackground = ({ blurOn, toggleBg, modelStatus, icon, title, subtitle}) => {
+const BlurBackground = ({ blurOn, toggleBg, modelStatus, icon, label, subtitle}) => {
     return (
         <label
           className={`cursor-pointer rounded-xl border p-3 transition ${
@@ -21,7 +21,7 @@ const BlurBackground = ({ blurOn, toggleBg, modelStatus, icon, title, subtitle})
             </div>
 
             <div>
-              <p className="text-sm font-medium text-gray-800">{title}</p>
+              <p className="text-sm font-medium text-gray-800">{label}</p>
               <p className="text-xs text-gray-500">{subtitle}</p>
             </div>
           </div>

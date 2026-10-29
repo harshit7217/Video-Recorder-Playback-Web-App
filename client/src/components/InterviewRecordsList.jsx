@@ -6,40 +6,40 @@ import InterviewActivityDetails from "./InterviewActivityDetails";
 
 Modal.setAppElement("#root");
 
-const InterviewerList = ({ filename, closeModal }) => {
-  const [fileIds, setFileIds] = useState([]);
+const InterviewRecordsList = ({ filename, closeFileDetailsModal }) => {
+  const [entryIds, setEntryIds] = useState([]);
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
   const [selectedId, setSelectedId] = useState("");
 
   useEffect(() => {
     const handleFileKeys = (keys) => {
-      setFileIds(keys);
+      setEntryIds(keys);
     };
 
-    socket.emit("keyRead", filename);
-    socket.on("keyOfFile", handleFileKeys);
+    socket.emit("requestFileKeys", filename);
+    socket.on("filesKeys", handleFileKeys);
 
     return () => {
-      socket.off("keyOfFile", handleFileKeys);
+      socket.off("filesKeys", handleFileKeys);
     };
   }, [filename]);
 
-  const openDetailsModal = () => {
+  const openEntryDetailsModal = () => {
     setIsDetailsModalOpen(true);
   };
 
-  const closeDetailsModal = () => {
+  const closeEntryDetailsModal = () => {
     setIsDetailsModalOpen(false);
   };
 
-  const handleSelectedId = (id) => {
+  const handleEntrySelection = (id) => {
     setSelectedId(id);
-    openDetailsModal();
+    openEntryDetailsModal();
   };
 
-  const idListItems = fileIds.map((id, index) => (
+  const entryListItems = entryIds.map((id, index) => (
     <li
-      onClick={() => handleSelectedId(id)}
+      onClick={() => handleEntrySelection(id)}
       key={id ?? index}
       className="group flex items-center gap-3 rounded-xl border border-gray-100 bg-white p-3 transition hover:border-blue-200 hover:bg-blue-50/60 cursor-pointer"
     >
@@ -60,7 +60,7 @@ const InterviewerList = ({ filename, closeModal }) => {
           </div>
 
           <button
-            onClick={closeModal}
+            onClick={closeFileDetailsModal}
             aria-label="Close modal"
             className="ml-4 flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xl text-gray-500 transition hover:bg-red-50 hover:text-red-600 focus:outline-none focus:ring-2 focus:ring-red-400"
           >
@@ -74,15 +74,15 @@ const InterviewerList = ({ filename, closeModal }) => {
             <h3 className="text-sm font-medium text-gray-700">Available IDs</h3>
 
             <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">
-              {fileIds.length} items
+              {entryIds.length} items
             </span>
           </div>
 
           <ul className="max-h-[50vh] space-y-2 overflow-y-auto pr-1 sm:max-h-80">
-            {idListItems}
+            {entryListItems}
           </ul>
 
-          {fileIds.length === 0 && (
+          {entryIds.length === 0 && (
             <div className="rounded-xl border border-dashed border-gray-300 px-4 py-10 text-center">
               <p className="text-sm font-medium text-gray-700">No IDs found</p>
               <p className="mt-1 text-xs text-gray-500">
@@ -95,21 +95,24 @@ const InterviewerList = ({ filename, closeModal }) => {
         {/* Footer */}
         <div className="flex justify-end border-t border-gray-100 bg-gray-50 px-5 py-4 sm:px-6">
           <button
-            onClick={closeModal}
+            onClick={closeFileDetailsModal}
             className="w-full rounded-xl bg-gray-900 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-400 sm:w-auto"
           >
             Close
           </button>
         </div>
       </div>
-      <Modal isOpen={isDetailsModalOpen} onRequestClose={closeDetailsModal}>
+      <Modal
+        isOpen={isDetailsModalOpen}
+        onRequestClose={closeEntryDetailsModal}
+      >
         <InterviewActivityDetails
           selectedId={selectedId}
-          closeDetailsModal={closeDetailsModal}
+          closeEntryDetailsModal={closeEntryDetailsModal}
         />
       </Modal>
     </div>
   );
 };
 
-export default InterviewerList;
+export default InterviewRecordsList;

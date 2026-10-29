@@ -1,14 +1,14 @@
 import { useState } from "react";
-import { emitRecordingEvent } from "../socket.js";
+import { emitRecordingActivity } from "../socket.js";
 import Button from "./Button.jsx";
 import { useEffect } from "react";
 
-const VideoRecordingHeader = ({ socketStatus, isRecording }) => {
-  const [isFullscreen, setIsFullscreen] = useState(false);
+const VideoRecordingHeader = ({ connectionStatus, isRecordingActive }) => {
+  const [isFullScreen, setIsFullscreen] = useState(false);
 
-  const toggleFullscreen = () => {
+  const toggleFullScreen = () => {
     if (!document.fullscreenElement) {
-      entredFullScreen();
+      entreFullScreen();
     } else {
       exitFullScreen();
     }
@@ -16,16 +16,16 @@ const VideoRecordingHeader = ({ socketStatus, isRecording }) => {
 
   const exitFullScreen = async () => {
     await document.exitFullscreen();
-    emitRecordingEvent("activities", {
+    emitRecordingActivity({
       reason: "user exit full screen",
       eventName: "screen:fullscreen-exited",
     });
     setIsFullscreen(false);
   };
 
-  const entredFullScreen = async () => {
+  const entreFullScreen = async () => {
     await document.documentElement.requestFullscreen();
-    emitRecordingEvent("activities", {
+    emitRecordingActivity({
       reason: "user enter full screen",
       eventName: "screen:fullscreen-entered",
     });
@@ -33,28 +33,60 @@ const VideoRecordingHeader = ({ socketStatus, isRecording }) => {
   };
 
   useEffect(() => {
-    const escHandler = (e) => {
+    const handleFullscreenChange = (e) => {
       if (
         !document.webkitIsFullScreen &&
         !document.mozFullScreen &&
         !document.msFullscreenElement
       ) {
-        emitRecordingEvent("activities", {
+        emitRecordingActivity({
           reason: "user exit full screen",
           eventName: "screen:fullscreen-exited",
         });
         setIsFullscreen(false);
       }
     };
-    document.addEventListener("webkitfullscreenchange", escHandler, false);
-    document.addEventListener("mozfullscreenchange", escHandler, false);
-    document.addEventListener("fullscreenchange", escHandler, false);
-    document.addEventListener("MSFullscreenChange", escHandler, false);
+    document.addEventListener(
+      "webkitfullscreenchange",
+      handleFullscreenChange,
+      false,
+    );
+    document.addEventListener(
+      "mozfullscreenchange",
+      handleFullscreenChange,
+      false,
+    );
+    document.addEventListener(
+      "fullscreenchange",
+      handleFullscreenChange,
+      false,
+    );
+    document.addEventListener(
+      "MSFullscreenChange",
+      handleFullscreenChange,
+      false,
+    );
     return () => {
-      document.removeEventListener("webkitfullscreenchange", escHandler, false);
-      document.removeEventListener("mozfullscreenchange", escHandler, false);
-      document.removeEventListener("fullscreenchange", escHandler, false);
-      document.removeEventListener("MSFullscreenChange", escHandler, false);
+      document.removeEventListener(
+        "webkitfullscreenchange",
+        handleFullscreenChange,
+        false,
+      );
+      document.removeEventListener(
+        "mozfullscreenchange",
+        handleFullscreenChange,
+        false,
+      );
+      document.removeEventListener(
+        "fullscreenchange",
+        handleFullscreenChange,
+        false,
+      );
+      document.removeEventListener(
+        "MSFullscreenChange",
+        handleFullscreenChange,
+        false,
+      );
     };
   }, []);
 
@@ -69,29 +101,31 @@ const VideoRecordingHeader = ({ socketStatus, isRecording }) => {
         </p>
         <p
           className={`mt-2 flex items-center gap-2 text-xs ${
-            socketStatus === "connected" ? "text-green-700" : "text-amber-700"
+            connectionStatus === "connected"
+              ? "text-green-700"
+              : "text-amber-700"
           }`}
           role="status"
         >
           <span
             className={`h-2 w-2 rounded-full ${
-              socketStatus === "connected" ? "bg-green-500" : "bg-amber-500"
+              connectionStatus === "connected" ? "bg-green-500" : "bg-amber-500"
             }`}
           />
-          Socket server: {socketStatus}
+          Socket server: {connectionStatus}
         </p>
       </div>
 
       <div className="flex flex-col justify-between gap-2">
-        {isRecording && (
-          <div className="flex items-center gap-2 self-start rounded-full bg-red-50 px-3 py-1.5 text-sm font-medium text-red-600">
+        {isRecordingActive && (
+          <div className="flex items-center gap-2 self-center rounded-full bg-red-50 px-3 py-1.5 text-sm font-medium text-red-600">
             <span className="h-2 w-2 animate-pulse rounded-full bg-red-500" />
             Recording
           </div>
         )}
         <Button
-          title={isFullscreen ? "Exit Full Screen" : "Full Screen"}
-          onClick={toggleFullscreen}
+          label={isFullScreen ? "Exit Full Screen" : "Full Screen"}
+          onClick={toggleFullScreen}
         />
       </div>
     </div>

@@ -3,37 +3,29 @@ import VideoRecording from "./components/VideoRecording.jsx";
 import LiveProctoring from "./components/LiveProctoring.jsx";
 import Sidebar from "./components/SideBar.jsx";
 import Header from "./components/Header.jsx";
-import { socket, emitRecordingEvent } from "./socket.js";
+import { socket } from "./socket.js";
 import { useState, useEffect } from "react";
 import Details from "./components/Details.jsx";
 
 function App() {
-  const [socketStatus, setSocketStatus] = useState(
+  const [connectionStatus, setConnectionStatus] = useState(
     socket.connected ? "connected" : "connecting",
   );
 
   useEffect(() => {
-    const handleConnect = () => {
-      setSocketStatus("connected");
-      console.log("Socket connected:", socket.id);
-    };
-
-    const handleDisconnect = (reason) => {
-      setSocketStatus("disconnected");
-      console.log("Socket disconnected:", reason);
-    };
-
-    socket.on("connect", handleConnect);
-    socket.on("disconnect", handleDisconnect);
+    const onSocketConnect = () => setConnectionStatus("connected");
+    const onSocketDisconnect = () => setConnectionStatus("disconnected");
+    socket.on("connect", onSocketConnect);
+    socket.on("disconnect", onSocketDisconnect);
 
     // Set the initial status and initiate the connection
-    setSocketStatus(socket.connected ? "connected" : "connecting");
+    setConnectionStatus(socket.connected ? "connected" : "connecting");
 
     socket.connect();
 
     return () => {
-      socket.off("connect", handleConnect);
-      socket.off("disconnect", handleDisconnect);
+      socket.off("connect", onSocketConnect);
+      socket.off("disconnect", onSocketDisconnect);
     };
   }, []);
 
@@ -46,7 +38,7 @@ function App() {
           <Routes>
             <Route
               path="/"
-              element={<VideoRecording socketStatus={socketStatus} />}
+              element={<VideoRecording connectionStatus={connectionStatus} />}
             />
             <Route path="/api/live-proctoring" element={<LiveProctoring />} />
             <Route path="api/details" element={<Details />} />

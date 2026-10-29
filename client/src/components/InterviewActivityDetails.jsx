@@ -2,29 +2,29 @@ import { useEffect } from "react";
 import { socket } from "../socket";
 import { useState } from "react";
 
-const InterviewActivityDetails = ({ selectedId, closeDetailsModal }) => {
-  const [activityDetails, setActivityDetails] = useState([]);
+const InterviewActivityDetails = ({ selectedId, closeEntryDetailsModal }) => {
+  const [selectedActivityDetails, setSelectedActivityDetails] = useState([]);
 
   useEffect(() => {
-    const handleActivityData = (data) => {
-      setActivityDetails(data);
+    const updateActivityDetails = (data) => {
+      setSelectedActivityDetails(data);
     };
 
-    socket.emit("fileData", selectedId);
-    socket.on("sendingData", handleActivityData);
+    socket.emit("requestFileData", selectedId);
+    socket.on("fileData", updateActivityDetails);
 
     return () => {
-      socket.off("fileData", selectedId);
-      socket.off("sendingData", handleActivityData);
+      socket.off("requestFileData", selectedId);
+      socket.off("fileData", updateActivityDetails);
     };
   }, [selectedId]);
 
-  const activityDetailsList = activityDetails.map((detail, index) => (
+  const activityDetailCards = selectedActivityDetails.map((detail, index) => (
     <div
       key={detail.id ?? `${detail.eventName}-${detail.timestamp}-${index}`}
       className="group rounded-xl border border-gray-200 bg-white p-5 transition duration-200 hover:border-indigo-300 hover:shadow-md"
     >
-      <div className="flex items-start gap-4">
+      <div className="flex items-center gap-4">
         {/* Event icon */}
         <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600">
           <svg
@@ -87,7 +87,7 @@ const InterviewActivityDetails = ({ selectedId, closeDetailsModal }) => {
           </div>
 
           <button
-            onClick={closeDetailsModal}
+            onClick={closeEntryDetailsModal}
             aria-label="Close details"
             className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full text-gray-500 transition hover:bg-red-50 hover:text-red-600"
           >
@@ -97,8 +97,8 @@ const InterviewActivityDetails = ({ selectedId, closeDetailsModal }) => {
 
         {/* Content */}
         <div className="max-h-[65vh] overflow-y-auto p-6">
-          {activityDetails.length > 0 ? (
-            <div className="space-y-4">{activityDetailsList}</div>
+          {selectedActivityDetails.length > 0 ? (
+            <div className="space-y-4">{activityDetailCards}</div>
           ) : (
             <div className="flex flex-col items-center justify-center py-12 text-center">
               <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-gray-100 text-gray-400">
@@ -125,12 +125,13 @@ const InterviewActivityDetails = ({ selectedId, closeDetailsModal }) => {
         {/* Footer */}
         <div className="flex items-center justify-between border-t border-gray-200 bg-gray-50 px-6 py-4">
           <span className="text-sm text-gray-500">
-            {activityDetails.length}{" "}
-            {activityDetails.length === 1 ? "activity" : "activity"} found
+            {selectedActivityDetails.length}{" "}
+            {selectedActivityDetails.length === 1 ? "activity" : "activity"}{" "}
+            found
           </span>
 
           <button
-            onClick={closeDetailsModal}
+            onClick={closeEntryDetailsModal}
             className="cursor-pointer rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           >
             Close

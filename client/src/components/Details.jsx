@@ -2,46 +2,46 @@ import { useEffect } from "react";
 import { socket } from "../socket";
 import { useState } from "react";
 import Modal from "react-modal";
-import InterviewerList from "./InterviewList";
+import InterviewRecordsList from "./InterviewRecordsList";
 
 Modal.setAppElement("#root");
 
 const Details = () => {
-  const [availableFiles, setAvailableFiles] = useState([]);
+  const [recordedFiles, setRecordedFiles] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedFileName, setSelectedFileName] = useState("");
 
   useEffect(() => {
-    const handleFilesRead = (receivedFileNames) => {
-      setAvailableFiles(receivedFileNames.reverse());
+    const handleAvailableFiles = (receivedFileNames) => {
+      setRecordedFiles(receivedFileNames.reverse());
     };
 
-    socket.emit("filesRead");
-    socket.on("filesRead", handleFilesRead);
+    socket.emit("requestFiles");
+    socket.on("filesList", handleAvailableFiles);
     return () => {
-      socket.off("filesRead", handleFilesRead);
+      socket.off("filesList", handleAvailableFiles);
     };
   }, []);
 
-  const openModal = () => {
+  const openFileDetailsModal = () => {
     setIsModalOpen(true);
   };
 
-  const closeModal = () => {
+  const closeFileDetailsModal = () => {
     setIsModalOpen(false);
   };
 
-  const handleFileSelection = (fileName) => {
+  const handleFileSelect = (fileName) => {
     setSelectedFileName(fileName);
-    openModal();
+    openFileDetailsModal();
   };
 
-  const fileListItems = availableFiles.map((fileName) => (
+  const fileListEntries = recordedFiles.map((fileName) => (
     <li
       key={fileName}
       className="flex items-center gap-3 px-4 py-3 sm:px-6
              transition-colors hover:bg-blue-50 cursor-pointer"
-      onClick={() => handleFileSelection(fileName)}
+      onClick={() => handleFileSelect(fileName)}
     >
       <div
         className="flex h-10 w-10 shrink-0 items-center justify-center
@@ -80,10 +80,13 @@ const Details = () => {
           <p className="text-sm text-gray-500">Your available files</p>
         </div>
 
-        <ul className="divide-y divide-gray-100">{fileListItems}</ul>
+        <ul className="divide-y divide-gray-100">{fileListEntries}</ul>
       </div>
-      <Modal isOpen={isModalOpen} onRequestClose={closeModal}>
-        <InterviewerList filename={selectedFileName} closeModal={closeModal} />
+      <Modal isOpen={isModalOpen} onRequestClose={closeFileDetailsModal}>
+        <InterviewRecordsList
+          filename={selectedFileName}
+          closeFileDetailsModal={closeFileDetailsModal}
+        />
       </Modal>
     </div>
   );

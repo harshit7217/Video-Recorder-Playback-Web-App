@@ -1,23 +1,23 @@
-import { useState, useRef, useEffect, useCallback, use } from "react";
-import { emitRecordingEvent, socket } from "../socket.js";
+import { useState, useRef, useEffect, useCallback } from "react";
+import { emitRecordingActivity, socket } from "../socket.js";
 import VideoRecordingHeader from "./VideoRecordingHeader.jsx";
 import VideoRecordingScreen from "./VideoRecordingScreen.jsx";
 import VideoResult from "./VideoResult.jsx";
 import debounce from "debounce";
 
-const VideoRecording = ({ socketStatus }) => {
-  const [isRecording, setIsRecording] = useState(false);
-  const [videoIndex, setVideoIndex] = useState(-1);
-  const [videoUrlList, setVideoUrlList] = useState([]);
+const VideoRecording = ({ connectionStatus }) => {
+  const [isRecordingActive, setIsRecordingActive] = useState(false);
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(-1);
+  const [recordedVideos, setRecordedVideos] = useState([]);
 
-  const videoRef = useRef(null);
-  const bgImageRef = useRef([]);
+  const videoElementRef = useRef(null);
+  const backgroundImagesRef = useRef([]);
 
-  const handleBackground = useCallback((imageUrl, index) => {
+  const loadBackgroundImage = useCallback((imageUrl, index) => {
     const image = new Image();
     image.crossOrigin = "anonymous";
     image.onload = () => {
-      bgImageRef.current[index] = image;
+      backgroundImagesRef.current[index] = image;
     };
     image.onerror = (error) => {
       console.error("Failed to load background image", error);
@@ -25,7 +25,7 @@ const VideoRecording = ({ socketStatus }) => {
     image.src = imageUrl;
   });
 
-  const handleCopyAndPaste = useCallback(async (event, status) => {
+  const handleClipboardAction = useCallback(async (event, status) => {
     if (!event) return;
 
     const clipboardData = event.clipboardData || window.clipboardData;
@@ -34,57 +34,57 @@ const VideoRecording = ({ socketStatus }) => {
 
     if (status === "copy") {
       navigator.clipboard.writeText(selectedText);
-      emitRecordingEvent("activities", {
+      emitRecordingActivity({
         reason: `user copied text to clipboard - (${selectedText})`,
         eventName: "text:copied",
       });
       return;
     }
 
-    emitRecordingEvent("activities", {
+    emitRecordingActivity({
       reason: `user pasted text to clipboard - (${pastedText})`,
       eventName: "text:pasted",
     });
   }, []);
 
   useEffect(() => {
-    const onFocus = () => {
-      emitRecordingEvent("activities", {
+    const handleWindowFocus = () => {
+      emitRecordingActivity({
         reason: "user returned to window",
         eventName: "window:focused",
       });
     };
 
-    const onBlur = () => {
-      emitRecordingEvent("activities", {
+    const handleWindowBlur = () => {
+      emitRecordingActivity({
         reason: "user switched to another window",
         eventName: "window:blurred",
       });
     };
 
-    const onCopy = (event) => handleCopyAndPaste(event, "copy");
-    const onPaste = (event) => handleCopyAndPaste(event, "paste");
+    const onCopy = (event) => handleClipboardAction(event, "copy");
+    const onPaste = (event) => handleClipboardAction(event, "paste");
 
     // window size changes event handling
-    const onResize = () => {
-      emitRecordingEvent("activities", {
+    const handleWindowResize = () => {
+      emitRecordingActivity({
         reason: `window dimensions changed - (width: ${window.innerWidth}px, height: ${window.innerHeight}px)`,
         eventName: "window:resized",
       });
     };
 
-    window.onresize = debounce(onResize, 500);
+    window.onresize = debounce(handleWindowResize, 500);
 
-    window.addEventListener("focus", onFocus);
-    window.addEventListener("blur", onBlur);
+    window.addEventListener("focus", handleWindowFocus);
+    window.addEventListener("blur", handleWindowBlur);
     document.addEventListener("copy", onCopy);
     document.addEventListener("paste", onPaste);
 
-    socket.emit("clientId");
+    socket.emit("registerClient");
 
     return () => {
-      window.removeEventListener("focus", onFocus);
-      window.removeEventListener("blur", onBlur);
+      window.removeEventListener("focus", handleWindowFocus);
+      window.removeEventListener("blur", handleWindowBlur);
       document.removeEventListener("copy", onCopy);
       document.removeEventListener("paste", onPaste);
     };
@@ -92,12 +92,12 @@ const VideoRecording = ({ socketStatus }) => {
 
   useEffect(() => {
     // Frist Background
-    handleBackground(
+    loadBackgroundImage(
       "https://images.pexels.com/photos/159839/office-home-house-desk-159839.jpeg",
       0,
     );
     // Second background
-    handleBackground(
+    loadBackgroundImage(
       "https://as2.ftcdn.net/v2/jpg/12/43/81/49/1000_F_1243814925_JVTsWRfjqOi4gyB3yhDte9syfMAY8BJK.jpg",
       1,
     );
@@ -110,31 +110,31 @@ const VideoRecording = ({ socketStatus }) => {
         <div className="overflow-hidden rounded-3xl border border-[#E7E8F5] bg-white shadow-[0_20px_60px_rgba(103,111,163,0.12)]">
           {/* Header */}
           <VideoRecordingHeader
-            socketStatus={socketStatus}
-            isRecording={isRecording}
+            connectionStatus={connectionStatus}
+            isRecordingActive={isRecordingActive}
           />
           {/* Content */}
           <div className="p-4 sm:p-6 md:p-8">
             {/* ================= START SCREEN ================= */}
-            {!videoUrlList[videoIndex] && (
+            {!recordedVideos[currentVideoIndex] && (
               <VideoRecordingScreen
-                isRecording={isRecording}
-                videoRef={videoRef}
-                setIsRecording={setIsRecording}
-                videoIndex={videoIndex}
-                setVideoUrlList={setVideoUrlList}
-                setVideoIndex={setVideoIndex}
-                videoUrlList={videoUrlList}
-                bgImageRef={bgImageRef}
+                isRecordingActive={isRecordingActive}
+                videoElementRef={videoElementRef}
+                setIsRecordingActive={setIsRecordingActive}
+                currentVideoIndex={currentVideoIndex}
+                setRecordedVideos={setRecordedVideos}
+                setCurrentVideoIndex={setCurrentVideoIndex}
+                recordedVideos={recordedVideos}
+                bgImageRef={backgroundImagesRef}
               />
             )}
             {/* ================= VIDEO RESULT ================= */}
-            {videoUrlList[videoIndex] && (
+            {recordedVideos[currentVideoIndex] && (
               <VideoResult
-                videoUrlList={videoUrlList}
-                videoIndex={videoIndex}
-                setVideoIndex={setVideoIndex}
-                setVideoUrlList={setVideoUrlList}
+                recordedVideos={recordedVideos}
+                currentVideoIndex={currentVideoIndex}
+                setCurrentVideoIndex={setCurrentVideoIndex}
+                setRecordedVideos={setRecordedVideos}
               />
             )}
           </div>

@@ -25,8 +25,8 @@ const BackgroundControllers = ({
   canvasRef,
   segmenterRef,
   bgImageRef,
-  blurOnRef,
-  backgroundImageRef,
+  isBlurEnabledRef,
+  backgroundImagesRef,
 }) => {
   const [modelStatus, setModelStatus] = useState("idle");
   const [normalOn, setNormalOn] = useState(true);
@@ -89,11 +89,11 @@ const BackgroundControllers = ({
   }, []);
 
   const handleSegmentationResults = (results) => {
-    if (blurOnRef.current) {
+    if (isBlurEnabledRef.current) {
       drawBlurred(results);
-    } else if (backgroundImageRef.current[0]) {
+    } else if (backgroundImagesRef.current[0]) {
       drawBgImage(results, 0);
-    } else if (backgroundImageRef.current[1]) {
+    } else if (backgroundImagesRef.current[1]) {
       drawBgImage(results, 1);
     } else {
       drawOriginal(results);
@@ -105,12 +105,12 @@ const BackgroundControllers = ({
     if (next) {
       try {
         await ensureSegmenter();
-        backgroundImageRef.current.forEach((_, i) => {
-          backgroundImageRef.current[i] = false;
+        backgroundImagesRef.current.forEach((_, i) => {
+          backgroundImagesRef.current[i] = false;
         });
         setBgImageState((prev) => prev.map(() => false));
 
-        blurOnRef.current = false;
+        isBlurEnabledRef.current = false;
         setBlurOn(false);
       } catch (err) {
         setModelStatus("idle");
@@ -126,24 +126,24 @@ const BackgroundControllers = ({
     if (next) {
       try {
         await ensureSegmenter();
-        blurOnRef.current = false;
+        isBlurEnabledRef.current = false;
         setBlurOn(false);
         normalOnRef.current = false;
         setNormalOn(false);
-        backgroundImageRef.current.forEach((_, i) => {
+        backgroundImagesRef.current.forEach((_, i) => {
           if (i !== index) {
-            backgroundImageRef.current[i] = false;
+            backgroundImagesRef.current[i] = false;
           }
         });
         setBgImageState((prev) => prev.map((_, i) => i === index));
-        backgroundImageRef.current[index] = true;
+        backgroundImagesRef.current[index] = true;
         setBgImageState((prev) => [...prev, (prev[index] = true)]);
       } catch (err) {
         setModelStatus("idle");
         return;
       }
     }
-    backgroundImageRef.current[index] = next;
+    backgroundImagesRef.current[index] = next;
     setBgImageState((prev) => [...prev, (prev[index] = next)]);
   }, []);
 
@@ -152,21 +152,21 @@ const BackgroundControllers = ({
     if (next) {
       try {
         await ensureSegmenter();
-        backgroundImageRef.current.forEach((_, i) => {
-          backgroundImageRef.current[i] = false;
+        backgroundImagesRef.current.forEach((_, i) => {
+          backgroundImagesRef.current[i] = false;
         });
         setBgImageState((prev) => prev.map(() => false));
         normalOnRef.current = false;
         setNormalOn(false);
 
-        blurOnRef.current = true;
+        isBlurEnabledRef.current = true;
         setBlurOn(true);
       } catch (err) {
         setModelStatus("idle");
         return;
       }
     }
-    blurOnRef.current = next;
+    isBlurEnabledRef.current = next;
     setBlurOn(next);
   }, []);
 
@@ -205,7 +205,7 @@ const BackgroundControllers = ({
           toggleBg={() => toggleBg("normal")}
           modelStatus={modelStatus}
           icon={"◯"}
-          title={"Normal"}
+          label={"Normal"}
           subtitle={"Original background"}
         />
 
@@ -215,27 +215,27 @@ const BackgroundControllers = ({
           toggleBg={() => toggleBg("blur")}
           modelStatus={modelStatus}
           icon={"◌"}
-          title={"Blur"}
+          label={"Blur"}
           subtitle={"Soft background"}
         />
 
         {/* Office */}
         <ImageBackground
-          bgImageState={bgImageState}
+          bgImageState={bgImageState[0]}
           toggleBg={() => toggleBg("image", 0)}
           modelStatus={modelStatus}
           icon={"🏢"}
-          title={"Office"}
+          label={"Office"}
           subtitle={"Professional setting"}
         />
 
         {/* Sunflower */}
         <ImageBackground
-          bgImageState={bgImageState}
+          bgImageState={bgImageState[1]}
           toggleBg={() => toggleBg("image", 1)}
           modelStatus={modelStatus}
           icon={"🌻"}
-          title={"Sunflower"}
+          label={"Sunflower"}
           subtitle={"Bright background"}
         />
       </div>

@@ -1,7 +1,7 @@
 import VideoDuration from "../VideoDuration";
 
-const PreviousVideoList = ({ videoUrlList }) => {
-  const videoList = videoUrlList.map((video) => (
+const PreviousVideoList = ({ recordedVideos }) => {
+  const videoList = recordedVideos.map((video) => (
     <li
       key={video.url}
       className="snap-center shrink-0 w-full h-full flex flex-col justify-center items-center"

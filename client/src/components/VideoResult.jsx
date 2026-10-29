@@ -4,46 +4,51 @@ import VideoFrame from "./Frame/VideoFrame";
 import { useCallback, useState } from "react";
 
 const VideoResult = ({
-  videoUrlList,
-  videoIndex,
-  setVideoIndex,
-  setVideoUrlList,
+  recordedVideos,
+  currentVideoIndex,
+  setCurrentVideoIndex,
+  setRecordedVideos,
 }) => {
-  const [showPreview, setShowPreview] = useState(false);
+  const [isPreviewVisible, setIsPreviewVisible] = useState(false);
 
   //   Handling record again video
-  const handleRecordAgain = useCallback(() => {
-    setVideoIndex((prev) => prev + 1);
-    setShowPreview(false);
+  const handleRecordAgainClick = useCallback(() => {
+    setCurrentVideoIndex((prev) => prev + 1);
+    setIsPreviewVisible(false);
   });
 
   //   handling the delete button to deleteing the current video
-  const handleDeleteVideo = useCallback(() => {
-    const updatedList = videoUrlList.filter(
-      (video) => video.url !== videoUrlList[videoIndex].url,
+  const handleDeleteCurrentVideo = useCallback(() => {
+    const remaningVideos = recordedVideos.filter(
+      (video) => video.url !== recordedVideos[currentVideoIndex].url,
     );
-    setVideoUrlList(updatedList);
-    setVideoIndex((videoIndex) => videoIndex - 1);
+    setRecordedVideos(remaningVideos);
+    setCurrentVideoIndex((currentVideoIndex) => currentVideoIndex - 1);
   });
 
   return (
     <div className="space-y-6">
       {/* Action Bar */}
       <div className="flex flex-wrap items-center justify-center gap-2">
-        {showPreview && <Button title={"Delete"} onClick={handleDeleteVideo} />}
-        <Button title={"Record Again"} onClick={handleRecordAgain} />
+        {isPreviewVisible && (
+          <Button label={"Delete"} onClick={handleDeleteCurrentVideo} />
+        )}
+        <Button label={"Record Again"} onClick={handleRecordAgainClick} />
 
         <Button
-          title={showPreview ? "Current Video" : "Previous Videos"}
-          onClick={() => setShowPreview(!showPreview)}
+          label={isPreviewVisible ? "Current Video" : "Previous Videos"}
+          onClick={() => setIsPreviewVisible(!isPreviewVisible)}
         />
       </div>
 
       {/* Video Content */}
-      {showPreview ? (
-        <PreviousVideoList videoUrlList={videoUrlList} />
+      {isPreviewVisible ? (
+        <PreviousVideoList recordedVideos={recordedVideos} />
       ) : (
-        <VideoFrame videoUrlList={videoUrlList} videoIndex={videoIndex} />
+        <VideoFrame
+          recordedVideos={recordedVideos}
+          currentVideoIndex={currentVideoIndex}
+        />
       )}
     </div>
   );
