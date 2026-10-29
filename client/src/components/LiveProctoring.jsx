@@ -98,28 +98,44 @@ export default function Details() {
   }, []);
 
   const stats = useMemo(() => {
-    const remainingSeconds = (cat) =>
-      activityRows.filter((r) => getEventCategory(r.eventName) === cat).length;
+    const countEventsByCategory = (categoryName) =>
+      activityRows.filter((row) => {
+        const eventCategory = getEventCategory(row.eventName);
+        return categoryName.includes(eventCategory);
+      }).length;
 
     return [
       { label: "Total events", value: activityRows.length },
-      { label: "Recording", value: remainingSeconds("recording") },
-      { label: "Focus / window", value: remainingSeconds("window") },
-      { label: "Copy / paste", value: remainingSeconds("text") },
+      {
+        label: "Recording",
+        value: countEventsByCategory(categoryMap["recording"]),
+      },
+      {
+        label: "Focus / window",
+        value: countEventsByCategory(categoryMap["window"]),
+      },
+      {
+        label: "Copy / paste",
+        value: countEventsByCategory(categoryMap["text"]),
+      },
     ];
   });
-  // const selectedCategoryValue = categoryMap[selectedCategory];
-  const filteredActivityRows = useMemo(
+
+  const visibleActivityRows = useMemo(
     () =>
-      [...activityRows]
-        .reverse()
-        .filter(
-          (r) =>
-            selectedCategory === "all" ||
-            getEventCategory(r.eventName) === selectedCategory,
-        ),
+      [...activityRows].reverse().filter((row) => {
+        if (selectedCategory === "all") return true;
+
+        const matchingCategoryValue = categoryMap[selectedCategory];
+        const eventCategory = getEventCategory(row.eventName);
+
+        return matchingCategoryValue
+          ? matchingCategoryValue.includes(eventCategory)
+          : false;
+      }),
     [activityRows, selectedCategory],
   );
+
   return (
     <main className="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
       <div className="mx-auto max-w-5xl px-5 pb-16 pt-8">
@@ -179,7 +195,7 @@ export default function Details() {
             <div className="px-4 py-12 text-center text-slate-500">
               Loading...
             </div>
-          ) : filteredActivityRows.length === 0 ? (
+          ) : visibleActivityRows.length === 0 ? (
             <div className="px-4 py-12 text-center text-slate-500">
               No events yet
             </div>
@@ -193,7 +209,7 @@ export default function Details() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
-                {filteredActivityRows.map((row, i) => {
+                {visibleActivityRows.map((row, i) => {
                   getEventCategory(row.eventName);
                   return (
                     <tr
