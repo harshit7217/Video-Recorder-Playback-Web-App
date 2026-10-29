@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 
-const TimeLeft = ({ remainingSeconds }) => {
+const RecordingTimer = ({ remainingSeconds }) => {
   // time limit - format
   const formatTimeLeft = useCallback((secondsLeft) => {
     const durationMinutes = Math.floor(secondsLeft / 60);
@@ -19,4 +19,4 @@ const TimeLeft = ({ remainingSeconds }) => {
   );
 };
 
-export default TimeLeft;
+export default RecordingTimer;

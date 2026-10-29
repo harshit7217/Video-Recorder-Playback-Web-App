@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
-import { socket } from "../socket.js";
-import Button from "./Button.jsx";
-import { categoryMap } from "./categoryMap.js";
+import { socket } from "../../socket.js";
+import Button from "./../ui/Button.jsx";
+import { categoryMap } from "./../utils/categoryMap.js";
 
 const CATEGORIES = ["all", "camera", "recording", "text", "window", "screen"];
 
@@ -47,7 +47,7 @@ function DetailChips({ row, events }) {
   }
 }
 
-export default function Details() {
+export default function ActivityLogPage() {
   const [activityRows, setActivityRows] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [isLoading, setIsLoading] = useState(true);

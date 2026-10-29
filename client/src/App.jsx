@@ -1,11 +1,11 @@
 import { BrowserRouter, Routes, Route } from "react-router";
-import VideoRecording from "./components/VideoRecording.jsx";
-import LiveProctoring from "./components/LiveProctoring.jsx";
-import Sidebar from "./components/SideBar.jsx";
-import Header from "./components/Header.jsx";
+import RecordingPage from "./components/recording/RecordingPage.jsx";
+import ActivityLogPage from "./components/activity/ActivityLogPage.jsx";
+import Sidebar from "./components/layout/TopNavigation.jsx";
+import Header from "./components/layout/Header.jsx";
 import { socket } from "./socket.js";
 import { useState, useEffect } from "react";
-import Details from "./components/Details.jsx";
+import FileListPanel from "./components/activity/FileListPanel.jsx";
 
 function App() {
   const [connectionStatus, setConnectionStatus] = useState(
@@ -38,10 +38,10 @@ function App() {
           <Routes>
             <Route
               path="/"
-              element={<VideoRecording connectionStatus={connectionStatus} />}
+              element={<RecordingPage connectionStatus={connectionStatus} />}
             />
-            <Route path="/api/live-proctoring" element={<LiveProctoring />} />
-            <Route path="api/details" element={<Details />} />
+            <Route path="/api/live-proctoring" element={<ActivityLogPage />} />
+            <Route path="api/details" element={<FileListPanel />} />
           </Routes>
         </main>
       </div>

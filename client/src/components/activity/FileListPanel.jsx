@@ -1,12 +1,12 @@
 import { useEffect } from "react";
-import { socket } from "../socket";
+import { socket } from "../../socket";
 import { useState } from "react";
 import Modal from "react-modal";
-import InterviewRecordsList from "./InterviewRecordsList";
+import InterviewRecordsList from "./InterviewListModal";
 
 Modal.setAppElement("#root");
 
-const Details = () => {
+const FileListPanel = () => {
   const [recordedFiles, setRecordedFiles] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedFileName, setSelectedFileName] = useState("");
@@ -92,4 +92,4 @@ const Details = () => {
   );
 };
 
-export default Details;
+export default FileListPanel;

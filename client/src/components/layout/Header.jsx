@@ -1,4 +1,4 @@
-import vr_pwa_logo from "./../assets/vr_pwa_logo.jpg";
+import vr_pwa_logo from "./../../assets/vr_pwa_logo.jpg";
 
 function Header() {
   return (

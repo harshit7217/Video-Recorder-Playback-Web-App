@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { emitRecordingActivity } from "../socket.js";
-import Button from "./Button.jsx";
+import { emitRecordingActivity } from "../../socket.js";
+import Button from "./../ui/Button.jsx";
 import { useEffect } from "react";
 
-const VideoRecordingHeader = ({ connectionStatus, isRecordingActive }) => {
+const RecordingHeader = ({ connectionStatus, isRecordingActive }) => {
   const [isFullScreen, setIsFullscreen] = useState(false);
 
   const toggleFullScreen = () => {
@@ -132,4 +132,4 @@ const VideoRecordingHeader = ({ connectionStatus, isRecordingActive }) => {
   );
 };
 
-export default VideoRecordingHeader;
+export default RecordingHeader;

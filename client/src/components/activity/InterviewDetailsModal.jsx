@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import { socket } from "../socket";
+import { socket } from "../../socket";
 import { useState } from "react";
 
-const InterviewActivityDetails = ({ selectedId, closeEntryDetailsModal }) => {
+const InterviewDetailsModal = ({ selectedId, closeEntryDetailsModal }) => {
   const [selectedActivityDetails, setSelectedActivityDetails] = useState([]);
 
   useEffect(() => {
@@ -142,4 +142,4 @@ const InterviewActivityDetails = ({ selectedId, closeEntryDetailsModal }) => {
   );
 };
 
-export default InterviewActivityDetails;
+export default InterviewDetailsModal;

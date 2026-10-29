@@ -1,9 +1,9 @@
-import Button from "./Button";
-import PreviousVideoList from "./Frame/PreviousVideoList";
-import VideoFrame from "./Frame/VideoFrame";
+import Button from "./../ui/Button";
+import PreviousVideoList from "./frame/PreviousVideoList";
+import VideoFrame from "./frame/VideoFrame";
 import { useCallback, useState } from "react";
 
-const VideoResult = ({
+const RecordedVideoResult = ({
   recordedVideos,
   currentVideoIndex,
   setCurrentVideoIndex,
@@ -54,4 +54,4 @@ const VideoResult = ({
   );
 };
 
-export default VideoResult;
+export default RecordedVideoResult;

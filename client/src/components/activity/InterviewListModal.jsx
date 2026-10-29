@@ -1,12 +1,12 @@
 import { useEffect } from "react";
-import { socket } from "../socket";
+import { socket } from "../../socket";
 import { useState } from "react";
 import Modal from "react-modal";
-import InterviewActivityDetails from "./InterviewActivityDetails";
+import InterviewActivityDetails from "./InterviewDetailsModal";
 
 Modal.setAppElement("#root");
 
-const InterviewRecordsList = ({ filename, closeFileDetailsModal }) => {
+const InterviewListModal = ({ filename, closeFileDetailsModal }) => {
   const [entryIds, setEntryIds] = useState([]);
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
   const [selectedId, setSelectedId] = useState("");
@@ -115,4 +115,4 @@ const InterviewRecordsList = ({ filename, closeFileDetailsModal }) => {
   );
 };
 
-export default InterviewRecordsList;
+export default InterviewListModal;

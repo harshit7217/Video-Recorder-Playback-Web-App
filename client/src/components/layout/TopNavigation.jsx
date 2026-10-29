@@ -7,7 +7,7 @@ const getNavLinkClass = ({ isActive }) =>
       : "text-slate-300 hover:bg-slate-700 hover:text-white"
   }`;
 
-export default function Sidebar() {
+export default function TopNavigation() {
   return (
     <header className="sticky top-0 z-10 w-full bg-slate-800 shadow-md">
       <div className="mx-auto flex h-12 max-w-6xl items-center justify-between px-3 md:h-14 md:px-6">
@@ -19,7 +19,7 @@ export default function Sidebar() {
             Live Proctoring
           </NavLink>
           <NavLink to="/api/details" end className={getNavLinkClass}>
-            Details
+            File List Panel
           </NavLink>
         </nav>
       </div>

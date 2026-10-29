@@ -1,7 +1,7 @@
 import { useCallback, useState, useRef } from "react";
-import NormalBackground from "./Background/NormalBackground";
-import BlurBackground from "./Background/BlurBackground";
-import ImageBackground from "./Background/ImageBackground";
+import NormalBackground from "./NormalBackground";
+import BlurBackground from "./BlurBackground";
+import ImageBackground from "./ImageBackground";
 
 const MEDIAPIPE_URL =
   "https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation";
@@ -21,7 +21,7 @@ function loadSegmentationScript() {
   });
 }
 
-const BackgroundControllers = ({
+const BackgroundController = ({
   canvasRef,
   segmenterRef,
   bgImageRef,
@@ -243,4 +243,4 @@ const BackgroundControllers = ({
   );
 };
 
-export default BackgroundControllers;
+export default BackgroundController;

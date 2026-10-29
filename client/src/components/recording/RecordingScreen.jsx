@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState, useRef } from "react";
-import { emitRecordingActivity } from "../socket.js";
-import Button from "./Button.jsx";
-import BackgroundControllers from "./BackgroundControllers.jsx";
-import CanvasFrame from "./Frame/CanvasFrame.jsx";
-import HiddenVideoFrame from "./Frame/HiddenVideoFrame.jsx";
-import TimeLeft from "./TimeLeft.jsx";
-import StartingCountdown from "./StartingCountdown.jsx";
+import { emitRecordingActivity } from "../../socket.js";
+import Button from "../ui/Button.jsx";
+import BackgroundController from "./background/BackgroundController.jsx";
+import CanvasFrame from "./frame/CanvasFrame.jsx";
+import HiddenVideoFrame from "./frame/HiddenVideoFrame.jsx";
+import RecordingTimer from "./RecordingTimer.jsx";
+import CountdownOverlay from "./CountdownOverlay.jsx";
 
 const MIME_CANDIDATES = [
   "video/webm;codecs=vp9,opus",
@@ -17,7 +17,7 @@ const MIME_CANDIDATES = [
 const pickMimeType = () =>
   MIME_CANDIDATES.find((t) => window.MediaRecorder?.isTypeSupported?.(t)) || "";
 
-const VideoRecordingScreen = ({
+const RecordingScreen = ({
   isRecordingActive,
   videoElementRef,
   setIsRecordingActive,
@@ -286,7 +286,9 @@ const VideoRecordingScreen = ({
       {/* Video Preview */}
       <div className="relative mx-auto w-full max-w-3xl overflow-hidden rounded-2xl bg-[#11142B] shadow-lg">
         {/* Timer */}
-        {isRecordingActive && <TimeLeft remainingSeconds={remainingSeconds} />}
+        {isRecordingActive && (
+          <RecordingTimer remainingSeconds={remainingSeconds} />
+        )}
 
         {/* Hidden source video */}
         <HiddenVideoFrame videoElementRef={videoElementRef} />
@@ -308,7 +310,7 @@ const VideoRecordingScreen = ({
 
       {/* Countdown */}
       {isCountdownRunning && (
-        <StartingCountdown secondsUntilStart={countdownSeconds} />
+        <CountdownOverlay secondsUntilStart={countdownSeconds} />
       )}
 
       {/* Start Button */}
@@ -350,7 +352,7 @@ const VideoRecordingScreen = ({
       {!isCountdownRunning &&
         recordingState !== "active" &&
         recordingState !== "paused" && (
-          <BackgroundControllers
+          <BackgroundController
             canvasRef={canvasRef}
             segmenterRef={segmenterRef}
             bgImageRef={bgImageRef}
@@ -362,4 +364,4 @@ const VideoRecordingScreen = ({
   );
 };
 
-export default VideoRecordingScreen;
+export default RecordingScreen;

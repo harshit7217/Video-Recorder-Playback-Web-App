@@ -1,11 +1,11 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import { emitRecordingActivity, socket } from "../socket.js";
-import VideoRecordingHeader from "./VideoRecordingHeader.jsx";
-import VideoRecordingScreen from "./VideoRecordingScreen.jsx";
-import VideoResult from "./VideoResult.jsx";
+import { emitRecordingActivity, socket } from "../../socket.js";
+import RecordingHeader from "./RecordingHeader.jsx";
+import RecordingScreen from "./RecordingScreen.jsx";
+import RecordingVideoResult from "./RecordedVideoResult.jsx";
 import debounce from "debounce";
 
-const VideoRecording = ({ connectionStatus }) => {
+const RecordingPage = ({ connectionStatus }) => {
   const [isRecordingActive, setIsRecordingActive] = useState(false);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(-1);
   const [recordedVideos, setRecordedVideos] = useState([]);
@@ -109,7 +109,7 @@ const VideoRecording = ({ connectionStatus }) => {
         {/* Main Recorder Card */}
         <div className="overflow-hidden rounded-3xl border border-[#E7E8F5] bg-white shadow-[0_20px_60px_rgba(103,111,163,0.12)]">
           {/* Header */}
-          <VideoRecordingHeader
+          <RecordingHeader
             connectionStatus={connectionStatus}
             isRecordingActive={isRecordingActive}
           />
@@ -117,7 +117,7 @@ const VideoRecording = ({ connectionStatus }) => {
           <div className="p-4 sm:p-6 md:p-8">
             {/* ================= START SCREEN ================= */}
             {!recordedVideos[currentVideoIndex] && (
-              <VideoRecordingScreen
+              <RecordingScreen
                 isRecordingActive={isRecordingActive}
                 videoElementRef={videoElementRef}
                 setIsRecordingActive={setIsRecordingActive}
@@ -130,7 +130,7 @@ const VideoRecording = ({ connectionStatus }) => {
             )}
             {/* ================= VIDEO RESULT ================= */}
             {recordedVideos[currentVideoIndex] && (
-              <VideoResult
+              <RecordingVideoResult
                 recordedVideos={recordedVideos}
                 currentVideoIndex={currentVideoIndex}
                 setCurrentVideoIndex={setCurrentVideoIndex}
@@ -144,4 +144,4 @@ const VideoRecording = ({ connectionStatus }) => {
   );
 };
 
-export default VideoRecording;
+export default RecordingPage;

@@ -1,4 +1,4 @@
-const StartingCountdown = ({ secondsUntilStart }) => {
+const CountdownOverlay = ({ secondsUntilStart }) => {
   return (
     <div className="flex justify-center">
       <div className="rounded-full bg-[#EEF2FF] px-6 py-3 text-base font-semibold text-[#676FA3] shadow-sm">
@@ -9,4 +9,4 @@ const StartingCountdown = ({ secondsUntilStart }) => {
   );
 };
 
-export default StartingCountdown;
+export default CountdownOverlay;
