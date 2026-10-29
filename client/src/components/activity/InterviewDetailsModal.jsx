@@ -7,6 +7,9 @@ const InterviewDetailsModal = ({ selectedId, closeEntryDetailsModal }) => {
 
   useEffect(() => {
     const updateActivityDetails = (data) => {
+      data.map((d) => {
+        d.timestamp = d.timestamp.split("T")[1].split(".")[0];
+      });
       setSelectedActivityDetails(data);
     };
 
