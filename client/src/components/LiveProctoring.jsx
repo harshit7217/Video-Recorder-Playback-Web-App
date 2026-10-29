@@ -83,16 +83,16 @@ export default function Details() {
   };
 
   useEffect(() => {
-    fetchingData();
-  }, []);
-
-  useEffect(() => {
-    // socket.connect();
     socket.on("activities", handleData);
+    socket.on("connect", fetchingData);
 
+    socket.connect();
+    if (loading === true) {
+      fetchingData();
+    }
     return () => {
       socket.off("activities", handleData);
-      // socket.disconnect();
+      socket.off("connect", fetchingData);
     };
   }, []);
 

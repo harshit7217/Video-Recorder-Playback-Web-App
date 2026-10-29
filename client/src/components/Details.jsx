@@ -16,12 +16,10 @@ const Details = () => {
       setAvailableFiles(receivedFileNames.reverse());
     };
 
-    // socket.connect();
     socket.emit("filesRead");
     socket.on("filesRead", handleFilesRead);
     return () => {
       socket.off("filesRead", handleFilesRead);
-      // socket.disconnect();
     };
   }, []);
 

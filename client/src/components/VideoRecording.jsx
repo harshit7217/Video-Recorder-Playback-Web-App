@@ -25,20 +25,26 @@ const VideoRecording = ({ socketStatus }) => {
     image.src = imageUrl;
   });
 
-  // window size changes event handling
-  function onResize() {
+  const handleCopyAndPaste = useCallback(async (event, status) => {
+    if (!event) return;
+
+    const clipboardData = event.clipboardData || window.clipboardData;
+    const selectedText = window.getSelection()?.toString() || "";
+    const pastedText = clipboardData ? clipboardData.getData("text") : "";
+
+    if (status === "copy") {
+      navigator.clipboard.writeText(selectedText);
+      emitRecordingEvent("activities", {
+        reason: `user copied text to clipboard - (${selectedText})`,
+        eventName: "text:copied",
+      });
+      return;
+    }
+
     emitRecordingEvent("activities", {
-      reason: `window dimensions changed - (width: ${window.innerWidth}px, height: ${window.innerHeight}px)`,
-      eventName: "window:resized",
+      reason: `user pasted text to clipboard - (${pastedText})`,
+      eventName: "text:pasted",
     });
-  }
-
-  useEffect(() => {
-    window.onresize = debounce(onResize, 500);
-  }, []);
-
-  useEffect(() => {
-    socket.emit("clientId");
   }, []);
 
   useEffect(() => {
@@ -55,12 +61,32 @@ const VideoRecording = ({ socketStatus }) => {
         eventName: "window:blurred",
       });
     };
+
+    const onCopy = (event) => handleCopyAndPaste(event, "copy");
+    const onPaste = (event) => handleCopyAndPaste(event, "paste");
+
+    // window size changes event handling
+    const onResize = () => {
+      emitRecordingEvent("activities", {
+        reason: `window dimensions changed - (width: ${window.innerWidth}px, height: ${window.innerHeight}px)`,
+        eventName: "window:resized",
+      });
+    };
+
+    window.onresize = debounce(onResize, 500);
+
     window.addEventListener("focus", onFocus);
     window.addEventListener("blur", onBlur);
+    document.addEventListener("copy", onCopy);
+    document.addEventListener("paste", onPaste);
+
+    socket.emit("clientId");
 
     return () => {
       window.removeEventListener("focus", onFocus);
       window.removeEventListener("blur", onBlur);
+      document.removeEventListener("copy", onCopy);
+      document.removeEventListener("paste", onPaste);
     };
   }, []);
 
