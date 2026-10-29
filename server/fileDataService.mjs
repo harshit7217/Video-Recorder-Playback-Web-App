@@ -53,7 +53,7 @@ export const readDataFile = async (filename) => {
       .filter((line) => line.trim() !== "")
       .map((line) => JSON.parse(line));
   } catch (err) {
-    console.log(err);
+    console.error(err);
   }
 };
 
