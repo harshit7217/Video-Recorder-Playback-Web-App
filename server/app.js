@@ -2,7 +2,7 @@ import { createServer } from "node:http";
 import { Server } from "socket.io";
 import express from "express";
 import cors from "cors";
-import { socketActivity } from "./socketActivityMap.mjs";
+import { socketActivity } from "./socket/socketActivity.mjs";
 import {
   getDataFileNames,
   saveActivitiesToDataFile,
@@ -10,9 +10,9 @@ import {
   readDataFile,
   getUniqueKeysFromFile,
   getEntriesByKey,
-} from "./fileDataService.mjs";
+} from "./services/fileDataService.mjs";
 
-const port = Number(process.env.SOCKET_PORT || 3001);
+const port = Number(process.env.SOCKET_PORT || 3000);
 const clientOrigin = process.env.CLIENT_ORIGIN || "http://localhost:5173";
 
 const app = express();

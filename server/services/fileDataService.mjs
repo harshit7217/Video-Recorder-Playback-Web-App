@@ -7,14 +7,14 @@ const day = String(currentDate.getDate()).padStart(2, "0");
 const month = String(currentDate.getMonth() + 1).padStart(2, "0");
 const year = currentDate.getFullYear();
 const fileName = day + "-" + month + "-" + year + ".txt";
-await appendFile(`data/${fileName}`, "");
+await appendFile(`./data/${fileName}`, "");
 
 // temporary data store
 export let data = [];
 export let fileEntries = [];
 
 export const saveActivitiesToDataFile = async () => {
-  const fd = await open(`data/${fileName}`, "a");
+  const fd = await open(`./data/${fileName}`, "a");
   try {
     const stream = await fd.createWriteStream({ autoClose: true });
     const finished = once(stream, "finish");
