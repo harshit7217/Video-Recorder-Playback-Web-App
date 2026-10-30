@@ -1,15 +1,14 @@
 import { createServer } from "node:http";
 import { Server } from "socket.io";
 import express from "express";
+import path, { dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 import cors from "cors";
 import { socketActivity } from "./socket/socketActivity.mjs";
 import {
   getDataFileNames,
   saveActivitiesToDataFile,
   data,
-  readDataFile,
-  getUniqueKeysFromFile,
-  getEntriesByKey,
 } from "./services/fileDataService.mjs";
 
 const port = Number(process.env.SOCKET_PORT || 3001);
@@ -73,18 +72,14 @@ io.on("connection", async (socket) => {
     const fileNames = await getDataFileNames();
     io.emit("filesList", fileNames);
   });
-
-  socket.on("requestFileKeys", async (filename) => {
-    await readDataFile(filename);
-    const keys = getUniqueKeysFromFile();
-    io.emit("filesKeys", keys);
-  });
-
-  socket.on("requestFileData", (key) => {
-    const selectedEntries = getEntriesByKey(key);
-    io.emit("fileData", selectedEntries);
-  });
 });
+
+const __dirname = path.join(
+  path.dirname(fileURLToPath(import.meta.url)),
+  "/data",
+);
+
+app.use("/static", express.static(path.join(__dirname)));
 
 httpServer.listen(port, () => {
   console.info(`Socket.IO server listening on http://localhost:${port}`);

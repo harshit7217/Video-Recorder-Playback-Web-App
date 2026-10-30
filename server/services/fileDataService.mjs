@@ -44,35 +44,3 @@ export const getDataFileNames = async () => {
     console.error("there was an error ", err);
   }
 };
-
-export const readDataFile = async (filename) => {
-  try {
-    const fd = await readFile(`./data/${filename}`, "utf8");
-    fileEntries = fd
-      .split(/\r?\n/)
-      .filter((line) => line.trim() !== "")
-      .map((line) => JSON.parse(line));
-  } catch (err) {
-    console.error(err);
-  }
-};
-
-export const getUniqueKeysFromFile = () => {
-  const uniqueKeys = [];
-  for (const entry of fileEntries) {
-    if (!uniqueKeys.includes(entry.key) && entry.key !== undefined) {
-      uniqueKeys.push(entry.key);
-    }
-  }
-  return uniqueKeys;
-};
-
-export const getEntriesByKey = (key) => {
-  const matchedEntries = [];
-  for (const entry of fileEntries) {
-    if (entry.key === key) {
-      matchedEntries.push(entry);
-    }
-  }
-  return matchedEntries;
-};
