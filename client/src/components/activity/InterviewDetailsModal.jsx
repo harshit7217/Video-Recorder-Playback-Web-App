@@ -1,27 +1,8 @@
-import { useEffect } from "react";
-import { socket } from "../../socket";
-import { useState } from "react";
-
-const InterviewDetailsModal = ({ selectedId, closeEntryDetailsModal }) => {
-  const [selectedActivityDetails, setSelectedActivityDetails] = useState([]);
-
-  useEffect(() => {
-    const updateActivityDetails = (data) => {
-      data.map((d) => {
-        d.timestamp = d.timestamp.split("T")[1].split(".")[0];
-      });
-      setSelectedActivityDetails(data);
-    };
-
-    socket.emit("requestFileData", selectedId);
-    socket.on("fileData", updateActivityDetails);
-
-    return () => {
-      socket.off("requestFileData", selectedId);
-      socket.off("fileData", updateActivityDetails);
-    };
-  }, [selectedId]);
-
+const InterviewDetailsModal = ({
+  selectedId,
+  closeEntryDetailsModal,
+  selectedActivityDetails,
+}) => {
   const activityDetailCards = selectedActivityDetails.map((detail, index) => (
     <div
       key={detail.id ?? `${detail.eventName}-${detail.timestamp}-${index}`}

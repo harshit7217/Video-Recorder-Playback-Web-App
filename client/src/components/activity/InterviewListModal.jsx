@@ -1,28 +1,47 @@
 import { useEffect } from "react";
-import { socket } from "../../socket";
 import { useState } from "react";
 import Modal from "react-modal";
-import InterviewActivityDetails from "./InterviewDetailsModal";
+import InterviewDetailsModal from "./InterviewDetailsModal";
 
 Modal.setAppElement("#root");
 
 const InterviewListModal = ({ filename, closeFileDetailsModal }) => {
+  const [fileEntries, setFileEntries] = useState([]);
   const [entryIds, setEntryIds] = useState([]);
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
   const [selectedId, setSelectedId] = useState("");
 
   useEffect(() => {
-    const handleFileKeys = (keys) => {
-      setEntryIds(keys);
-    };
-
-    socket.emit("requestFileKeys", filename);
-    socket.on("filesKeys", handleFileKeys);
-
-    return () => {
-      socket.off("filesKeys", handleFileKeys);
-    };
+    setEntryIds([]);
+    setFileEntries([]);
+    readDataFile();
   }, [filename]);
+
+  const readDataFile = async () => {
+    return await fetch(`http://localhost:3001/static/${filename}`)
+      .then(function (response) {
+        return response.text();
+      })
+      .then(function (data) {
+        const result = data
+          .split("\n")
+          .filter((line) => line.trim())
+          .map((entries) => JSON.parse(entries));
+
+        setFileEntries(result);
+
+        const uniqueEntryIds = [
+          ...new Set(
+            result
+              .map((entry) => entry.key)
+              .filter((key) => key !== undefined && key !== null && key !== ""),
+          ),
+        ];
+
+        setEntryIds(uniqueEntryIds);
+        return result;
+      });
+  };
 
   const openEntryDetailsModal = () => {
     setIsDetailsModalOpen(true);
@@ -106,7 +125,8 @@ const InterviewListModal = ({ filename, closeFileDetailsModal }) => {
         isOpen={isDetailsModalOpen}
         onRequestClose={closeEntryDetailsModal}
       >
-        <InterviewActivityDetails
+        <InterviewDetailsModal
+          selectedActivityDetails={fileEntries}
           selectedId={selectedId}
           closeEntryDetailsModal={closeEntryDetailsModal}
         />
