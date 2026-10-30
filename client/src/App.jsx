@@ -6,6 +6,7 @@ import Header from "./components/layout/Header.jsx";
 import { socket } from "./socket.js";
 import { useState, useEffect } from "react";
 import FileListPanel from "./components/activity/FileListPanel.jsx";
+import EmploymentPage from "./components/employer/EmploymentPage.jsx";
 
 function App() {
   const [connectionStatus, setConnectionStatus] = useState(
@@ -41,7 +42,8 @@ function App() {
               element={<RecordingPage connectionStatus={connectionStatus} />}
             />
             <Route path="/api/live-proctoring" element={<ActivityLogPage />} />
-            <Route path="api/details" element={<FileListPanel />} />
+            <Route path="/api/details" element={<FileListPanel />} />
+            <Route path="/employment" element={<EmploymentPage />} />
           </Routes>
         </main>
       </div>

@@ -21,6 +21,9 @@ export default function TopNavigation() {
           <NavLink to="/api/details" end className={getNavLinkClass}>
             File List Panel
           </NavLink>
+          <NavLink to="/employment" end className={getNavLinkClass}>
+            EmploymentPage
+          </NavLink>
         </nav>
       </div>
     </header>
