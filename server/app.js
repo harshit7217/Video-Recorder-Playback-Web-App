@@ -12,7 +12,7 @@ import {
   getEntriesByKey,
 } from "./services/fileDataService.mjs";
 
-const port = Number(process.env.SOCKET_PORT || 3000);
+const port = Number(process.env.SOCKET_PORT || 3001);
 const clientOrigin = process.env.CLIENT_ORIGIN || "http://localhost:5173";
 
 const app = express();
