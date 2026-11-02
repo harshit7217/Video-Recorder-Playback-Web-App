@@ -2,20 +2,38 @@ import { MapContainer, TileLayer, ZoomControl, Circle } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import LocationMarker from "./LocationMarker";
 import RadiusForm from "./RadiusForm";
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
+
+const defaultPosition = {
+  lat: 28.44373061164518,
+  lng: 77.05585275554049,
+  radius: 500,
+  name: "Shaheed Major Vikas Yadav Marg, Sector 39, Gurgaon, Haryana, 101301, India",
+};
 
 const Map = () => {
-  const [position, setPosition] = useState([
-    {
-      lat: 28.44373061164518,
-      lng: 77.05585275554049,
-    },
-  ]);
-  const [radius, setRadius] = useState(500);
+  const [positions, setPositions] = useState([defaultPosition]);
+  const [selectedPositionIndex, setSelectedPositionIndex] = useState(0);
 
-  useEffect(() => {
-    setRadius(500);
-  }, [position]);
+  const selectedPosition = useMemo(
+    () => positions[selectedPositionIndex] ?? positions[0],
+    [positions, selectedPositionIndex],
+  );
+
+  const updateSelectedRadius = (value) => {
+    const parsedValue = Number(value);
+    const safeRadius = Number.isFinite(parsedValue)
+      ? Math.max(500, parsedValue)
+      : 500;
+
+    setPositions((prev) =>
+      prev.map((position, index) =>
+        index === selectedPositionIndex
+          ? { ...position, radius: safeRadius }
+          : position,
+      ),
+    );
+  };
 
   return (
     <section className="w-full max-w-none mx-0 px-2 sm:px-4 lg:px-6 py-5 sm:py-8">
@@ -28,12 +46,15 @@ const Map = () => {
                 Search Area
               </h2>
               <p className="text-sm text-gray-500">
-                Customize your search radius to explore nearby locations.
+                Select a position on the map and update its radius.
               </p>
             </div>
 
             <div className="border-t border-gray-100 pt-5">
-              <RadiusForm radius={radius} setRadius={setRadius} />
+              <RadiusForm
+                radius={selectedPosition?.radius ?? 500}
+                setRadius={updateSelectedRadius}
+              />
             </div>
 
             <div className="mt-auto pt-5">
@@ -42,8 +63,8 @@ const Map = () => {
                   Search tip
                 </p>
                 <p className="text-xs text-blue-700 leading-relaxed">
-                  Increase the radius to discover more locations around your
-                  selected point.
+                  Click a marker to choose a point, then change that
+                  point&apos;s radius to refine the search area.
                 </p>
               </div>
             </div>
@@ -70,7 +91,10 @@ const Map = () => {
           {/* Map */}
           <div className="relative flex-1 min-h-[350px] w-full">
             <MapContainer
-              center={[position[0].lat, position[0].lng]}
+              center={[
+                selectedPosition?.lat ?? defaultPosition.lat,
+                selectedPosition?.lng ?? defaultPosition.lng,
+              ]}
               zoom={13}
               scrollWheelZoom={true}
               zoomControl={false}
@@ -82,22 +106,29 @@ const Map = () => {
                 maxZoom={19}
               />
 
-              <Circle
-                center={[
-                  position[position.length - 1].lat,
-                  position[position.length - 1].lng,
-                ]}
-                radius={radius}
-                pathOptions={{
-                  color: "#2563eb",
-                  fillColor: "#3b82f6",
-                  fillOpacity: 0.15,
-                  weight: 2,
-                }}
-              />
+              {positions.map((position, index) => (
+                <Circle
+                  key={`${position.lat}-${position.lng}-${index}`}
+                  center={[position.lat, position.lng]}
+                  radius={position.radius}
+                  pathOptions={{
+                    color:
+                      index === selectedPositionIndex ? "#2563eb" : "#60a5fa",
+                    fillColor:
+                      index === selectedPositionIndex ? "#3b82f6" : "#93c5fd",
+                    fillOpacity: index === selectedPositionIndex ? 0.2 : 0.1,
+                    weight: index === selectedPositionIndex ? 2 : 1.5,
+                  }}
+                />
+              ))}
 
               <ZoomControl position="topright" />
-              <LocationMarker position={position} setPosition={setPosition} />
+              <LocationMarker
+                positions={positions}
+                setPositions={setPositions}
+                selectedPositionIndex={selectedPositionIndex}
+                setSelectedPositionIndex={setSelectedPositionIndex}
+              />
             </MapContainer>
 
             {/* Radius Indicator */}
@@ -105,7 +136,7 @@ const Map = () => {
               <div className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 rounded-full bg-blue-500" />
                 <span className="text-xs font-semibold text-gray-700">
-                  Search radius: {radius} meter
+                  Search radius: {selectedPosition?.radius ?? 500} meters
                 </span>
               </div>
             </div>

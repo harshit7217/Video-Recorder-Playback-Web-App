@@ -1,45 +1,80 @@
-import { useEffect, useState } from "react";
 import { Marker, Popup, useMapEvents } from "react-leaflet";
 
-const LocationMarker = ({ position, setPosition }) => {
-  const [locationName, setLocationName] = useState([]);
-  const map = useMapEvents({
-    click(e) {
-      setPosition((prev) => [...prev, e.latlng]);
-      //   map.locate();
-    },
-    // locationfound(e) {
-    //   setPosition([e.latlng]);
-    //   map.flyTo(e.latlng, map.getZoom());
-    // },
-  });
-
-  const fetching = async () => {
+const LocationMarker = ({
+  positions,
+  setPositions,
+  setSelectedPositionIndex,
+}) => {
+  const updateLocationName = async (index, lat, lng) => {
     try {
-      fetch(
-        `https://nominatim.openstreetmap.org/reverse?lat=${position[position.length - 1].lat}&lon=${position[position.length - 1].lng}&format=jsonv2`,
-      )
-        .then((response) => response.json())
-        .then((data) =>
-          setLocationName((prev) => [...prev, data.display_name]),
-        );
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=jsonv2`,
+      );
+      const data = await response.json();
+
+      setPositions((prev) =>
+        prev.map((position, positionIndex) =>
+          positionIndex === index
+            ? {
+                ...position,
+                name: data.display_name || "Selected position",
+              }
+            : position,
+        ),
+      );
     } catch (err) {
       console.error(err);
     }
   };
-  useEffect(() => {
-    fetching();
-  }, [position]);
 
-  return position === null
-    ? null
-    : position.map((pos, index) => {
-        return (
-          <Marker key={index} position={[pos.lat, pos.lng]}>
-            <Popup>{locationName[index]}</Popup>
-          </Marker>
-        );
+  useMapEvents({
+    click(e) {
+      const newPosition = {
+        lat: e.latlng.lat,
+        lng: e.latlng.lng,
+        radius: 500,
+        name: "Selected position",
+      };
+
+      const newIndex = positions.length;
+      setPositions((prev) => [...prev, newPosition]);
+      setSelectedPositionIndex(newIndex);
+      updateLocationName(newIndex, e.latlng.lat, e.latlng.lng);
+    },
+  });
+
+  const removePosition = (indexToRemove) => {
+    setPositions((prev) => {
+      const nextPositions = prev.filter((_, index) => index !== indexToRemove);
+      setSelectedPositionIndex((currentIndex) => {
+        if (nextPositions.length === 0) {
+          return 0;
+        }
+
+        if (currentIndex >= nextPositions.length) {
+          return nextPositions.length - 1;
+        }
+
+        return currentIndex;
       });
+      return nextPositions;
+    });
+  };
+
+  return positions === null
+    ? null
+    : positions.map((pos, index) => (
+        <Marker
+          key={`${pos.lat}-${pos.lng}-${index}`}
+          position={[pos.lat, pos.lng]}
+          eventHandlers={{
+            click: () => setSelectedPositionIndex(index),
+            dblclick: () => removePosition(index),
+          }}
+        >
+          <Popup>{pos.name || "Selected position"}</Popup>
+        </Marker>
+      ));
 };
 
 export default LocationMarker;
