@@ -12,12 +12,12 @@ const createMarkerId = () => {
 const LocationMarker = ({
   positions,
   setPositions,
-  selectedPositionId,
-  setSelectedPositionId,
+  selectedMarkerId,
+  setSelectedMarkerId,
 }) => {
-  const [newData, setNewData] = useState({});
+  const [employerPayload, setEmployerPayload] = useState({});
 
-  const updateLocationName = async (positionId, lat, lng) => {
+  const resolveMarkerLocationName = async (positionId, lat, lng) => {
     try {
       const response = await fetch(
         `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=jsonv2`,
@@ -37,7 +37,7 @@ const LocationMarker = ({
         radius: 500,
       };
 
-      setNewData(nextLocationData);
+      setEmployerPayload(nextLocationData);
       setPositions((prev) =>
         prev.map((position) =>
           position.id === positionId
@@ -61,7 +61,7 @@ const LocationMarker = ({
         radius: 500,
       };
 
-      setNewData(fallbackLocationData);
+      setEmployerPayload(fallbackLocationData);
       setPositions((prev) =>
         prev.map((position) =>
           position.id === positionId
@@ -89,20 +89,20 @@ const LocationMarker = ({
         name: "Selected position",
       };
 
-      setSelectedPositionId(positionId);
+      setSelectedMarkerId(positionId);
       setPositions((prev) => [...prev, clickedPosition]);
-      updateLocationName(positionId, e.latlng.lat, e.latlng.lng);
+      resolveMarkerLocationName(positionId, e.latlng.lat, e.latlng.lng);
     },
   });
 
   useEffect(() => {
     if (
-      newData.clientId &&
-      Number.isFinite(newData.lat) &&
-      Number.isFinite(newData.lng) &&
-      newData.name
+      employerPayload.clientId &&
+      Number.isFinite(employerPayload.lat) &&
+      Number.isFinite(employerPayload.lng) &&
+      employerPayload.name
     ) {
-      const fetchEmployers = async () => {
+      const saveEmployerLocation = async () => {
         const response = await fetch(
           "http://localhost:3001/api/employers/post",
           {
@@ -110,7 +110,7 @@ const LocationMarker = ({
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify(newData),
+            body: JSON.stringify(employerPayload),
           },
         );
         if (!response.ok) {
@@ -120,20 +120,20 @@ const LocationMarker = ({
 
         setPositions((prev) =>
           prev.map((position) =>
-            position.id === newData.clientId
+            position.id === employerPayload.clientId
               ? { ...position, _id: data._id }
               : position,
           ),
         );
       };
 
-      fetchEmployers().catch((error) => {
+      saveEmployerLocation().catch((error) => {
         console.error("Error fetching employers:", error);
       });
     }
-  }, [newData, setPositions]);
+  }, [employerPayload, setPositions]);
 
-  const removePosition = async (positionId) => {
+  const deleteMarkerAndEmployer = async (positionId) => {
     const positionToRemove = positions.find(
       (position) => position.id === positionId,
     );
@@ -157,12 +157,12 @@ const LocationMarker = ({
       );
 
       if (nextPositions.length === 0) {
-        setSelectedPositionId(null);
+        setSelectedMarkerId(null);
         return nextPositions;
       }
 
-      if (selectedPositionId === positionId) {
-        setSelectedPositionId(nextPositions[0].id);
+      if (selectedMarkerId === positionId) {
+        setSelectedMarkerId(nextPositions[0].id);
       }
 
       return nextPositions;
@@ -176,8 +176,8 @@ const LocationMarker = ({
           key={pos.id || `${pos.lat}-${pos.lng}`}
           position={[pos.lat, pos.lng]}
           eventHandlers={{
-            click: () => setSelectedPositionId(pos.id),
-            dblclick: () => removePosition(pos.id),
+            click: () => setSelectedMarkerId(pos.id),
+            dblclick: () => deleteMarkerAndEmployer(pos.id),
           }}
         >
           <Popup>{pos.name || "Selected position"}</Popup>

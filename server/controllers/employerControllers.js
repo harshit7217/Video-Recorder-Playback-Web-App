@@ -32,7 +32,7 @@ export const postEmployer = async (req, res) => {
   }
 };
 
-export const getAllEmpolyers = async (req, res) => {
+export const getAllEmployers = async (req, res) => {
   try {
     const employers = await employerModel.find();
     res.status(200).json(employers);

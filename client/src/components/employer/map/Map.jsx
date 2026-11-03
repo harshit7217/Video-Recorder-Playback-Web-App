@@ -4,7 +4,7 @@ import LocationMarker from "./LocationMarker";
 import RadiusForm from "./RadiusForm";
 import { useMemo, useState, useEffect } from "react";
 
-const defaultPosition = {
+const defaultLocation = {
   id: "default-position",
   lat: 28.44373061164518,
   lng: 77.05585275554049,
@@ -13,19 +13,17 @@ const defaultPosition = {
 };
 
 const Map = () => {
-  const [positions, setPositions] = useState([defaultPosition]);
-  const [selectedPositionId, setSelectedPositionId] = useState(
-    defaultPosition.id,
-  );
+  const [positions, setPositions] = useState([defaultLocation]);
+  const [selectedMarkerId, setSelectedMarkerId] = useState(defaultLocation.id);
 
-  const selectedPosition = useMemo(
+  const selectedMarker = useMemo(
     () =>
-      positions.find((position) => position.id === selectedPositionId) ??
+      positions.find((position) => position.id === selectedMarkerId) ??
       positions[0],
-    [positions, selectedPositionId],
+    [positions, selectedMarkerId],
   );
 
-  const updateSelectedRadius = async (value) => {
+  const updateSelectedMarkerRadius = async (value) => {
     const parsedValue = Number(value);
     const safeRadius = Number.isFinite(parsedValue)
       ? Math.max(500, parsedValue)
@@ -33,32 +31,32 @@ const Map = () => {
 
     setPositions((prev) =>
       prev.map((position) =>
-        position.id === selectedPositionId
+        position.id === selectedMarkerId
           ? { ...position, radius: safeRadius }
           : position,
       ),
     );
 
-    const currentSelectedPosition = positions.find(
-      (position) => position.id === selectedPositionId,
+    const selectedMarkerSnapshot = positions.find(
+      (position) => position.id === selectedMarkerId,
     );
 
-    if (!currentSelectedPosition?._id) {
+    if (!selectedMarkerSnapshot?._id) {
       return;
     }
 
     try {
       await fetch(
-        `http://localhost:3001/api/employers/${currentSelectedPosition._id}`,
+        `http://localhost:3001/api/employers/${selectedMarkerSnapshot._id}`,
         {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            ...currentSelectedPosition,
+            ...selectedMarkerSnapshot,
             radius: safeRadius,
-            name: currentSelectedPosition.name ?? "Selected position",
+            name: selectedMarkerSnapshot.name ?? "Selected position",
           }),
         },
       );
@@ -80,7 +78,7 @@ const Map = () => {
       }));
       setPositions(normalizedPositions);
       if (normalizedPositions.length > 0) {
-        setSelectedPositionId(normalizedPositions[0].id);
+        setSelectedMarkerId(normalizedPositions[0].id);
       }
     };
 
@@ -106,8 +104,8 @@ const Map = () => {
 
             <div className="border-t border-gray-100 pt-5">
               <RadiusForm
-                radius={selectedPosition?.radius ?? 500}
-                setRadius={updateSelectedRadius}
+                radius={selectedMarker?.radius ?? 500}
+                setRadius={updateSelectedMarkerRadius}
               />
             </div>
 
@@ -146,8 +144,8 @@ const Map = () => {
           <div className="relative flex-1 min-h-[350px] w-full">
             <MapContainer
               center={[
-                selectedPosition?.lat ?? defaultPosition.lat,
-                selectedPosition?.lng ?? defaultPosition.lng,
+                selectedMarker?.lat ?? defaultLocation.lat,
+                selectedMarker?.lng ?? defaultLocation.lng,
               ]}
               zoom={13}
               scrollWheelZoom={true}
@@ -167,15 +165,15 @@ const Map = () => {
                   radius={position.radius}
                   pathOptions={{
                     color:
-                      position.id === selectedPositionId
+                      position.id === selectedMarkerId
                         ? "#2563eb"
                         : "#60a5fa",
                     fillColor:
-                      position.id === selectedPositionId
+                      position.id === selectedMarkerId
                         ? "#3b82f6"
                         : "#93c5fd",
-                    fillOpacity: position.id === selectedPositionId ? 0.2 : 0.1,
-                    weight: position.id === selectedPositionId ? 2 : 1.5,
+                    fillOpacity: position.id === selectedMarkerId ? 0.2 : 0.1,
+                    weight: position.id === selectedMarkerId ? 2 : 1.5,
                   }}
                 />
               ))}
@@ -184,8 +182,8 @@ const Map = () => {
               <LocationMarker
                 positions={positions}
                 setPositions={setPositions}
-                selectedPositionId={selectedPositionId}
-                setSelectedPositionId={setSelectedPositionId}
+                selectedMarkerId={selectedMarkerId}
+                setSelectedMarkerId={setSelectedMarkerId}
               />
             </MapContainer>
 
@@ -194,7 +192,7 @@ const Map = () => {
               <div className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 rounded-full bg-blue-500" />
                 <span className="text-xs font-semibold text-gray-700">
-                  Search radius: {selectedPosition?.radius ?? 500} meters
+                  Search radius: {selectedMarker?.radius ?? 500} meters
                 </span>
               </div>
             </div>
