@@ -2,9 +2,10 @@ import { MapContainer, TileLayer, ZoomControl, Circle } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import LocationMarker from "./LocationMarker";
 import RadiusForm from "./RadiusForm";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 
 const defaultPosition = {
+  id: "default-position",
   lat: 28.44373061164518,
   lng: 77.05585275554049,
   radius: 500,
@@ -13,27 +14,80 @@ const defaultPosition = {
 
 const Map = () => {
   const [positions, setPositions] = useState([defaultPosition]);
-  const [selectedPositionIndex, setSelectedPositionIndex] = useState(0);
-
-  const selectedPosition = useMemo(
-    () => positions[selectedPositionIndex] ?? positions[0],
-    [positions, selectedPositionIndex],
+  const [selectedPositionId, setSelectedPositionId] = useState(
+    defaultPosition.id,
   );
 
-  const updateSelectedRadius = (value) => {
+  const selectedPosition = useMemo(
+    () =>
+      positions.find((position) => position.id === selectedPositionId) ??
+      positions[0],
+    [positions, selectedPositionId],
+  );
+
+  const updateSelectedRadius = async (value) => {
     const parsedValue = Number(value);
     const safeRadius = Number.isFinite(parsedValue)
       ? Math.max(500, parsedValue)
       : 500;
 
     setPositions((prev) =>
-      prev.map((position, index) =>
-        index === selectedPositionIndex
+      prev.map((position) =>
+        position.id === selectedPositionId
           ? { ...position, radius: safeRadius }
           : position,
       ),
     );
+
+    const currentSelectedPosition = positions.find(
+      (position) => position.id === selectedPositionId,
+    );
+
+    if (!currentSelectedPosition?._id) {
+      return;
+    }
+
+    try {
+      await fetch(
+        `http://localhost:3001/api/employers/${currentSelectedPosition._id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ...currentSelectedPosition,
+            radius: safeRadius,
+            name: currentSelectedPosition.name ?? "Selected position",
+          }),
+        },
+      );
+    } catch (error) {
+      console.error("Error updating employer radius:", error);
+    }
   };
+
+  useEffect(() => {
+    const fetchEmployers = async () => {
+      const response = await fetch("http://localhost:3001/api/employers");
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      const normalizedPositions = data.map((employer) => ({
+        ...employer,
+        id: employer.id ?? employer._id ?? `${employer.lat}-${employer.lng}`,
+      }));
+      setPositions(normalizedPositions);
+      if (normalizedPositions.length > 0) {
+        setSelectedPositionId(normalizedPositions[0].id);
+      }
+    };
+
+    fetchEmployers().catch((error) => {
+      console.error("Error fetching employers:", error);
+    });
+  }, []);
 
   return (
     <section className="w-full max-w-none mx-0 px-2 sm:px-4 lg:px-6 py-5 sm:py-8">
@@ -106,18 +160,22 @@ const Map = () => {
                 maxZoom={19}
               />
 
-              {positions.map((position, index) => (
+              {positions.map((position) => (
                 <Circle
-                  key={`${position.lat}-${position.lng}-${index}`}
+                  key={position.id || `${position.lat}-${position.lng}`}
                   center={[position.lat, position.lng]}
                   radius={position.radius}
                   pathOptions={{
                     color:
-                      index === selectedPositionIndex ? "#2563eb" : "#60a5fa",
+                      position.id === selectedPositionId
+                        ? "#2563eb"
+                        : "#60a5fa",
                     fillColor:
-                      index === selectedPositionIndex ? "#3b82f6" : "#93c5fd",
-                    fillOpacity: index === selectedPositionIndex ? 0.2 : 0.1,
-                    weight: index === selectedPositionIndex ? 2 : 1.5,
+                      position.id === selectedPositionId
+                        ? "#3b82f6"
+                        : "#93c5fd",
+                    fillOpacity: position.id === selectedPositionId ? 0.2 : 0.1,
+                    weight: position.id === selectedPositionId ? 2 : 1.5,
                   }}
                 />
               ))}
@@ -126,8 +184,8 @@ const Map = () => {
               <LocationMarker
                 positions={positions}
                 setPositions={setPositions}
-                selectedPositionIndex={selectedPositionIndex}
-                setSelectedPositionIndex={setSelectedPositionIndex}
+                selectedPositionId={selectedPositionId}
+                setSelectedPositionId={setSelectedPositionId}
               />
             </MapContainer>
 
