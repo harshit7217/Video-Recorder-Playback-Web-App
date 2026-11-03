@@ -7,6 +7,7 @@ import cors from "cors";
 import { registerSocketHandlers } from "./socket/socket.js";
 import connectDB from "./config/db.js";
 import dotenv from "dotenv";
+import employerRoutes from "./routes/employerRoutes.js";
 
 dotenv.config();
 
@@ -18,6 +19,7 @@ const clientOrigin = process.env.CLIENT_ORIGIN || "http://localhost:5173";
 const app = express();
 
 app.use(cors({ origin: clientOrigin }));
+app.use(express.json());
 
 const httpServer = createServer(app);
 
@@ -32,6 +34,7 @@ const dataDir = path.join(path.dirname(fileURLToPath(import.meta.url)), "data");
 export { app, httpServer, io };
 
 app.use("/static", express.static(dataDir));
+app.use("/api/employers", employerRoutes);
 
 registerSocketHandlers(io);
 
