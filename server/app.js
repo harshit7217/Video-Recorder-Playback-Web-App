@@ -5,6 +5,12 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import cors from "cors";
 import { registerSocketHandlers } from "./socket/socket.js";
+import connectDB from "./config/db.js";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+connectDB();
 
 const port = Number(process.env.SOCKET_PORT || 3001);
 const clientOrigin = process.env.CLIENT_ORIGIN || "http://localhost:5173";
