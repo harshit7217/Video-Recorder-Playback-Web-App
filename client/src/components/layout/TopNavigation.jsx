@@ -7,7 +7,7 @@ const getNavLinkClass = ({ isActive }) =>
       : "text-slate-300 hover:bg-slate-700 hover:text-white"
   }`;
 
-export default function TopNavigation() {
+export default function TopNavigation({ isLogin, setIsLogin }) {
   return (
     <header className="sticky top-0 z-10 w-full bg-slate-800 shadow-md">
       <div className="mx-auto flex h-12 max-w-6xl items-center justify-between px-3 md:h-14 md:px-6">
@@ -23,6 +23,15 @@ export default function TopNavigation() {
           </NavLink>
           <NavLink to="/employment" end className={getNavLinkClass}>
             EmploymentPage
+          </NavLink>
+          <NavLink to="/register-candidate" end className={getNavLinkClass}>
+            {isLogin ? (
+              <button onClick={() => setIsLogin(false)}>
+                Switch to Register
+              </button>
+            ) : (
+              <button onClick={() => setIsLogin(true)}>Switch to Login</button>
+            )}
           </NavLink>
         </nav>
       </div>

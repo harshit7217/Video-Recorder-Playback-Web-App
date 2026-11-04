@@ -6,7 +6,7 @@ import {
 
 const router = express.Router();
 
-router.post("/", createCandidate);
+router.post("/register", createCandidate);
 router.post("/login", loginCandidate);
 
 export default router;

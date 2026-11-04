@@ -1,17 +1,21 @@
 import { BrowserRouter, Routes, Route } from "react-router";
 import RecordingPage from "./components/recording/RecordingPage.jsx";
 import ActivityLogPage from "./components/activity/ActivityLogPage.jsx";
-import Sidebar from "./components/layout/TopNavigation.jsx";
+import TopNavigation from "./components/layout/TopNavigation.jsx";
 import Header from "./components/layout/Header.jsx";
 import { socket } from "./socket.js";
 import { useState, useEffect } from "react";
 import FileListPanel from "./components/activity/FileListPanel.jsx";
 import EmploymentPage from "./components/employer/EmploymentPage.jsx";
+import Candidate from "./components/candidate/Candidate.jsx";
+import CandidateInfo from "./components/candidate/CandidateInfo.jsx";
 
 function App() {
   const [connectionStatus, setConnectionStatus] = useState(
     socket.connected ? "connected" : "connecting",
   );
+  const [isLogin, setIsLogin] = useState(false);
+  const [candidate, setCandidate] = useState(null);
 
   useEffect(() => {
     const onSocketConnect = () => setConnectionStatus("connected");
@@ -33,7 +37,7 @@ function App() {
   return (
     <BrowserRouter className="h-[100vh]">
       <div>
-        <Sidebar />
+        <TopNavigation isLogin={isLogin} setIsLogin={setIsLogin} />
         <Header />
         <main className="p-4">
           <Routes>
@@ -44,6 +48,14 @@ function App() {
             <Route path="/api/live-proctoring" element={<ActivityLogPage />} />
             <Route path="/api/details" element={<FileListPanel />} />
             <Route path="/employment" element={<EmploymentPage />} />
+            <Route
+              path="/register-candidate"
+              element={<Candidate isLogin={isLogin} setCandidate={setCandidate} />}
+            />
+            <Route
+              path="/candidate-info"
+              element={<CandidateInfo candidate={candidate} setCandidate={setCandidate} />}
+            />
           </Routes>
         </main>
       </div>
