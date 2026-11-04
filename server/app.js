@@ -8,6 +8,7 @@ import { registerSocketHandlers } from "./socket/socket.js";
 import connectDB from "./config/db.js";
 import dotenv from "dotenv";
 import employerRoutes from "./routes/employerRoutes.js";
+import candidateRoutes from "./routes/candidateRoutes.js";
 
 dotenv.config();
 
@@ -35,6 +36,7 @@ export { app, httpServer, io };
 
 app.use("/static", express.static(dataDir));
 app.use("/api/employers", employerRoutes);
+app.use("/api/candidates", candidateRoutes);
 
 registerSocketHandlers(io);
 
