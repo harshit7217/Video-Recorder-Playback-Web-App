@@ -53,8 +53,6 @@ export const isLocationWithinRadius = ({
   });
 
   return {
-    distanceInMeters,
-    radiusInMeters: radius,
     isWithinRadius: distanceInMeters <= radius,
   };
 };

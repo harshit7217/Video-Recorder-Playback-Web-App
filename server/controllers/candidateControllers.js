@@ -53,43 +53,6 @@ export const loginCandidate = async (req, res) => {
   }
 };
 
-export const setLatLang = async (req, res) => {
-  try {
-    const { username, lat, lng, name } = req.body;
-
-    if (!username) {
-      return res.status(400).json({ message: "Username is required" });
-    }
-
-    const parsedLat = Number(lat);
-    const parsedLng = Number(lng);
-
-    if (!Number.isFinite(parsedLat) || !Number.isFinite(parsedLng)) {
-      return res
-        .status(400)
-        .json({ message: "Latitude and longitude must be valid numbers" });
-    }
-
-    const candidate = await Candidate.findOneAndUpdate(
-      { username },
-      {
-        latitude: parsedLat,
-        longitude: parsedLng,
-        ...(name ? { name } : {}),
-      },
-      { new: true },
-    );
-
-    if (!candidate) {
-      return res.status(404).json({ message: "Candidate not found" });
-    }
-
-    res.status(200).json({ message: "Updating successfully", candidate });
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
-};
-
 export const getCandidateDetails = async (req, res) => {
   try {
     const username = req.query?.username ?? req.body?.username;
@@ -111,21 +74,9 @@ export const getCandidateDetails = async (req, res) => {
 
 export const checkCandidateInEmployerRadius = async (req, res) => {
   try {
-    const { username, employerId } = req.body;
+    const { lat, lng, employerId } = req.body;
 
-    if (!username) {
-      return res.status(400).json({ message: "Username is required" });
-    }
-
-    const candidate = await Candidate.findOne({ username });
-    if (!candidate) {
-      return res.status(404).json({ message: "Candidate not found" });
-    }
-
-    if (
-      !Number.isFinite(candidate.latitude) ||
-      !Number.isFinite(candidate.longitude)
-    ) {
+    if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
       return res.status(400).json({
         message: "Candidate location is not available",
       });
@@ -152,8 +103,8 @@ export const checkCandidateInEmployerRadius = async (req, res) => {
     const result = isLocationWithinRadius({
       employerLat: employer.lat,
       employerLng: employer.lng,
-      interviewLat: candidate.latitude,
-      interviewLng: candidate.longitude,
+      interviewLat: lat,
+      interviewLng: lng,
       radiusInMeters: employer.radius,
     });
 
@@ -162,20 +113,6 @@ export const checkCandidateInEmployerRadius = async (req, res) => {
         ? "Candidate is within the employer radius"
         : "Candidate is outside the employer radius",
       isWithinRadius: result.isWithinRadius,
-      distanceInMeters: result.distanceInMeters,
-      radiusInMeters: result.radiusInMeters,
-      candidate: {
-        username: candidate.username,
-        latitude: candidate.latitude,
-        longitude: candidate.longitude,
-      },
-      employer: {
-        id: employer._id,
-        name: employer.name,
-        lat: employer.lat,
-        lng: employer.lng,
-        radius: employer.radius,
-      },
     });
   } catch (error) {
     res.status(400).json({ message: error.message });
