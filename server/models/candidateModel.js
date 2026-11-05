@@ -10,6 +10,15 @@ const candidateSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  latitude: {
+    type: Number,
+  },
+  longitude: {
+    type: Number,
+  },
+  name: {
+    type: String,
+  },
 });
 
 export default mongoose.model("Candidate", candidateSchema);
