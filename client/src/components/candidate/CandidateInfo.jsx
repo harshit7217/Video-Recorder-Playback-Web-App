@@ -24,6 +24,52 @@ const CandidateInfo = ({ candidate, setCandidate }) => {
 
   function LocationMarker({ username }) {
     const [position, setPosition] = useState(null);
+    const [isEligible, setIsEligible] = useState(false);
+
+    useEffect(() => {
+      const checkingTheRadius = async () => {
+        try {
+          const response = await fetch(
+            "http://localhost:3001/api/candidates/check-radius",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                username,
+                employerId: "6ae9ca66395c107af2241296",
+              }),
+            },
+          );
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+
+          const result = await response.json();
+          const isWithinRadius = result?.isWithinRadius === true;
+
+          if (isWithinRadius) {
+            setIsEligible(true);
+          }
+
+          console.log("checking the radius", result);
+        } catch (err) {
+          console.error(err);
+        }
+      };
+
+      if (username) {
+        checkingTheRadius();
+      }
+    }, [username]);
+
+    useEffect(() => {
+      if (isEligible) {
+        navigate("/");
+      }
+    }, [isEligible, navigate]);
 
     useEffect(() => {
       const fetchingCandidateDetails = async () => {
@@ -47,7 +93,6 @@ const CandidateInfo = ({ candidate, setCandidate }) => {
           }
 
           const result = await response.json();
-          console.log(result);
           const candidateLocation = result?.candidate;
 
           if (
@@ -110,7 +155,6 @@ const CandidateInfo = ({ candidate, setCandidate }) => {
           }
 
           const updatedCandidate = await updateResponse.json();
-          console.log(updatedCandidate);
         } catch (error) {
           console.error(error);
         }
