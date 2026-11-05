@@ -15,7 +15,15 @@ function App() {
     socket.connected ? "connected" : "connecting",
   );
   const [isLogin, setIsLogin] = useState(false);
-  const [candidate, setCandidate] = useState(null);
+  const [candidate, setCandidate] = useState(() => {
+    try {
+      const savedCandidate = localStorage.getItem("candidate");
+      return savedCandidate ? JSON.parse(savedCandidate) : null;
+    } catch (error) {
+      console.error("Error reading saved candidate:", error);
+      return null;
+    }
+  });
 
   useEffect(() => {
     const onSocketConnect = () => setConnectionStatus("connected");
@@ -33,6 +41,15 @@ function App() {
       socket.off("disconnect", onSocketDisconnect);
     };
   }, []);
+
+  useEffect(() => {
+    if (candidate) {
+      localStorage.setItem("candidate", JSON.stringify(candidate));
+      return;
+    }
+
+    localStorage.removeItem("candidate");
+  }, [candidate]);
 
   return (
     <BrowserRouter className="h-[100vh]">

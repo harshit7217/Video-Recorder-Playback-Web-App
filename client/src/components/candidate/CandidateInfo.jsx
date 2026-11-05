@@ -1,50 +1,159 @@
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  useMapEvents,
+} from "react-leaflet";
 import { useNavigate } from "react-router";
+import { useEffect, useState } from "react";
 
 const CandidateInfo = ({ candidate, setCandidate }) => {
   const navigate = useNavigate();
-
   if (!candidate) {
     return null;
   }
 
   const handleLogout = () => {
     setCandidate(null);
+    localStorage.removeItem("candidate");
     navigate("/register-candidate");
   };
 
+  const defaultPosition = [28.44373061164518, 77.05585275554049];
+
+  function LocationMarker({ username }) {
+    const [position, setPosition] = useState(null);
+
+    useEffect(() => {
+      const fetchingCandidateDetails = async () => {
+        if (!username) {
+          return;
+        }
+
+        try {
+          const response = await fetch(
+            `http://localhost:3001/api/candidates/details?username=${encodeURIComponent(username)}`,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            },
+          );
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+
+          const result = await response.json();
+          console.log(result);
+          const candidateLocation = result?.candidate;
+
+          if (
+            candidateLocation &&
+            Number.isFinite(candidateLocation.latitude) &&
+            Number.isFinite(candidateLocation.longitude)
+          ) {
+            setPosition({
+              lat: candidateLocation.latitude,
+              lng: candidateLocation.longitude,
+              name: candidateLocation.name ?? "Candidate location",
+            });
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      };
+
+      fetchingCandidateDetails();
+    }, [username]);
+
+    const map = useMapEvents({
+      click() {
+        map.locate();
+      },
+      async locationfound(e) {
+        map.flyTo(e.latlng, map.getZoom());
+
+        try {
+          const response = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?lat=${e.latlng.lat}&lon=${e.latlng.lng}&format=jsonv2`,
+          );
+          const result = await response.json();
+          const locationName = result?.display_name || "Candidate location";
+
+          setPosition({
+            lat: e.latlng.lat,
+            lng: e.latlng.lng,
+            name: locationName,
+          });
+
+          const updateResponse = await fetch(
+            "http://localhost:3001/api/candidates/location",
+            {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                lat: e.latlng.lat,
+                lng: e.latlng.lng,
+                name: locationName,
+                username: username,
+              }),
+            },
+          );
+
+          if (!updateResponse.ok) {
+            throw new Error(`HTTP error! status: ${updateResponse.status}`);
+          }
+
+          const updatedCandidate = await updateResponse.json();
+          console.log(updatedCandidate);
+        } catch (error) {
+          console.error(error);
+        }
+      },
+    });
+
+    if (!position) {
+      return null;
+    }
+
+    return (
+      <Marker position={[position.lat, position.lng]}>
+        <Popup>{position.name}</Popup>
+      </Marker>
+    );
+  }
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-100 p-4 dark:bg-slate-900 max-[360px]:p-2 landscape:max-h-[500px]:items-start">
-      <div className="w-full max-w-lg rounded-2xl bg-white p-6 shadow-xl dark:bg-slate-800 sm:p-8">
-        <div className="mb-6 flex items-center justify-between gap-4">
-          <div>
-            <p className="text-sm font-medium uppercase tracking-[0.2em] text-indigo-600">
-              Candidate profile
-            </p>
-            <h2 className="mt-2 text-3xl font-bold text-slate-900 dark:text-slate-100">
-              Welcome, {candidate.username}
-            </h2>
-          </div>
-          <button
-            type="button"
-            onClick={handleLogout}
-            className="rounded-lg border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100 dark:border-slate-600 dark:text-slate-200 dark:hover:bg-slate-700"
-          >
-            Logout
-          </button>
-        </div>
+    <div className="space-y-4">
+      <div className="flex justify-end">
+        <button
+          type="button"
+          onClick={handleLogout}
+          className="rounded-lg border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100 dark:border-slate-600 dark:text-slate-200 dark:hover:bg-slate-700"
+        >
+          Logout
+        </button>
+      </div>
 
-        <div className="space-y-4">
-          <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
-            <p className="text-sm text-slate-500 dark:text-slate-400">Username</p>
-            <p className="mt-1 text-lg font-semibold text-slate-900 dark:text-slate-100">
-              {candidate.username}
-            </p>
-          </div>
-
-          <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-900/20 dark:text-emerald-300">
-            Login successful. Your candidate information page is now open.
-          </div>
-        </div>
+      <div className="h-[500px] w-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800">
+        <MapContainer
+          center={defaultPosition}
+          zoom={13}
+          scrollWheelZoom={false}
+          className="h-full w-full"
+          style={{ height: "100%", width: "100%" }}
+        >
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          <LocationMarker username={candidate.username} />
+        </MapContainer>
       </div>
     </div>
   );
