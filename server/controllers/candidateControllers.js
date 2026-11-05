@@ -1,17 +1,35 @@
 import Candidate from "../models/candidateModel.js";
 import Employer from "../models/employerModels.js";
 import { isLocationWithinRadius } from "../services/checkRadiusOfCandidate.js";
+import validator from "validator";
 
 export const createCandidate = async (req, res) => {
   try {
     const { username, password } = req.body;
+    if (!validator.isEmail(username)) {
+      return res.status(400).json({ message: "Email is not valid" });
+    }
+    if (
+      !validator.isStrongPassword(password, {
+        minLenght: 8,
+        minLowercase: 1,
+        minUppercase: 1,
+        minSymbols: 1,
+        minNumbers: 1,
+      })
+    ) {
+      return res.status(400).json({
+        message:
+          "Password is not strong enough. Please ensure your password meets the minimum requirements: minimum length - 8, at least one uppercase letter, one lowercase letter, one number, and one special character.",
+      });
+    }
     const existingCandidate = await Candidate.findOne({ username });
     if (existingCandidate) {
       return res.status(400).json({ message: "Username already exists" });
     }
     const candidate = new Candidate({ username, password });
     await candidate.save();
-    res.status(201).json(candidate);
+    res.status(201).json({ message: "Registration Successful" });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }

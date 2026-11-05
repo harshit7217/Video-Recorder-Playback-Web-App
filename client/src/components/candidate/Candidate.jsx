@@ -13,7 +13,11 @@ const RegisterCandidate = ({ isLogin, setCandidate }) => {
 
   return (
     <div>
-      {isLogin ? <Login onLogin={handleLoginSuccess} /> : <Register />}
+      {isLogin ? (
+        <Login onLogin={handleLoginSuccess} />
+      ) : (
+        <Register setCandidate={setCandidate} />
+      )}
     </div>
   );
 };
