@@ -7,8 +7,8 @@ import { socket } from "./socket.js";
 import { useState, useEffect } from "react";
 import FileListPanel from "./components/activity/FileListPanel.jsx";
 import EmploymentPage from "./components/employer/EmploymentPage.jsx";
-import Candidate from "./components/candidate/Candidate.jsx";
 import CandidateInfo from "./components/candidate/CandidateInfo.jsx";
+import EntryPoint from "./components/EntryPoint.jsx";
 
 function App() {
   const [connectionStatus, setConnectionStatus] = useState(
@@ -39,7 +39,7 @@ function App() {
         <Header />
         <main className="p-4">
           <Routes>
-            <Route path="/" element={<Candidate />} />
+            <Route path="/" element={<EntryPoint />} />
 
             <Route path="/api/interviewer">
               <Route path="live-proctoring" element={<ActivityLogPage />} />
