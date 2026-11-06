@@ -39,15 +39,21 @@ function App() {
         <Header />
         <main className="p-4">
           <Routes>
-            <Route
-              path="/"
-              element={<RecordingPage connectionStatus={connectionStatus} />}
-            />
-            <Route path="/api/live-proctoring" element={<ActivityLogPage />} />
-            <Route path="/api/details" element={<FileListPanel />} />
-            <Route path="/employment" element={<EmploymentPage />} />
-            <Route path="/register-candidate" element={<Candidate />} />
-            <Route path="/candidate-info" element={<CandidateInfo />} />
+            <Route path="/" element={<Candidate />} />
+
+            <Route path="/api/interviewer">
+              <Route path="live-proctoring" element={<ActivityLogPage />} />
+              <Route path="file-list" element={<FileListPanel />} />
+              <Route path="employment" element={<EmploymentPage />} />
+            </Route>
+
+            <Route path="/api/candidate">
+              <Route
+                path="recording"
+                element={<RecordingPage connectionStatus={connectionStatus} />}
+              />
+              <Route path="candidate-info" element={<CandidateInfo />} />
+            </Route>
           </Routes>
         </main>
       </div>
