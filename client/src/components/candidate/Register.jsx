@@ -40,8 +40,8 @@ const Register = ({ setCandidate }) => {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-100 p-4 dark:bg-slate-900 max-[360px]:p-2 landscape:max-h-[500px]:items-start">
-      <div className="w-full max-w-sm rounded-2xl bg-white p-5 shadow-xl sm:max-w-md sm:p-8 md:max-w-lg md:p-10 dark:bg-slate-800">
+    <div className="flex max-h-[95vh] items-center justify-center bg-slate-100 p-4 dark:bg-slate-900 max-[360px]:p-2 landscape:max-h-[400px]:items-start">
+      <div className="w-full max-w-sm max-h-[75vh]  rounded-2xl bg-white p-5 shadow-xl sm:max-w-md sm:p-8 md:max-w-lg md:p-10 dark:bg-slate-800">
         <h2 className="text-2xl font-bold text-slate-900 sm:text-3xl dark:text-slate-100">
           Candidate Registration
         </h2>

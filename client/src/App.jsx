@@ -14,16 +14,6 @@ function App() {
   const [connectionStatus, setConnectionStatus] = useState(
     socket.connected ? "connected" : "connecting",
   );
-  const [isLogin, setIsLogin] = useState(false);
-  const [candidate, setCandidate] = useState(() => {
-    try {
-      const savedCandidate = localStorage.getItem("candidate");
-      return savedCandidate ? JSON.parse(savedCandidate) : null;
-    } catch (error) {
-      console.error("Error reading saved candidate:", error);
-      return null;
-    }
-  });
 
   useEffect(() => {
     const onSocketConnect = () => setConnectionStatus("connected");
@@ -42,19 +32,10 @@ function App() {
     };
   }, []);
 
-  useEffect(() => {
-    if (candidate) {
-      localStorage.setItem("candidate", JSON.stringify(candidate));
-      return;
-    }
-
-    localStorage.removeItem("candidate");
-  }, [candidate]);
-
   return (
     <BrowserRouter className="h-[100vh]">
       <div>
-        <TopNavigation isLogin={isLogin} setIsLogin={setIsLogin} />
+        <TopNavigation />
         <Header />
         <main className="p-4">
           <Routes>
@@ -65,14 +46,8 @@ function App() {
             <Route path="/api/live-proctoring" element={<ActivityLogPage />} />
             <Route path="/api/details" element={<FileListPanel />} />
             <Route path="/employment" element={<EmploymentPage />} />
-            <Route
-              path="/register-candidate"
-              element={<Candidate isLogin={isLogin} setCandidate={setCandidate} />}
-            />
-            <Route
-              path="/candidate-info"
-              element={<CandidateInfo candidate={candidate} setCandidate={setCandidate} />}
-            />
+            <Route path="/register-candidate" element={<Candidate />} />
+            <Route path="/candidate-info" element={<CandidateInfo />} />
           </Routes>
         </main>
       </div>

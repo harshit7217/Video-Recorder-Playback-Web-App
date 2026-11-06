@@ -9,15 +9,19 @@ import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import { defaultPosition } from "./../utils/defaultPosition.js";
 
-const CandidateInfo = ({ candidate, setCandidate }) => {
+const CandidateInfo = () => {
   const navigate = useNavigate();
-
-  if (!candidate) {
-    return null;
-  }
+  const [candidate, setCandidate] = useState(() => {
+    try {
+      const savedCandidate = localStorage.getItem("candidate");
+      return savedCandidate ? JSON.parse(savedCandidate) : null;
+    } catch (error) {
+      console.error("Error reading saved candidate:", error);
+      return null;
+    }
+  });
 
   const handleLogout = () => {
-    setCandidate(null);
     localStorage.removeItem("candidate");
     navigate("/register-candidate");
   };
@@ -65,7 +69,7 @@ const CandidateInfo = ({ candidate, setCandidate }) => {
 
     useEffect(() => {
       if (isEligible) {
-        // navigate("/");
+        navigate("/");
       }
     }, [isEligible, navigate]);
 
