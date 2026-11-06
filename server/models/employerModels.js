@@ -2,13 +2,20 @@ import mongoose from "mongoose";
 
 const employerSchema = new mongoose.Schema(
   {
+    username: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
     lat: {
       type: Number,
-      required: true,
     },
     lng: {
       type: Number,
-      required: true,
     },
     radius: Number,
     name: String,
