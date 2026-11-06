@@ -2,6 +2,7 @@ import { MapContainer, TileLayer, ZoomControl, Circle } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import LocationMarker from "./LocationMarker";
 import RadiusForm from "./RadiusForm";
+import { defaultLocation } from "../../utils/defaultLoction";
 
 const Map = ({
   selectedMarker,

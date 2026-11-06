@@ -7,9 +7,11 @@ import {
 } from "react-leaflet";
 import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
+import { defaultPosition } from "./../utils/defaultPosition.js";
 
 const CandidateInfo = ({ candidate, setCandidate }) => {
   const navigate = useNavigate();
+
   if (!candidate) {
     return null;
   }
@@ -20,13 +22,12 @@ const CandidateInfo = ({ candidate, setCandidate }) => {
     navigate("/register-candidate");
   };
 
-  const defaultPosition = [28.44373061164518, 77.05585275554049];
-
   function LocationMarker({ username }) {
     const [position, setPosition] = useState(null);
     const [isEligible, setIsEligible] = useState(false);
 
     useEffect(() => {
+      if (position === null) return;
       const checkingTheRadius = async () => {
         try {
           const response = await fetch(
@@ -37,8 +38,9 @@ const CandidateInfo = ({ candidate, setCandidate }) => {
                 "Content-Type": "application/json",
               },
               body: JSON.stringify({
-                username,
-                employerId: "6ae9ca66395c107af2241296",
+                lat: position.lat,
+                lng: position.lng,
+                employerId: "6aed60239cf0618f61cee47b",
               }),
             },
           );
@@ -53,21 +55,17 @@ const CandidateInfo = ({ candidate, setCandidate }) => {
           if (isWithinRadius) {
             setIsEligible(true);
           }
-
-          console.log("checking the radius", result);
         } catch (err) {
           console.error(err);
         }
       };
 
-      if (username) {
-        checkingTheRadius();
-      }
-    }, [username]);
+      checkingTheRadius();
+    }, [position]);
 
     useEffect(() => {
       if (isEligible) {
-        navigate("/");
+        // navigate("/");
       }
     }, [isEligible, navigate]);
 
@@ -75,39 +73,6 @@ const CandidateInfo = ({ candidate, setCandidate }) => {
       const fetchingCandidateDetails = async () => {
         if (!username) {
           return;
-        }
-
-        try {
-          const response = await fetch(
-            `http://localhost:3001/api/candidates/details?username=${encodeURIComponent(username)}`,
-            {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-              },
-            },
-          );
-
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
-
-          const result = await response.json();
-          const candidateLocation = result?.candidate;
-
-          if (
-            candidateLocation &&
-            Number.isFinite(candidateLocation.latitude) &&
-            Number.isFinite(candidateLocation.longitude)
-          ) {
-            setPosition({
-              lat: candidateLocation.latitude,
-              lng: candidateLocation.longitude,
-              name: candidateLocation.name ?? "Candidate location",
-            });
-          }
-        } catch (error) {
-          console.error(error);
         }
       };
 
@@ -121,6 +86,8 @@ const CandidateInfo = ({ candidate, setCandidate }) => {
       async locationfound(e) {
         map.flyTo(e.latlng, map.getZoom());
 
+        if (position !== null) return;
+
         try {
           const response = await fetch(
             `https://nominatim.openstreetmap.org/reverse?lat=${e.latlng.lat}&lon=${e.latlng.lng}&format=jsonv2`,
@@ -133,28 +100,6 @@ const CandidateInfo = ({ candidate, setCandidate }) => {
             lng: e.latlng.lng,
             name: locationName,
           });
-
-          const updateResponse = await fetch(
-            "http://localhost:3001/api/candidates/location",
-            {
-              method: "PUT",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                lat: e.latlng.lat,
-                lng: e.latlng.lng,
-                name: locationName,
-                username: username,
-              }),
-            },
-          );
-
-          if (!updateResponse.ok) {
-            throw new Error(`HTTP error! status: ${updateResponse.status}`);
-          }
-
-          const updatedCandidate = await updateResponse.json();
         } catch (error) {
           console.error(error);
         }

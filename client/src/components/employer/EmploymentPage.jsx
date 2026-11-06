@@ -1,13 +1,6 @@
 import Map from "./map/Map.jsx";
 import { useEffect, useMemo, useState } from "react";
-
-const defaultLocation = {
-  id: "default-position",
-  lat: 28.44373061164518,
-  lng: 77.05585275554049,
-  radius: 500,
-  name: "Shaheed Major Vikas Yadav Marg, Sector 39, Gurgaon, Haryana, 101301, India",
-};
+import { defaultLocation } from "../utils/defaultLoction.js";
 
 const EmploymentPage = () => {
   const [positions, setPositions] = useState([defaultLocation]);
@@ -85,7 +78,14 @@ const EmploymentPage = () => {
   }, []);
   return (
     <div>
-      <Map selectedMarker={selectedMarker} updateSelectedMarkerRadius={updateSelectedMarkerRadius} positions={positions} selectedMarkerId={selectedMarkerId} setPositions={setPositions} setSelectedMarkerId={setSelectedMarkerId} />
+      <Map
+        selectedMarker={selectedMarker}
+        updateSelectedMarkerRadius={updateSelectedMarkerRadius}
+        positions={positions}
+        selectedMarkerId={selectedMarkerId}
+        setPositions={setPositions}
+        setSelectedMarkerId={setSelectedMarkerId}
+      />
     </div>
   );
 };

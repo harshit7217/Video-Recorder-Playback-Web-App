@@ -1,4 +1,13 @@
+import { useState } from "react";
+
 export default function RadiusForm({ radius, setRadius }) {
+  const [tempRadius, setTempRadius] = useState(radius);
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    setRadius(tempRadius);
+  };
+
   return (
     <div className="w-full max-w-none mx-auto px-2 sm:px-4 py-3">
       <div>
@@ -10,7 +19,7 @@ export default function RadiusForm({ radius, setRadius }) {
         </p>
       </div>
 
-      <div>
+      <form onSubmit={handleFormSubmit}>
         <label
           htmlFor="radius"
           className="block text-xs font-semibold
@@ -33,9 +42,9 @@ export default function RadiusForm({ radius, setRadius }) {
             name="radius"
             type="number"
             min={500}
-            value={radius}
-            onChange={(e) => setRadius(e.target.value)}
-            onKeyDown={(e) => setRadius(e.target.value)}
+            value={tempRadius}
+            onChange={(e) => setTempRadius(e.target.value)}
+            onKeyDown={(e) => setTempRadius(e.target.value)}
             step="1"
             placeholder="Enter radius"
             required
@@ -57,7 +66,8 @@ export default function RadiusForm({ radius, setRadius }) {
         <p className="text-[11px] text-gray-500 mt-2">
           Minimum allowed radius is 500 meters.
         </p>
-      </div>
+        <button type="submit">Submit</button>
+      </form>
     </div>
   );
 }
