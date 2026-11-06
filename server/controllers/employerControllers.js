@@ -1,4 +1,5 @@
 import employerModel from "../models/employerModels.js";
+import { employerDetails, updatedRadius } from "../services/employerService.js";
 
 const normalizeEmployerPayload = (body = {}) => {
   const { lat, lng, radius, name, locationName } = body;
@@ -11,22 +12,11 @@ const normalizeEmployerPayload = (body = {}) => {
   };
 };
 
-export const createEmployer = async (req, res) => {
-  try {
-    const employer = await employerModel.create(
-      normalizeEmployerPayload(req.body),
-    );
-    res.status(201).json(employer);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
-};
-
 export const postEmployer = async (req, res) => {
   try {
     const newEmployer = new employerModel(normalizeEmployerPayload(req.body));
     await newEmployer.save();
-    res.status(201).json(newEmployer);
+    res.status(201).json({ message: "New Location Selected" });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
@@ -34,8 +24,11 @@ export const postEmployer = async (req, res) => {
 
 export const getAllEmployers = async (req, res) => {
   try {
-    const employers = await employerModel.find();
-    res.status(200).json(employers);
+    const location = await employerModel.find().lean();
+
+    const locationList = employerDetails(location);
+
+    res.status(200).json(locationList);
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
@@ -53,8 +46,8 @@ export const updateEmployerById = async (req, res) => {
     if (!updatedEmployer) {
       return res.status(404).json({ error: "Employer not found" });
     }
-
-    res.status(200).json(updatedEmployer);
+    const updated = updatedRadius(updatedEmployer);
+    res.status(200).json(updated);
   } catch (err) {
     res.status(400).json({ error: err.message });
   }

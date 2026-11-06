@@ -2,8 +2,14 @@ import mongoose from "mongoose";
 
 const employerSchema = new mongoose.Schema(
   {
-    lat: Number,
-    lng: Number,
+    lat: {
+      type: Number,
+      required: true,
+    },
+    lng: {
+      type: Number,
+      required: true,
+    },
     radius: Number,
     name: String,
   },
