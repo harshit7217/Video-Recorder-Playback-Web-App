@@ -23,7 +23,7 @@ const CandidateInfo = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("candidate");
-    navigate("/register-candidate");
+    navigate("/");
   };
 
   function LocationMarker({ username }) {
@@ -69,7 +69,7 @@ const CandidateInfo = () => {
 
     useEffect(() => {
       if (isEligible) {
-        navigate("/");
+        navigate("/api/candidate/recording");
       }
     }, [isEligible, navigate]);
 

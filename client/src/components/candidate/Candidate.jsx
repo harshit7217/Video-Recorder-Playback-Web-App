@@ -28,7 +28,7 @@ const RegisterCandidate = () => {
   const handleLoginSuccess = (loggedInCandidate) => {
     setCandidate(loggedInCandidate);
     localStorage.setItem("candidate", JSON.stringify(loggedInCandidate));
-    navigate("/candidate-info");
+    navigate("/api/candidate/candidate-info");
   };
 
   return (

@@ -33,7 +33,7 @@ const Register = ({ setCandidate }) => {
         localStorage.setItem("candidate", JSON.stringify(result));
       }
 
-      navigate("/candidate-info");
+      navigate("/api/candidate/candidate-info");
     } catch (error) {
       setRegistrationError(error.message);
     }
