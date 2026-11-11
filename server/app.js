@@ -41,7 +41,8 @@ app.use("/api/employers", employerRoutes);
 app.use("/api/candidates", candidateRoutes);
 
 app.get("/", (req, res) => {
-  const ip = req.ip;
+  // const ip = req.ip;
+  var ip = ["x-forwarded-for"];
 
   console.log("Visitor IP:", ip);
 
