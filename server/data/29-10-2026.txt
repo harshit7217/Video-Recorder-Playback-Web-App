@@ -1,0 +1,782 @@
+{"reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T04:12:38.603Z"}
+{"key":"EdvG4KJY3xi-AMJqAAAA","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:12:44.364Z"}
+{"key":"EdvG4KJY3xi-AMJqAAAA","reason":"window dimensions changed - (width: 1018px, height: 732px)","eventName":"9","timestamp":"2026-10-29T04:12:44.948Z"}
+{"key":"EdvG4KJY3xi-AMJqAAAA","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:13:05.855Z"}
+{"key":"OhWN5aTWlH19M2mvAAAB","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T04:13:13.557Z"}
+{"reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T04:14:41.926Z"}
+{"key":"zdZKiEArOt5Y1qYaAAAC","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:14:55.607Z"}
+{"key":"zdZKiEArOt5Y1qYaAAAC","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:14:58.006Z"}
+{"key":"zdZKiEArOt5Y1qYaAAAC","reason":"window dimensions changed - (width: 1018px, height: 732px)","eventName":"9","timestamp":"2026-10-29T04:14:58.580Z"}
+{"key":"FcVhvTEo-wGZuhPzAAAD","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T04:15:00.804Z"}
+{"key":"FcVhvTEo-wGZuhPzAAAD","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:15:14.463Z"}
+{"key":"FcVhvTEo-wGZuhPzAAAD","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:15:16.082Z"}
+{"key":"FcVhvTEo-wGZuhPzAAAD","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:15:32.692Z"}
+{"key":"FcVhvTEo-wGZuhPzAAAD","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:15:36.142Z"}
+{"key":"FcVhvTEo-wGZuhPzAAAD","reason":"window dimensions changed - (width: 250px, height: 732px)","eventName":"9","timestamp":"2026-10-29T04:15:36.755Z"}
+{"key":"FcVhvTEo-wGZuhPzAAAD","reason":"window dimensions changed - (width: 760px, height: 732px)","eventName":"9","timestamp":"2026-10-29T04:15:39.200Z"}
+{"key":"FcVhvTEo-wGZuhPzAAAD","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:15:39.914Z"}
+{"key":"FcVhvTEo-wGZuhPzAAAD","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:15:42.024Z"}
+{"key":"FcVhvTEo-wGZuhPzAAAD","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:15:43.943Z"}
+{"key":"FcVhvTEo-wGZuhPzAAAD","reason":"user enter full screen","eventName":"12","timestamp":"2026-10-29T04:15:51.186Z"}
+{"key":"FcVhvTEo-wGZuhPzAAAD","reason":"window dimensions changed - (width: 1536px, height: 864px)","eventName":"9","timestamp":"2026-10-29T04:15:51.695Z"}
+{"key":"FcVhvTEo-wGZuhPzAAAD","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:15:51.868Z"}
+{"key":"FcVhvTEo-wGZuhPzAAAD","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:15:51.931Z"}
+{"key":"FcVhvTEo-wGZuhPzAAAD","reason":"user exit full screen","eventName":"13","timestamp":"2026-10-29T04:15:51.947Z"}
+{"key":"FcVhvTEo-wGZuhPzAAAD","reason":"window dimensions changed - (width: 760px, height: 732px)","eventName":"9","timestamp":"2026-10-29T04:15:52.450Z"}
+{"key":"FcVhvTEo-wGZuhPzAAAD","reason":"window dimensions changed - (width: 1528px, height: 732px)","eventName":"9","timestamp":"2026-10-29T04:16:04.114Z"}
+{"key":"FcVhvTEo-wGZuhPzAAAD","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:16:07.288Z"}
+{"key":"FcVhvTEo-wGZuhPzAAAD","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:16:11.390Z"}
+{"key":"FcVhvTEo-wGZuhPzAAAD","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:16:12.663Z"}
+{"key":"FcVhvTEo-wGZuhPzAAAD","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:16:18.882Z"}
+{"key":"3ZK9snfTm74-7sVcAAAL","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:16:20.634Z"}
+{"key":"3ZK9snfTm74-7sVcAAAL","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T04:16:20.767Z"}
+{"key":"3ZK9snfTm74-7sVcAAAL","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:16:20.821Z"}
+{"key":"3ZK9snfTm74-7sVcAAAL","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:16:20.831Z"}
+{"key":"3ZK9snfTm74-7sVcAAAL","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:17:59.024Z"}
+{"key":"3ZK9snfTm74-7sVcAAAL","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:18:02.045Z"}
+{"key":"3ZK9snfTm74-7sVcAAAL","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:18:38.862Z"}
+{"key":"3ZK9snfTm74-7sVcAAAL","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T04:18:43.393Z"}
+{"key":"3ZK9snfTm74-7sVcAAAL","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T04:18:47.809Z"}
+{"key":"3ZK9snfTm74-7sVcAAAL","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:19:01.094Z"}
+{"key":"3ZK9snfTm74-7sVcAAAL","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:19:11.382Z"}
+{"key":"3ZK9snfTm74-7sVcAAAL","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:19:11.522Z"}
+{"key":"3ZK9snfTm74-7sVcAAAL","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:20:13.508Z"}
+{"key":"3ZK9snfTm74-7sVcAAAL","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:20:14.905Z"}
+{"key":"3ZK9snfTm74-7sVcAAAL","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:20:24.241Z"}
+{"key":"3ZK9snfTm74-7sVcAAAL","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T04:20:27.607Z"}
+{"key":"3ZK9snfTm74-7sVcAAAL","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T04:20:29.924Z"}
+{"key":"3ZK9snfTm74-7sVcAAAL","reason":"user initiated recording","eventName":"3","timestamp":"2026-10-29T04:20:34.625Z"}
+{"key":"3ZK9snfTm74-7sVcAAAL","reason":"user requested stop","eventName":"6","timestamp":"2026-10-29T04:20:49.100Z"}
+{"key":"3ZK9snfTm74-7sVcAAAL","reason":"connection lost","eventName":"2","timestamp":"2026-10-29T04:20:49.104Z"}
+{"key":"3ZK9snfTm74-7sVcAAAL","reason":"user enter full screen","eventName":"12","timestamp":"2026-10-29T04:20:56.365Z"}
+{"key":"3ZK9snfTm74-7sVcAAAL","reason":"window dimensions changed - (width: 1536px, height: 864px)","eventName":"9","timestamp":"2026-10-29T04:20:56.876Z"}
+{"key":"3ZK9snfTm74-7sVcAAAL","reason":"user exit full screen","eventName":"13","timestamp":"2026-10-29T04:20:57.244Z"}
+{"key":"3ZK9snfTm74-7sVcAAAL","reason":"window dimensions changed - (width: 1528px, height: 732px)","eventName":"9","timestamp":"2026-10-29T04:20:57.746Z"}
+{"key":"sImWiB9OvKMFOOu7AAAM","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T04:21:00.439Z"}
+{"key":"sImWiB9OvKMFOOu7AAAM","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T04:21:02.947Z"}
+{"key":"sImWiB9OvKMFOOu7AAAM","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:21:03.319Z"}
+{"key":"sImWiB9OvKMFOOu7AAAM","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:21:04.366Z"}
+{"key":"sImWiB9OvKMFOOu7AAAM","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:21:04.757Z"}
+{"key":"sImWiB9OvKMFOOu7AAAM","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T04:23:05.872Z"}
+{"key":"sImWiB9OvKMFOOu7AAAM","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T04:26:27.008Z"}
+{"key":"sImWiB9OvKMFOOu7AAAM","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:28:11.724Z"}
+{"key":"sImWiB9OvKMFOOu7AAAM","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:28:12.717Z"}
+{"key":"sImWiB9OvKMFOOu7AAAM","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:28:15.420Z"}
+{"key":"sImWiB9OvKMFOOu7AAAM","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:28:16.845Z"}
+{"key":"sImWiB9OvKMFOOu7AAAM","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:28:26.578Z"}
+{"key":"sImWiB9OvKMFOOu7AAAM","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:28:27.292Z"}
+{"key":"sImWiB9OvKMFOOu7AAAM","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:28:32.626Z"}
+{"key":"sImWiB9OvKMFOOu7AAAM","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:28:34.086Z"}
+{"key":"sImWiB9OvKMFOOu7AAAM","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:28:43.781Z"}
+{"key":"sImWiB9OvKMFOOu7AAAM","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:28:51.271Z"}
+{"key":"sImWiB9OvKMFOOu7AAAM","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:28:51.372Z"}
+{"key":"sImWiB9OvKMFOOu7AAAM","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:28:51.379Z"}
+{"key":"sImWiB9OvKMFOOu7AAAM","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:28:53.847Z"}
+{"key":"sImWiB9OvKMFOOu7AAAM","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:28:54.428Z"}
+{"key":"sImWiB9OvKMFOOu7AAAM","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:29:34.359Z"}
+{"key":"sImWiB9OvKMFOOu7AAAM","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:29:37.437Z"}
+{"key":"sImWiB9OvKMFOOu7AAAM","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:29:58.792Z"}
+{"key":"MS3Mo0gckFBFGvknAAAX","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T04:30:09.806Z"}
+{"key":"tg71TOpLZK_UhOUdAAAY","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T04:30:16.813Z"}
+{"key":"NP8-5glEV8NfmLXeAAAZ","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T04:30:19.659Z"}
+{"key":"NP8-5glEV8NfmLXeAAAZ","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:30:19.947Z"}
+{"key":"NP8-5glEV8NfmLXeAAAZ","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:30:33.264Z"}
+{"key":"NP8-5glEV8NfmLXeAAAZ","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:30:33.828Z"}
+{"key":"NP8-5glEV8NfmLXeAAAZ","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:31:44.906Z"}
+{"key":"NP8-5glEV8NfmLXeAAAZ","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:31:46.773Z"}
+{"key":"NP8-5glEV8NfmLXeAAAZ","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:31:52.311Z"}
+{"key":"NP8-5glEV8NfmLXeAAAZ","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:31:54.141Z"}
+{"key":"NP8-5glEV8NfmLXeAAAZ","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:31:54.231Z"}
+{"key":"NP8-5glEV8NfmLXeAAAZ","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:31:54.246Z"}
+{"key":"H4h2D0oTghV13CYwAAAe","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T04:32:08.523Z"}
+{"key":"NP8-5glEV8NfmLXeAAAZ","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:32:14.749Z"}
+{"key":"NP8-5glEV8NfmLXeAAAZ","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:32:16.725Z"}
+{"key":"NP8-5glEV8NfmLXeAAAZ","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:32:21.360Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T04:32:23.089Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:32:23.901Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:33:12.769Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:33:17.805Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"window dimensions changed - (width: 760px, height: 732px)","eventName":"9","timestamp":"2026-10-29T04:33:18.347Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:33:20.067Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - (if (loading === true) {\r\n      fetchingData();\r\n    })","eventName":"8","timestamp":"2026-10-29T04:33:26.244Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user copied text to clipboard - (\nRecord your video and customize the background)","eventName":"7","timestamp":"2026-10-29T04:33:29.206Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - (if (loading === true) {\r\n      fetchingData();\r\n    })","eventName":"8","timestamp":"2026-10-29T04:33:35.324Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user copied text to clipboard - (o Recording\nRecord your video and customi)","eventName":"7","timestamp":"2026-10-29T04:33:41.151Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:33:43.006Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:33:49.464Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user copied text to clipboard - (o Recording\nRecord your video and customi)","eventName":"7","timestamp":"2026-10-29T04:33:53.459Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:33:54.328Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:33:55.803Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:33:57.102Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:34:01.795Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:34:04.207Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T04:35:48.656Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T04:35:50.192Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T04:35:52.189Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T04:35:53.184Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T04:35:55.185Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T04:35:56.221Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T04:36:15.234Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:36:16.062Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user copied text to clipboard - (Recording\nRecord your video and customize the)","eventName":"7","timestamp":"2026-10-29T04:36:18.839Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:18.839Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:18.840Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:18.840Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:18.840Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:18.840Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:18.841Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user copied text to clipboard - ( video and customize th)","eventName":"7","timestamp":"2026-10-29T04:36:24.809Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:24.810Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:24.810Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:24.810Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:24.810Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:24.810Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:24.810Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user copied text to clipboard - ( video and customize th)","eventName":"7","timestamp":"2026-10-29T04:36:27.141Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:27.141Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:27.142Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:27.142Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:27.142Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:27.142Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:27.142Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user copied text to clipboard - ( video and customize th)","eventName":"7","timestamp":"2026-10-29T04:36:29.356Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:29.356Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:29.356Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:29.356Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:29.356Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:29.356Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:29.356Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user copied text to clipboard - ( video and customize th)","eventName":"7","timestamp":"2026-10-29T04:36:30.427Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:30.427Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:30.427Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:30.427Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:30.427Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:30.428Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:30.428Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user copied text to clipboard - ( video and customize th)","eventName":"7","timestamp":"2026-10-29T04:36:31.363Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:31.363Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:31.363Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:31.363Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:31.364Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:31.364Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:31.364Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user copied text to clipboard - ( video and customize th)","eventName":"7","timestamp":"2026-10-29T04:36:32.275Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:32.275Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:32.276Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:32.276Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:32.276Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:32.276Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:32.276Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user copied text to clipboard - ( video and customize th)","eventName":"7","timestamp":"2026-10-29T04:36:33.096Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:33.096Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:33.096Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:33.096Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:33.096Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:33.096Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:33.096Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:36:36.093Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:36:46.152Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:47.438Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:47.439Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:47.439Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:47.439Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:47.439Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:47.440Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:49.770Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:49.770Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:49.771Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:49.771Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:49.771Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:36:49.771Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:36:51.148Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:37:13.705Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:37:14.804Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:37:14.804Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:37:14.804Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:37:14.804Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:37:14.805Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user copied text to clipboard - ( video and customize th)","eventName":"7","timestamp":"2026-10-29T04:37:14.806Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:37:17.275Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:37:19.822Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:37:21.348Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T04:38:53.221Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:39:28.485Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user copied text to clipboard - (video and customize the ba)","eventName":"7","timestamp":"2026-10-29T04:39:30.751Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:39:30.751Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:39:30.752Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:39:30.752Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:39:30.752Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:39:30.752Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user copied text to clipboard - (video and customize the ba)","eventName":"7","timestamp":"2026-10-29T04:39:32.867Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:39:32.867Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:39:32.867Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:39:32.867Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:39:32.868Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:39:32.868Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T04:39:32.868Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:39:34.030Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:39:34.030Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:39:46.905Z"}
+{"key":"anTQKEuXJrzoLohAAAAh","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:39:46.905Z"}
+{"key":"yqR7MXZMURD7_UZ8AAAj","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T04:39:48.807Z"}
+{"key":"yqR7MXZMURD7_UZ8AAAj","reason":"user copied text to clipboard - ( customize the bac)","eventName":"7","timestamp":"2026-10-29T04:39:52.199Z"}
+{"key":"yqR7MXZMURD7_UZ8AAAj","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:39:54.963Z"}
+{"key":"yqR7MXZMURD7_UZ8AAAj","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:39:57.271Z"}
+{"key":"yqR7MXZMURD7_UZ8AAAj","reason":"user pasted text to clipboard - (if (loading === true) {\r\n      fetchingData();\r\n    })","eventName":"8","timestamp":"2026-10-29T04:40:00.592Z"}
+{"key":"yqR7MXZMURD7_UZ8AAAj","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:40:02.314Z"}
+{"key":"yqR7MXZMURD7_UZ8AAAj","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:40:44.853Z"}
+{"key":"yqR7MXZMURD7_UZ8AAAj","reason":"window dimensions changed - (width: 1528px, height: 732px)","eventName":"9","timestamp":"2026-10-29T04:40:48.501Z"}
+{"key":"yqR7MXZMURD7_UZ8AAAj","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:40:49.745Z"}
+{"key":"yqR7MXZMURD7_UZ8AAAj","reason":"window dimensions changed - (width: 1018px, height: 732px)","eventName":"9","timestamp":"2026-10-29T04:40:50.372Z"}
+{"key":"yqR7MXZMURD7_UZ8AAAj","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:40:51.429Z"}
+{"key":"yqR7MXZMURD7_UZ8AAAj","reason":"user pasted text to clipboard - (if (loading === true) {\r\n      fetchingData();\r\n    })","eventName":"8","timestamp":"2026-10-29T04:40:51.940Z"}
+{"key":"yqR7MXZMURD7_UZ8AAAj","reason":"user copied text to clipboard - (tomize the background)","eventName":"7","timestamp":"2026-10-29T04:40:54.839Z"}
+{"key":"yqR7MXZMURD7_UZ8AAAj","reason":"user pasted text to clipboard - (if (loading === true) {\r\n      fetchingData();\r\n    })","eventName":"8","timestamp":"2026-10-29T04:40:56.363Z"}
+{"key":"yqR7MXZMURD7_UZ8AAAj","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:40:58.749Z"}
+{"key":"yqR7MXZMURD7_UZ8AAAj","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:41:00.104Z"}
+{"key":"yqR7MXZMURD7_UZ8AAAj","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:41:01.015Z"}
+{"key":"yqR7MXZMURD7_UZ8AAAj","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:41:11.965Z"}
+{"key":"yqR7MXZMURD7_UZ8AAAj","reason":"user pasted text to clipboard - (if (loading === true) {\r\n      fetchingData();\r\n    })","eventName":"8","timestamp":"2026-10-29T04:41:13.530Z"}
+{"key":"yqR7MXZMURD7_UZ8AAAj","reason":"user copied text to clipboard - (eo and customize the background)","eventName":"7","timestamp":"2026-10-29T04:41:17.016Z"}
+{"key":"yqR7MXZMURD7_UZ8AAAj","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:41:17.987Z"}
+{"key":"yqR7MXZMURD7_UZ8AAAj","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:41:22.997Z"}
+{"key":"yqR7MXZMURD7_UZ8AAAj","reason":"user copied text to clipboard - (eo and customize the background)","eventName":"7","timestamp":"2026-10-29T04:41:24.759Z"}
+{"key":"yqR7MXZMURD7_UZ8AAAj","reason":"user pasted text to clipboard - (if (loading === true) {\r\n      fetchingData();\r\n    })","eventName":"8","timestamp":"2026-10-29T04:41:25.789Z"}
+{"key":"yqR7MXZMURD7_UZ8AAAj","reason":"user pasted text to clipboard - (if (loading === true) {\r\n      fetchingData();\r\n    })","eventName":"8","timestamp":"2026-10-29T04:41:27.017Z"}
+{"key":"yqR7MXZMURD7_UZ8AAAj","reason":"user pasted text to clipboard - (if (loading === true) {\r\n      fetchingData();\r\n    })","eventName":"8","timestamp":"2026-10-29T04:41:29.297Z"}
+{"key":"yqR7MXZMURD7_UZ8AAAj","reason":"user pasted text to clipboard - (if (loading === true) {\r\n      fetchingData();\r\n    })","eventName":"8","timestamp":"2026-10-29T04:41:29.871Z"}
+{"key":"yqR7MXZMURD7_UZ8AAAj","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:41:30.589Z"}
+{"key":"yqR7MXZMURD7_UZ8AAAj","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:41:36.890Z"}
+{"key":"yqR7MXZMURD7_UZ8AAAj","reason":"user pasted text to clipboard - (if (loading === true) {\r\n      fetchingData();\r\n    })","eventName":"8","timestamp":"2026-10-29T04:41:38.162Z"}
+{"key":"yqR7MXZMURD7_UZ8AAAj","reason":"user copied text to clipboard - ( your video and customize the )","eventName":"7","timestamp":"2026-10-29T04:41:40.315Z"}
+{"key":"yqR7MXZMURD7_UZ8AAAj","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:41:41.620Z"}
+{"key":"yqR7MXZMURD7_UZ8AAAj","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T04:42:41.998Z"}
+{"key":"yqR7MXZMURD7_UZ8AAAj","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:44:12.382Z"}
+{"key":"yqR7MXZMURD7_UZ8AAAj","reason":"user pasted text to clipboard - (if (loading === true) {\r\n      fetchingData();\r\n    })","eventName":"8","timestamp":"2026-10-29T04:44:17.139Z"}
+{"key":"yqR7MXZMURD7_UZ8AAAj","reason":"user pasted text to clipboard - (if (loading === true) {\r\n      fetchingData();\r\n    })","eventName":"8","timestamp":"2026-10-29T04:44:18.827Z"}
+{"key":"yqR7MXZMURD7_UZ8AAAj","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:44:19.546Z"}
+{"key":"yqR7MXZMURD7_UZ8AAAj","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:44:26.382Z"}
+{"key":"yqR7MXZMURD7_UZ8AAAj","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:44:27.378Z"}
+{"key":"jklmnSV2u5iVvi5OAAAk","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T04:49:05.173Z"}
+{"key":"jklmnSV2u5iVvi5OAAAk","reason":"user pasted text to clipboard - (if (loading === true) {\r\n      fetchingData();\r\n    })","eventName":"8","timestamp":"2026-10-29T04:49:13.026Z"}
+{"key":"jklmnSV2u5iVvi5OAAAk","reason":"user pasted text to clipboard - (if (loading === true) {\r\n      fetchingData();\r\n    })","eventName":"8","timestamp":"2026-10-29T04:49:15.057Z"}
+{"key":"jklmnSV2u5iVvi5OAAAk","reason":"user pasted text to clipboard - (if (loading === true) {\r\n      fetchingData();\r\n    })","eventName":"8","timestamp":"2026-10-29T04:49:15.376Z"}
+{"key":"jklmnSV2u5iVvi5OAAAk","reason":"user pasted text to clipboard - (if (loading === true) {\r\n      fetchingData();\r\n    })","eventName":"8","timestamp":"2026-10-29T04:49:17.041Z"}
+{"key":"jklmnSV2u5iVvi5OAAAk","reason":"user pasted text to clipboard - (if (loading === true) {\r\n      fetchingData();\r\n    })","eventName":"8","timestamp":"2026-10-29T04:49:17.428Z"}
+{"key":"jklmnSV2u5iVvi5OAAAk","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:49:20.961Z"}
+{"key":"jklmnSV2u5iVvi5OAAAk","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:49:21.070Z"}
+{"key":"jklmnSV2u5iVvi5OAAAk","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:49:21.078Z"}
+{"key":"Nw1f2uXelI6pvCgqAAAl","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T04:49:29.113Z"}
+{"key":"Nw1f2uXelI6pvCgqAAAl","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:49:31.941Z"}
+{"key":"Nw1f2uXelI6pvCgqAAAl","reason":"window dimensions changed - (width: 1226px, height: 730px)","eventName":"9","timestamp":"2026-10-29T04:49:32.530Z"}
+{"key":"Nw1f2uXelI6pvCgqAAAl","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:49:33.025Z"}
+{"key":"Nw1f2uXelI6pvCgqAAAl","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:49:38.127Z"}
+{"key":"Nw1f2uXelI6pvCgqAAAl","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:49:43.994Z"}
+{"key":"Nw1f2uXelI6pvCgqAAAl","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:49:44.574Z"}
+{"key":"jklmnSV2u5iVvi5OAAAk","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:49:45.199Z"}
+{"key":"jklmnSV2u5iVvi5OAAAk","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:49:45.886Z"}
+{"key":"jklmnSV2u5iVvi5OAAAk","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:50:04.847Z"}
+{"key":"jklmnSV2u5iVvi5OAAAk","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:50:09.128Z"}
+{"key":"jklmnSV2u5iVvi5OAAAk","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:50:39.834Z"}
+{"key":"jklmnSV2u5iVvi5OAAAk","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:50:41.260Z"}
+{"key":"jklmnSV2u5iVvi5OAAAk","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:52:32.193Z"}
+{"key":"jklmnSV2u5iVvi5OAAAk","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:52:32.643Z"}
+{"key":"jklmnSV2u5iVvi5OAAAk","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:53:03.992Z"}
+{"key":"jklmnSV2u5iVvi5OAAAk","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:53:05.867Z"}
+{"key":"jklmnSV2u5iVvi5OAAAk","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:53:10.536Z"}
+{"key":"jklmnSV2u5iVvi5OAAAk","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:53:11.130Z"}
+{"key":"jklmnSV2u5iVvi5OAAAk","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:53:21.157Z"}
+{"key":"jklmnSV2u5iVvi5OAAAk","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:53:21.719Z"}
+{"key":"jklmnSV2u5iVvi5OAAAk","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:53:58.927Z"}
+{"key":"jklmnSV2u5iVvi5OAAAk","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:54:00.378Z"}
+{"key":"jklmnSV2u5iVvi5OAAAk","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:54:02.662Z"}
+{"key":"jklmnSV2u5iVvi5OAAAk","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:54:03.421Z"}
+{"key":"jklmnSV2u5iVvi5OAAAk","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:54:03.539Z"}
+{"key":"jklmnSV2u5iVvi5OAAAk","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:54:03.548Z"}
+{"key":"jklmnSV2u5iVvi5OAAAk","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:54:14.520Z"}
+{"key":"jklmnSV2u5iVvi5OAAAk","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:54:14.980Z"}
+{"key":"jklmnSV2u5iVvi5OAAAk","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:54:39.929Z"}
+{"key":"jklmnSV2u5iVvi5OAAAk","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:54:40.563Z"}
+{"key":"jklmnSV2u5iVvi5OAAAk","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:54:41.838Z"}
+{"key":"jklmnSV2u5iVvi5OAAAk","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:54:41.851Z"}
+{"key":"jklmnSV2u5iVvi5OAAAk","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:55:21.239Z"}
+{"key":"cWViHUa-TPepJ9dDAAAm","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T04:59:37.843Z"}
+{"key":"cWViHUa-TPepJ9dDAAAm","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:59:39.707Z"}
+{"key":"cWViHUa-TPepJ9dDAAAm","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T04:59:40.693Z"}
+{"key":"kKBMYp0OhDGeQswqAAAn","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T04:59:42.085Z"}
+{"key":"kKBMYp0OhDGeQswqAAAn","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T04:59:49.266Z"}
+{"key":"kKBMYp0OhDGeQswqAAAn","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T05:00:11.750Z"}
+{"key":"kKBMYp0OhDGeQswqAAAn","reason":"user copied text to clipboard - (ur video and customize the background\n\n)","eventName":"7","timestamp":"2026-10-29T05:00:16.191Z"}
+{"key":"nlBh0fhdCoa7iUTOAAAo","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T05:00:19.063Z"}
+{"key":"nlBh0fhdCoa7iUTOAAAo","reason":"user copied text to clipboard - (eo and customize the bac)","eventName":"7","timestamp":"2026-10-29T05:00:20.539Z"}
+{"key":"nlBh0fhdCoa7iUTOAAAo","reason":"user pasted text to clipboard - (eo and customize the bac)","eventName":"8","timestamp":"2026-10-29T05:00:24.767Z"}
+{"key":"nlBh0fhdCoa7iUTOAAAo","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T05:00:32.058Z"}
+{"key":"nlBh0fhdCoa7iUTOAAAo","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T05:00:32.293Z"}
+{"key":"nlBh0fhdCoa7iUTOAAAo","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T05:00:44.928Z"}
+{"key":"nlBh0fhdCoa7iUTOAAAo","reason":"user pasted text to clipboard - (eo and customize the bac)","eventName":"8","timestamp":"2026-10-29T05:00:53.047Z"}
+{"key":"nlBh0fhdCoa7iUTOAAAo","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T05:01:56.109Z"}
+{"key":"nlBh0fhdCoa7iUTOAAAo","reason":"user copied text to clipboard - (Video Recording\nRecord your video and custo)","eventName":"7","timestamp":"2026-10-29T05:01:57.167Z"}
+{"key":"nlBh0fhdCoa7iUTOAAAo","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T05:02:02.406Z"}
+{"key":"nlBh0fhdCoa7iUTOAAAo","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T05:02:05.676Z"}
+{"key":"nlBh0fhdCoa7iUTOAAAo","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T05:02:05.850Z"}
+{"key":"nlBh0fhdCoa7iUTOAAAo","reason":"window dimensions changed - (width: 1528px, height: 732px)","eventName":"9","timestamp":"2026-10-29T05:02:06.394Z"}
+{"key":"nlBh0fhdCoa7iUTOAAAo","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T05:02:07.308Z"}
+{"key":"nlBh0fhdCoa7iUTOAAAo","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T05:02:09.849Z"}
+{"key":"nlBh0fhdCoa7iUTOAAAo","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T05:02:19.482Z"}
+{"key":"nlBh0fhdCoa7iUTOAAAo","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T05:02:21.753Z"}
+{"key":"nlBh0fhdCoa7iUTOAAAo","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T05:02:39.195Z"}
+{"key":"nlBh0fhdCoa7iUTOAAAo","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T05:02:40.966Z"}
+{"key":"nlBh0fhdCoa7iUTOAAAo","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T05:03:09.834Z"}
+{"key":"nlBh0fhdCoa7iUTOAAAo","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T05:03:10.538Z"}
+{"key":"nlBh0fhdCoa7iUTOAAAo","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T05:03:18.450Z"}
+{"key":"nlBh0fhdCoa7iUTOAAAo","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T05:03:19.264Z"}
+{"key":"nlBh0fhdCoa7iUTOAAAo","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T05:03:20.849Z"}
+{"key":"nlBh0fhdCoa7iUTOAAAo","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T05:03:20.867Z"}
+{"key":"nlBh0fhdCoa7iUTOAAAo","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T05:04:09.904Z"}
+{"key":"nlBh0fhdCoa7iUTOAAAo","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T05:04:12.187Z"}
+{"key":"nlBh0fhdCoa7iUTOAAAo","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T05:04:14.184Z"}
+{"key":"nlBh0fhdCoa7iUTOAAAo","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T05:05:38.555Z"}
+{"key":"nlBh0fhdCoa7iUTOAAAo","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T05:05:38.555Z"}
+{"key":"nlBh0fhdCoa7iUTOAAAo","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T05:05:38.555Z"}
+{"key":"nlBh0fhdCoa7iUTOAAAo","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T05:05:38.556Z"}
+{"key":"9RGQ3uz7WhSzzeyeAAAp","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T05:05:40.868Z"}
+{"key":"9RGQ3uz7WhSzzeyeAAAp","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T05:06:03.051Z"}
+{"key":"9RGQ3uz7WhSzzeyeAAAp","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T05:06:07.805Z"}
+{"key":"9RGQ3uz7WhSzzeyeAAAp","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T05:06:08.868Z"}
+{"key":"9RGQ3uz7WhSzzeyeAAAp","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T05:06:09.942Z"}
+{"key":"EwPQowxun_Z_bhDxAAAq","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T05:06:12.018Z"}
+{"key":"EwPQowxun_Z_bhDxAAAq","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T05:06:13.485Z"}
+{"key":"EwPQowxun_Z_bhDxAAAq","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T05:12:10.826Z"}
+{"key":"EwPQowxun_Z_bhDxAAAq","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T05:14:57.452Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T05:14:59.318Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user copied text to clipboard - (Video Record)","eventName":"7","timestamp":"2026-10-29T05:15:01.711Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user copied text to clipboard - (Video Record)","eventName":"7","timestamp":"2026-10-29T05:15:01.713Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T05:15:06.046Z"}
+{"key":"6dNKq7T5OXl-DVB2AAAs","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T05:15:09.590Z"}
+{"key":"6dNKq7T5OXl-DVB2AAAs","reason":"user pasted text to clipboard - ( // copy paste event handling\r\n  const handleCopyAndPaste = async (event, status) => {\r\n    event.preventDefault();\r\n    if (status === \"copy\") {\r\n      await navigator.clipboard.writeText(window.getSelection()?.toString());\r\n    }\r\n    status === \"copy\"\r\n      ? emitRecordingEvent(\"activities\", {\r\n          reason: `user copied text to clipboard - (${window.getSelection().toString()})`,\r\n          eventName: \"text:copied\",\r\n        })\r\n      : emitRecordingEvent(\"activities\", {\r\n          reason: `user pasted text to clipboard - (${(event.clipboardData || window.clipboardData).getData(\"text\")})`,\r\n          eventName: \"text:pasted\",\r\n        });\r\n  };)","eventName":"8","timestamp":"2026-10-29T05:15:10.974Z"}
+{"key":"6dNKq7T5OXl-DVB2AAAs","reason":"user pasted text to clipboard - ( // copy paste event handling\r\n  const handleCopyAndPaste = async (event, status) => {\r\n    event.preventDefault();\r\n    if (status === \"copy\") {\r\n      await navigator.clipboard.writeText(window.getSelection()?.toString());\r\n    }\r\n    status === \"copy\"\r\n      ? emitRecordingEvent(\"activities\", {\r\n          reason: `user copied text to clipboard - (${window.getSelection().toString()})`,\r\n          eventName: \"text:copied\",\r\n        })\r\n      : emitRecordingEvent(\"activities\", {\r\n          reason: `user pasted text to clipboard - (${(event.clipboardData || window.clipboardData).getData(\"text\")})`,\r\n          eventName: \"text:pasted\",\r\n        });\r\n  };)","eventName":"8","timestamp":"2026-10-29T05:15:10.975Z"}
+{"key":"6dNKq7T5OXl-DVB2AAAs","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T05:15:13.169Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T05:15:13.184Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T05:15:14.501Z"}
+{"key":"6dNKq7T5OXl-DVB2AAAs","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T05:15:14.519Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T05:15:26.240Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user copied text to clipboard - (Video Recording)","eventName":"7","timestamp":"2026-10-29T05:15:28.418Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user copied text to clipboard - (Video Recording)","eventName":"7","timestamp":"2026-10-29T05:15:28.418Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user pasted text to clipboard - ( // copy paste event handling\r\n  const handleCopyAndPaste = async (event, status) => {\r\n    event.preventDefault();\r\n    if (status === \"copy\") {\r\n      await navigator.clipboard.writeText(window.getSelection()?.toString());\r\n    }\r\n    status === \"copy\"\r\n      ? emitRecordingEvent(\"activities\", {\r\n          reason: `user copied text to clipboard - (${window.getSelection().toString()})`,\r\n          eventName: \"text:copied\",\r\n        })\r\n      : emitRecordingEvent(\"activities\", {\r\n          reason: `user pasted text to clipboard - (${(event.clipboardData || window.clipboardData).getData(\"text\")})`,\r\n          eventName: \"text:pasted\",\r\n        });\r\n  };)","eventName":"8","timestamp":"2026-10-29T05:15:30.353Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user pasted text to clipboard - ( // copy paste event handling\r\n  const handleCopyAndPaste = async (event, status) => {\r\n    event.preventDefault();\r\n    if (status === \"copy\") {\r\n      await navigator.clipboard.writeText(window.getSelection()?.toString());\r\n    }\r\n    status === \"copy\"\r\n      ? emitRecordingEvent(\"activities\", {\r\n          reason: `user copied text to clipboard - (${window.getSelection().toString()})`,\r\n          eventName: \"text:copied\",\r\n        })\r\n      : emitRecordingEvent(\"activities\", {\r\n          reason: `user pasted text to clipboard - (${(event.clipboardData || window.clipboardData).getData(\"text\")})`,\r\n          eventName: \"text:pasted\",\r\n        });\r\n  };)","eventName":"8","timestamp":"2026-10-29T05:15:30.353Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T05:15:31.505Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T05:15:43.346Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T05:15:43.877Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T05:15:44.390Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T05:15:44.401Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T05:17:46.554Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T05:17:48.798Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T05:17:49.808Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T05:17:53.153Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"window dimensions changed - (width: 760px, height: 732px)","eventName":"9","timestamp":"2026-10-29T05:17:53.702Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T05:17:54.618Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user pasted text to clipboard - ( // copy paste event handling\r\n  const handleCopyAndPaste = async (event, status) => {\r\n    event.preventDefault();\r\n    if (status === \"copy\") {\r\n      await navigator.clipboard.writeText(window.getSelection()?.toString());\r\n    }\r\n    status === \"copy\"\r\n      ? emitRecordingEvent(\"activities\", {\r\n          reason: `user copied text to clipboard - (${window.getSelection().toString()})`,\r\n          eventName: \"text:copied\",\r\n        })\r\n      : emitRecordingEvent(\"activities\", {\r\n          reason: `user pasted text to clipboard - (${(event.clipboardData || window.clipboardData).getData(\"text\")})`,\r\n          eventName: \"text:pasted\",\r\n        });\r\n  };)","eventName":"8","timestamp":"2026-10-29T05:17:56.026Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user pasted text to clipboard - ( // copy paste event handling\r\n  const handleCopyAndPaste = async (event, status) => {\r\n    event.preventDefault();\r\n    if (status === \"copy\") {\r\n      await navigator.clipboard.writeText(window.getSelection()?.toString());\r\n    }\r\n    status === \"copy\"\r\n      ? emitRecordingEvent(\"activities\", {\r\n          reason: `user copied text to clipboard - (${window.getSelection().toString()})`,\r\n          eventName: \"text:copied\",\r\n        })\r\n      : emitRecordingEvent(\"activities\", {\r\n          reason: `user pasted text to clipboard - (${(event.clipboardData || window.clipboardData).getData(\"text\")})`,\r\n          eventName: \"text:pasted\",\r\n        });\r\n  };)","eventName":"8","timestamp":"2026-10-29T05:17:56.027Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user copied text to clipboard - (Video Recording)","eventName":"7","timestamp":"2026-10-29T05:17:59.531Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user pasted text to clipboard - ( // copy paste event handling\r\n  const handleCopyAndPaste = async (event, status) => {\r\n    event.preventDefault();\r\n    if (status === \"copy\") {\r\n      await navigator.clipboard.writeText(window.getSelection()?.toString());\r\n    }\r\n    status === \"copy\"\r\n      ? emitRecordingEvent(\"activities\", {\r\n          reason: `user copied text to clipboard - (${window.getSelection().toString()})`,\r\n          eventName: \"text:copied\",\r\n        })\r\n      : emitRecordingEvent(\"activities\", {\r\n          reason: `user pasted text to clipboard - (${(event.clipboardData || window.clipboardData).getData(\"text\")})`,\r\n          eventName: \"text:pasted\",\r\n        });\r\n  };)","eventName":"8","timestamp":"2026-10-29T05:18:01.690Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T05:18:03.645Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T05:18:03.761Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T05:18:03.772Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T05:19:23.164Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user pasted text to clipboard - (await navigation.clipboardData(selectedText);)","eventName":"8","timestamp":"2026-10-29T05:19:24.350Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user pasted text to clipboard - (await navigation.clipboardData(selectedText);)","eventName":"8","timestamp":"2026-10-29T05:19:24.351Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user copied text to clipboard - (ustomize the backgroun)","eventName":"7","timestamp":"2026-10-29T05:19:30.059Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user pasted text to clipboard - (await navigation.clipboardData(selectedText);)","eventName":"8","timestamp":"2026-10-29T05:19:32.988Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user pasted text to clipboard - (await navigation.clipboardData(selectedText);)","eventName":"8","timestamp":"2026-10-29T05:19:32.989Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T05:19:37.437Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T05:19:37.590Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T05:19:37.600Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T05:19:59.134Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user copied text to clipboard - (omize the backgro)","eventName":"7","timestamp":"2026-10-29T05:20:00.025Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user pasted text to clipboard - (await navigation.clipboardData(selectedText);)","eventName":"8","timestamp":"2026-10-29T05:20:01.671Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user pasted text to clipboard - (await navigation.clipboardData(selectedText);)","eventName":"8","timestamp":"2026-10-29T05:20:01.672Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T05:20:03.017Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T05:20:03.213Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T05:20:03.223Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T05:20:04.554Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T05:20:04.920Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T05:20:09.619Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T05:20:09.636Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T05:20:51.360Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user copied text to clipboard - (mize the backgro)","eventName":"7","timestamp":"2026-10-29T05:20:54.004Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user copied text to clipboard - (mize the backgro)","eventName":"7","timestamp":"2026-10-29T05:20:54.005Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user pasted text to clipboard - (mize the backgro)","eventName":"8","timestamp":"2026-10-29T05:20:56.538Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user pasted text to clipboard - (mize the backgro)","eventName":"8","timestamp":"2026-10-29T05:20:56.539Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user pasted text to clipboard - (mize the backgro)","eventName":"8","timestamp":"2026-10-29T05:21:02.657Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user pasted text to clipboard - (mize the backgro)","eventName":"8","timestamp":"2026-10-29T05:21:02.658Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user copied text to clipboard - ()","eventName":"7","timestamp":"2026-10-29T05:21:04.050Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"user copied text to clipboard - ()","eventName":"7","timestamp":"2026-10-29T05:21:04.050Z"}
+{"key":"o--PB96Y6IBnRqj5AAAr","reason":"window dimensions changed - (width: 1528px, height: 732px)","eventName":"9","timestamp":"2026-10-29T05:21:12.705Z"}
+{"key":"viHS3opGgvNZY7GfAAAu","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T05:21:14.706Z"}
+{"key":"viHS3opGgvNZY7GfAAAu","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T05:21:14.920Z"}
+{"key":"viHS3opGgvNZY7GfAAAu","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T05:21:17.126Z"}
+{"key":"viHS3opGgvNZY7GfAAAu","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T05:21:17.136Z"}
+{"key":"viHS3opGgvNZY7GfAAAu","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T05:21:19.945Z"}
+{"key":"viHS3opGgvNZY7GfAAAu","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T05:21:21.462Z"}
+{"key":"viHS3opGgvNZY7GfAAAu","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T05:21:24.253Z"}
+{"key":"viHS3opGgvNZY7GfAAAu","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T05:21:31.423Z"}
+{"key":"viHS3opGgvNZY7GfAAAu","reason":"user copied text to clipboard - ()","eventName":"7","timestamp":"2026-10-29T05:21:32.457Z"}
+{"key":"viHS3opGgvNZY7GfAAAu","reason":"user copied text to clipboard - ()","eventName":"7","timestamp":"2026-10-29T05:21:32.457Z"}
+{"key":"viHS3opGgvNZY7GfAAAu","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T05:21:39.085Z"}
+{"key":"viHS3opGgvNZY7GfAAAu","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T05:21:39.542Z"}
+{"key":"viHS3opGgvNZY7GfAAAu","reason":"user pasted text to clipboard - ()","eventName":"8","timestamp":"2026-10-29T05:21:39.542Z"}
+{"key":"viHS3opGgvNZY7GfAAAu","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T05:21:45.472Z"}
+{"key":"viHS3opGgvNZY7GfAAAu","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T05:21:45.718Z"}
+{"key":"viHS3opGgvNZY7GfAAAu","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T05:22:27.161Z"}
+{"key":"viHS3opGgvNZY7GfAAAu","reason":"user copied text to clipboard - (o Recordin)","eventName":"7","timestamp":"2026-10-29T05:22:29.747Z"}
+{"key":"viHS3opGgvNZY7GfAAAu","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T05:22:34.533Z"}
+{"key":"viHS3opGgvNZY7GfAAAu","reason":"user pasted text to clipboard - (o Recordin)","eventName":"8","timestamp":"2026-10-29T05:22:35.243Z"}
+{"key":"viHS3opGgvNZY7GfAAAu","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T05:22:39.596Z"}
+{"key":"viHS3opGgvNZY7GfAAAu","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T05:22:40.161Z"}
+{"key":"viHS3opGgvNZY7GfAAAu","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T05:22:59.821Z"}
+{"key":"viHS3opGgvNZY7GfAAAu","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T05:23:00.692Z"}
+{"key":"viHS3opGgvNZY7GfAAAu","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T05:23:07.703Z"}
+{"key":"3yjIQx4T69s7JBUKAAAv","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T05:23:09.561Z"}
+{"key":"3yjIQx4T69s7JBUKAAAv","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T05:23:11.405Z"}
+{"key":"3yjIQx4T69s7JBUKAAAv","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T05:23:11.910Z"}
+{"key":"3yjIQx4T69s7JBUKAAAv","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T05:23:13.005Z"}
+{"key":"3yjIQx4T69s7JBUKAAAv","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T05:24:31.131Z"}
+{"key":"3yjIQx4T69s7JBUKAAAv","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T05:24:31.517Z"}
+{"key":"3yjIQx4T69s7JBUKAAAv","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T05:24:34.222Z"}
+{"key":"5ZmsIcre9V3IJ-IwAAAE","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T05:45:43.044Z"}
+{"key":"5ZmsIcre9V3IJ-IwAAAE","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T05:45:44.029Z"}
+{"key":"5ZmsIcre9V3IJ-IwAAAE","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T05:45:45.307Z"}
+{"key":"8MMEFFEh4VnpVU0QAAAF","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T05:45:47.308Z"}
+{"key":"8MMEFFEh4VnpVU0QAAAF","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T05:45:51.712Z"}
+{"key":"8MMEFFEh4VnpVU0QAAAF","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T05:45:53.975Z"}
+{"key":"8MMEFFEh4VnpVU0QAAAF","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T05:46:17.154Z"}
+{"key":"XJ0v61prk9RDi4a6AAAB","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T05:55:09.942Z"}
+{"key":"T6MbMcc_G8KubTN0AAAC","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T05:55:11.526Z"}
+{"key":"T6MbMcc_G8KubTN0AAAC","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T05:55:11.735Z"}
+{"key":"T6MbMcc_G8KubTN0AAAC","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T05:55:48.889Z"}
+{"key":"G9YvdhqmlOZEWDNBAAAD","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T05:58:05.006Z"}
+{"key":"G9YvdhqmlOZEWDNBAAAD","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T05:58:31.253Z"}
+{"key":"5WTrSoI2K5r7vVh6AAAE","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T05:58:33.215Z"}
+{"key":"5WTrSoI2K5r7vVh6AAAE","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T05:58:38.350Z"}
+{"key":"5WTrSoI2K5r7vVh6AAAE","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T05:58:38.785Z"}
+{"key":"5WTrSoI2K5r7vVh6AAAE","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T05:58:39.492Z"}
+{"key":"5WTrSoI2K5r7vVh6AAAE","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T05:58:44.700Z"}
+{"key":"5WTrSoI2K5r7vVh6AAAE","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T05:58:45.062Z"}
+{"key":"5WTrSoI2K5r7vVh6AAAE","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T06:01:35.907Z"}
+{"key":"5WTrSoI2K5r7vVh6AAAE","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T06:02:03.890Z"}
+{"key":"5WTrSoI2K5r7vVh6AAAE","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T06:02:37.892Z"}
+{"key":"5WTrSoI2K5r7vVh6AAAE","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T06:03:06.886Z"}
+{"key":"5WTrSoI2K5r7vVh6AAAE","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T06:18:17.884Z"}
+{"key":"5WTrSoI2K5r7vVh6AAAE","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T06:18:38.895Z"}
+{"key":"5WTrSoI2K5r7vVh6AAAE","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T06:19:08.890Z"}
+{"key":"5WTrSoI2K5r7vVh6AAAE","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T06:19:32.873Z"}
+{"key":"5WTrSoI2K5r7vVh6AAAE","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T06:19:52.868Z"}
+{"key":"5WTrSoI2K5r7vVh6AAAE","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T06:20:53.907Z"}
+{"key":"5WTrSoI2K5r7vVh6AAAE","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T06:21:20.896Z"}
+{"key":"5WTrSoI2K5r7vVh6AAAE","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T06:21:44.952Z"}
+{"key":"5WTrSoI2K5r7vVh6AAAE","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T06:22:14.851Z"}
+{"key":"5WTrSoI2K5r7vVh6AAAE","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T06:22:58.827Z"}
+{"key":"5WTrSoI2K5r7vVh6AAAE","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T06:23:19.858Z"}
+{"key":"5WTrSoI2K5r7vVh6AAAE","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T06:23:45.895Z"}
+{"key":"5WTrSoI2K5r7vVh6AAAE","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T06:24:29.891Z"}
+{"key":"5WTrSoI2K5r7vVh6AAAE","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T06:25:15.868Z"}
+{"key":"5WTrSoI2K5r7vVh6AAAE","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T06:25:29.877Z"}
+{"key":"5WTrSoI2K5r7vVh6AAAE","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T06:25:42.847Z"}
+{"key":"5WTrSoI2K5r7vVh6AAAE","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T06:25:56.872Z"}
+{"key":"5WTrSoI2K5r7vVh6AAAE","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T06:31:52.954Z"}
+{"key":"5WTrSoI2K5r7vVh6AAAE","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T06:32:14.976Z"}
+{"key":"5WTrSoI2K5r7vVh6AAAE","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T06:34:10.949Z"}
+{"key":"5WTrSoI2K5r7vVh6AAAE","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T06:34:31.904Z"}
+{"key":"5WTrSoI2K5r7vVh6AAAE","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T06:35:38.883Z"}
+{"key":"5WTrSoI2K5r7vVh6AAAE","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T06:36:52.859Z"}
+{"key":"5WTrSoI2K5r7vVh6AAAE","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T06:40:00.872Z"}
+{"key":"5WTrSoI2K5r7vVh6AAAE","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T06:42:20.756Z"}
+{"key":"5WTrSoI2K5r7vVh6AAAE","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T06:42:26.865Z"}
+{"key":"5WTrSoI2K5r7vVh6AAAE","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T06:42:42.858Z"}
+{"key":"5WTrSoI2K5r7vVh6AAAE","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T06:43:12.528Z"}
+{"key":"ITRyDNAaMle9_eAJAAAF","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T06:43:14.735Z"}
+{"key":"ITRyDNAaMle9_eAJAAAF","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T06:43:25.877Z"}
+{"key":"ITRyDNAaMle9_eAJAAAF","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T06:43:37.858Z"}
+{"key":"ITRyDNAaMle9_eAJAAAF","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T06:43:39.909Z"}
+{"key":"ITRyDNAaMle9_eAJAAAF","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T06:43:40.897Z"}
+{"key":"ITRyDNAaMle9_eAJAAAF","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T06:43:42.897Z"}
+{"key":"ITRyDNAaMle9_eAJAAAF","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T06:43:46.856Z"}
+{"key":"ITRyDNAaMle9_eAJAAAF","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T06:43:47.653Z"}
+{"key":"ITRyDNAaMle9_eAJAAAF","reason":"window dimensions changed - (width: 1226px, height: 730px)","eventName":"9","timestamp":"2026-10-29T06:43:56.186Z"}
+{"key":"ITRyDNAaMle9_eAJAAAF","reason":"window dimensions changed - (width: 984px, height: 730px)","eventName":"9","timestamp":"2026-10-29T06:44:01.073Z"}
+{"key":"ITRyDNAaMle9_eAJAAAF","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T06:45:10.650Z"}
+{"key":"ITRyDNAaMle9_eAJAAAF","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T06:45:12.110Z"}
+{"key":"ITRyDNAaMle9_eAJAAAF","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T06:45:14.051Z"}
+{"key":"ITRyDNAaMle9_eAJAAAF","reason":"user initiated recording","eventName":"3","timestamp":"2026-10-29T06:45:15.295Z"}
+{"key":"ITRyDNAaMle9_eAJAAAF","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T06:45:17.644Z"}
+{"key":"ITRyDNAaMle9_eAJAAAF","reason":"user requested stop","eventName":"6","timestamp":"2026-10-29T06:45:17.775Z"}
+{"key":"ITRyDNAaMle9_eAJAAAF","reason":"connection lost","eventName":"2","timestamp":"2026-10-29T06:45:17.790Z"}
+{"key":"ITRyDNAaMle9_eAJAAAF","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T06:45:18.543Z"}
+{"key":"ITRyDNAaMle9_eAJAAAF","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T06:45:18.943Z"}
+{"key":"ITRyDNAaMle9_eAJAAAF","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T06:46:34.578Z"}
+{"key":"ZdThnR65-bKLoQM1AAAG","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T06:46:36.854Z"}
+{"key":"ZdThnR65-bKLoQM1AAAG","reason":"user initiated recording","eventName":"3","timestamp":"2026-10-29T06:46:41.644Z"}
+{"key":"ZdThnR65-bKLoQM1AAAG","reason":"user requested stop","eventName":"6","timestamp":"2026-10-29T06:46:46.577Z"}
+{"key":"ZdThnR65-bKLoQM1AAAG","reason":"connection lost","eventName":"2","timestamp":"2026-10-29T06:46:46.580Z"}
+{"key":"ZdThnR65-bKLoQM1AAAG","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T06:46:52.028Z"}
+{"key":"ZdThnR65-bKLoQM1AAAG","reason":"user initiated recording","eventName":"3","timestamp":"2026-10-29T06:46:56.326Z"}
+{"key":"ZdThnR65-bKLoQM1AAAG","reason":"user requested stop","eventName":"6","timestamp":"2026-10-29T06:47:04.381Z"}
+{"key":"ZdThnR65-bKLoQM1AAAG","reason":"connection lost","eventName":"2","timestamp":"2026-10-29T06:47:04.383Z"}
+{"key":"ZdThnR65-bKLoQM1AAAG","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T06:47:13.044Z"}
+{"key":"ZdThnR65-bKLoQM1AAAG","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T07:18:04.068Z"}
+{"key":"nSvp22tOGLPia7qiAAAH","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T07:18:06.626Z"}
+{"key":"nSvp22tOGLPia7qiAAAH","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T07:18:07.347Z"}
+{"key":"nSvp22tOGLPia7qiAAAH","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T07:18:07.497Z"}
+{"key":"nSvp22tOGLPia7qiAAAH","reason":"window dimensions changed - (width: 1536px, height: 730px)","eventName":"9","timestamp":"2026-10-29T07:18:08.029Z"}
+{"key":"nSvp22tOGLPia7qiAAAH","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T07:18:12.234Z"}
+{"key":"nSvp22tOGLPia7qiAAAH","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T07:21:55.871Z"}
+{"key":"nSvp22tOGLPia7qiAAAH","reason":"user enter full screen","eventName":"12","timestamp":"2026-10-29T07:21:58.171Z"}
+{"key":"nSvp22tOGLPia7qiAAAH","reason":"window dimensions changed - (width: 1536px, height: 864px)","eventName":"9","timestamp":"2026-10-29T07:21:58.679Z"}
+{"key":"nSvp22tOGLPia7qiAAAH","reason":"user exit full screen","eventName":"13","timestamp":"2026-10-29T07:21:59.764Z"}
+{"key":"nSvp22tOGLPia7qiAAAH","reason":"user exit full screen","eventName":"13","timestamp":"2026-10-29T07:21:59.767Z"}
+{"key":"nSvp22tOGLPia7qiAAAH","reason":"window dimensions changed - (width: 1536px, height: 730px)","eventName":"9","timestamp":"2026-10-29T07:22:00.271Z"}
+{"key":"nSvp22tOGLPia7qiAAAH","reason":"user initiated recording","eventName":"3","timestamp":"2026-10-29T07:22:05.709Z"}
+{"key":"nSvp22tOGLPia7qiAAAH","reason":"user requested pause","eventName":"4","timestamp":"2026-10-29T07:22:07.937Z"}
+{"key":"nSvp22tOGLPia7qiAAAH","reason":"user requested resume","eventName":"5","timestamp":"2026-10-29T07:22:08.746Z"}
+{"key":"nSvp22tOGLPia7qiAAAH","reason":"user requested stop","eventName":"6","timestamp":"2026-10-29T07:22:10.040Z"}
+{"key":"nSvp22tOGLPia7qiAAAH","reason":"connection lost","eventName":"2","timestamp":"2026-10-29T07:22:10.043Z"}
+{"key":"nSvp22tOGLPia7qiAAAH","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T07:22:10.794Z"}
+{"key":"nSvp22tOGLPia7qiAAAH","reason":"user initiated recording","eventName":"3","timestamp":"2026-10-29T07:22:13.994Z"}
+{"key":"nSvp22tOGLPia7qiAAAH","reason":"user requested stop","eventName":"6","timestamp":"2026-10-29T07:22:18.722Z"}
+{"key":"nSvp22tOGLPia7qiAAAH","reason":"connection lost","eventName":"2","timestamp":"2026-10-29T07:22:18.724Z"}
+{"key":"nSvp22tOGLPia7qiAAAH","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T07:22:28.889Z"}
+{"key":"nSvp22tOGLPia7qiAAAH","reason":"user initiated recording","eventName":"3","timestamp":"2026-10-29T07:22:32.783Z"}
+{"key":"nSvp22tOGLPia7qiAAAH","reason":"user requested stop","eventName":"6","timestamp":"2026-10-29T07:22:38.057Z"}
+{"key":"nSvp22tOGLPia7qiAAAH","reason":"connection lost","eventName":"2","timestamp":"2026-10-29T07:22:38.062Z"}
+{"key":"nSvp22tOGLPia7qiAAAH","reason":"user enter full screen","eventName":"12","timestamp":"2026-10-29T07:22:45.062Z"}
+{"key":"nSvp22tOGLPia7qiAAAH","reason":"window dimensions changed - (width: 1536px, height: 864px)","eventName":"9","timestamp":"2026-10-29T07:22:45.577Z"}
+{"key":"nSvp22tOGLPia7qiAAAH","reason":"user exit full screen","eventName":"13","timestamp":"2026-10-29T07:22:46.370Z"}
+{"key":"nSvp22tOGLPia7qiAAAH","reason":"user exit full screen","eventName":"13","timestamp":"2026-10-29T07:22:46.376Z"}
+{"key":"nSvp22tOGLPia7qiAAAH","reason":"window dimensions changed - (width: 1536px, height: 730px)","eventName":"9","timestamp":"2026-10-29T07:22:46.878Z"}
+{"key":"nSvp22tOGLPia7qiAAAH","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T07:22:52.584Z"}
+{"key":"56NnFPzMYGRR7qevAAAI","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T07:23:13.200Z"}
+{"key":"56NnFPzMYGRR7qevAAAI","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T07:23:29.421Z"}
+{"key":"56NnFPzMYGRR7qevAAAI","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T07:24:33.310Z"}
+{"key":"56NnFPzMYGRR7qevAAAI","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T07:24:35.662Z"}
+{"key":"56NnFPzMYGRR7qevAAAI","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T07:24:54.990Z"}
+{"key":"56NnFPzMYGRR7qevAAAI","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T07:24:58.986Z"}
+{"key":"56NnFPzMYGRR7qevAAAI","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T07:26:16.479Z"}
+{"key":"56NnFPzMYGRR7qevAAAI","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T07:26:18.402Z"}
+{"key":"56NnFPzMYGRR7qevAAAI","reason":"window dimensions changed - (width: 984px, height: 730px)","eventName":"9","timestamp":"2026-10-29T07:26:18.993Z"}
+{"key":"56NnFPzMYGRR7qevAAAI","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T07:26:20.732Z"}
+{"key":"56NnFPzMYGRR7qevAAAI","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T07:26:30.142Z"}
+{"key":"56NnFPzMYGRR7qevAAAI","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T07:26:55.665Z"}
+{"key":"56NnFPzMYGRR7qevAAAI","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T07:27:04.128Z"}
+{"key":"56NnFPzMYGRR7qevAAAI","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T07:27:54.297Z"}
+{"key":"538OsV0B5YSpE-_WAAAJ","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T07:28:05.189Z"}
+{"key":"538OsV0B5YSpE-_WAAAJ","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T07:28:06.683Z"}
+{"key":"538OsV0B5YSpE-_WAAAJ","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T07:28:29.370Z"}
+{"key":"qKJfILUsEO0tRlQNAAAK","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T07:28:32.396Z"}
+{"key":"sB5kS5Jz8c5C03ipAAAL","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T07:28:40.572Z"}
+{"key":"sB5kS5Jz8c5C03ipAAAL","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T07:28:58.474Z"}
+{"key":"sB5kS5Jz8c5C03ipAAAL","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T07:29:47.873Z"}
+{"key":"sB5kS5Jz8c5C03ipAAAL","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T07:31:27.454Z"}
+{"key":"XXiRU8oAiWGIyvbCAAAN","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T07:33:14.696Z"}
+{"key":"XXiRU8oAiWGIyvbCAAAN","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T07:33:24.038Z"}
+{"key":"XXiRU8oAiWGIyvbCAAAN","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T07:34:39.046Z"}
+{"key":"XXiRU8oAiWGIyvbCAAAN","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T07:34:54.022Z"}
+{"key":"XXiRU8oAiWGIyvbCAAAN","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T07:35:13.446Z"}
+{"key":"AGdITDiS0U-V4zV2AAAO","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T07:35:16.202Z"}
+{"key":"AGdITDiS0U-V4zV2AAAO","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T07:35:26.475Z"}
+{"key":"AGdITDiS0U-V4zV2AAAO","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T07:35:34.157Z"}
+{"key":"AGdITDiS0U-V4zV2AAAO","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T07:35:41.794Z"}
+{"key":"AGdITDiS0U-V4zV2AAAO","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T07:37:03.344Z"}
+{"key":"AGdITDiS0U-V4zV2AAAO","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T07:37:14.927Z"}
+{"key":"AGdITDiS0U-V4zV2AAAO","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T07:37:19.644Z"}
+{"key":"PtrJ8edHJCE-1F0nAAAP","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T07:37:33.198Z"}
+{"key":"PtrJ8edHJCE-1F0nAAAP","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T07:37:44.337Z"}
+{"key":"PtrJ8edHJCE-1F0nAAAP","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T07:38:08.439Z"}
+{"key":"SwXDLjGEj29zj7yYAAAQ","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T07:38:12.415Z"}
+{"key":"SwXDLjGEj29zj7yYAAAQ","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T07:38:12.511Z"}
+{"key":"SwXDLjGEj29zj7yYAAAQ","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T07:38:18.642Z"}
+{"key":"SwXDLjGEj29zj7yYAAAQ","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T07:38:19.199Z"}
+{"key":"Hbv3UZeUZY0oZMJjAAAR","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T07:38:21.523Z"}
+{"key":"Hbv3UZeUZY0oZMJjAAAR","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T07:38:23.323Z"}
+{"key":"Hbv3UZeUZY0oZMJjAAAR","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T07:38:27.009Z"}
+{"key":"EiD99XXimDqQp9c1AAAS","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T07:38:28.892Z"}
+{"key":"EiD99XXimDqQp9c1AAAS","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T07:38:32.040Z"}
+{"key":"EiD99XXimDqQp9c1AAAS","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T07:38:36.955Z"}
+{"key":"w0V2B6tB101mfT-aAAAT","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T07:38:39.106Z"}
+{"key":"w0V2B6tB101mfT-aAAAT","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T07:38:42.112Z"}
+{"key":"w0V2B6tB101mfT-aAAAT","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T07:38:49.750Z"}
+{"key":"YGzDXZ6LPMuDcWEXAAAU","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T07:38:52.366Z"}
+{"key":"YGzDXZ6LPMuDcWEXAAAU","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T07:38:55.499Z"}
+{"key":"YGzDXZ6LPMuDcWEXAAAU","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T07:39:29.215Z"}
+{"key":"7mzRgA8dK6HwbHWuAAAV","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T07:39:31.864Z"}
+{"key":"7mzRgA8dK6HwbHWuAAAV","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T07:39:35.554Z"}
+{"key":"7mzRgA8dK6HwbHWuAAAV","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T07:39:38.246Z"}
+{"key":"RAtM1YBuSuz0xOzkAAAW","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T07:39:40.254Z"}
+{"key":"RAtM1YBuSuz0xOzkAAAW","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T07:39:42.885Z"}
+{"key":"RAtM1YBuSuz0xOzkAAAW","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T07:39:48.479Z"}
+{"key":"qYWV8hzXHKaGufy9AAAX","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T07:39:51.073Z"}
+{"key":"qYWV8hzXHKaGufy9AAAX","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T07:40:00.855Z"}
+{"key":"qYWV8hzXHKaGufy9AAAX","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T07:42:13.088Z"}
+{"key":"l7LqUqtdJKzjvI8GAAAY","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T07:42:15.939Z"}
+{"key":"l7LqUqtdJKzjvI8GAAAY","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T07:42:22.899Z"}
+{"key":"l7LqUqtdJKzjvI8GAAAY","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T07:42:49.812Z"}
+{"key":"l7LqUqtdJKzjvI8GAAAY","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T07:42:50.326Z"}
+{"key":"l7LqUqtdJKzjvI8GAAAY","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T07:42:58.139Z"}
+{"key":"l7LqUqtdJKzjvI8GAAAY","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T07:42:58.979Z"}
+{"key":"l7LqUqtdJKzjvI8GAAAY","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T07:43:03.418Z"}
+{"key":"l7LqUqtdJKzjvI8GAAAY","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T07:43:04.338Z"}
+{"key":"l7LqUqtdJKzjvI8GAAAY","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T07:43:18.515Z"}
+{"key":"Di12bYAgIE2NIZWMAAAZ","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T07:43:23.138Z"}
+{"key":"Di12bYAgIE2NIZWMAAAZ","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T07:43:29.716Z"}
+{"key":"Di12bYAgIE2NIZWMAAAZ","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T07:43:39.609Z"}
+{"key":"Di12bYAgIE2NIZWMAAAZ","reason":"user initiated recording","eventName":"3","timestamp":"2026-10-29T07:43:55.357Z"}
+{"key":"Di12bYAgIE2NIZWMAAAZ","reason":"user requested pause","eventName":"4","timestamp":"2026-10-29T07:43:59.284Z"}
+{"key":"Di12bYAgIE2NIZWMAAAZ","reason":"user requested resume","eventName":"5","timestamp":"2026-10-29T07:44:00.906Z"}
+{"key":"Di12bYAgIE2NIZWMAAAZ","reason":"user requested stop","eventName":"6","timestamp":"2026-10-29T07:44:03.250Z"}
+{"key":"Di12bYAgIE2NIZWMAAAZ","reason":"connection lost","eventName":"2","timestamp":"2026-10-29T07:44:03.254Z"}
+{"key":"eHszBbB67plr7EjNAAAd","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T07:47:01.258Z"}
+{"key":"QU5oC8XTASlVbEOeAAAe","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T07:48:06.181Z"}
+{"key":"QU5oC8XTASlVbEOeAAAe","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T07:48:09.478Z"}
+{"key":"QU5oC8XTASlVbEOeAAAe","reason":"user copied text to clipboard - (Recording\nRecord your video and customize the background\n\n)","eventName":"7","timestamp":"2026-10-29T07:48:10.534Z"}
+{"key":"QU5oC8XTASlVbEOeAAAe","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T07:48:16.176Z"}
+{"key":"QU5oC8XTASlVbEOeAAAe","reason":"user pasted text to clipboard - (Recording\r\nRecord your video and customize the background\r\n\r\n)","eventName":"8","timestamp":"2026-10-29T07:48:16.607Z"}
+{"key":"QU5oC8XTASlVbEOeAAAe","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T07:48:21.097Z"}
+{"key":"QU5oC8XTASlVbEOeAAAe","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T07:48:39.215Z"}
+{"key":"QU5oC8XTASlVbEOeAAAe","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T07:48:40.570Z"}
+{"key":"ufOGdoVKZv4YvP3cAAAg","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T07:48:46.541Z"}
+{"key":"ufOGdoVKZv4YvP3cAAAg","reason":"user initiated recording","eventName":"3","timestamp":"2026-10-29T07:48:55.003Z"}
+{"key":"ufOGdoVKZv4YvP3cAAAg","reason":"user requested stop","eventName":"6","timestamp":"2026-10-29T07:49:06.766Z"}
+{"key":"ufOGdoVKZv4YvP3cAAAg","reason":"connection lost","eventName":"2","timestamp":"2026-10-29T07:49:06.768Z"}
+{"key":"ufOGdoVKZv4YvP3cAAAg","reason":"user enter full screen","eventName":"12","timestamp":"2026-10-29T07:49:10.762Z"}
+{"key":"ufOGdoVKZv4YvP3cAAAg","reason":"window dimensions changed - (width: 1536px, height: 864px)","eventName":"9","timestamp":"2026-10-29T07:49:11.270Z"}
+{"key":"ufOGdoVKZv4YvP3cAAAg","reason":"user exit full screen","eventName":"13","timestamp":"2026-10-29T07:49:12.004Z"}
+{"key":"ufOGdoVKZv4YvP3cAAAg","reason":"window dimensions changed - (width: 1536px, height: 730px)","eventName":"9","timestamp":"2026-10-29T07:49:12.509Z"}
+{"key":"QU5oC8XTASlVbEOeAAAe","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T07:49:17.431Z"}
+{"key":"QU5oC8XTASlVbEOeAAAe","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T07:49:20.195Z"}
+{"key":"QU5oC8XTASlVbEOeAAAe","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T07:49:24.771Z"}
+{"key":"Onpqk0WQ0pob7FF4AAAl","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T07:49:26.635Z"}
+{"key":"Onpqk0WQ0pob7FF4AAAl","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T07:49:28.441Z"}
+{"key":"Onpqk0WQ0pob7FF4AAAl","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T07:50:36.234Z"}
+{"key":"Onpqk0WQ0pob7FF4AAAl","reason":"window dimensions changed - (width: 984px, height: 730px)","eventName":"9","timestamp":"2026-10-29T07:53:07.122Z"}
+{"key":"VgKIDVRa2fXWO_zPAAAB","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T08:56:06.439Z"}
+{"key":"VgKIDVRa2fXWO_zPAAAB","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T08:56:09.464Z"}
+{"key":"1X0Xzyi0IOnAuSZKAAAC","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T08:56:18.328Z"}
+{"key":"1X0Xzyi0IOnAuSZKAAAC","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T08:56:21.554Z"}
+{"key":"VgKIDVRa2fXWO_zPAAAB","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T08:56:21.586Z"}
+{"key":"VgKIDVRa2fXWO_zPAAAB","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T08:56:25.777Z"}
+{"key":"VgKIDVRa2fXWO_zPAAAB","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T08:56:28.896Z"}
+{"key":"VgKIDVRa2fXWO_zPAAAB","reason":"user initiated recording","eventName":"3","timestamp":"2026-10-29T08:56:34.688Z"}
+{"key":"VgKIDVRa2fXWO_zPAAAB","reason":"user requested stop","eventName":"6","timestamp":"2026-10-29T08:56:41.286Z"}
+{"key":"VgKIDVRa2fXWO_zPAAAB","reason":"connection lost","eventName":"2","timestamp":"2026-10-29T08:56:41.288Z"}
+{"key":"VgKIDVRa2fXWO_zPAAAB","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T08:56:44.167Z"}
+{"key":"VgKIDVRa2fXWO_zPAAAB","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T09:00:06.699Z"}
+{"key":"VgKIDVRa2fXWO_zPAAAB","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T09:00:06.988Z"}
+{"key":"VgKIDVRa2fXWO_zPAAAB","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T09:03:31.555Z"}
+{"key":"VgKIDVRa2fXWO_zPAAAB","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T09:03:31.918Z"}
+{"key":"VgKIDVRa2fXWO_zPAAAB","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T09:06:08.804Z"}
+{"key":"VgKIDVRa2fXWO_zPAAAB","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T09:06:09.307Z"}
+{"key":"VgKIDVRa2fXWO_zPAAAB","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T09:26:17.128Z"}
+{"key":"VgKIDVRa2fXWO_zPAAAB","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T09:26:17.565Z"}
+{"key":"VgKIDVRa2fXWO_zPAAAB","reason":"window dimensions changed - (width: 1396px, height: 663px)","eventName":"9","timestamp":"2026-10-29T09:26:18.142Z"}
+{"key":"VgKIDVRa2fXWO_zPAAAB","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T09:35:32.932Z"}
+{"key":"VgKIDVRa2fXWO_zPAAAB","reason":"window dimensions changed - (width: 1536px, height: 730px)","eventName":"9","timestamp":"2026-10-29T09:35:33.436Z"}
+{"key":"VgKIDVRa2fXWO_zPAAAB","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T09:35:36.081Z"}
+{"key":"VgKIDVRa2fXWO_zPAAAB","reason":"user initiated recording","eventName":"3","timestamp":"2026-10-29T09:35:40.423Z"}
+{"key":"VgKIDVRa2fXWO_zPAAAB","reason":"user requested stop","eventName":"6","timestamp":"2026-10-29T09:35:41.673Z"}
+{"key":"VgKIDVRa2fXWO_zPAAAB","reason":"connection lost","eventName":"2","timestamp":"2026-10-29T09:35:41.675Z"}
+{"key":"VgKIDVRa2fXWO_zPAAAB","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T09:35:42.426Z"}
+{"key":"VgKIDVRa2fXWO_zPAAAB","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T09:35:42.573Z"}
+{"key":"N7He7TPBAMyQyOPTAAAT","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T10:02:29.060Z"}
+{"key":"o4NKzZ_SDl8WqS9zAAAU","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T10:02:30.479Z"}
+{"key":"o4NKzZ_SDl8WqS9zAAAU","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T10:02:39.906Z"}
+{"key":"o4NKzZ_SDl8WqS9zAAAU","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T10:03:25.373Z"}
+{"key":"o4NKzZ_SDl8WqS9zAAAU","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T10:03:27.219Z"}
+{"key":"o4NKzZ_SDl8WqS9zAAAU","reason":"window dimensions changed - (width: 1018px, height: 732px)","eventName":"9","timestamp":"2026-10-29T10:03:27.859Z"}
+{"key":"o4NKzZ_SDl8WqS9zAAAU","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T10:03:29.343Z"}
+{"key":"o4NKzZ_SDl8WqS9zAAAU","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T10:03:34.395Z"}
+{"key":"o4NKzZ_SDl8WqS9zAAAU","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T10:03:48.284Z"}
+{"key":"0tJpuBYSvVbMHeXlAAAV","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T10:03:50.592Z"}
+{"key":"0tJpuBYSvVbMHeXlAAAV","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T10:03:59.465Z"}
+{"key":"0tJpuBYSvVbMHeXlAAAV","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T10:04:09.119Z"}
+{"key":"0tJpuBYSvVbMHeXlAAAV","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T10:04:18.445Z"}
+{"key":"0tJpuBYSvVbMHeXlAAAV","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T10:04:22.129Z"}
+{"key":"VgKIDVRa2fXWO_zPAAAB","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T10:04:24.047Z"}
+{"key":"xMQtwGCXoJB9OW0MAAAW","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T10:04:24.971Z"}
+{"key":"xMQtwGCXoJB9OW0MAAAW","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T10:04:26.731Z"}
+{"key":"xMQtwGCXoJB9OW0MAAAW","reason":"window dimensions changed - (width: 984px, height: 730px)","eventName":"9","timestamp":"2026-10-29T10:04:27.323Z"}
+{"key":"xMQtwGCXoJB9OW0MAAAW","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T10:04:28.682Z"}
+{"key":"xMQtwGCXoJB9OW0MAAAW","reason":"user initiated recording","eventName":"3","timestamp":"2026-10-29T10:04:31.851Z"}
+{"key":"xMQtwGCXoJB9OW0MAAAW","reason":"user requested pause","eventName":"4","timestamp":"2026-10-29T10:04:37.272Z"}
+{"key":"xMQtwGCXoJB9OW0MAAAW","reason":"user requested resume","eventName":"5","timestamp":"2026-10-29T10:04:37.895Z"}
+{"key":"xMQtwGCXoJB9OW0MAAAW","reason":"user requested stop","eventName":"6","timestamp":"2026-10-29T10:04:39.018Z"}
+{"key":"xMQtwGCXoJB9OW0MAAAW","reason":"connection lost","eventName":"2","timestamp":"2026-10-29T10:04:39.021Z"}
+{"key":"xMQtwGCXoJB9OW0MAAAW","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T10:04:39.843Z"}
+{"key":"xMQtwGCXoJB9OW0MAAAW","reason":"user initiated recording","eventName":"3","timestamp":"2026-10-29T10:04:43.011Z"}
+{"key":"xMQtwGCXoJB9OW0MAAAW","reason":"user requested pause","eventName":"4","timestamp":"2026-10-29T10:04:45.323Z"}
+{"key":"xMQtwGCXoJB9OW0MAAAW","reason":"user requested resume","eventName":"5","timestamp":"2026-10-29T10:04:45.877Z"}
+{"key":"xMQtwGCXoJB9OW0MAAAW","reason":"user requested stop","eventName":"6","timestamp":"2026-10-29T10:04:48.652Z"}
+{"key":"xMQtwGCXoJB9OW0MAAAW","reason":"connection lost","eventName":"2","timestamp":"2026-10-29T10:04:48.656Z"}
+{"key":"xMQtwGCXoJB9OW0MAAAW","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T10:04:53.694Z"}
+{"key":"xMQtwGCXoJB9OW0MAAAW","reason":"user enter full screen","eventName":"12","timestamp":"2026-10-29T10:04:55.872Z"}
+{"key":"xMQtwGCXoJB9OW0MAAAW","reason":"window dimensions changed - (width: 984px, height: 864px)","eventName":"9","timestamp":"2026-10-29T10:04:56.422Z"}
+{"key":"xMQtwGCXoJB9OW0MAAAW","reason":"user exit full screen","eventName":"13","timestamp":"2026-10-29T10:04:57.167Z"}
+{"key":"xMQtwGCXoJB9OW0MAAAW","reason":"user exit full screen","eventName":"13","timestamp":"2026-10-29T10:04:57.172Z"}
+{"key":"xMQtwGCXoJB9OW0MAAAW","reason":"window dimensions changed - (width: 984px, height: 730px)","eventName":"9","timestamp":"2026-10-29T10:04:57.672Z"}
+{"key":"xMQtwGCXoJB9OW0MAAAW","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T10:05:12.677Z"}
+{"key":"xMQtwGCXoJB9OW0MAAAW","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T10:05:15.824Z"}
+{"key":"xMQtwGCXoJB9OW0MAAAW","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T10:05:16.997Z"}
+{"key":"xMQtwGCXoJB9OW0MAAAW","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T10:05:17.159Z"}
+{"key":"xMQtwGCXoJB9OW0MAAAW","reason":"window dimensions changed - (width: 1536px, height: 730px)","eventName":"9","timestamp":"2026-10-29T10:05:17.690Z"}
+{"key":"lrl92yhQrOR-G1v5AAAX","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T10:05:19.680Z"}
+{"key":"lrl92yhQrOR-G1v5AAAX","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T10:05:20.068Z"}
+{"key":"f9oyS1AbaooOYrRNAAAY","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T10:06:16.419Z"}
+{"key":"f9oyS1AbaooOYrRNAAAY","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T10:06:21.911Z"}
+{"key":"f9oyS1AbaooOYrRNAAAY","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T10:07:03.002Z"}
+{"key":"f9oyS1AbaooOYrRNAAAY","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T10:08:21.252Z"}
+{"key":"f9oyS1AbaooOYrRNAAAY","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T10:08:23.315Z"}
+{"key":"f9oyS1AbaooOYrRNAAAY","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T10:12:37.617Z"}
+{"reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T10:20:14.258Z"}
+{"reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T10:20:14.983Z"}
+{"reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T10:20:19.191Z"}
+{"reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T10:20:22.361Z"}
+{"reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T10:20:23.352Z"}
+{"reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T10:20:24.064Z"}
+{"key":"-Q9wY9YG3IfjoF-gAAAA","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T10:32:44.576Z"}
+{"key":"-Q9wY9YG3IfjoF-gAAAA","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T10:32:45.454Z"}
+{"key":"-Q9wY9YG3IfjoF-gAAAA","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T10:42:24.500Z"}
+{"key":"mYuSl-eSKGQT0K9wAAAB","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T10:42:26.586Z"}
+{"key":"mYuSl-eSKGQT0K9wAAAB","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T10:42:31.245Z"}
+{"key":"ftWUYYzJzwLY47VJAAAC","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T10:42:31.681Z"}
+{"key":"ftWUYYzJzwLY47VJAAAC","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T10:42:31.790Z"}
+{"key":"ftWUYYzJzwLY47VJAAAC","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T10:42:31.796Z"}
+{"key":"ftWUYYzJzwLY47VJAAAC","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T10:42:31.971Z"}
+{"key":"ftWUYYzJzwLY47VJAAAC","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T10:42:33.567Z"}
+{"key":"ftWUYYzJzwLY47VJAAAC","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T10:42:35.977Z"}
+{"key":"ftWUYYzJzwLY47VJAAAC","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T10:43:49.105Z"}
+{"key":"ftWUYYzJzwLY47VJAAAC","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T10:43:51.895Z"}
+{"key":"ftWUYYzJzwLY47VJAAAC","reason":"window dimensions changed - (width: 1018px, height: 732px)","eventName":"9","timestamp":"2026-10-29T10:43:52.475Z"}
+{"key":"ftWUYYzJzwLY47VJAAAC","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T10:43:53.548Z"}
+{"key":"ftWUYYzJzwLY47VJAAAC","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T10:44:02.447Z"}
+{"key":"ftWUYYzJzwLY47VJAAAC","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T10:44:02.986Z"}
+{"key":"ftWUYYzJzwLY47VJAAAC","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T10:44:35.779Z"}
+{"key":"ftWUYYzJzwLY47VJAAAC","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T10:44:36.276Z"}
+{"key":"ftWUYYzJzwLY47VJAAAC","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T10:44:37.981Z"}
+{"key":"ftWUYYzJzwLY47VJAAAC","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T10:44:44.339Z"}
+{"key":"ftWUYYzJzwLY47VJAAAC","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-29T10:44:45.220Z"}
+{"key":"ftWUYYzJzwLY47VJAAAC","reason":"user returned to window","eventName":"10","timestamp":"2026-10-29T10:44:45.370Z"}
+{"key":"ftWUYYzJzwLY47VJAAAC","reason":"window dimensions changed - (width: 1528px, height: 732px)","eventName":"9","timestamp":"2026-10-29T10:44:45.902Z"}
+{"key":"ftWUYYzJzwLY47VJAAAC","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T10:46:19.950Z"}
+{"key":"ftWUYYzJzwLY47VJAAAC","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T10:46:48.061Z"}
+{"key":"ftWUYYzJzwLY47VJAAAC","reason":"user initiated recording","eventName":"3","timestamp":"2026-10-29T10:51:06.270Z"}
+{"key":"ftWUYYzJzwLY47VJAAAC","reason":"user requested stop","eventName":"6","timestamp":"2026-10-29T10:56:06.951Z"}
+{"key":"ftWUYYzJzwLY47VJAAAC","reason":"connection lost","eventName":"2","timestamp":"2026-10-29T10:56:06.987Z"}
+{"key":"ftWUYYzJzwLY47VJAAAC","reason":"user enter full screen","eventName":"12","timestamp":"2026-10-29T10:56:24.147Z"}
+{"key":"ftWUYYzJzwLY47VJAAAC","reason":"window dimensions changed - (width: 1536px, height: 864px)","eventName":"9","timestamp":"2026-10-29T10:56:24.666Z"}
+{"key":"ftWUYYzJzwLY47VJAAAC","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T10:57:10.394Z"}
+{"key":"ftWUYYzJzwLY47VJAAAC","reason":"user initiated recording","eventName":"3","timestamp":"2026-10-29T10:57:23.195Z"}
+{"key":"ftWUYYzJzwLY47VJAAAC","reason":"user requested stop","eventName":"6","timestamp":"2026-10-29T11:02:23.898Z"}
+{"key":"ftWUYYzJzwLY47VJAAAC","reason":"connection lost","eventName":"2","timestamp":"2026-10-29T11:02:23.947Z"}
+{"key":"ftWUYYzJzwLY47VJAAAC","reason":"window dimensions changed - (width: 1528px, height: 732px)","eventName":"9","timestamp":"2026-10-29T11:03:26.057Z"}
+{"key":"ftWUYYzJzwLY47VJAAAC","reason":"window dimensions changed - (width: 1018px, height: 732px)","eventName":"9","timestamp":"2026-10-29T11:04:27.145Z"}
+{"key":"ftWUYYzJzwLY47VJAAAC","reason":"window dimensions changed - (width: 1528px, height: 732px)","eventName":"9","timestamp":"2026-10-29T11:24:21.325Z"}
+{"key":"ftWUYYzJzwLY47VJAAAC","reason":"window dimensions changed - (width: 1018px, height: 732px)","eventName":"9","timestamp":"2026-10-29T11:29:59.524Z"}
+{"key":"FyhJ2y-n51n500doAAAE","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-29T11:40:53.992Z"}

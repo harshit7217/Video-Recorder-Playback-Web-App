@@ -1,0 +1,62 @@
+{"key":"634gAzddxWelDvODAAAA","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-11-06T04:22:03.255Z"}
+{"key":"634gAzddxWelDvODAAAA","reason":"window dimensions changed - (width: 764px, height: 732px)","eventName":"9","timestamp":"2026-11-06T04:22:05.559Z"}
+{"key":"1tuYmDqCXJsiFb2vAAAG","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-11-06T06:15:22.447Z"}
+{"key":"1tuYmDqCXJsiFb2vAAAG","reason":"user switched to another window","eventName":"11","timestamp":"2026-11-06T06:15:26.032Z"}
+{"key":"1tuYmDqCXJsiFb2vAAAG","reason":"user returned to window","eventName":"10","timestamp":"2026-11-06T06:15:32.418Z"}
+{"key":"1tuYmDqCXJsiFb2vAAAG","reason":"window dimensions changed - (width: 1528px, height: 732px)","eventName":"9","timestamp":"2026-11-06T06:15:32.968Z"}
+{"key":"1tuYmDqCXJsiFb2vAAAG","reason":"user switched to another window","eventName":"11","timestamp":"2026-11-06T06:15:41.802Z"}
+{"key":"1tuYmDqCXJsiFb2vAAAG","reason":"user returned to window","eventName":"10","timestamp":"2026-11-06T06:16:35.531Z"}
+{"key":"1tuYmDqCXJsiFb2vAAAG","reason":"user switched to another window","eventName":"11","timestamp":"2026-11-06T06:16:35.963Z"}
+{"key":"1tuYmDqCXJsiFb2vAAAG","reason":"user returned to window","eventName":"10","timestamp":"2026-11-06T06:28:12.012Z"}
+{"key":"1tuYmDqCXJsiFb2vAAAG","reason":"user switched to another window","eventName":"11","timestamp":"2026-11-06T06:28:12.243Z"}
+{"key":"1tuYmDqCXJsiFb2vAAAG","reason":"user returned to window","eventName":"10","timestamp":"2026-11-06T06:30:39.870Z"}
+{"key":"1tuYmDqCXJsiFb2vAAAG","reason":"user switched to another window","eventName":"11","timestamp":"2026-11-06T06:30:40.611Z"}
+{"key":"1tuYmDqCXJsiFb2vAAAG","reason":"user returned to window","eventName":"10","timestamp":"2026-11-06T06:37:01.953Z"}
+{"key":"1tuYmDqCXJsiFb2vAAAG","reason":"user switched to another window","eventName":"11","timestamp":"2026-11-06T06:37:03.085Z"}
+{"key":"1tuYmDqCXJsiFb2vAAAG","reason":"user returned to window","eventName":"10","timestamp":"2026-11-06T06:37:06.560Z"}
+{"key":"1tuYmDqCXJsiFb2vAAAG","reason":"window dimensions changed - (width: 764px, height: 732px)","eventName":"9","timestamp":"2026-11-06T06:38:14.701Z"}
+{"key":"tK3VG_X0muDEq5OrAAAJ","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-11-06T06:40:05.002Z"}
+{"key":"tK3VG_X0muDEq5OrAAAJ","reason":"user switched to another window","eventName":"11","timestamp":"2026-11-06T06:40:05.772Z"}
+{"key":"tK3VG_X0muDEq5OrAAAJ","reason":"user returned to window","eventName":"10","timestamp":"2026-11-06T06:40:09.906Z"}
+{"key":"B3ePZVBmluVVHiEVAAAW","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-11-06T07:20:17.369Z"}
+{"key":"B3ePZVBmluVVHiEVAAAW","reason":"user switched to another window","eventName":"11","timestamp":"2026-11-06T07:20:19.652Z"}
+{"key":"cccfmC3spdsQanuXAAAb","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-11-06T08:09:47.588Z"}
+{"key":"cccfmC3spdsQanuXAAAb","reason":"user returned to window","eventName":"10","timestamp":"2026-11-06T08:09:48.850Z"}
+{"key":"cccfmC3spdsQanuXAAAb","reason":"window dimensions changed - (width: 375px, height: 646px)","eventName":"9","timestamp":"2026-11-06T08:09:48.855Z"}
+{"key":"cccfmC3spdsQanuXAAAb","reason":"window dimensions changed - (width: 1528px, height: 732px)","eventName":"9","timestamp":"2026-11-06T08:09:49.420Z"}
+{"key":"k6hx2bDAkdxnnP1tAAA_","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-11-06T09:05:04.974Z"}
+{"key":"k6hx2bDAkdxnnP1tAAA_","reason":"user switched to another window","eventName":"11","timestamp":"2026-11-06T09:05:05.237Z"}
+{"key":"k6hx2bDAkdxnnP1tAAA_","reason":"window dimensions changed - (width: 375px, height: 646px)","eventName":"9","timestamp":"2026-11-06T09:05:06.050Z"}
+{"key":"k6hx2bDAkdxnnP1tAAA_","reason":"window dimensions changed - (width: 375px, height: 646px)","eventName":"9","timestamp":"2026-11-06T09:05:06.552Z"}
+{"key":"k6hx2bDAkdxnnP1tAAA_","reason":"user returned to window","eventName":"10","timestamp":"2026-11-06T09:05:13.724Z"}
+{"key":"k6hx2bDAkdxnnP1tAAA_","reason":"window dimensions changed - (width: 1528px, height: 732px)","eventName":"9","timestamp":"2026-11-06T09:05:23.128Z"}
+{"key":"k6hx2bDAkdxnnP1tAAA_","reason":"window dimensions changed - (width: 1698px, height: 813px)","eventName":"9","timestamp":"2026-11-06T09:05:25.424Z"}
+{"key":"k6hx2bDAkdxnnP1tAAA_","reason":"window dimensions changed - (width: 1528px, height: 732px)","eventName":"9","timestamp":"2026-11-06T09:05:26.114Z"}
+{"key":"k6hx2bDAkdxnnP1tAAA_","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-11-06T09:05:33.447Z"}
+{"key":"TTOlDb14xzSBGbRNAABC","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-11-06T09:33:27.491Z"}
+{"key":"UtknerzXGLrFVP-uAAAB","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-11-06T10:29:26.636Z"}
+{"key":"UtknerzXGLrFVP-uAAAB","reason":"user switched to another window","eventName":"11","timestamp":"2026-11-06T10:29:28.193Z"}
+{"key":"UtknerzXGLrFVP-uAAAB","reason":"user returned to window","eventName":"10","timestamp":"2026-11-06T10:29:28.369Z"}
+{"key":"UtknerzXGLrFVP-uAAAB","reason":"window dimensions changed - (width: 1528px, height: 732px)","eventName":"9","timestamp":"2026-11-06T10:29:28.912Z"}
+{"key":"0UWL7T9PBY6yUwl9AAAC","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-11-06T10:29:30.821Z"}
+{"key":"0UWL7T9PBY6yUwl9AAAC","reason":"user switched to another window","eventName":"11","timestamp":"2026-11-06T10:30:11.526Z"}
+{"key":"0UWL7T9PBY6yUwl9AAAC","reason":"user returned to window","eventName":"10","timestamp":"2026-11-06T11:07:11.186Z"}
+{"key":"0UWL7T9PBY6yUwl9AAAC","reason":"user switched to another window","eventName":"11","timestamp":"2026-11-06T11:07:12.943Z"}
+{"key":"0UWL7T9PBY6yUwl9AAAC","reason":"user returned to window","eventName":"10","timestamp":"2026-11-06T11:07:18.886Z"}
+{"key":"0UWL7T9PBY6yUwl9AAAC","reason":"user switched to another window","eventName":"11","timestamp":"2026-11-06T11:07:21.488Z"}
+{"key":"0UWL7T9PBY6yUwl9AAAC","reason":"user returned to window","eventName":"10","timestamp":"2026-11-06T11:15:16.389Z"}
+{"key":"0UWL7T9PBY6yUwl9AAAC","reason":"window dimensions changed - (width: 1528px, height: 732px)","eventName":"9","timestamp":"2026-11-06T11:17:47.778Z"}
+{"key":"0UWL7T9PBY6yUwl9AAAC","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-11-06T11:19:44.944Z"}
+{"key":"0UWL7T9PBY6yUwl9AAAC","reason":"user switched to another window","eventName":"11","timestamp":"2026-11-06T11:19:49.159Z"}
+{"key":"0UWL7T9PBY6yUwl9AAAC","reason":"user returned to window","eventName":"10","timestamp":"2026-11-06T11:29:20.843Z"}
+{"key":"SKxPSoZbJ4_NkhPXAAAA","reason":"user returned to window","eventName":"10","timestamp":"2026-11-06T12:02:36.530Z"}
+{"key":"SKxPSoZbJ4_NkhPXAAAA","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-11-06T12:02:42.026Z"}
+{"key":"SKxPSoZbJ4_NkhPXAAAA","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-11-06T12:02:44.180Z"}
+{"key":"SKxPSoZbJ4_NkhPXAAAA","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-11-06T12:02:53.914Z"}
+{"key":"SKxPSoZbJ4_NkhPXAAAA","reason":"user switched to another window","eventName":"11","timestamp":"2026-11-06T12:02:59.408Z"}
+{"key":"SKxPSoZbJ4_NkhPXAAAA","reason":"user returned to window","eventName":"10","timestamp":"2026-11-06T12:02:59.492Z"}
+{"key":"SKxPSoZbJ4_NkhPXAAAA","reason":"user switched to another window","eventName":"11","timestamp":"2026-11-06T12:02:59.498Z"}
+{"key":"SKxPSoZbJ4_NkhPXAAAA","reason":"user returned to window","eventName":"10","timestamp":"2026-11-06T12:08:11.498Z"}
+{"key":"SKxPSoZbJ4_NkhPXAAAA","reason":"user switched to another window","eventName":"11","timestamp":"2026-11-06T12:08:12.326Z"}
+{"key":"SKxPSoZbJ4_NkhPXAAAA","reason":"user returned to window","eventName":"10","timestamp":"2026-11-06T12:10:43.014Z"}
+{"key":"SKxPSoZbJ4_NkhPXAAAA","reason":"user switched to another window","eventName":"11","timestamp":"2026-11-06T12:10:43.232Z"}

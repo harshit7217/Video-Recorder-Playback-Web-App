@@ -1,0 +1,9 @@
+{"key":"gtMaRwFwMsGKn4TTAAAB","reason":"user returned to window","eventName":"10","timestamp":"2026-10-27T12:19:08.695Z"}
+{"key":"EHuR233p4RgK2LjdAAAD","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-27T12:19:12.395Z"}
+{"key":"EHuR233p4RgK2LjdAAAD","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-27T12:19:12.939Z"}
+{"key":"EHuR233p4RgK2LjdAAAD","reason":"user returned to window","eventName":"10","timestamp":"2026-10-27T12:19:18.137Z"}
+{"key":"EHuR233p4RgK2LjdAAAD","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-27T12:19:26.267Z"}
+{"key":"EHuR233p4RgK2LjdAAAD","reason":"user returned to window","eventName":"10","timestamp":"2026-10-27T12:19:34.412Z"}
+{"key":"vduxpbRx3j4rGfk3AAAF","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-27T12:19:58.715Z"}
+{"key":"vduxpbRx3j4rGfk3AAAF","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-27T12:19:58.768Z"}
+{"key":"vduxpbRx3j4rGfk3AAAF","reason":"user returned to window","eventName":"10","timestamp":"2026-10-27T12:20:22.385Z"}

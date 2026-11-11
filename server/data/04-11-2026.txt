@@ -1,0 +1,2 @@
+{"key":"d-8dDHummDv4MgbSAAAK","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-11-04T07:57:03.580Z"}
+{"key":"IYHP9gFQmN8Tza0aAAAd","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-11-04T08:41:15.703Z"}

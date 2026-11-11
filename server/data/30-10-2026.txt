@@ -1,0 +1,50 @@
+{"key":"6XA0VEWJmpQ4a1wXAAAB","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-30T04:21:50.050Z"}
+{"key":"6XA0VEWJmpQ4a1wXAAAB","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-30T04:21:51.387Z"}
+{"key":"6XA0VEWJmpQ4a1wXAAAB","reason":"user returned to window","eventName":"10","timestamp":"2026-10-30T04:21:52.949Z"}
+{"key":"6XA0VEWJmpQ4a1wXAAAB","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-30T04:21:54.736Z"}
+{"key":"6XA0VEWJmpQ4a1wXAAAB","reason":"user returned to window","eventName":"10","timestamp":"2026-10-30T04:21:56.772Z"}
+{"key":"Eq5BE0qC6vtWfbNgAAAC","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-30T04:28:02.382Z"}
+{"key":"Eq5BE0qC6vtWfbNgAAAC","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-30T04:28:09.606Z"}
+{"key":"Eq5BE0qC6vtWfbNgAAAC","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-30T04:28:14.200Z"}
+{"key":"Eq5BE0qC6vtWfbNgAAAC","reason":"user returned to window","eventName":"10","timestamp":"2026-10-30T04:28:15.954Z"}
+{"key":"Eq5BE0qC6vtWfbNgAAAC","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-30T04:28:18.500Z"}
+{"key":"ZZWUxuSGuoENvmeaAAAE","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-30T04:28:25.679Z"}
+{"key":"Eq5BE0qC6vtWfbNgAAAC","reason":"user returned to window","eventName":"10","timestamp":"2026-10-30T04:28:35.639Z"}
+{"key":"Eq5BE0qC6vtWfbNgAAAC","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-30T04:28:38.960Z"}
+{"key":"Eq5BE0qC6vtWfbNgAAAC","reason":"user returned to window","eventName":"10","timestamp":"2026-10-30T04:28:45.237Z"}
+{"key":"Eq5BE0qC6vtWfbNgAAAC","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-30T04:28:46.595Z"}
+{"key":"Eq5BE0qC6vtWfbNgAAAC","reason":"user returned to window","eventName":"10","timestamp":"2026-10-30T04:28:48.720Z"}
+{"key":"Eq5BE0qC6vtWfbNgAAAC","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-30T04:28:50.271Z"}
+{"key":"Eq5BE0qC6vtWfbNgAAAC","reason":"user returned to window","eventName":"10","timestamp":"2026-10-30T04:28:53.838Z"}
+{"key":"Eq5BE0qC6vtWfbNgAAAC","reason":"user copied text to clipboard - (\n)","eventName":"7","timestamp":"2026-10-30T04:28:58.000Z"}
+{"key":"Eq5BE0qC6vtWfbNgAAAC","reason":"user copied text to clipboard - (\n)","eventName":"7","timestamp":"2026-10-30T04:28:58.131Z"}
+{"key":"Eq5BE0qC6vtWfbNgAAAC","reason":"user copied text to clipboard - (\n)","eventName":"7","timestamp":"2026-10-30T04:28:58.290Z"}
+{"key":"Eq5BE0qC6vtWfbNgAAAC","reason":"user copied text to clipboard - (w your background shoul)","eventName":"7","timestamp":"2026-10-30T04:29:00.686Z"}
+{"key":"Eq5BE0qC6vtWfbNgAAAC","reason":"user copied text to clipboard - (w your background shoul)","eventName":"7","timestamp":"2026-10-30T04:29:00.796Z"}
+{"key":"Eq5BE0qC6vtWfbNgAAAC","reason":"user copied text to clipboard - (w your background shoul)","eventName":"7","timestamp":"2026-10-30T04:29:00.941Z"}
+{"key":"Eq5BE0qC6vtWfbNgAAAC","reason":"user copied text to clipboard - (w your background shoul)","eventName":"7","timestamp":"2026-10-30T04:29:01.090Z"}
+{"key":"Eq5BE0qC6vtWfbNgAAAC","reason":"user copied text to clipboard - (w your background shoul)","eventName":"7","timestamp":"2026-10-30T04:29:01.247Z"}
+{"key":"Eq5BE0qC6vtWfbNgAAAC","reason":"user copied text to clipboard - (w your background shoul)","eventName":"7","timestamp":"2026-10-30T04:29:01.387Z"}
+{"key":"Eq5BE0qC6vtWfbNgAAAC","reason":"user copied text to clipboard - (w your background shoul)","eventName":"7","timestamp":"2026-10-30T04:29:01.545Z"}
+{"key":"Eq5BE0qC6vtWfbNgAAAC","reason":"user copied text to clipboard - (w your background shoul)","eventName":"7","timestamp":"2026-10-30T04:29:01.705Z"}
+{"key":"Eq5BE0qC6vtWfbNgAAAC","reason":"user copied text to clipboard - (w your background shoul)","eventName":"7","timestamp":"2026-10-30T04:29:01.864Z"}
+{"key":"Eq5BE0qC6vtWfbNgAAAC","reason":"user copied text to clipboard - (w your background shoul)","eventName":"7","timestamp":"2026-10-30T04:29:02.023Z"}
+{"key":"Eq5BE0qC6vtWfbNgAAAC","reason":"user copied text to clipboard - (w your background shoul)","eventName":"7","timestamp":"2026-10-30T04:29:02.164Z"}
+{"key":"Eq5BE0qC6vtWfbNgAAAC","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-30T04:29:04.252Z"}
+{"key":"Eq5BE0qC6vtWfbNgAAAC","reason":"user returned to window","eventName":"10","timestamp":"2026-10-30T04:29:12.335Z"}
+{"key":"Eq5BE0qC6vtWfbNgAAAC","reason":"user pasted text to clipboard - (w your background shoul)","eventName":"8","timestamp":"2026-10-30T04:29:14.085Z"}
+{"key":"Eq5BE0qC6vtWfbNgAAAC","reason":"user pasted text to clipboard - (w your background shoul)","eventName":"8","timestamp":"2026-10-30T04:29:14.228Z"}
+{"key":"Eq5BE0qC6vtWfbNgAAAC","reason":"user pasted text to clipboard - (w your background shoul)","eventName":"8","timestamp":"2026-10-30T04:29:14.397Z"}
+{"key":"Eq5BE0qC6vtWfbNgAAAC","reason":"user pasted text to clipboard - (w your background shoul)","eventName":"8","timestamp":"2026-10-30T04:29:14.545Z"}
+{"key":"Eq5BE0qC6vtWfbNgAAAC","reason":"user pasted text to clipboard - (w your background shoul)","eventName":"8","timestamp":"2026-10-30T04:29:14.689Z"}
+{"key":"Eq5BE0qC6vtWfbNgAAAC","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-30T04:29:16.597Z"}
+{"key":"Eq5BE0qC6vtWfbNgAAAC","reason":"user returned to window","eventName":"10","timestamp":"2026-10-30T04:29:22.018Z"}
+{"key":"Eq5BE0qC6vtWfbNgAAAC","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-30T04:29:59.814Z"}
+{"key":"Z__c8itU_zwUcCSfAAAA","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-30T04:39:57.721Z"}
+{"key":"Z__c8itU_zwUcCSfAAAA","reason":"window dimensions changed - (width: 984px, height: 730px)","eventName":"9","timestamp":"2026-10-30T04:46:37.468Z"}
+{"key":"6oR5nXfeCxGegZHfAAAA","reason":"user returned to window","eventName":"10","timestamp":"2026-10-30T09:41:44.127Z"}
+{"key":"nsxQtDchC88ew0gtAAAC","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-30T09:41:46.136Z"}
+{"key":"nsxQtDchC88ew0gtAAAC","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-10-30T09:41:50.421Z"}
+{"key":"nsxQtDchC88ew0gtAAAC","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-30T09:41:51.209Z"}
+{"key":"nsxQtDchC88ew0gtAAAC","reason":"user returned to window","eventName":"10","timestamp":"2026-10-30T09:41:54.581Z"}
+{"key":"nsxQtDchC88ew0gtAAAC","reason":"user switched to another window","eventName":"11","timestamp":"2026-10-30T09:41:55.246Z"}

@@ -1,0 +1,10 @@
+{"key":"VHd15vixi6gJm0rIAAAD","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-11-03T08:56:55.717Z"}
+{"key":"4ct-t77pAxIpf6LrAAAE","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-11-03T09:35:48.230Z"}
+{"key":"L0boRsJy_AdtgcXDAAAN","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-11-03T11:48:58.220Z"}
+{"key":"L0boRsJy_AdtgcXDAAAN","reason":"user initiated recording","eventName":"3","timestamp":"2026-11-03T11:49:07.073Z"}
+{"key":"L0boRsJy_AdtgcXDAAAN","reason":"user requested stop","eventName":"6","timestamp":"2026-11-03T11:49:13.214Z"}
+{"key":"L0boRsJy_AdtgcXDAAAN","reason":"connection lost","eventName":"2","timestamp":"2026-11-03T11:49:13.217Z"}
+{"key":"L0boRsJy_AdtgcXDAAAN","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-11-03T11:49:18.652Z"}
+{"key":"L0boRsJy_AdtgcXDAAAN","reason":"user enter full screen","eventName":"12","timestamp":"2026-11-03T11:49:35.224Z"}
+{"key":"L0boRsJy_AdtgcXDAAAN","reason":"window dimensions changed - (width: 1536px, height: 864px)","eventName":"9","timestamp":"2026-11-03T11:49:35.739Z"}
+{"key":"RNl2yIohFqXya7GRAAAO","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-11-03T11:49:48.452Z"}
