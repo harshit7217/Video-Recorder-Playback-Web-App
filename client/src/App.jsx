@@ -18,17 +18,24 @@ function App() {
   useEffect(() => {
     const onSocketConnect = () => setConnectionStatus("connected");
     const onSocketDisconnect = () => setConnectionStatus("disconnected");
+    const onSocketConnectError = (error) => {
+      console.error(`Socket connection failed (${socket.io.uri}):`, error);
+      setConnectionStatus(`connection error: ${error.message}`);
+    };
+    const onReconnectAttempt = () => setConnectionStatus("connecting");
+
     socket.on("connect", onSocketConnect);
     socket.on("disconnect", onSocketDisconnect);
-
-    // Set the initial status and initiate the connection
-    setConnectionStatus(socket.connected ? "connected" : "connecting");
+    socket.on("connect_error", onSocketConnectError);
+    socket.io.on("reconnect_attempt", onReconnectAttempt);
 
     socket.connect();
 
     return () => {
       socket.off("connect", onSocketConnect);
       socket.off("disconnect", onSocketDisconnect);
+      socket.off("connect_error", onSocketConnectError);
+      socket.io.off("reconnect_attempt", onReconnectAttempt);
     };
   }, []);
 

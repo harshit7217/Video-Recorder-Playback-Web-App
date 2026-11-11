@@ -1,15 +1,13 @@
 import { io } from "socket.io-client";
 import { API_BASE_URL } from "./api";
 
-export const socket = io.connect(
-  import.meta.env.VITE_SOCKET_URL ||
-    API_BASE_URL ||
-    window.location.origin,
-  {
-    autoConnect: false,
-    path: import.meta.env.VITE_SOCKET_PATH || "/socket.io",
-  },
-);
+const configuredSocketUrl = import.meta.env.VITE_SOCKET_URL?.trim();
+const socketUrl = configuredSocketUrl || API_BASE_URL || window.location.origin;
+
+export const socket = io.connect(socketUrl, {
+  autoConnect: false,
+  path: import.meta.env.VITE_SOCKET_PATH?.trim() || "/socket.io",
+});
 
 export function emitRecordingActivity(details = {}) {
   socket.emit("recordActivity", {

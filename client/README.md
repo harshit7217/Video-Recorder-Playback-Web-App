@@ -12,9 +12,12 @@ In production, API and static-file requests use
 `https://video-recorder-playback-web-app.onrender.com` by default. Set
 `VITE_API_URL` in the frontend host's build environment to override the backend
 URL. Socket.IO uses the same URL by default; `VITE_SOCKET_URL` can override it
-separately. Set the backend's `CLIENT_ORIGIN` environment variable to the exact
-frontend origin (multiple comma-separated origins are supported), then redeploy
-both services after changing these settings.
+separately. In Render, set the backend's `CLIENT_ORIGIN` environment variable
+to the exact deployed frontend origin (scheme and hostname, without a path;
+multiple comma-separated origins are supported). Redeploy the backend after
+changing this setting and redeploy the frontend after changing its Vite
+environment variables. The recording page displays Socket.IO connection errors
+and logs details in the browser console.
 
 When connected, the app emits `recording:started`, `recording:paused`,
 `recording:resumed`, and `recording:stopped`. Each event includes an ISO
