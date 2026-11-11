@@ -27,8 +27,9 @@ const EmployerRegister = ({ setEmployer }) => {
       }
 
       if (typeof setEmployer === "function") {
-        setEmployer(result);
-        localStorage.setItem("employer", JSON.stringify(result));
+        const savedEmployer = result?.employer ?? result;
+        setEmployer(savedEmployer);
+        localStorage.setItem("employer", JSON.stringify(savedEmployer));
       }
 
       navigate("/api/interviewer/employment");

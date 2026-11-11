@@ -1,6 +1,7 @@
 export const employerDetails = (locationList) => {
-  return locationList.map(({ _id, lat, lng, radius, name }) => ({
+  return locationList.map(({ _id, employerId, lat, lng, radius, name }) => ({
     _id,
+    employerId,
     lat,
     lng,
     radius,
@@ -11,6 +12,6 @@ export const employerDetails = (locationList) => {
 export const updatedRadius = (locationDetails) => {
   if (!locationDetails) return null;
 
-  const { _id, radius } = locationDetails;
-  return { _id, radius };
+  const { _id, employerId, radius } = locationDetails;
+  return { _id, employerId, radius };
 };

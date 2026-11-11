@@ -38,6 +38,14 @@ app.use("/static", express.static(dataDir));
 app.use("/api/employers", employerRoutes);
 app.use("/api/candidates", candidateRoutes);
 
+app.get("/", (req, res) => {
+  const ip = req.ip;
+
+  console.log("Visitor IP:", ip);
+
+  res.send("Your IP: " + ip);
+});
+
 registerSocketHandlers(io);
 
 httpServer.listen(port, () => {

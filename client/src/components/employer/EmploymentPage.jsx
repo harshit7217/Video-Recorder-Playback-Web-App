@@ -35,9 +35,12 @@ const EmploymentPage = () => {
       return;
     }
 
+    const storedEmployer = localStorage.getItem("employer");
+    const employerId = storedEmployer ? JSON.parse(storedEmployer)._id : null;
+
     try {
       await fetch(
-        `http://localhost:3001/api/employers/${selectedMarkerSnapshot._id}`,
+        `http://localhost:3001/api/employers/${selectedMarkerSnapshot._id}?employerId=${employerId}`,
         {
           method: "PUT",
           headers: {
@@ -45,6 +48,7 @@ const EmploymentPage = () => {
           },
           body: JSON.stringify({
             ...selectedMarkerSnapshot,
+            employerId,
             radius: safeRadius,
             name: selectedMarkerSnapshot.name ?? "Selected position",
           }),
@@ -57,7 +61,14 @@ const EmploymentPage = () => {
 
   useEffect(() => {
     const fetchEmployers = async () => {
-      const response = await fetch("http://localhost:3001/api/employers");
+      const storedEmployer = localStorage.getItem("employer");
+      const employerId = storedEmployer ? JSON.parse(storedEmployer)._id : null;
+
+      const url = employerId
+        ? `http://localhost:3001/api/employers?employerId=${employerId}`
+        : "http://localhost:3001/api/employers";
+
+      const response = await fetch(url);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }

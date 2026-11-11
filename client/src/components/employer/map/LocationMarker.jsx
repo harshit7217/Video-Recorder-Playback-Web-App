@@ -103,32 +103,53 @@ const LocationMarker = ({
       employerPayload.name
     ) {
       const saveEmployerLocation = async () => {
-        const response = await fetch(
-          "http://localhost:3001/api/employers/post",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(employerPayload),
+        const storedEmployer = localStorage.getItem("employer");
+        const employerId = storedEmployer ? JSON.parse(storedEmployer)._id : null;
+
+        if (!employerId) {
+          console.error("Employer not logged in; cannot save location");
+          return;
+        }
+
+        const response = await fetch("http://localhost:3001/api/employers/post", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
           },
-        );
+          body: JSON.stringify({
+            employerId,
+            lat: employerPayload.lat,
+            lng: employerPayload.lng,
+            radius: employerPayload.radius,
+            name: employerPayload.name,
+          }),
+        });
+
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
+
         const data = await response.json();
 
         setPositions((prev) =>
           prev.map((position) =>
             position.id === employerPayload.clientId
-              ? { ...position, _id: data._id }
+              ? {
+                  ...position,
+                  _id: data._id,
+                  employerId,
+                  lat: employerPayload.lat,
+                  lng: employerPayload.lng,
+                  radius: employerPayload.radius,
+                  name: employerPayload.name,
+                }
               : position,
           ),
         );
       };
 
       saveEmployerLocation().catch((error) => {
-        console.error("Error fetching employers:", error);
+        console.error("Error saving employer location:", error);
       });
     }
   }, [employerPayload, setPositions]);
@@ -140,8 +161,11 @@ const LocationMarker = ({
 
     if (positionToRemove?._id) {
       try {
+        const storedEmployer = localStorage.getItem("employer");
+        const employerId = storedEmployer ? JSON.parse(storedEmployer)._id : null;
+
         await fetch(
-          `http://localhost:3001/api/employers/${positionToRemove._id}`,
+          `http://localhost:3001/api/employers/${positionToRemove._id}?employerId=${employerId}`,
           {
             method: "DELETE",
           },

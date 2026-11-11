@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import Candidate from "../models/candidateModel.js";
 import Employer from "../models/employerModels.js";
 import { isLocationWithinRadius } from "../services/checkRadiusOfCandidate.js";
@@ -82,37 +83,47 @@ export const checkCandidateInEmployerRadius = async (req, res) => {
       });
     }
 
-    const employer = employerId
-      ? await Employer.findById(employerId)
-      : await Employer.findOne().sort({ createdAt: -1 });
+    const employerLocations = employerId
+      ? await Employer.find({
+          employerId: new mongoose.Types.ObjectId(employerId),
+        }).sort({ createdAt: -1 })
+      : await Employer.find().sort({ createdAt: -1 });
 
-    if (!employer) {
-      return res.status(404).json({ message: "Employer not found" });
+    if (!employerLocations.length) {
+      return res.status(404).json({ message: "Employer location not found" });
     }
 
-    if (
-      !Number.isFinite(employer.lat) ||
-      !Number.isFinite(employer.lng) ||
-      !Number.isFinite(employer.radius)
-    ) {
+    const matchingLocations = employerLocations.filter(
+      (employer) =>
+        Number.isFinite(employer.lat) &&
+        Number.isFinite(employer.lng) &&
+        Number.isFinite(employer.radius),
+    );
+
+    if (!matchingLocations.length) {
       return res.status(400).json({
         message: "Employer location and radius are required",
       });
     }
 
-    const result = isLocationWithinRadius({
-      employerLat: employer.lat,
-      employerLng: employer.lng,
-      interviewLat: lat,
-      interviewLng: lng,
-      radiusInMeters: employer.radius,
+    const match = matchingLocations.find((employer) => {
+      const result = isLocationWithinRadius({
+        employerLat: employer.lat,
+        employerLng: employer.lng,
+        interviewLat: lat,
+        interviewLng: lng,
+        radiusInMeters: employer.radius,
+      });
+
+      return result.isWithinRadius;
     });
 
     return res.status(200).json({
-      message: result.isWithinRadius
+      message: match
         ? "Candidate is within the employer radius"
         : "Candidate is outside the employer radius",
-      isWithinRadius: result.isWithinRadius,
+      isWithinRadius: Boolean(match),
+      employerId: employerId ?? null,
     });
   } catch (error) {
     res.status(400).json({ message: error.message });

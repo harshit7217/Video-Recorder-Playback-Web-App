@@ -44,7 +44,7 @@ const CandidateInfo = () => {
               body: JSON.stringify({
                 lat: position.lat,
                 lng: position.lng,
-                employerId: "6aed60239cf0618f61cee47b",
+                employerId: "6aedaaa31678958d084176f4",
               }),
             },
           );

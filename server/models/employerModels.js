@@ -1,26 +1,31 @@
 import mongoose from "mongoose";
 
-const employerSchema = new mongoose.Schema(
+const employerLocationSchema = new mongoose.Schema(
   {
-    username: {
-      type: String,
+    employerId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "EmployerAccount",
       required: true,
-      unique: true,
-    },
-    password: {
-      type: String,
-      required: true,
+      index: true,
     },
     lat: {
       type: Number,
+      required: true,
     },
     lng: {
       type: Number,
+      required: true,
     },
-    radius: Number,
-    name: String,
+    radius: {
+      type: Number,
+      default: 500,
+    },
+    name: {
+      type: String,
+      default: "Selected position",
+    },
   },
   { timestamps: true },
 );
 
-export default mongoose.model("Employer", employerSchema);
+export default mongoose.model("EmployerLocation", employerLocationSchema);
