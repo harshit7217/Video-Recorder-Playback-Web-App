@@ -1,0 +1,5 @@
+{"reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-11-11T10:40:38.225Z"}
+{"reason":"user returned to window","eventName":"10","timestamp":"2026-11-11T10:40:40.121Z"}
+{"reason":"user returned to window","eventName":"10","timestamp":"2026-11-11T10:40:40.121Z"}
+{"reason":"user switched to another window","eventName":"11","timestamp":"2026-11-11T10:40:43.184Z"}
+{"key":"p-G5IL78gwOGkJ8gAAAA","reason":"user returned to window","eventName":"10","timestamp":"2026-11-11T10:41:36.678Z"}
