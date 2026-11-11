@@ -3,7 +3,10 @@ import { appendFile, mkdir, open, readdir } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-const dataDir = path.join(path.dirname(fileURLToPath(import.meta.url)), "../data");
+const dataDir = path.join(
+  path.dirname(fileURLToPath(import.meta.url)),
+  "../data",
+);
 await mkdir(dataDir, { recursive: true });
 
 // Creating a file name of current date
