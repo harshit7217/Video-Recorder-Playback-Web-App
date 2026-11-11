@@ -42,7 +42,7 @@ app.use("/api/candidates", candidateRoutes);
 
 app.get("/", (req, res) => {
   // const ip = req.ip;
-  var ip = ["x-forwarded-for"];
+  var ip = req.headers["x-forwarded-for"];
 
   console.log("Visitor IP:", ip);
 
