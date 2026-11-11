@@ -40,6 +40,8 @@ app.use("/static", express.static(dataDir));
 app.use("/api/employers", employerRoutes);
 app.use("/api/candidates", candidateRoutes);
 
+app.set("trust proxy", true);
+
 app.get("/", (req, res) => {
   // const ip = req.ip;
   var ip = req.headers["x-forwarded-for"];
