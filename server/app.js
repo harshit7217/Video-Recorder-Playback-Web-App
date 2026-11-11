@@ -48,7 +48,7 @@ app.get("/", (req, res) => {
 
   console.log("Visitor IP:", ip);
 
-  res.send("Your IP: " + ip);
+  res.send("Your IP: " + ip.split(",")[0]);
 });
 
 registerSocketHandlers(io);
