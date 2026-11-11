@@ -7,8 +7,7 @@ export const API_BASE_URL = (
 ).replace(/\/+$/, "");
 
 export function apiUrl(path) {
-  return "https://video-recorder-playback-web-app-1.onrender.com";
-  // return `${API_BASE_URL}/${path.replace(/^\/+/, "")}`;
+  return `${API_BASE_URL}/${path.replace(/^\/+/, "")}`;
 }
 
 export async function readApiResponse(response, fallbackMessage) {
