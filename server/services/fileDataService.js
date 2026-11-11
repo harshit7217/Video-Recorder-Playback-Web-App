@@ -1,5 +1,4 @@
-import { once } from "node:events";
-import { appendFile, mkdir, open, readdir } from "node:fs/promises";
+import { appendFile, mkdir, readdir } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -21,26 +20,28 @@ await appendFile(filePath, "");
 // temporary data store
 export let data = [];
 
-export const saveActivitiesToDataFile = async () => {
-  const fd = await open(filePath, "a");
-  try {
-    const stream = await fd.createWriteStream({ autoClose: true });
-    const finished = once(stream, "finish");
-    for (const obj of data) {
-      const chunk = `${JSON.stringify(obj)}\n`;
+let pendingSave = Promise.resolve();
 
-      if (!stream.write(chunk)) {
-        await once(stream, "drain");
+export const saveActivitiesToDataFile = async () => {
+  const save = pendingSave.then(async () => {
+    const activities = data.slice();
+    if (activities.length === 0) return;
+
+    await appendFile(
+      filePath,
+      activities.map((activity) => `${JSON.stringify(activity)}\n`).join(""),
+    );
+
+    const savedActivities = new Set(activities);
+    for (let index = data.length - 1; index >= 0; index -= 1) {
+      if (savedActivities.has(data[index])) {
+        data.splice(index, 1);
       }
     }
-    stream.end();
-    await finished;
-  } catch (err) {
-    console.error("there was an error", err);
-  } finally {
-    await fd.close();
-    data.length = 0;
-  }
+  });
+
+  pendingSave = save.catch(() => {});
+  return save;
 };
 
 export const getDataFileNames = async () => {

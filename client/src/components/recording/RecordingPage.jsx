@@ -81,7 +81,6 @@ const RecordingPage = ({ connectionStatus }) => {
     document.addEventListener("paste", onPaste);
 
     socket.emit("registerClient");
-    console.log(socket.id);
 
     return () => {
       window.removeEventListener("focus", handleWindowFocus);
