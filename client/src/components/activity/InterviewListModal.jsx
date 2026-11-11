@@ -18,7 +18,7 @@ const InterviewListModal = ({ filename, closeFileDetailsModal }) => {
   }, [filename]);
 
   const readDataFile = async () => {
-    return await fetch(`http://localhost:3001/static/${filename}`)
+    return await fetch(`/static/${filename}`)
       .then(function (response) {
         return response.text();
       })

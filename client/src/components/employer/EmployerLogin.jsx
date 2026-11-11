@@ -6,7 +6,7 @@ const EmployerLogin = ({ onLogin }) => {
     const password = event.target.password.value;
 
     try {
-      const response = await fetch("http://localhost:3001/api/employers/login-employer", {
+      const response = await fetch("/api/employers/login-employer", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

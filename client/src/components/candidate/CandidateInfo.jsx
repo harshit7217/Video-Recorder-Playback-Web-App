@@ -35,7 +35,7 @@ const CandidateInfo = () => {
       const checkingTheRadius = async () => {
         try {
           const response = await fetch(
-            "http://localhost:3001/api/candidates/check-radius",
+            "/api/candidates/check-radius",
             {
               method: "POST",
               headers: {

@@ -111,7 +111,7 @@ const LocationMarker = ({
           return;
         }
 
-        const response = await fetch("http://localhost:3001/api/employers/post", {
+        const response = await fetch("/api/employers/post", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -165,7 +165,7 @@ const LocationMarker = ({
         const employerId = storedEmployer ? JSON.parse(storedEmployer)._id : null;
 
         await fetch(
-          `http://localhost:3001/api/employers/${positionToRemove._id}?employerId=${employerId}`,
+          `/api/employers/${positionToRemove._id}?employerId=${employerId}`,
           {
             method: "DELETE",
           },

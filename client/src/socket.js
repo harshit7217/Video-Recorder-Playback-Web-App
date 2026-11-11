@@ -1,10 +1,10 @@
 import { io } from "socket.io-client";
 
 export const socket = io.connect(
-  import.meta.env.VITE_SOCKET_URL || "http://localhost:3001",
+  import.meta.env.VITE_SOCKET_URL || window.location.origin,
   {
     autoConnect: false,
-    path: import.meta.env.VITE_SOCKET_PATH,
+    path: import.meta.env.VITE_SOCKET_PATH || "/socket.io",
   },
 );
 

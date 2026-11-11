@@ -40,7 +40,7 @@ const EmploymentPage = () => {
 
     try {
       await fetch(
-        `http://localhost:3001/api/employers/${selectedMarkerSnapshot._id}?employerId=${employerId}`,
+        `/api/employers/${selectedMarkerSnapshot._id}?employerId=${employerId}`,
         {
           method: "PUT",
           headers: {
@@ -65,8 +65,8 @@ const EmploymentPage = () => {
       const employerId = storedEmployer ? JSON.parse(storedEmployer)._id : null;
 
       const url = employerId
-        ? `http://localhost:3001/api/employers?employerId=${employerId}`
-        : "http://localhost:3001/api/employers";
+        ? `/api/employers?employerId=${employerId}`
+        : "/api/employers";
 
       const response = await fetch(url);
       if (!response.ok) {

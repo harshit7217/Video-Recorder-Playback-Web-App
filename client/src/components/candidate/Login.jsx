@@ -6,7 +6,7 @@ const Login = ({ onLogin }) => {
 
     try {
       const response = await fetch(
-        "http://localhost:3001/api/candidates/login",
+        "/api/candidates/login",
         {
           method: "POST",
           headers: {

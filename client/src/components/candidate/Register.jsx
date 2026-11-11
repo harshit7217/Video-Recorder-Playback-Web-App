@@ -12,7 +12,7 @@ const Register = ({ setCandidate }) => {
 
     try {
       const response = await fetch(
-        "http://localhost:3001/api/candidates/register",
+        "/api/candidates/register",
         {
           method: "POST",
           headers: {
