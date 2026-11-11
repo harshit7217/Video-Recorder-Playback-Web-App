@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import Modal from "react-modal";
 import InterviewDetailsModal from "./InterviewDetailsModal";
+import { apiUrl } from "../../api";
 
 Modal.setAppElement("#root");
 
@@ -18,7 +19,7 @@ const InterviewListModal = ({ filename, closeFileDetailsModal }) => {
   }, [filename]);
 
   const readDataFile = async () => {
-    return await fetch(`/static/${filename}`)
+    return await fetch(apiUrl(`/static/${filename}`))
       .then(function (response) {
         return response.text();
       })

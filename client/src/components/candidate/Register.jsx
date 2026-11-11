@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { apiUrl } from "../../api";
 
 const Register = ({ setCandidate }) => {
   const [registrationError, setRegistrationError] = useState("");
@@ -11,9 +12,7 @@ const Register = ({ setCandidate }) => {
     const password = event.target.password.value;
 
     try {
-      const response = await fetch(
-        "/api/candidates/register",
-        {
+      const response = await fetch(apiUrl("/api/candidates/register"), {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

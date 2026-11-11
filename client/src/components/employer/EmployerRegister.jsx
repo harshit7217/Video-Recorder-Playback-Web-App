@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { apiUrl } from "../../api";
 
 const EmployerRegister = ({ setEmployer }) => {
   const [registrationError, setRegistrationError] = useState("");
@@ -12,13 +13,16 @@ const EmployerRegister = ({ setEmployer }) => {
     const password = event.target.password.value;
 
     try {
-      const response = await fetch("/api/employers/register-employer", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        apiUrl("/api/employers/register-employer"),
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ username, password }),
         },
-        body: JSON.stringify({ username, password }),
-      });
+      );
 
       const result = await response.json();
 

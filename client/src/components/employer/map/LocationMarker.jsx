@@ -1,5 +1,6 @@
 import { Marker, Popup, useMapEvents } from "react-leaflet";
 import { useEffect, useState } from "react";
+import { apiUrl } from "../../../api";
 
 const createMarkerId = () => {
   if (typeof crypto !== "undefined" && crypto.randomUUID) {
@@ -111,7 +112,7 @@ const LocationMarker = ({
           return;
         }
 
-        const response = await fetch("/api/employers/post", {
+        const response = await fetch(apiUrl("/api/employers/post"), {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -165,7 +166,9 @@ const LocationMarker = ({
         const employerId = storedEmployer ? JSON.parse(storedEmployer)._id : null;
 
         await fetch(
-          `/api/employers/${positionToRemove._id}?employerId=${employerId}`,
+          apiUrl(
+            `/api/employers/${positionToRemove._id}?employerId=${employerId}`,
+          ),
           {
             method: "DELETE",
           },

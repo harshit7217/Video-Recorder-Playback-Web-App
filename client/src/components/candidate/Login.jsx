@@ -1,3 +1,5 @@
+import { apiUrl } from "../../api";
+
 const Login = ({ onLogin }) => {
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -5,7 +7,7 @@ const Login = ({ onLogin }) => {
     const password = event.target.password.value;
 
     try {
-      const response = await fetch("/api/candidates/login", {
+      const response = await fetch(apiUrl("/api/candidates/login"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

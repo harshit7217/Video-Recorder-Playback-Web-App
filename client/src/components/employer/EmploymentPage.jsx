@@ -1,3 +1,4 @@
+import { apiUrl } from "../../api";
 import Map from "./map/Map.jsx";
 import { useEffect, useMemo, useState } from "react";
 import { defaultLocation } from "../utils/defaultLoction.js";
@@ -40,7 +41,9 @@ const EmploymentPage = () => {
 
     try {
       await fetch(
-        `/api/employers/${selectedMarkerSnapshot._id}?employerId=${employerId}`,
+        apiUrl(
+          `/api/employers/${selectedMarkerSnapshot._id}?employerId=${employerId}`,
+        ),
         {
           method: "PUT",
           headers: {
@@ -65,8 +68,8 @@ const EmploymentPage = () => {
       const employerId = storedEmployer ? JSON.parse(storedEmployer)._id : null;
 
       const url = employerId
-        ? `/api/employers?employerId=${employerId}`
-        : "/api/employers";
+        ? apiUrl(`/api/employers?employerId=${employerId}`)
+        : apiUrl("/api/employers");
 
       const response = await fetch(url);
       if (!response.ok) {

@@ -7,6 +7,7 @@ import {
 } from "react-leaflet";
 import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
+import { apiUrl } from "../../api";
 import { defaultPosition } from "./../utils/defaultPosition.js";
 
 const CandidateInfo = () => {
@@ -35,7 +36,7 @@ const CandidateInfo = () => {
       const checkingTheRadius = async () => {
         try {
           const response = await fetch(
-            "/api/candidates/check-radius",
+            apiUrl("/api/candidates/check-radius"),
             {
               method: "POST",
               headers: {
