@@ -24,7 +24,7 @@ export function registerSocketHandlers(io) {
 
     socket.on("disconnect", async () => {
       console.info(`Socket disconnected: ${socket.id}`);
-      console.log("disconnetd");
+      console.log(recordingClientId, "===", socket.id);
       if (recordingClientId === socket.id) {
         saveActivitiesToDataFile();
       }
