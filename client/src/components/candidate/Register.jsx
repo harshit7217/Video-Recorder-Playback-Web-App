@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { apiUrl } from "../../api";
+import { apiUrl, readApiResponse } from "../../api";
 
 const Register = ({ setCandidate }) => {
   const [registrationError, setRegistrationError] = useState("");
@@ -13,19 +13,13 @@ const Register = ({ setCandidate }) => {
 
     try {
       const response = await fetch(apiUrl("/api/candidates/register"), {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ username, password }),
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.message || "Registration failed");
-      }
+        body: JSON.stringify({ username, password }),
+      });
+      const result = await readApiResponse(response, "Registration failed");
 
       if (typeof setCandidate === "function") {
         setCandidate(result);

@@ -1,4 +1,4 @@
-import { apiUrl } from "../../api";
+import { apiUrl, readApiResponse } from "../../api";
 
 const EmployerLogin = ({ onLogin }) => {
   const handleLogin = async (event) => {
@@ -16,11 +16,7 @@ const EmployerLogin = ({ onLogin }) => {
         body: JSON.stringify({ username, password }),
       });
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "Failed to login employer");
-      }
+      const data = await readApiResponse(response, "Failed to login employer");
 
       if (typeof onLogin === "function") {
         onLogin(data.employer);

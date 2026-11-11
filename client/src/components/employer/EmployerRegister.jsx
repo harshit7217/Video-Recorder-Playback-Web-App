@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { apiUrl } from "../../api";
+import { apiUrl, readApiResponse } from "../../api";
 
 const EmployerRegister = ({ setEmployer }) => {
   const [registrationError, setRegistrationError] = useState("");
@@ -24,11 +24,7 @@ const EmployerRegister = ({ setEmployer }) => {
         },
       );
 
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.message || "Registration failed");
-      }
+      const result = await readApiResponse(response, "Registration failed");
 
       if (typeof setEmployer === "function") {
         const savedEmployer = result?.employer ?? result;

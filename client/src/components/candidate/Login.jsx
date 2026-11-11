@@ -1,4 +1,4 @@
-import { apiUrl } from "../../api";
+import { apiUrl, readApiResponse } from "../../api";
 
 const Login = ({ onLogin }) => {
   const handleLogin = async (event) => {
@@ -15,11 +15,7 @@ const Login = ({ onLogin }) => {
         body: JSON.stringify({ username, password }),
       });
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "Failed to login candidate");
-      }
+      const data = await readApiResponse(response, "Failed to login candidate");
 
       if (typeof onLogin === "function") {
         onLogin(data.candidate);
