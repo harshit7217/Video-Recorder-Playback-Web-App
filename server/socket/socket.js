@@ -10,9 +10,7 @@ export function registerSocketHandlers(io) {
   let recordingClientId;
 
   io.on("connection", async (socket) => {
-    socket.on("connect", () => {
-      console.info(`Socket connected: ${socket.id}`);
-    });
+    console.info(`Socket connected: ${socket.id}`);
 
     socket.on("registerClient", async () => {
       recordingClientId = socket.id;
@@ -24,7 +22,7 @@ export function registerSocketHandlers(io) {
 
     socket.on("disconnect", async () => {
       console.info(`Socket disconnected: ${socket.id}`);
-      console.log(recordingClientId, "===", socket.id);
+      console.log(recordingClientId === socket.id);
       if (recordingClientId === socket.id) {
         saveActivitiesToDataFile();
       }
