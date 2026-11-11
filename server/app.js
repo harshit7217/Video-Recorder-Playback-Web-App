@@ -15,25 +15,20 @@ dotenv.config();
 connectDB();
 
 const port = Number(process.env.SOCKET_PORT || 5000);
-const clientOrigins = (
+const clientOrigin =
   process.env.CLIENT_ORIGIN ||
-  "http://localhost:5173,https://video-recorder-playback-web-app-2.onrender.com"
-)
-  .split(",")
-  .map((origin) => origin.trim())
-  .filter(Boolean)
-  .map((origin) => new URL(origin).origin);
+  "https://video-recorder-playback-web-app-2.onrender.com";
 
 const app = express();
 
-app.use(cors({ origin: clientOrigins }));
+app.use(cors({ origin: clientOrigin }));
 app.use(express.json());
 
 const httpServer = createServer(app);
 
 const io = new Server(httpServer, {
   cors: {
-    origin: clientOrigins,
+    origin: clientOrigin,
   },
 });
 
