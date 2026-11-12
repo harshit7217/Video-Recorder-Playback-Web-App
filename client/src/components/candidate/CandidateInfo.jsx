@@ -67,7 +67,9 @@ const CandidateInfo = () => {
     }, [position]);
 
     useEffect(() => {
-      if (isEligible) {
+      const locationName = position.name.split(", ");
+
+      if (isEligible && locationName.includes(ipState)) {
         navigate("/api/candidate/recording");
       }
     }, [isEligible, navigate]);
@@ -130,12 +132,6 @@ const CandidateInfo = () => {
     if (!position) {
       return null;
     }
-
-    console.log("position", position.name.split(", "));
-    console.log("IP State: ", ipState);
-    const a = position.name.split(", ");
-    console.log("a = ", a);
-    console.log("CHeck ing the state: ", a.includes(ipState));
 
     return (
       <Marker position={[position.lat, position.lng]}>
