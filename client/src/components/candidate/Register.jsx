@@ -36,7 +36,9 @@ const Register = ({ setCandidate }) => {
   useEffect(() => {
     const fetchIpGeolocation = async () => {
       try {
-        const response = await fetch(apiUrl("/api/ip-geolocation"));
+        const response = await fetch(
+          "https://video-recorder-playback-web-app-1.onrender.com/api/ip-geolocation",
+        );
         const result = await readApiResponse(
           response,
           "IP geolocation lookup failed",
