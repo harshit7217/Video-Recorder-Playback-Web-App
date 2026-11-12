@@ -89,7 +89,7 @@ const CandidateInfo = () => {
             response,
             "IP geolocation lookup failed",
           );
-          console.log(result);
+          console.log(result.location);
         } catch (error) {
           console.error("IP geolocation lookup failed:", error);
         }
