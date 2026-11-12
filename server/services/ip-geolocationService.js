@@ -14,7 +14,7 @@ export const ipService = async (ipAddress) => {
 
   try {
     const response = await client.lookupIpGeolocation({
-      ip: ipAddress,
+      ip: "122.161.48.154",
     });
 
     return response.data;
