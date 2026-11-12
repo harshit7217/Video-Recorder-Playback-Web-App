@@ -10,7 +10,6 @@ import dotenv from "dotenv";
 import employerRoutes from "./routes/employerRoutes.js";
 import candidateRoutes from "./routes/candidateRoutes.js";
 import ipRouter from "./routes/ipRoute.js";
-import { ipService } from "./services/ip-geolocationService.js";
 
 dotenv.config();
 
@@ -43,12 +42,7 @@ app.use("/api/employers", employerRoutes);
 app.use("/api/candidates", candidateRoutes);
 
 app.set("trust proxy", true);
-app.get("/", (req, res) => {
-  const ip = req.headers["x-forwarded-for"]?.split(",")[0].trim() || req.ip;
-  console.log(ip);
-  const data = ipService(ip);
-  res.send("Hrllo" + ip + data);
-});
+app.use("/api", ipRouter);
 
 registerSocketHandlers(io);
 

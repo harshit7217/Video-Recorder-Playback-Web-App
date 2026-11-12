@@ -37,7 +37,11 @@ const Register = ({ setCandidate }) => {
     const fetchIpGeolocation = async () => {
       try {
         const response = await fetch(apiUrl("/api/ip-geolocation"));
-        await readApiResponse(response, "IP geolocation lookup failed");
+        const result = await readApiResponse(
+          response,
+          "IP geolocation lookup failed",
+        );
+        console.log(result);
       } catch (error) {
         console.error("IP geolocation lookup failed:", error);
       }
