@@ -82,18 +82,14 @@ const CandidateInfo = () => {
     }, [username]);
 
     useEffect(() => {
-      console.log(apiUrl("api/ip/geolocation"));
       const fetchIpGeolocation = async () => {
         try {
           const response = await fetch(apiUrl("api/ip/geolocation"));
-          console.log("response status: ", response.ok);
           const result = await readApiResponse(
             response,
             "IP geolocation lookup failed",
           );
           console.log(result);
-          const res = await response.json();
-          console.log("result: ", res);
         } catch (error) {
           console.error("IP geolocation lookup failed:", error);
         }
