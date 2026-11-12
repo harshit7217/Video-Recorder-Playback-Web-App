@@ -34,21 +34,16 @@ const Register = ({ setCandidate }) => {
   };
 
   useEffect(() => {
-    console.log("IP Handling");
-    const iphandling = async () => {
-      console.log("under function");
+    const fetchIpGeolocation = async () => {
       try {
-        console.log("under try and calling response means fetching data");
         const response = await fetch(apiUrl("/api/ip-geolocation"));
-        console.log("response is fetched and result start to json format");
-        const result = await response.json();
-        console.log(result);
+        await readApiResponse(response, "IP geolocation lookup failed");
       } catch (error) {
-        console.error(error);
+        console.error("IP geolocation lookup failed:", error);
       }
     };
 
-    iphandling();
+    fetchIpGeolocation();
   }, []);
 
   return (

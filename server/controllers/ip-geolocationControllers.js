@@ -1,10 +1,21 @@
 import { ipService } from "../services/ip-geolocationService.js";
 
-export const ipController = (req, res) => {
-  var ip = req.headers["x-forwarded-for"];
-  const ipAddress = ip.split(",")[0];
-  console.log("IP address: ", ipAddress);
-  ipService(ipAddress).catch((error) => {
-    console.error(error);
-  });
+export const ipController = async (req, res) => {
+  const ipAddress =
+    req.headers["x-forwarded-for"]?.split(",")[0].trim() || req.ip;
+
+  try {
+    const data = await ipService(ipAddress);
+    res.json(data);
+  } catch (error) {
+    console.error("IP geolocation lookup failed:", error);
+    const isConfigurationError =
+      error instanceof Error && error.message === "IPGEO_API_KEY is not configured";
+
+    res.status(isConfigurationError ? 503 : 502).json({
+      message: isConfigurationError
+        ? "IP geolocation is not configured on the server."
+        : "IP geolocation lookup failed. Please try again later.",
+    });
+  }
 };
