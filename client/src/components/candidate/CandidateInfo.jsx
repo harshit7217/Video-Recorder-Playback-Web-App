@@ -129,7 +129,7 @@ const CandidateInfo = () => {
       return null;
     }
 
-    console.log(position);
+    console.log("position", position.name.split(", "));
 
     return (
       <Marker position={[position.lat, position.lng]}>
