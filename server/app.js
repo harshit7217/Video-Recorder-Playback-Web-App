@@ -42,7 +42,7 @@ app.use("/api/employers", employerRoutes);
 app.use("/api/candidates", candidateRoutes);
 
 app.set("trust proxy", true);
-app.get("/ip-geolocation", ipController);
+app.use("/ip-geolocation", ipController);
 
 registerSocketHandlers(io);
 
