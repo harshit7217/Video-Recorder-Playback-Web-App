@@ -2,7 +2,7 @@ import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import tailwindcss from "@tailwindcss/vite";
 
-const backendUrl = "https://video-recorder-playback-web-app.1onrender.com";
+const backendUrl = "https://video-recorder-playback-web-app-1.onrender.com";
 
 // https://vite.dev/config/
 export default defineConfig({
