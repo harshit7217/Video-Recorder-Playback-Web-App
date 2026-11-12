@@ -85,11 +85,8 @@ const CandidateInfo = () => {
       const fetchIpGeolocation = async () => {
         try {
           const response = await fetch("apiUrl(api/ip/geolocation)");
-          console.log(response.ok);
-          const result = await readApiResponse(
-            response,
-            "IP geolocation lookup failed",
-          );
+          const result = await response.json();
+          console.log(result);
         } catch (error) {
           console.error("IP geolocation lookup failed:", error);
         }
