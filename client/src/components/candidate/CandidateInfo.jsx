@@ -82,6 +82,7 @@ const CandidateInfo = () => {
     }, [username]);
 
     useEffect(() => {
+      console.log(apiUrl("api/ip/geolocation"));
       const fetchIpGeolocation = async () => {
         try {
           const response = await fetch(apiUrl("api/ip/geolocation"));
