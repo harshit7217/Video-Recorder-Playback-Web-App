@@ -135,7 +135,7 @@ const CandidateInfo = () => {
     console.log("IP State: ", ipState);
     console.log(
       "CHeck ing the state: ",
-      ipState.includes(position.name.split(", ")),
+      position.name.split(", ").includes(ipState),
     );
 
     return (
