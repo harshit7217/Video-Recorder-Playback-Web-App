@@ -133,10 +133,9 @@ const CandidateInfo = () => {
 
     console.log("position", position.name.split(", "));
     console.log("IP State: ", ipState);
-    console.log(
-      "CHeck ing the state: ",
-      position.name.split(", ").includes(ipState),
-    );
+    const a = position.name.split(", ");
+    console.log("a = ", a);
+    console.log("CHeck ing the state: ", a.includes(ipState));
 
     return (
       <Marker position={[position.lat, position.lng]}>
