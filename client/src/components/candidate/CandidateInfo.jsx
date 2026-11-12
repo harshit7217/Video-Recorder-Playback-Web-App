@@ -67,7 +67,7 @@ const CandidateInfo = () => {
     }, [position]);
 
     useEffect(() => {
-      const locationName = position.name.split(", ");
+      const locationName = position.name.split(", ") || "";
 
       if (isEligible && locationName.includes(ipState)) {
         navigate("/api/candidate/recording");
