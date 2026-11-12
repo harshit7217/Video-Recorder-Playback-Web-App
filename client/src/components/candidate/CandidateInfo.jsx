@@ -35,20 +35,17 @@ const CandidateInfo = () => {
       if (position === null) return;
       const checkingTheRadius = async () => {
         try {
-          const response = await fetch(
-            apiUrl("/api/candidates/check-radius"),
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                lat: position.lat,
-                lng: position.lng,
-                employerId: "6aedaaa31678958d084176f4",
-              }),
+          const response = await fetch(apiUrl("/api/candidates/check-radius"), {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
             },
-          );
+            body: JSON.stringify({
+              lat: position.lat,
+              lng: position.lng,
+              employerId: "6aedaaa31678958d084176f4",
+            }),
+          });
 
           if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -83,6 +80,23 @@ const CandidateInfo = () => {
 
       fetchingCandidateDetails();
     }, [username]);
+
+    useEffect(() => {
+      const fetchIpGeolocation = async () => {
+        try {
+          const response = await fetch(apiUrl("api/ip/geolocation"));
+          const result = await readApiResponse(
+            response,
+            "IP geolocation lookup failed",
+          );
+          console.log(result);
+        } catch (error) {
+          console.error("IP geolocation lookup failed:", error);
+        }
+      };
+
+      fetchIpGeolocation();
+    }, []);
 
     const map = useMapEvents({
       click() {

@@ -33,23 +33,6 @@ const Register = ({ setCandidate }) => {
     }
   };
 
-  useEffect(() => {
-    const fetchIpGeolocation = async () => {
-      try {
-        const response = await fetch(apiUrl("api/ip/geolocation"));
-        const result = await readApiResponse(
-          response,
-          "IP geolocation lookup failed",
-        );
-        console.log(result);
-      } catch (error) {
-        console.error("IP geolocation lookup failed:", error);
-      }
-    };
-
-    fetchIpGeolocation();
-  }, []);
-
   return (
     <div className="flex max-h-[95vh] items-center justify-center bg-slate-100 p-4 dark:bg-slate-900 max-[360px]:p-2 landscape:max-h-[400px]:items-start">
       <div className="w-full max-w-sm max-h-[75vh]  rounded-2xl bg-white p-5 shadow-xl sm:max-w-md sm:p-8 md:max-w-lg md:p-10 dark:bg-slate-800">
