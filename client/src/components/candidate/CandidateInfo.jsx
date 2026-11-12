@@ -7,7 +7,7 @@ import {
 } from "react-leaflet";
 import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
-import { apiUrl } from "../../api";
+import { apiUrl, readApiResponse } from "../../api";
 import { defaultPosition } from "./../utils/defaultPosition.js";
 
 const CandidateInfo = () => {

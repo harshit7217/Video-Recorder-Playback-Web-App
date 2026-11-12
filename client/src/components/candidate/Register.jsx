@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { apiUrl, readApiResponse } from "../../api";
-import { useEffect } from "react";
 
 const Register = ({ setCandidate }) => {
   const [registrationError, setRegistrationError] = useState("");
