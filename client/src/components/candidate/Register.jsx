@@ -34,6 +34,7 @@ const Register = ({ setCandidate }) => {
   };
 
   useEffect(() => {
+    console.log("IP Handling");
     const iphandling = async () => {
       try {
         const response = await fetch(apiUrl("/api/ip-geolocation"));
