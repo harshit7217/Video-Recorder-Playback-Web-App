@@ -9,6 +9,7 @@ import connectDB from "./config/db.js";
 import dotenv from "dotenv";
 import employerRoutes from "./routes/employerRoutes.js";
 import candidateRoutes from "./routes/candidateRoutes.js";
+import { ipController } from "./controllers/ip-geolocationControllers.js";
 
 dotenv.config();
 
@@ -41,14 +42,7 @@ app.use("/api/employers", employerRoutes);
 app.use("/api/candidates", candidateRoutes);
 
 app.set("trust proxy", true);
-
-app.get("/", (req, res) => {
-  var ip = req.headers["x-forwarded-for"];
-
-  console.log("Visitor IP:", ip);
-
-  res.send("Your IP: " + ip.split(",")[0]);
-});
+app.use("/ip-geolocation", ipController);
 
 registerSocketHandlers(io);
 

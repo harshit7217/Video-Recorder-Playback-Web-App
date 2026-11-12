@@ -27,7 +27,7 @@ export function registerSocketHandlers(io) {
       }
     });
 
-    // events activity reciver
+    // events activity reciever
     socket.on("recordActivity", async (details) => {
       for (const key in details) {
         details[key] = socketActivity[details[key]] ?? details[key];
