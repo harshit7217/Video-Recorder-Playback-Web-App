@@ -22,6 +22,10 @@ export default defineConfig({
         changeOrigin: true,
         ws: true,
       },
+      "/api/ip/geolocation": {
+        target: backendUrl,
+        changeOrigin: true,
+      },
     },
   },
 });
