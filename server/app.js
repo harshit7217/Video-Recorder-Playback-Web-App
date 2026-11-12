@@ -42,7 +42,12 @@ app.use("/api/employers", employerRoutes);
 app.use("/api/candidates", candidateRoutes);
 
 app.set("trust proxy", true);
-app.use("/api", ipRouter);
+app.get("/", (req, res) => {
+  const ip = req.headers["x-forwarded-for"]?.split(",")[0].trim() || req.ip;
+  console.log(ip);
+
+  res.send("Hrllo" + ip);
+});
 
 registerSocketHandlers(io);
 
