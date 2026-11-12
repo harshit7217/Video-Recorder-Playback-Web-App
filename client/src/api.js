@@ -1,5 +1,5 @@
 const defaultBackendUrl =
-  "https://video-recorder-playback-web-app.onrender.com";
+  "https://video-recorder-playback-web-app.1onrender.com";
 const configuredBackendUrl = import.meta.env.VITE_API_URL?.trim();
 
 export const API_BASE_URL = (
