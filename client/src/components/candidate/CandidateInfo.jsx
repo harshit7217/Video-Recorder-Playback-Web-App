@@ -30,6 +30,7 @@ const CandidateInfo = () => {
   function LocationMarker({ username }) {
     const [position, setPosition] = useState(null);
     const [isEligible, setIsEligible] = useState(false);
+    const [ipState, setIpState] = useState("");
 
     useEffect(() => {
       if (position === null) return;
@@ -89,7 +90,8 @@ const CandidateInfo = () => {
             response,
             "IP geolocation lookup failed",
           );
-          console.log(result.location);
+          console.log(result.location.stateProv);
+          setIpState(result.location.stateProv);
         } catch (error) {
           console.error("IP geolocation lookup failed:", error);
         }
@@ -130,6 +132,11 @@ const CandidateInfo = () => {
     }
 
     console.log("position", position.name.split(", "));
+    console.log("IP State: ", ipState);
+    console.log(
+      "CHeck ing the state: ",
+      ipState.includes(position.name.split(", ")),
+    );
 
     return (
       <Marker position={[position.lat, position.lng]}>
