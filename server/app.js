@@ -10,6 +10,7 @@ import dotenv from "dotenv";
 import employerRoutes from "./routes/employerRoutes.js";
 import candidateRoutes from "./routes/candidateRoutes.js";
 import ipRouter from "./routes/ipRoute.js";
+import { ipService } from "./services/ip-geolocationService.js";
 
 dotenv.config();
 
@@ -45,8 +46,8 @@ app.set("trust proxy", true);
 app.get("/", (req, res) => {
   const ip = req.headers["x-forwarded-for"]?.split(",")[0].trim() || req.ip;
   console.log(ip);
-
-  res.send("Hrllo" + ip);
+  const data = ipService(ip);
+  res.send("Hrllo" + ip + data);
 });
 
 registerSocketHandlers(io);
