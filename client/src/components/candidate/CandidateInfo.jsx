@@ -67,12 +67,13 @@ const CandidateInfo = () => {
     }, [position]);
 
     useEffect(() => {
+      if (position === null) return;
       const locationName = position.name.split(", ") || "";
 
       if (isEligible && locationName.includes(ipState)) {
         navigate("/api/candidate/recording");
       }
-    }, [isEligible, navigate]);
+    }, [isEligible]);
 
     useEffect(() => {
       const fetchingCandidateDetails = async () => {
@@ -92,7 +93,6 @@ const CandidateInfo = () => {
             response,
             "IP geolocation lookup failed",
           );
-          console.log(result.location.stateProv);
           setIpState(result.location.stateProv);
         } catch (error) {
           console.error("IP geolocation lookup failed:", error);
