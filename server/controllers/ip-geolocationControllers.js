@@ -1,4 +1,4 @@
-import { ipService } from "../services/ip-geolocationService";
+import { ipService } from "../services/ip-geolocationService.js";
 
 export const ipController = (req, res) => {
   var ip = req.headers["x-forwarded-for"];
