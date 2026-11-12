@@ -1,6 +1,7 @@
 import { IpGeolocationClient } from "ip-geolocation-api-javascript-sdk";
 
 export const ipService = async (ipAddress) => {
+  console.log("calling ip service");
   const client = new IpGeolocationClient({
     apiKey: process.env.IPGEO_API_KEY,
   });
