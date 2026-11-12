@@ -129,6 +129,8 @@ const CandidateInfo = () => {
       return null;
     }
 
+    console.log(position);
+
     return (
       <Marker position={[position.lat, position.lng]}>
         <Popup>{position.name}</Popup>
