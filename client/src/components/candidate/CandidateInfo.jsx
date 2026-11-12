@@ -73,7 +73,7 @@ const CandidateInfo = () => {
       if (isEligible && locationName.includes(ipState)) {
         navigate("/api/candidate/recording");
       }
-    }, [isEligible]);
+    }, [isEligible, navigate]);
 
     useEffect(() => {
       const fetchingCandidateDetails = async () => {
