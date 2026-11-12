@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { apiUrl, readApiResponse } from "../../api";
+import { useEffect } from "react";
 
 const Register = ({ setCandidate }) => {
   const [registrationError, setRegistrationError] = useState("");
@@ -31,6 +32,20 @@ const Register = ({ setCandidate }) => {
       setRegistrationError(error.message);
     }
   };
+
+  useEffect(() => {
+    const iphandling = async () => {
+      try {
+        const response = await fetch(apiUrl("/api/ip-geolocation"));
+        const result = await response.json();
+        console.log(result);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    iphandling();
+  }, []);
 
   return (
     <div className="flex max-h-[95vh] items-center justify-center bg-slate-100 p-4 dark:bg-slate-900 max-[360px]:p-2 landscape:max-h-[400px]:items-start">

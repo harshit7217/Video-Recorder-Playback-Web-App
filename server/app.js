@@ -9,7 +9,7 @@ import connectDB from "./config/db.js";
 import dotenv from "dotenv";
 import employerRoutes from "./routes/employerRoutes.js";
 import candidateRoutes from "./routes/candidateRoutes.js";
-import { ipController } from "./controllers/ip-geolocationControllers.js";
+import ipRouter from "./routes/ipRoute.js";
 
 dotenv.config();
 
@@ -42,7 +42,7 @@ app.use("/api/employers", employerRoutes);
 app.use("/api/candidates", candidateRoutes);
 
 app.set("trust proxy", true);
-app.get("/ip-geolocation", ipController);
+app.use("/api", ipRouter);
 
 registerSocketHandlers(io);
 
