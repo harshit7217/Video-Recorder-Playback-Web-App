@@ -44,6 +44,6 @@ app.use("/api/ip", ipRouter);
 
 registerSocketHandlers(io);
 
-httpServer.listen(port, () => {
+httpServer.listen(port, "0.0.0.0", () => {
   console.info(`Socket.IO server listening on http://localhost:${port}`);
 });
