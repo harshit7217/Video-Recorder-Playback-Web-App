@@ -4,7 +4,7 @@ const socketUrl = import.meta.env.VITE_SOCKET_URL;
 
 export const socket = io.connect(socketUrl, {
   autoConnect: false,
-  path: import.meta.env.VITE_SOCKET_PATH?.trim() || "/socket.io",
+  transports: ["websocket", "polling"],
 });
 
 export function emitRecordingActivity(details = {}) {
