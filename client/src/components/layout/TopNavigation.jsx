@@ -16,7 +16,8 @@ export default function TopNavigation() {
   }
 
   const isCandidateView =
-    currentPath.startsWith("/api/candidate") || currentPath === "/candidate-info";
+    currentPath.startsWith("/api/candidate") ||
+    currentPath === "/candidate-info";
   const isInterviewerView = currentPath.startsWith("/api/interviewer");
 
   if (!isCandidateView && !isInterviewerView) {
@@ -24,7 +25,6 @@ export default function TopNavigation() {
   }
 
   const candidateLinks = [
-    { to: "/api/candidate/recording", label: "Recording" },
     { to: "/api/candidate/candidate-info", label: "Candidate Info" },
   ];
 

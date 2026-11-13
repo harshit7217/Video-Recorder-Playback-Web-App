@@ -7,8 +7,12 @@ import {
 } from "react-leaflet";
 import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
-import { apiUrl, readApiResponse } from "../../api";
+import { apiUrl } from "../../api";
 import { defaultPosition } from "./../utils/defaultPosition.js";
+import Modal from "react-modal";
+import ModalDetails from "./ModalDetails.jsx";
+
+Modal.setAppElement("#root");
 
 const CandidateInfo = () => {
   const navigate = useNavigate();
@@ -30,7 +34,15 @@ const CandidateInfo = () => {
   function LocationMarker({ username }) {
     const [position, setPosition] = useState(null);
     const [isEligible, setIsEligible] = useState(false);
-    const [ipState, setIpState] = useState("");
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+
+    function openModal() {
+      setModalIsOpen(true);
+    }
+
+    function closeModal() {
+      setModalIsOpen(false);
+    }
 
     useEffect(() => {
       if (position === null) return;
@@ -67,11 +79,9 @@ const CandidateInfo = () => {
     }, [position]);
 
     useEffect(() => {
-      if (position === null) return;
-      const locationName = position.name.split(", ") || "";
-
-      if (isEligible && locationName.includes(ipState)) {
+      if (isEligible) {
         // navigate("/api/candidate/recording");
+        openModal();
       }
     }, [isEligible, navigate]);
 
@@ -84,37 +94,6 @@ const CandidateInfo = () => {
 
       fetchingCandidateDetails();
     }, [username]);
-
-    useEffect(() => {
-      const fetchIpGeolocation = async () => {
-        try {
-          const response = await fetch(apiUrl("api/ip/geolocation"));
-          const result = await readApiResponse(
-            response,
-            "IP geolocation lookup failed",
-          );
-          setIpState(result.location.stateProv);
-        } catch (error) {
-          console.error("IP geolocation lookup failed:", error);
-        }
-      };
-
-      const fetchVPNDetection = async () => {
-        try {
-          const response = await fetch(apiUrl("api/vpn/detection"));
-          const result = await readApiResponse(
-            response,
-            "VPN Detection lookup failed",
-          );
-          console.log("VPN Detection", result);
-        } catch (error) {
-          console.error("VPN Detection lookup failed: ", error);
-        }
-      };
-
-      fetchIpGeolocation();
-      fetchVPNDetection();
-    }, []);
 
     const map = useMapEvents({
       click() {
@@ -131,11 +110,17 @@ const CandidateInfo = () => {
           );
           const result = await response.json();
           const locationName = result?.display_name || "Candidate location";
+          const mapState =
+            result?.address?.state ||
+            result?.address?.province ||
+            result?.address?.region ||
+            "";
 
           setPosition({
             lat: e.latlng.lat,
             lng: e.latlng.lng,
             name: locationName,
+            state: mapState,
           });
         } catch (error) {
           console.error(error);
@@ -149,6 +134,27 @@ const CandidateInfo = () => {
 
     return (
       <Marker position={[position.lat, position.lng]}>
+        <Modal
+          isOpen={modalIsOpen}
+          onRequestClose={closeModal}
+          className="w-full max-w-xl outline-none"
+          overlayClassName="fixed inset-0 z-[1000] flex items-center justify-center bg-slate-950/60 p-4 backdrop-blur-sm"
+          style={{
+            overlay: { backgroundColor: "transparent" },
+            content: {
+              position: "relative",
+              inset: "auto",
+              overflow: "visible",
+              border: "none",
+              background: "transparent",
+              padding: 0,
+              width: "100%",
+              maxWidth: "36rem",
+            },
+          }}
+        >
+          <ModalDetails closeModal={closeModal} mapLocation={position} />
+        </Modal>
         <Popup>{position.name}</Popup>
       </Marker>
     );
