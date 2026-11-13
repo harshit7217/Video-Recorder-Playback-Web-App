@@ -1,10 +1,6 @@
-const defaultBackendUrl =
-  "https://video-recorder-playback-web-app-1.onrender.com";
 const configuredBackendUrl = import.meta.env.VITE_API_URL?.trim();
 
-export const API_BASE_URL = (
-  configuredBackendUrl || (import.meta.env.DEV ? "" : defaultBackendUrl)
-).replace(/\/+$/, "");
+export const API_BASE_URL = configuredBackendUrl.replace(/\/+$/, "");
 
 export function apiUrl(path) {
   return `${API_BASE_URL}/${path.replace(/^\/+/, "")}`;
