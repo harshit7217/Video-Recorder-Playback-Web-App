@@ -16,9 +16,7 @@ dotenv.config();
 connectDB();
 
 const port = Number(process.env.SOCKET_PORT || 5000);
-const clientOrigin =
-  process.env.CLIENT_ORIGIN ||
-  "https://video-recorder-playback-web-app-2.onrender.com";
+const clientOrigin = process.env.CLIENT_ORIGIN;
 
 const app = express();
 
