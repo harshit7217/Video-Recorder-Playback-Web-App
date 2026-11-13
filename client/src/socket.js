@@ -1,6 +1,6 @@
 import { io } from "socket.io-client";
 
-const socketUrl = "https://video-recorder-playback-web-app-1.onrender.com";
+const socketUrl = import.meta.env.VITE_SOCKET_URL;
 
 export const socket = io.connect(socketUrl, {
   autoConnect: false,
