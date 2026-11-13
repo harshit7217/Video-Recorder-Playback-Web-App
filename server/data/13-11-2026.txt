@@ -59,3 +59,5 @@
 {"key":"pdK2CxlxlPyY6DvVAAAB","reason":"user returned to window","eventName":"10","timestamp":"2026-11-13T07:59:12.074Z"}
 {"key":"pdK2CxlxlPyY6DvVAAAB","reason":"user switched to another window","eventName":"11","timestamp":"2026-11-13T07:59:13.536Z"}
 {"key":"gtr3FpMaElIspnKEAAAC","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-11-13T07:59:22.966Z"}
+{"key":"aRUH5KoDeur7NlHdAAAD","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-11-13T09:22:46.109Z"}
+{"key":"aRUH5KoDeur7NlHdAAAD","reason":"user switched to another window","eventName":"11","timestamp":"2026-11-13T09:22:46.668Z"}

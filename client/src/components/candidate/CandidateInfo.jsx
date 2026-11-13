@@ -71,7 +71,7 @@ const CandidateInfo = () => {
       const locationName = position.name.split(", ") || "";
 
       if (isEligible && locationName.includes(ipState)) {
-        navigate("/api/candidate/recording");
+        // navigate("/api/candidate/recording");
       }
     }, [isEligible, navigate]);
 
@@ -99,7 +99,21 @@ const CandidateInfo = () => {
         }
       };
 
+      const fetchVPNDetection = async () => {
+        try {
+          const response = await fetch(apiUrl("api/vpn/detection"));
+          const result = await readApiResponse(
+            response,
+            "VPN Detection lookup failed",
+          );
+          console.log("VPN Detection", result);
+        } catch (error) {
+          console.error("VPN Detection lookup failed: ", error);
+        }
+      };
+
       fetchIpGeolocation();
+      fetchVPNDetection();
     }, []);
 
     const map = useMapEvents({
