@@ -1,8 +1,7 @@
-import { ipService } from "../services/ip-geolocationService.js";
+import { getIPAddress, ipService } from "../services/ip-geolocationService.js";
 
 export const ipController = async (req, res) => {
-  const ipAddress =
-    req.headers["x-forwarded-for"]?.split(",")[0].trim() || req.ip;
+  const ipAddress = getIPAddress(req);
   try {
     const data = await ipService(ipAddress);
     res.json(data);

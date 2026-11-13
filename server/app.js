@@ -10,6 +10,7 @@ import dotenv from "dotenv";
 import employerRoutes from "./routes/employerRoutes.js";
 import candidateRoutes from "./routes/candidateRoutes.js";
 import ipRouter from "./routes/ipRoute.js";
+import vpnRouter from "./routes/vpnRoutes.js";
 
 dotenv.config();
 
@@ -41,6 +42,7 @@ app.use("/api/candidates", candidateRoutes);
 
 app.set("trust proxy", true);
 app.use("/api/ip", ipRouter);
+app.use("/api/vpn", vpnRouter)
 
 registerSocketHandlers(io);
 
