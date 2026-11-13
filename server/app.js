@@ -15,7 +15,7 @@ dotenv.config();
 
 connectDB();
 
-const port = Number(process.env.SOCKET_PORT || 5000);
+const port = Number(process.env.SOCKET_PORT);
 const clientOrigin = process.env.CLIENT_ORIGIN;
 
 const app = express();
