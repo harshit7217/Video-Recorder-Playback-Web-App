@@ -46,3 +46,16 @@
 {"key":"2njRWIFRlzTKJX4EAAAD","reason":"user returned to window","eventName":"10","timestamp":"2026-11-13T05:32:15.362Z"}
 {"key":"2njRWIFRlzTKJX4EAAAD","reason":"window dimensions changed - (width: 1389px, height: 665px)","eventName":"9","timestamp":"2026-11-13T05:32:15.892Z"}
 {"key":"2njRWIFRlzTKJX4EAAAD","reason":"user switched to another window","eventName":"11","timestamp":"2026-11-13T05:32:16.691Z"}
+{"key":"7FQEDp8wdwlJLczyAAAA","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-11-13T07:57:38.286Z"}
+{"key":"7FQEDp8wdwlJLczyAAAA","reason":"user switched to another window","eventName":"11","timestamp":"2026-11-13T07:57:39.690Z"}
+{"key":"7FQEDp8wdwlJLczyAAAA","reason":"user returned to window","eventName":"10","timestamp":"2026-11-13T07:57:39.845Z"}
+{"key":"7FQEDp8wdwlJLczyAAAA","reason":"window dimensions changed - (width: 1389px, height: 665px)","eventName":"9","timestamp":"2026-11-13T07:57:40.379Z"}
+{"key":"7FQEDp8wdwlJLczyAAAA","reason":"user switched to another window","eventName":"11","timestamp":"2026-11-13T07:57:40.425Z"}
+{"key":"7FQEDp8wdwlJLczyAAAA","reason":"user returned to window","eventName":"10","timestamp":"2026-11-13T07:58:04.811Z"}
+{"key":"pdK2CxlxlPyY6DvVAAAB","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-11-13T07:58:07.977Z"}
+{"key":"pdK2CxlxlPyY6DvVAAAB","reason":"user switched to another window","eventName":"11","timestamp":"2026-11-13T07:58:11.609Z"}
+{"key":"pdK2CxlxlPyY6DvVAAAB","reason":"user returned to window","eventName":"10","timestamp":"2026-11-13T07:59:07.335Z"}
+{"key":"pdK2CxlxlPyY6DvVAAAB","reason":"user switched to another window","eventName":"11","timestamp":"2026-11-13T07:59:10.213Z"}
+{"key":"pdK2CxlxlPyY6DvVAAAB","reason":"user returned to window","eventName":"10","timestamp":"2026-11-13T07:59:12.074Z"}
+{"key":"pdK2CxlxlPyY6DvVAAAB","reason":"user switched to another window","eventName":"11","timestamp":"2026-11-13T07:59:13.536Z"}
+{"key":"gtr3FpMaElIspnKEAAAC","reason":"device_initialized_successfully","eventName":"1","timestamp":"2026-11-13T07:59:22.966Z"}
