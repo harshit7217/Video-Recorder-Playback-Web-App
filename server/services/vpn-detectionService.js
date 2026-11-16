@@ -14,5 +14,6 @@ export const vpnService = async (ipAddress) => {
   });
   if (!response.ok) throw new Error(`iplogs.com answered ${response.status}`);
   const { is_vpn } = await response.json();
+  console.log(is_vpn);
   return is_vpn;
 };
