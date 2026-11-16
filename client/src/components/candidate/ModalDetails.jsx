@@ -305,6 +305,7 @@ const ModalDetails = ({ closeModal, mapLocation }) => {
   } else if (vpnDetection.isVpn) {
     recordingBlockReason = "VPN detected. Turn it off to continue.";
   }
+  console.log(recordingBlockReason);
 
   const canStartRecording = recordingBlockReason === "";
 
