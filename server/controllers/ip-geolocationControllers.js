@@ -4,7 +4,8 @@ export const ipController = async (req, res) => {
   const ipAddress = getIPAddress(req);
   try {
     const data = await ipService(ipAddress);
-    res.json(data);
+    console.log("ip details: ", data);
+    res.json({ ...data, ip: data?.ip ?? ipAddress });
   } catch (error) {
     console.error("IP geolocation lookup failed:", error);
     const isConfigurationError =

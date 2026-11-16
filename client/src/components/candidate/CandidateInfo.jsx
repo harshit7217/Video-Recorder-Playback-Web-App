@@ -35,6 +35,11 @@ const CandidateInfo = () => {
     const [position, setPosition] = useState(null);
     const [isEligible, setIsEligible] = useState(false);
     const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [radiusStatus, setRadiusStatus] = useState({
+      loading: true,
+      error: "",
+      isWithinRadius: null,
+    });
 
     function openModal() {
       setModalIsOpen(true);
@@ -47,6 +52,7 @@ const CandidateInfo = () => {
     useEffect(() => {
       if (position === null) return;
       const checkingTheRadius = async () => {
+        setRadiusStatus({ loading: true, error: "", isWithinRadius: null });
         try {
           const response = await fetch(apiUrl("/api/candidates/check-radius"), {
             method: "POST",
@@ -66,12 +72,18 @@ const CandidateInfo = () => {
 
           const result = await response.json();
           const isWithinRadius = result?.isWithinRadius === true;
+          setRadiusStatus({ loading: false, error: "", isWithinRadius });
 
           if (isWithinRadius) {
             setIsEligible(true);
           }
         } catch (err) {
           console.error(err);
+          setRadiusStatus({
+            loading: false,
+            error: err.message,
+            isWithinRadius: null,
+          });
         }
       };
 
@@ -80,7 +92,6 @@ const CandidateInfo = () => {
 
     useEffect(() => {
       if (isEligible) {
-        // navigate("/api/candidate/recording");
         openModal();
       }
     }, [isEligible, navigate]);
@@ -153,7 +164,11 @@ const CandidateInfo = () => {
             },
           }}
         >
-          <ModalDetails closeModal={closeModal} mapLocation={position} />
+          <ModalDetails
+            closeModal={closeModal}
+            mapLocation={position}
+            radiusStatus={radiusStatus}
+          />
         </Modal>
         <Popup>{position.name}</Popup>
       </Marker>

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { apiUrl, readApiResponse } from "../../api";
 import { useNavigate } from "react-router";
 
-const ModalDetails = ({ closeModal, mapLocation }) => {
+const ModalDetails = ({ closeModal, mapLocation, radiusStatus }) => {
   const navigate = useNavigate();
   const [geolocation, setGeolocation] = useState({
     loading: true,
@@ -76,14 +76,18 @@ const ModalDetails = ({ closeModal, mapLocation }) => {
     return () => controller.abort();
   }, []);
 
-  const location = geolocation.data?.location;
+  const ipDetails = geolocation.data;
+  const location = ipDetails?.location;
+  const ipState = location?.stateProv ?? ipDetails?.region_name;
   const details = [
-    ["IP address", geolocation.data?.ip],
-    ["City", location?.city],
-    ["State / region", location?.stateProv],
-    ["Country", location?.country],
-    ["Internet provider", geolocation.data?.isp],
-  ].filter(([, value]) => value);
+    ["IP address", ipDetails?.ip],
+    ["Internet name", ipDetails?.isp],
+    ["Latitude", location?.latitude ?? ipDetails?.latitude],
+    ["Longitude", location?.longitude ?? ipDetails?.longitude],
+    ["City", location?.city ?? ipDetails?.city],
+    ["State / region", ipState],
+    ["Country", location?.country ?? ipDetails?.country_name],
+  ].filter(([, value]) => value !== undefined && value !== null && value !== "");
 
   const vpnStatus = vpnDetection.loading
     ? "checking"
@@ -100,18 +104,42 @@ const ModalDetails = ({ closeModal, mapLocation }) => {
     clear: "bg-emerald-50 text-emerald-700 ring-emerald-200",
   };
 
+  const radiusStatusValue = radiusStatus?.loading
+    ? "checking"
+    : radiusStatus?.error
+      ? "unavailable"
+      : radiusStatus?.isWithinRadius === true
+        ? "within"
+        : radiusStatus?.isWithinRadius === false
+          ? "outside"
+          : "unavailable";
+  const radiusStatusStyles = {
+    checking: "bg-amber-50 text-amber-700 ring-amber-200",
+    unavailable: "bg-slate-100 text-slate-600 ring-slate-200",
+    within: "bg-emerald-50 text-emerald-700 ring-emerald-200",
+    outside: "bg-rose-50 text-rose-700 ring-rose-200",
+  };
+
   const normalizeState = (state) =>
     typeof state === "string" ? state.trim().toLowerCase() : "";
-  const ipState = normalizeState(location?.stateProv);
+  const normalizedIpState = normalizeState(ipState);
   const mapState = normalizeState(mapLocation?.state);
-  const statesMatch = Boolean(ipState && mapState && ipState === mapState);
+  const statesMatch = Boolean(
+    normalizedIpState && mapState && normalizedIpState === mapState,
+  );
 
   let recordingBlockReason = "";
-  if (geolocation.loading) {
+  if (radiusStatus?.loading) {
+    recordingBlockReason = "Checking employer radius...";
+  } else if (radiusStatus?.error) {
+    recordingBlockReason = "Could not verify employer radius.";
+  } else if (radiusStatus?.isWithinRadius !== true) {
+    recordingBlockReason = "Your map location is outside the employer radius.";
+  } else if (geolocation.loading) {
     recordingBlockReason = "Checking the IP location...";
   } else if (geolocation.error) {
     recordingBlockReason = "Could not verify the IP location.";
-  } else if (!ipState || !mapState) {
+  } else if (!normalizedIpState || !mapState) {
     recordingBlockReason = "Could not determine both location states.";
   } else if (!statesMatch) {
     recordingBlockReason = "The IP state and map location state do not match.";
@@ -131,32 +159,32 @@ const ModalDetails = ({ closeModal, mapLocation }) => {
   };
 
   return (
-    <div className="overflow-hidden rounded-3xl border border-white/70 bg-white text-slate-900 shadow-2xl shadow-slate-950/25">
-      <header className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-950 px-6 py-6 text-white sm:px-8 sm:py-7">
+    <div className="flex max-h-[85dvh] flex-col overflow-hidden rounded-3xl border border-white/70 bg-white text-slate-900 shadow-2xl shadow-slate-950/25">
+      <header className="relative shrink-0 overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-950 px-5 py-4 text-white sm:px-6 sm:py-5">
         <div className="absolute -right-10 -top-16 h-48 w-48 rounded-full bg-indigo-400/10 blur-2xl" />
-        <div className="relative flex items-start justify-between gap-4">
-          <div className="flex items-start gap-4">
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white/10 text-indigo-200 ring-1 ring-white/15">
+        <div className="relative flex items-start justify-between gap-3">
+          <div className="flex items-start gap-3">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/10 text-indigo-200 ring-1 ring-white/15">
               <svg
                 aria-hidden="true"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="1.7"
-                className="h-6 w-6"
+                className="h-5 w-5"
               >
                 <path d="M12 3 19 6v5c0 4.5-2.9 8.2-7 10-4.1-1.8-7-5.5-7-10V6l7-3Z" />
                 <path d="m9 12 2 2 4-4" />
               </svg>
             </div>
             <div>
-              <p className="text-xs font-semibold tracking-[0.18em] text-indigo-200">
+              <p className="text-[10px] font-semibold tracking-[0.18em] text-indigo-200">
                 SECURITY CHECK
               </p>
-              <h2 className="mt-1 text-xl font-semibold tracking-tight sm:text-2xl">
+              <h2 className="mt-0.5 text-lg font-semibold tracking-tight sm:text-xl">
                 Connection details
               </h2>
-              <p className="mt-1.5 max-w-sm text-sm leading-5 text-slate-300">
+              <p className="mt-1 max-w-sm text-xs leading-4 text-slate-300">
                 Review the network information detected for this session.
               </p>
             </div>
@@ -165,7 +193,7 @@ const ModalDetails = ({ closeModal, mapLocation }) => {
             type="button"
             onClick={closeModal}
             aria-label="Close connection details"
-            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl text-slate-300 transition hover:bg-white/10 hover:text-white focus:outline-none focus:ring-2 focus:ring-white/60"
+            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-slate-300 transition hover:bg-white/10 hover:text-white focus:outline-none focus:ring-2 focus:ring-white/60"
           >
             <svg
               aria-hidden="true"
@@ -181,18 +209,18 @@ const ModalDetails = ({ closeModal, mapLocation }) => {
         </div>
       </header>
 
-      <div className="space-y-5 p-5 sm:p-8">
+      <div className="min-h-0 flex-1 space-y-3 overflow-y-auto p-4 sm:p-5">
         {mapLocation && (
-          <section className="rounded-2xl border border-indigo-100 bg-indigo-50/60 p-4 sm:p-5">
+          <section className="rounded-2xl border border-indigo-100 bg-indigo-50/60 p-3 sm:p-4">
             <div className="flex items-start gap-3">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white text-indigo-600 shadow-sm ring-1 ring-indigo-100">
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white text-indigo-600 shadow-sm ring-1 ring-indigo-100">
                 <svg
                   aria-hidden="true"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="1.7"
-                  className="h-5 w-5"
+                  className="h-4 w-4"
                 >
                   <path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z" />
                   <circle cx="12" cy="10" r="2.5" />
@@ -202,10 +230,10 @@ const ModalDetails = ({ closeModal, mapLocation }) => {
                 <h3 className="text-sm font-semibold text-slate-900">
                   Map location
                 </h3>
-                <p className="mt-1 break-words text-sm leading-6 text-slate-700">
+                <p className="mt-0.5 break-words text-xs leading-5 text-slate-700">
                   {mapLocation.name || "Address unavailable"}
                 </p>
-                <dl className="mt-3 grid grid-cols-2 gap-3 border-t border-indigo-100 pt-3 text-xs">
+                <dl className="mt-2 grid grid-cols-2 gap-2 border-t border-indigo-100 pt-2 text-[11px]">
                   <div className="col-span-2">
                     <dt className="text-slate-500">State</dt>
                     <dd className="mt-1 font-medium text-slate-800">
@@ -230,13 +258,58 @@ const ModalDetails = ({ closeModal, mapLocation }) => {
           </section>
         )}
 
+        <section className="flex items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white p-3">
+          <div className="flex min-w-0 items-center gap-3">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600">
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.7"
+                className="h-4 w-4"
+              >
+                <circle cx="12" cy="12" r="9" />
+                <circle cx="12" cy="12" r="4" />
+                <path d="M12 3v5m0 8v5m9-9h-5M8 12H3" />
+              </svg>
+            </div>
+            <div className="min-w-0">
+              <h3 className="text-sm font-semibold text-slate-900">
+                Employer radius
+              </h3>
+              <p className="mt-0.5 text-[11px] text-slate-500">
+                {radiusStatus?.loading
+                  ? "Checking your distance from the employer location"
+                  : radiusStatus?.error
+                    ? "The radius check could not be completed"
+                    : radiusStatus?.isWithinRadius
+                      ? "Your location is within the allowed radius"
+                      : "Your location is outside the allowed radius"}
+              </p>
+            </div>
+          </div>
+          <span
+            className={`shrink-0 rounded-full px-2.5 py-1 text-[11px] font-semibold ring-1 ring-inset ${radiusStatusStyles[radiusStatusValue]}`}
+            role={radiusStatus?.error ? "alert" : "status"}
+          >
+            {radiusStatusValue === "checking"
+              ? "Checking"
+              : radiusStatusValue === "unavailable"
+                ? "Unavailable"
+                : radiusStatusValue === "within"
+                  ? "Within radius"
+                  : "Outside radius"}
+          </span>
+        </section>
+
         <section>
-          <div className="mb-3 flex items-center justify-between gap-3">
+          <div className="mb-2 flex items-center justify-between gap-3">
             <div>
               <h3 className="text-sm font-semibold text-slate-900">
                 IP and location
               </h3>
-              <p className="mt-0.5 text-xs text-slate-500">
+              <p className="mt-0.5 text-[11px] text-slate-500">
                 Information provided by your network
               </p>
             </div>
@@ -250,14 +323,14 @@ const ModalDetails = ({ closeModal, mapLocation }) => {
 
           <div className="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50/70">
             {geolocation.loading && (
-              <div className="space-y-3 p-4" aria-label="Loading IP details">
-                <div className="h-4 w-2/5 animate-pulse rounded bg-slate-200" />
-                <div className="h-4 w-3/5 animate-pulse rounded bg-slate-200" />
-                <div className="h-4 w-1/2 animate-pulse rounded bg-slate-200" />
+              <div className="space-y-2 p-3" aria-label="Loading IP details">
+                <div className="h-3 w-2/5 animate-pulse rounded bg-slate-200" />
+                <div className="h-3 w-3/5 animate-pulse rounded bg-slate-200" />
+                <div className="h-3 w-1/2 animate-pulse rounded bg-slate-200" />
               </div>
             )}
             {geolocation.error && (
-              <p role="alert" className="p-4 text-sm leading-6 text-rose-700">
+              <p role="alert" className="p-3 text-xs leading-5 text-rose-700">
                 {geolocation.error}
               </p>
             )}
@@ -268,7 +341,7 @@ const ModalDetails = ({ closeModal, mapLocation }) => {
                   {details.map(([label, value]) => (
                     <div
                       key={label}
-                      className="grid grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] gap-4 px-4 py-3 text-sm sm:px-5"
+                      className="grid grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] gap-3 px-3 py-2 text-xs"
                     >
                       <dt className="text-slate-500">{label}</dt>
                       <dd className="break-words text-right font-medium text-slate-800">
@@ -278,23 +351,23 @@ const ModalDetails = ({ closeModal, mapLocation }) => {
                   ))}
                 </dl>
               ) : (
-                <p className="p-4 text-sm text-slate-500">
+                <p className="p-3 text-xs text-slate-500">
                   No IP details were returned.
                 </p>
               ))}
           </div>
         </section>
 
-        <section className="flex items-center justify-between gap-4 rounded-2xl border border-slate-200 bg-white p-4 sm:px-5">
+        <section className="flex items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white p-3">
           <div className="flex min-w-0 items-center gap-3">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600">
               <svg
                 aria-hidden="true"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="1.7"
-                className="h-5 w-5"
+                className="h-4 w-4"
               >
                 <path d="M4 8h16M4 16h16M8 4l-4 4 4 4m8 0 4 4-4 4" />
               </svg>
@@ -303,7 +376,7 @@ const ModalDetails = ({ closeModal, mapLocation }) => {
               <h3 className="text-sm font-semibold text-slate-900">
                 VPN detection
               </h3>
-              <p className="mt-0.5 text-xs text-slate-500">
+              <p className="mt-0.5 text-[11px] text-slate-500">
                 {vpnDetection.loading
                   ? "Checking your network connection"
                   : vpnDetection.error
@@ -317,7 +390,7 @@ const ModalDetails = ({ closeModal, mapLocation }) => {
             </div>
           </div>
           <span
-            className={`shrink-0 rounded-full px-3 py-1.5 text-xs font-semibold ring-1 ring-inset ${vpnStatusStyles[vpnStatus]}`}
+            className={`shrink-0 rounded-full px-2.5 py-1 text-[11px] font-semibold ring-1 ring-inset ${vpnStatusStyles[vpnStatus]}`}
             role={vpnDetection.error ? "alert" : undefined}
           >
             {vpnStatus === "checking"
@@ -331,9 +404,9 @@ const ModalDetails = ({ closeModal, mapLocation }) => {
         </section>
       </div>
 
-      <footer className="flex flex-col gap-3 border-t border-slate-100 bg-slate-50/80 px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-8">
+      <footer className="flex shrink-0 flex-col gap-2 border-t border-slate-100 bg-slate-50/80 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-5">
         <p
-          className={`text-xs ${canStartRecording ? "text-emerald-700" : "text-slate-500"}`}
+          className={`text-[11px] ${canStartRecording ? "text-emerald-700" : "text-slate-500"}`}
           role="status"
         >
           {canStartRecording
@@ -344,7 +417,7 @@ const ModalDetails = ({ closeModal, mapLocation }) => {
           <button
             type="button"
             onClick={closeModal}
-            className="rounded-xl bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            className="rounded-xl bg-slate-900 px-4 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           >
             Close
           </button>
@@ -352,7 +425,7 @@ const ModalDetails = ({ closeModal, mapLocation }) => {
             type="button"
             onClick={handleRecording}
             disabled={!canStartRecording}
-            className="rounded-xl bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-500 disabled:shadow-none disabled:hover:bg-slate-300"
+            className="rounded-xl bg-indigo-600 px-4 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-500 disabled:shadow-none disabled:hover:bg-slate-300"
           >
             Go to recording
           </button>
