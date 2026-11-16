@@ -135,32 +135,60 @@ const ModalDetails = ({ closeModal, mapLocation }) => {
   );
 
   useEffect(() => {
-    if (!hasMapCoordinates) return;
+    if (!hasMapCoordinates || geolocation.loading) return;
 
     const controller = new AbortController();
-    const checkMapLocationRadius = async () => {
+    const checkLocationRadii = async () => {
+      setMapRadiusCheck({ loading: true, error: "", isWithinRadius: null });
+      if (hasIpCoordinates) {
+        setIpRadiusCheck({ loading: true, error: "", isWithinRadius: null });
+      }
+
       try {
+        const requestBody = {
+          lat: Number(mapLocation.lat),
+          lng: Number(mapLocation.lng),
+          employerId: "6aedaaa31678958d084176f4",
+        };
+        if (hasIpCoordinates) {
+          requestBody.ipLat = Number(ipLatitude);
+          requestBody.ipLng = Number(ipLongitude);
+        }
+
         const response = await fetch(apiUrl("/api/candidates/check-radius"), {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            lat: Number(mapLocation.lat),
-            lng: Number(mapLocation.lng),
-            employerId: "6aedaaa31678958d084176f4",
-          }),
+          body: JSON.stringify(requestBody),
           signal: controller.signal,
         });
         const result = await readApiResponse(
           response,
-          "Map radius check failed",
+          "Location radius check failed",
         );
+        const isMapWithinRadius =
+          typeof result?.isMapWithinRadius === "boolean"
+            ? result.isMapWithinRadius
+            : result?.isWithinRadius === true;
         setMapRadiusCheck({
           loading: false,
           error: "",
-          isWithinRadius: result?.isWithinRadius === true,
+          isWithinRadius: isMapWithinRadius,
         });
+        if (hasIpCoordinates) {
+          setIpRadiusCheck({
+            loading: false,
+            error:
+              typeof result?.isIpWithinRadius === "boolean"
+                ? ""
+                : "The server did not return the IP radius check.",
+            isWithinRadius:
+              typeof result?.isIpWithinRadius === "boolean"
+                ? result.isIpWithinRadius
+                : null,
+          });
+        }
       } catch (error) {
         if (error.name !== "AbortError") {
           setMapRadiusCheck({
@@ -168,68 +196,27 @@ const ModalDetails = ({ closeModal, mapLocation }) => {
             error: error.message,
             isWithinRadius: null,
           });
+          if (hasIpCoordinates) {
+            setIpRadiusCheck({
+              loading: false,
+              error: error.message,
+              isWithinRadius: null,
+            });
+          }
         }
       }
     };
 
-    checkMapLocationRadius();
-    return () => controller.abort();
-  }, [hasMapCoordinates, mapLocation?.lat, mapLocation?.lng]);
-
-  useEffect(() => {
-    if (
-      mapRadiusStatus.loading ||
-      geolocation.loading ||
-      geolocation.error ||
-      !hasIpCoordinates
-    ) {
-      return;
-    }
-
-    const controller = new AbortController();
-    const checkIpLocationRadius = async () => {
-      try {
-        const response = await fetch(apiUrl("/api/candidates/check-radius"), {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            lat: Number(ipLatitude),
-            lng: Number(ipLongitude),
-            employerId: "6aedaaa31678958d084176f4",
-          }),
-          signal: controller.signal,
-        });
-        const result = await readApiResponse(
-          response,
-          "IP radius check failed",
-        );
-        setIpRadiusCheck({
-          loading: false,
-          error: "",
-          isWithinRadius: result?.isWithinRadius === true,
-        });
-      } catch (error) {
-        if (error.name !== "AbortError") {
-          setIpRadiusCheck({
-            loading: false,
-            error: error.message,
-            isWithinRadius: null,
-          });
-        }
-      }
-    };
-
-    checkIpLocationRadius();
+    checkLocationRadii();
     return () => controller.abort();
   }, [
-    geolocation.error,
     geolocation.loading,
     hasIpCoordinates,
+    hasMapCoordinates,
     ipLatitude,
     ipLongitude,
-    mapRadiusStatus.loading,
+    mapLocation?.lat,
+    mapLocation?.lng,
   ]);
 
   const vpnStatus = vpnDetection.loading
@@ -266,14 +253,6 @@ const ModalDetails = ({ closeModal, mapLocation }) => {
     outside: "bg-rose-50 text-rose-700 ring-rose-200",
   };
 
-  const normalizeState = (state) =>
-    typeof state === "string" ? state.trim().toLowerCase() : "";
-  const normalizedIpState = normalizeState(ipState);
-  const mapState = normalizeState(mapLocation?.state);
-  const statesMatch = Boolean(
-    normalizedIpState && mapState && normalizedIpState === mapState,
-  );
-
   let recordingBlockReason = "";
   if (mapRadiusStatus.loading) {
     recordingBlockReason =
@@ -289,15 +268,11 @@ const ModalDetails = ({ closeModal, mapLocation }) => {
     recordingBlockReason = "Could not verify the IP location radius.";
   } else if (ipRadiusStatus.isWithinRadius !== true) {
     recordingBlockReason =
-      "Your IP location is outside the interviewer radius.";
+      "Your IP location is not within the same interviewer radius as the map location.";
   } else if (geolocation.loading) {
     recordingBlockReason = "Checking the IP location...";
   } else if (geolocation.error) {
     recordingBlockReason = "Could not verify the IP location.";
-  } else if (!normalizedIpState || !mapState) {
-    recordingBlockReason = "Could not determine both location states.";
-  } else if (!statesMatch) {
-    recordingBlockReason = "The IP state and map location state do not match.";
   } else if (vpnDetection.loading) {
     recordingBlockReason = "Checking VPN status...";
   } else if (vpnDetection.error || vpnDetection.isVpn === null) {
@@ -305,7 +280,6 @@ const ModalDetails = ({ closeModal, mapLocation }) => {
   } else if (vpnDetection.isVpn) {
     recordingBlockReason = "VPN detected. Turn it off to continue.";
   }
-  console.log(recordingBlockReason);
 
   const canStartRecording = recordingBlockReason === "";
 
@@ -480,6 +454,7 @@ const ModalDetails = ({ closeModal, mapLocation }) => {
           radiusStatusStyles={radiusStatusStyles}
           radiusStatusValue={ipRadiusStatusValue}
           locationLabel="IP"
+          outsideRadiusText="The IP location is not within the same radius as the map location"
           waitingForMap={mapRadiusStatus.loading}
         />
 

@@ -3,6 +3,7 @@ const RadiusStatus = ({
   radiusStatusStyles,
   radiusStatusValue,
   locationLabel,
+  outsideRadiusText,
   waitingForMap,
 }) => {
   return (
@@ -35,7 +36,8 @@ const RadiusStatus = ({
                 ? "The radius check could not be completed"
                 : radiusStatus?.isWithinRadius
                   ? `The ${locationLabel.toLowerCase()} location is within the interviewer radius`
-                  : `The ${locationLabel.toLowerCase()} location is outside the interviewer radius`}
+                  : outsideRadiusText ||
+                    `The ${locationLabel.toLowerCase()} location is outside the interviewer radius`}
           </p>
         </div>
       </div>

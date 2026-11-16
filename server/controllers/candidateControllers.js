@@ -75,9 +75,15 @@ export const getCandidateDetails = async (req, res) => {
 
 export const checkCandidateInEmployerRadius = async (req, res) => {
   try {
-    const { lat, lng, employerId } = req.body;
+    const { lat, lng, ipLat, ipLng, employerId } = req.body;
+    const hasIpLocation = ipLat !== undefined || ipLng !== undefined;
 
-    if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
+    if (
+      !Number.isFinite(lat) ||
+      !Number.isFinite(lng) ||
+      (hasIpLocation &&
+        (!Number.isFinite(ipLat) || !Number.isFinite(ipLng)))
+    ) {
       return res.status(400).json({
         message: "Candidate location is not available",
       });
@@ -106,23 +112,36 @@ export const checkCandidateInEmployerRadius = async (req, res) => {
       });
     }
 
-    const match = matchingLocations.find((employer) => {
-      const result = isLocationWithinRadius({
+    const isWithinEmployerRadius = (employer, candidateLat, candidateLng) =>
+      isLocationWithinRadius({
         employerLat: employer.lat,
         employerLng: employer.lng,
-        interviewLat: lat,
-        interviewLng: lng,
+        interviewLat: candidateLat,
+        interviewLng: candidateLng,
         radiusInMeters: employer.radius,
-      });
-
-      return result.isWithinRadius;
-    });
+      }).isWithinRadius;
+    const mapMatch = matchingLocations.some((employer) =>
+      isWithinEmployerRadius(employer, lat, lng),
+    );
+    const bothMatchSameRadius =
+      hasIpLocation &&
+      matchingLocations.some(
+        (employer) =>
+          isWithinEmployerRadius(employer, lat, lng) &&
+          isWithinEmployerRadius(employer, ipLat, ipLng),
+      );
 
     return res.status(200).json({
-      message: match
-        ? "Candidate is within the employer radius"
-        : "Candidate is outside the employer radius",
-      isWithinRadius: Boolean(match),
+      message: hasIpLocation
+        ? bothMatchSameRadius
+          ? "Map and IP locations are within the same employer radius"
+          : "Map and IP locations are not both within the same employer radius"
+        : mapMatch
+          ? "Candidate is within the employer radius"
+          : "Candidate is outside the employer radius",
+      isWithinRadius: mapMatch,
+      isMapWithinRadius: mapMatch,
+      ...(hasIpLocation && { isIpWithinRadius: bothMatchSameRadius }),
       employerId: employerId ?? null,
     });
   } catch (error) {
