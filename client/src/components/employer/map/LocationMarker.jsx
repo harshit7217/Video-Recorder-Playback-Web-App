@@ -16,8 +16,8 @@ const LocationMarker = ({
   selectedMarkerId,
   setSelectedMarkerId,
 }) => {
+  
   const [employerPayload, setEmployerPayload] = useState({});
-
   const resolveMarkerLocationName = async (positionId, lat, lng) => {
     try {
       const response = await fetch(
@@ -105,7 +105,9 @@ const LocationMarker = ({
     ) {
       const saveEmployerLocation = async () => {
         const storedEmployer = localStorage.getItem("employer");
-        const employerId = storedEmployer ? JSON.parse(storedEmployer)._id : null;
+        const employerId = storedEmployer
+          ? JSON.parse(storedEmployer)._id
+          : null;
 
         if (!employerId) {
           console.error("Employer not logged in; cannot save location");
@@ -163,7 +165,9 @@ const LocationMarker = ({
     if (positionToRemove?._id) {
       try {
         const storedEmployer = localStorage.getItem("employer");
-        const employerId = storedEmployer ? JSON.parse(storedEmployer)._id : null;
+        const employerId = storedEmployer
+          ? JSON.parse(storedEmployer)._id
+          : null;
 
         await fetch(
           apiUrl(
