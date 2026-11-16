@@ -7,7 +7,6 @@ import {
 } from "react-leaflet";
 import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
-import { apiUrl } from "../../api";
 import { defaultPosition } from "./../utils/defaultPosition.js";
 import Modal from "react-modal";
 import ModalDetails from "./ModalDetails.jsx";
@@ -33,68 +32,11 @@ const CandidateInfo = () => {
 
   function LocationMarker({ username }) {
     const [position, setPosition] = useState(null);
-    const [isEligible, setIsEligible] = useState(false);
     const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [radiusStatus, setRadiusStatus] = useState({
-      loading: true,
-      error: "",
-      isWithinRadius: null,
-    });
-
-    function openModal() {
-      setModalIsOpen(true);
-    }
 
     function closeModal() {
       setModalIsOpen(false);
     }
-
-    useEffect(() => {
-      if (position === null) return;
-      const checkingTheRadius = async () => {
-        setRadiusStatus({ loading: true, error: "", isWithinRadius: null });
-        try {
-          const response = await fetch(apiUrl("/api/candidates/check-radius"), {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              lat: position.lat,
-              lng: position.lng,
-              employerId: "6aedaaa31678958d084176f4",
-            }),
-          });
-
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
-
-          const result = await response.json();
-          const isWithinRadius = result?.isWithinRadius === true;
-          setRadiusStatus({ loading: false, error: "", isWithinRadius });
-
-          if (isWithinRadius) {
-            setIsEligible(true);
-          }
-        } catch (err) {
-          console.error(err);
-          setRadiusStatus({
-            loading: false,
-            error: err.message,
-            isWithinRadius: null,
-          });
-        }
-      };
-
-      checkingTheRadius();
-    }, [position]);
-
-    useEffect(() => {
-      if (isEligible) {
-        openModal();
-      }
-    }, [isEligible, navigate]);
 
     useEffect(() => {
       const fetchingCandidateDetails = async () => {
@@ -133,6 +75,7 @@ const CandidateInfo = () => {
             name: locationName,
             state: mapState,
           });
+          setModalIsOpen(true);
         } catch (error) {
           console.error(error);
         }
@@ -167,7 +110,6 @@ const CandidateInfo = () => {
           <ModalDetails
             closeModal={closeModal}
             mapLocation={position}
-            radiusStatus={radiusStatus}
           />
         </Modal>
         <Popup>{position.name}</Popup>

@@ -1,13 +1,24 @@
 import { useEffect, useState } from "react";
 import { apiUrl, readApiResponse } from "../../api";
 import { useNavigate } from "react-router";
+import RadiusStatus from "./RadiusStatus";
 
-const ModalDetails = ({ closeModal, mapLocation, radiusStatus }) => {
+const ModalDetails = ({ closeModal, mapLocation }) => {
   const navigate = useNavigate();
   const [geolocation, setGeolocation] = useState({
     loading: true,
     error: "",
     data: null,
+  });
+  const [mapRadiusCheck, setMapRadiusCheck] = useState({
+    loading: true,
+    error: "",
+    isWithinRadius: null,
+  });
+  const [ipRadiusCheck, setIpRadiusCheck] = useState({
+    loading: true,
+    error: "",
+    isWithinRadius: null,
   });
   const [vpnDetection, setVpnDetection] = useState({
     loading: true,
@@ -27,7 +38,6 @@ const ModalDetails = ({ closeModal, mapLocation, radiusStatus }) => {
           response,
           "IP geolocation lookup failed",
         );
-        console.log(result);
         setGeolocation({ loading: false, error: "", data: result });
       } catch (error) {
         if (error.name !== "AbortError") {
@@ -78,6 +88,39 @@ const ModalDetails = ({ closeModal, mapLocation, radiusStatus }) => {
 
   const ipDetails = geolocation.data;
   const location = ipDetails?.location;
+  const ipLatitude = location?.latitude ?? ipDetails?.latitude;
+  const ipLongitude = location?.longitude ?? ipDetails?.longitude;
+  const hasMapCoordinates =
+    Number.isFinite(Number(mapLocation?.lat)) &&
+    Number.isFinite(Number(mapLocation?.lng));
+  const hasIpCoordinates =
+    ipLatitude !== undefined &&
+    ipLatitude !== null &&
+    ipLatitude !== "" &&
+    ipLongitude !== undefined &&
+    ipLongitude !== null &&
+    ipLongitude !== "" &&
+    Number.isFinite(Number(ipLatitude)) &&
+    Number.isFinite(Number(ipLongitude));
+  const mapRadiusStatus = hasMapCoordinates
+    ? mapRadiusCheck
+    : {
+        loading: false,
+        error: "Map location coordinates are unavailable.",
+        isWithinRadius: null,
+      };
+  const ipRadiusStatus = mapRadiusStatus.loading
+    ? { loading: true, error: "", isWithinRadius: null }
+    : geolocation.loading
+      ? { loading: true, error: "", isWithinRadius: null }
+      : geolocation.error || !hasIpCoordinates
+        ? {
+            loading: false,
+            error:
+              geolocation.error || "IP location coordinates are unavailable.",
+            isWithinRadius: null,
+          }
+        : ipRadiusCheck;
   const ipState = location?.stateProv ?? ipDetails?.region_name;
   const details = [
     ["IP address", ipDetails?.ip],
@@ -87,7 +130,107 @@ const ModalDetails = ({ closeModal, mapLocation, radiusStatus }) => {
     ["City", location?.city ?? ipDetails?.city],
     ["State / region", ipState],
     ["Country", location?.country ?? ipDetails?.country_name],
-  ].filter(([, value]) => value !== undefined && value !== null && value !== "");
+  ].filter(
+    ([, value]) => value !== undefined && value !== null && value !== "",
+  );
+
+  useEffect(() => {
+    if (!hasMapCoordinates) return;
+
+    const controller = new AbortController();
+    const checkMapLocationRadius = async () => {
+      try {
+        const response = await fetch(apiUrl("/api/candidates/check-radius"), {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            lat: Number(mapLocation.lat),
+            lng: Number(mapLocation.lng),
+            employerId: "6aedaaa31678958d084176f4",
+          }),
+          signal: controller.signal,
+        });
+        const result = await readApiResponse(
+          response,
+          "Map radius check failed",
+        );
+        setMapRadiusCheck({
+          loading: false,
+          error: "",
+          isWithinRadius: result?.isWithinRadius === true,
+        });
+      } catch (error) {
+        if (error.name !== "AbortError") {
+          setMapRadiusCheck({
+            loading: false,
+            error: error.message,
+            isWithinRadius: null,
+          });
+        }
+      }
+    };
+
+    checkMapLocationRadius();
+    return () => controller.abort();
+  }, [hasMapCoordinates, mapLocation?.lat, mapLocation?.lng]);
+
+  useEffect(() => {
+    if (
+      mapRadiusStatus.loading ||
+      geolocation.loading ||
+      geolocation.error ||
+      !hasIpCoordinates
+    ) {
+      return;
+    }
+
+    const controller = new AbortController();
+    const checkIpLocationRadius = async () => {
+      try {
+        const response = await fetch(apiUrl("/api/candidates/check-radius"), {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            lat: Number(ipLatitude),
+            lng: Number(ipLongitude),
+            employerId: "6aedaaa31678958d084176f4",
+          }),
+          signal: controller.signal,
+        });
+        const result = await readApiResponse(
+          response,
+          "IP radius check failed",
+        );
+        setIpRadiusCheck({
+          loading: false,
+          error: "",
+          isWithinRadius: result?.isWithinRadius === true,
+        });
+      } catch (error) {
+        if (error.name !== "AbortError") {
+          setIpRadiusCheck({
+            loading: false,
+            error: error.message,
+            isWithinRadius: null,
+          });
+        }
+      }
+    };
+
+    checkIpLocationRadius();
+    return () => controller.abort();
+  }, [
+    geolocation.error,
+    geolocation.loading,
+    hasIpCoordinates,
+    ipLatitude,
+    ipLongitude,
+    mapRadiusStatus.loading,
+  ]);
 
   const vpnStatus = vpnDetection.loading
     ? "checking"
@@ -104,15 +247,18 @@ const ModalDetails = ({ closeModal, mapLocation, radiusStatus }) => {
     clear: "bg-emerald-50 text-emerald-700 ring-emerald-200",
   };
 
-  const radiusStatusValue = radiusStatus?.loading
-    ? "checking"
-    : radiusStatus?.error
-      ? "unavailable"
-      : radiusStatus?.isWithinRadius === true
-        ? "within"
-        : radiusStatus?.isWithinRadius === false
-          ? "outside"
-          : "unavailable";
+  const getRadiusStatusValue = (status) =>
+    status?.loading
+      ? "checking"
+      : status?.error
+        ? "unavailable"
+        : status?.isWithinRadius === true
+          ? "within"
+          : status?.isWithinRadius === false
+            ? "outside"
+            : "unavailable";
+  const mapRadiusStatusValue = getRadiusStatusValue(mapRadiusStatus);
+  const ipRadiusStatusValue = getRadiusStatusValue(ipRadiusStatus);
   const radiusStatusStyles = {
     checking: "bg-amber-50 text-amber-700 ring-amber-200",
     unavailable: "bg-slate-100 text-slate-600 ring-slate-200",
@@ -129,12 +275,21 @@ const ModalDetails = ({ closeModal, mapLocation, radiusStatus }) => {
   );
 
   let recordingBlockReason = "";
-  if (radiusStatus?.loading) {
-    recordingBlockReason = "Checking employer radius...";
-  } else if (radiusStatus?.error) {
-    recordingBlockReason = "Could not verify employer radius.";
-  } else if (radiusStatus?.isWithinRadius !== true) {
-    recordingBlockReason = "Your map location is outside the employer radius.";
+  if (mapRadiusStatus.loading) {
+    recordingBlockReason =
+      "Checking map location against interviewer radius...";
+  } else if (mapRadiusStatus.error) {
+    recordingBlockReason = "Could not verify the map location radius.";
+  } else if (mapRadiusStatus.isWithinRadius !== true) {
+    recordingBlockReason =
+      "Your map location is outside the interviewer radius.";
+  } else if (ipRadiusStatus.loading) {
+    recordingBlockReason = "Checking IP location against interviewer radius...";
+  } else if (ipRadiusStatus.error) {
+    recordingBlockReason = "Could not verify the IP location radius.";
+  } else if (ipRadiusStatus.isWithinRadius !== true) {
+    recordingBlockReason =
+      "Your IP location is outside the interviewer radius.";
   } else if (geolocation.loading) {
     recordingBlockReason = "Checking the IP location...";
   } else if (geolocation.error) {
@@ -258,51 +413,6 @@ const ModalDetails = ({ closeModal, mapLocation, radiusStatus }) => {
           </section>
         )}
 
-        <section className="flex items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white p-3">
-          <div className="flex min-w-0 items-center gap-3">
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600">
-              <svg
-                aria-hidden="true"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.7"
-                className="h-4 w-4"
-              >
-                <circle cx="12" cy="12" r="9" />
-                <circle cx="12" cy="12" r="4" />
-                <path d="M12 3v5m0 8v5m9-9h-5M8 12H3" />
-              </svg>
-            </div>
-            <div className="min-w-0">
-              <h3 className="text-sm font-semibold text-slate-900">
-                Employer radius
-              </h3>
-              <p className="mt-0.5 text-[11px] text-slate-500">
-                {radiusStatus?.loading
-                  ? "Checking your distance from the employer location"
-                  : radiusStatus?.error
-                    ? "The radius check could not be completed"
-                    : radiusStatus?.isWithinRadius
-                      ? "Your location is within the allowed radius"
-                      : "Your location is outside the allowed radius"}
-              </p>
-            </div>
-          </div>
-          <span
-            className={`shrink-0 rounded-full px-2.5 py-1 text-[11px] font-semibold ring-1 ring-inset ${radiusStatusStyles[radiusStatusValue]}`}
-            role={radiusStatus?.error ? "alert" : "status"}
-          >
-            {radiusStatusValue === "checking"
-              ? "Checking"
-              : radiusStatusValue === "unavailable"
-                ? "Unavailable"
-                : radiusStatusValue === "within"
-                  ? "Within radius"
-                  : "Outside radius"}
-          </span>
-        </section>
-
         <section>
           <div className="mb-2 flex items-center justify-between gap-3">
             <div>
@@ -357,6 +467,20 @@ const ModalDetails = ({ closeModal, mapLocation, radiusStatus }) => {
               ))}
           </div>
         </section>
+
+        <RadiusStatus
+          radiusStatus={mapRadiusStatus}
+          radiusStatusStyles={radiusStatusStyles}
+          radiusStatusValue={mapRadiusStatusValue}
+          locationLabel="Map"
+        />
+        <RadiusStatus
+          radiusStatus={ipRadiusStatus}
+          radiusStatusStyles={radiusStatusStyles}
+          radiusStatusValue={ipRadiusStatusValue}
+          locationLabel="IP"
+          waitingForMap={mapRadiusStatus.loading}
+        />
 
         <section className="flex items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white p-3">
           <div className="flex min-w-0 items-center gap-3">
