@@ -1,50 +1,47 @@
 import { useState, useEffect } from "react";
 
 const Polygon = ({ setBoundary }) => {
-  const [cityDetails, setCityDetails] = useState([]);
-  const [cityName, setCityName] = useState("");
-  const [temp, setTemp] = useState("");
+  const [countryDetails, setCountryDetails] = useState([]);
+  const [countryName, setCountryName] = useState("");
   const [countryList, setCountryList] = useState([]);
 
-  const fetching = async () => {
-    try {
-      const response = await fetch(
-        `https://nominatim.openstreetmap.org/search?q=${cityName}&format=geojson&polygon_geojson=1`,
-      );
-      const result = await response.json();
-      setCityDetails(result.features);
-    } catch (err) {
-      console.error("Fetching boundary error:", err);
-    }
-  };
-
   useEffect(() => {
-    fetching();
-  }, [cityName]);
+    if (!countryName) {
+      return;
+    }
 
-  const handleCityBoundary = (city) => {
-    if (city.geometry.type === "MultiPolygon") {
-      city.geometry.coordinates.map((loc) => {
+    const fetchBoundary = async () => {
+      try {
+        const response = await fetch(
+          `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(countryName)}&format=geojson&polygon_geojson=1`,
+        );
+        const result = await response.json();
+        setCountryDetails(result.features);
+      } catch (err) {
+        console.error("Fetching boundary error:", err);
+      }
+    };
+
+    fetchBoundary();
+  }, [countryName]);
+
+  const handleCountryBoundary = (country) => {
+    setBoundary([]);
+    console.log(country);
+    if (country.geometry.type === "MultiPolygon") {
+      country.geometry.coordinates.map((loc) => {
         const ring = loc;
+        console.log(ring);
         const polygon = ring.map((r) => r.map(([lng, lat]) => [lat, lng]));
         setBoundary((prev) => [...prev, polygon]);
       });
     } else {
-      const ring = city.geometry.coordinates[0]; // outer ring
+      const ring = country.geometry.coordinates[0]; // outer ring
       const polygon = ring.map(([lng, lat]) => [lat, lng]);
-      setBoundary(polygon);
+      setBoundary((prev) => [...prev, polygon]);
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setCityName(temp);
-    fetching();
-  };
-
-  const handleRemovePolygon = () => {
-    setBoundary([]);
-  };
   useEffect(() => {
     const listOfCountry = async () => {
       try {
@@ -54,7 +51,7 @@ const Polygon = ({ setBoundary }) => {
         const result = await response.json();
         setCountryList(result.data);
       } catch (err) {
-        console.err("List of Country: ", err);
+        console.error("List of Country: ", err);
       }
     };
     listOfCountry();
@@ -89,7 +86,7 @@ const Polygon = ({ setBoundary }) => {
             </div>
 
             <div className="min-w-0">
-              <h2 className="font-bold text-slate-900">City Boundaries</h2>
+              <h2 className="font-bold text-slate-900">Country Boundaries</h2>
               <p className="text-xs text-slate-500 mt-0.5">
                 Geographic boundary explorer
               </p>
@@ -102,7 +99,9 @@ const Polygon = ({ setBoundary }) => {
           {/* SEARCH SECTION */}
           <div>
             <div className="flex items-center justify-between gap-2 mb-1">
-              <h3 className="text-sm font-bold text-slate-800">City Search</h3>
+              <h3 className="text-sm font-bold text-slate-800">
+                Country Search
+              </h3>
 
               <span className="text-[10px] font-semibold text-blue-600 bg-blue-50 px-2 py-1 rounded-md">
                 Explorer
@@ -110,10 +109,10 @@ const Polygon = ({ setBoundary }) => {
             </div>
 
             <p className="text-xs text-slate-500 mb-4">
-              Find a city and load its geographic boundary.
+              Find a country and load its geographic boundary.
             </p>
 
-            {/* CITY COUNT */}
+            {/* COUNTRY COUNT */}
             <div className="flex items-center gap-3 bg-slate-50 border border-slate-200 rounded-xl p-3 mb-4">
               <div className="w-9 h-9 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">
                 <svg
@@ -135,15 +134,15 @@ const Polygon = ({ setBoundary }) => {
               <div>
                 <p className="text-lg font-bold text-slate-900 leading-none">
                   {
-                    cityDetails.filter(
-                      (city) =>
-                        city.geometry.type === "Polygon" ||
-                        city.geometry.type === "MultiPolygon",
+                    countryDetails.filter(
+                      (country) =>
+                        country.geometry.type === "Polygon" ||
+                        country.geometry.type === "MultiPolygon",
                     ).length
                   }
                 </p>
                 <p className="text-[11px] text-slate-500 mt-1">
-                  Available Cities
+                  Available Countries
                 </p>
               </div>
             </div>
@@ -171,7 +170,7 @@ const Polygon = ({ setBoundary }) => {
                   type="text"
                   value={temp}
                   onChange={(e) => setTemp(e.target.value)}
-                  placeholder="Enter city name..."
+                  placeholder="Enter country name..."
                   className="w-full h-11 pl-10 pr-3 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-800 placeholder:text-slate-400 outline-none transition-all focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10"
                 />
               </div>
@@ -189,7 +188,7 @@ const Polygon = ({ setBoundary }) => {
                   <circle cx="11" cy="11" r="7" strokeWidth="2" />
                   <path d="m16 16 4 4" strokeWidth="2" strokeLinecap="round" />
                 </svg>
-                Search Cities
+                Search Countries
               </button>
 
               <button
@@ -273,8 +272,8 @@ const Polygon = ({ setBoundary }) => {
                     <select
                       name="country"
                       id="country"
-                      value={cityName}
-                      onChange={(e) => setCityName(e.target.value)}
+                      value={countryName}
+                      onChange={(e) => setCountryName(e.target.value)}
                       className="w-full h-12 pl-10 pr-10 appearance-none rounded-xl border border-slate-200 bg-slate-50 text-sm text-slate-700 font-medium outline-none cursor-pointer transition-all hover:border-blue-300 focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10"
                     >
                       <option value="" disabled>
@@ -329,38 +328,38 @@ const Polygon = ({ setBoundary }) => {
                   Search Results
                 </h3>
                 <p className="text-[11px] text-slate-400 mt-0.5">
-                  Select a city to view its boundary.
+                  Select a country to view its boundary.
                 </p>
               </div>
 
               <span className="text-xs font-semibold text-slate-500 bg-slate-100 px-2.5 py-1 rounded-lg">
                 {
-                  cityDetails.filter(
-                    (city) =>
-                      city.geometry.type === "Polygon" ||
-                      city.geometry.type === "MultiPolygon",
+                  countryDetails.filter(
+                    (country) =>
+                      country.geometry.type === "Polygon" ||
+                      country.geometry.type === "MultiPolygon",
                   ).length
                 }
               </span>
             </div>
 
             <div className="space-y-2 max-h-[360px] overflow-y-auto pr-1">
-              {cityDetails.filter(
-                (city) =>
-                  city.geometry.type === "Polygon" ||
-                  city.geometry.type === "MultiPolygon",
+              {countryDetails.filter(
+                (country) =>
+                  country.geometry.type === "Polygon" ||
+                  country.geometry.type === "MultiPolygon",
               ).length > 0 ? (
-                cityDetails
+                countryDetails
                   .filter(
-                    (city) =>
-                      city.geometry.type === "Polygon" ||
-                      city.geometry.type === "MultiPolygon",
+                    (country) =>
+                      country.geometry.type === "Polygon" ||
+                      country.geometry.type === "MultiPolygon",
                   )
-                  .map((city, index) => (
+                  .map((country, index) => (
                     <button
                       key={index}
                       type="button"
-                      onClick={() => handleCityBoundary(city)}
+                      onClick={() => handleCountryBoundary(country)}
                       className="group w-full flex items-center gap-3 p-3 text-left rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 hover:shadow-sm transition-all"
                     >
                       <div className="w-9 h-9 shrink-0 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors">
@@ -382,7 +381,7 @@ const Polygon = ({ setBoundary }) => {
 
                       <div className="flex-1 min-w-0">
                         <p className="text-xs font-semibold text-slate-800 group-hover:text-blue-700 line-clamp-2">
-                          {city.properties.display_name}
+                          {country.properties.display_name}
                         </p>
 
                         <div className="flex items-center gap-1.5 mt-1.5">
@@ -427,10 +426,10 @@ const Polygon = ({ setBoundary }) => {
                   </div>
 
                   <p className="text-xs font-semibold text-slate-700">
-                    No Cities Found
+                    No Countries Found
                   </p>
                   <p className="text-[11px] text-slate-400 mt-1">
-                    Search for a city to explore its boundary.
+                    Search for a country to explore its boundary.
                   </p>
                 </div>
               )}
@@ -457,8 +456,8 @@ const Polygon = ({ setBoundary }) => {
             </div>
 
             <p className="text-xs text-blue-700 leading-relaxed">
-              Search for a city and select a result to visualize its geographic
-              boundary directly on the map.
+              Search for a country and select a result to visualize its
+              geographic boundary directly on the map.
             </p>
           </div>
         </div>
