@@ -6,6 +6,7 @@ import {
   updateEmployerById,
   registerEmployer,
   loginEmployer,
+  addingCountryPolygon,
 } from "../controllers/employerControllers.js";
 
 const router = express.Router();
@@ -16,5 +17,6 @@ router.delete("/:id", deleteEmployerById);
 router.put("/:id", updateEmployerById);
 router.post("/register-employer", registerEmployer);
 router.post("/login-employer", loginEmployer);
+router.post("/country", addingCountryPolygon);
 
 export default router;

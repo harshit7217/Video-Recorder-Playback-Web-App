@@ -3,6 +3,7 @@ import validator from "validator";
 import EmployerAccount from "../models/employerAccountModel.js";
 import employerModel from "../models/employerModels.js";
 import { employerDetails, updatedRadius } from "../services/employerService.js";
+import employerPolygonModel from "./../models/employerPolygonModel.js";
 
 const defaultEmployerLocation = {
   lat: 28.44373061164518,
@@ -15,7 +16,9 @@ const normalizeEmployerPayload = (body = {}) => {
   const { lat, lng, radius, name, locationName, employerId } = body;
 
   return {
-    employerId: employerId ? new mongoose.Types.ObjectId(employerId) : undefined,
+    employerId: employerId
+      ? new mongoose.Types.ObjectId(employerId)
+      : undefined,
     lat: lat ?? defaultEmployerLocation.lat,
     lng: lng ?? defaultEmployerLocation.lng,
     radius: radius ?? defaultEmployerLocation.radius,
@@ -28,7 +31,9 @@ export const registerEmployer = async (req, res) => {
     const { username, password } = req.body;
 
     if (!username || !password) {
-      return res.status(400).json({ message: "Username and password are required" });
+      return res
+        .status(400)
+        .json({ message: "Username and password are required" });
     }
 
     if (!validator.isEmail(username)) {
@@ -189,6 +194,33 @@ export const deleteEmployerById = async (req, res) => {
     }
 
     res.status(200).json({ message: "Employer deleted successfully" });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
+
+export const addingCountryPolygon = async (req, res) => {
+  try {
+    const { countryName } = req.body;
+    const { employerId } = req.body;
+
+    if (!employerId) {
+      return res.status(400).json({ message: "Employer id is required" });
+    }
+
+    const account = await EmployerAccount.findById(employerId);
+    if (!account) {
+      return res.status(404).json({ message: "Employer account not found" });
+    }
+
+    const payload = new employerPolygonModel({
+      countryName: countryName,
+      employerId: new mongoose.Types.ObjectId(employerId),
+    });
+
+    await payload.save();
+
+    res.status(201).json({ message: "New Location Selected" });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }

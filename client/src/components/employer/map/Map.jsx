@@ -25,7 +25,7 @@ const Map = ({
   const purpleOptions = { color: "purple" };
   const [boundary, setBoundary] = useState([]);
   const [isCircle, setIsCircle] = useState(true);
-  console.log("boundary", boundary);
+  
   useEffect(() => {
     if (fullUrl("/api/interviewer/circle") === url) {
       setIsCircle(true);

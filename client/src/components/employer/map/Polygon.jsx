@@ -27,11 +27,9 @@ const Polygon = ({ setBoundary }) => {
 
   const handleCountryBoundary = (country) => {
     setBoundary([]);
-    console.log(country);
     if (country.geometry.type === "MultiPolygon") {
       country.geometry.coordinates.map((loc) => {
         const ring = loc;
-        console.log(ring);
         const polygon = ring.map((r) => r.map(([lng, lat]) => [lat, lng]));
         setBoundary((prev) => [...prev, polygon]);
       });
