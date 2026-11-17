@@ -32,7 +32,7 @@ const EmployerRegister = ({ setEmployer }) => {
         localStorage.setItem("employer", JSON.stringify(savedEmployer));
       }
 
-      navigate("/api/interviewer/employment");
+      navigate("/api/interviewer/circle");
     } catch (error) {
       setRegistrationError(error.message);
     }

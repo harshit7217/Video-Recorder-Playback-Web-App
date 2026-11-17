@@ -51,7 +51,8 @@ function App() {
             <Route path="/api/interviewer">
               <Route path="live-proctoring" element={<ActivityLogPage />} />
               <Route path="file-list" element={<FileListPanel />} />
-              <Route path="employment" element={<EmploymentPage />} />
+              <Route path="circle" element={<EmploymentPage />} />
+              <Route path="polygon" element={<EmploymentPage />} />
             </Route>
 
             <Route path="/api/candidate">

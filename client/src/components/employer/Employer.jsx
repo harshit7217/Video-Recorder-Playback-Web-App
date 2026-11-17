@@ -28,7 +28,7 @@ const Employer = () => {
   const handleLoginSuccess = (loggedInEmployer) => {
     setEmployer(loggedInEmployer);
     localStorage.setItem("employer", JSON.stringify(loggedInEmployer));
-    navigate("/api/interviewer/employment");
+    navigate("/api/interviewer/circle");
   };
 
   return (

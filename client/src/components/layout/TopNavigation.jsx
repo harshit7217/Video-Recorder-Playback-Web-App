@@ -31,7 +31,8 @@ export default function TopNavigation() {
   const interviewerLinks = [
     { to: "/api/interviewer/live-proctoring", label: "Live Proctoring" },
     { to: "/api/interviewer/file-list", label: "File List Panel" },
-    { to: "/api/interviewer/employment", label: "Employment" },
+    { to: "/api/interviewer/circle", label: "Circle" },
+    { to: "/api/interviewer/polygon", label: "Polygon" },
   ];
 
   const links = isCandidateView ? candidateLinks : interviewerLinks;

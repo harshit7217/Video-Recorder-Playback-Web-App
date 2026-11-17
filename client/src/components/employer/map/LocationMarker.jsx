@@ -15,8 +15,8 @@ const LocationMarker = ({
   setPositions,
   selectedMarkerId,
   setSelectedMarkerId,
+  isCircle,
 }) => {
-  
   const [employerPayload, setEmployerPayload] = useState({});
   const resolveMarkerLocationName = async (positionId, lat, lng) => {
     try {
@@ -81,6 +81,7 @@ const LocationMarker = ({
 
   useMapEvents({
     click(e) {
+      if (!isCircle) return;
       const positionId = createMarkerId();
       const clickedPosition = {
         id: positionId,

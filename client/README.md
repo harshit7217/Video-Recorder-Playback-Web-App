@@ -57,7 +57,7 @@ Key parts include:
 - `/` → `EntryPoint`
 - `/api/interviewer/live-proctoring` → `ActivityLogPage`
 - `/api/interviewer/file-list` → `FileListPanel`
-- `/api/interviewer/employment` → `EmploymentPage`
+- `/api/interviewer/circle` → `EmploymentPage`
 - `/api/candidate/recording` → `RecordingPage`
 - `/api/candidate/candidate-info` → `CandidateInfo`
 
