@@ -25,7 +25,8 @@ export default function TopNavigation() {
   }
 
   const candidateLinks = [
-    { to: "/api/candidate/candidate-info", label: "Candidate Info" },
+    { to: "/api/candidate/circle", label: "Circle" },
+    { to: "/api/candidate/polygon", label: "Polygon" },
   ];
 
   const interviewerLinks = [

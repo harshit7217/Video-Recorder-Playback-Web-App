@@ -26,7 +26,7 @@ const Register = ({ setCandidate }) => {
         localStorage.setItem("candidate", JSON.stringify(result));
       }
 
-      navigate("/api/candidate/candidate-info");
+      navigate("/api/candidate/circle");
     } catch (error) {
       setRegistrationError(error.message);
     }

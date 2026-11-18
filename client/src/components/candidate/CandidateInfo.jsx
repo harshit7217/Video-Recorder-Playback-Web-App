@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { defaultPosition } from "./../utils/defaultPosition.js";
 import Modal from "react-modal";
 import ModalDetails from "./ModalDetails.jsx";
+import { fullUrl } from "../../url";
 
 Modal.setAppElement("#root");
 
@@ -32,10 +33,20 @@ const CandidateInfo = () => {
 
   function LocationMarker({ username }) {
     const [position, setPosition] = useState(null);
-    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [modalIsOpenCircle, setmodalIsOpenCircle] = useState(false);
+    const [isCircle, setIsCircle] = useState(true);
+    const url = window.location.href;
+
+    useEffect(() => {
+      if (fullUrl("api/candidate/circle") === url) {
+        setIsCircle(true);
+      } else {
+        setIsCircle(false);
+      }
+    }, [url]);
 
     function closeModal() {
-      setModalIsOpen(false);
+      setmodalIsOpenCircle(false);
     }
 
     useEffect(() => {
@@ -75,7 +86,10 @@ const CandidateInfo = () => {
             name: locationName,
             state: mapState,
           });
-          setModalIsOpen(true);
+          if (isCircle) {
+            setmodalIsOpenCircle(true);
+          } else {
+          }
         } catch (error) {
           console.error(error);
         }
@@ -89,7 +103,7 @@ const CandidateInfo = () => {
     return (
       <Marker position={[position.lat, position.lng]}>
         <Modal
-          isOpen={modalIsOpen}
+          isOpen={modalIsOpenCircle}
           onRequestClose={closeModal}
           className="w-full max-w-xl outline-none"
           overlayClassName="fixed inset-0 z-[1000] flex items-center justify-center bg-slate-950/60 p-4 backdrop-blur-sm"
@@ -107,10 +121,7 @@ const CandidateInfo = () => {
             },
           }}
         >
-          <ModalDetails
-            closeModal={closeModal}
-            mapLocation={position}
-          />
+          <ModalDetails closeModal={closeModal} mapLocation={position} />
         </Modal>
         <Popup>{position.name}</Popup>
       </Marker>

@@ -60,7 +60,8 @@ function App() {
                 path="recording"
                 element={<RecordingPage connectionStatus={connectionStatus} />}
               />
-              <Route path="candidate-info" element={<CandidateInfo />} />
+              <Route path="circle" element={<CandidateInfo />} />
+              <Route path="polygon" element={<CandidateInfo />} />
             </Route>
           </Routes>
         </main>
