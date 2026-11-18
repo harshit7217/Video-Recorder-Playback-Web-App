@@ -6,10 +6,12 @@ const employerPolygonModel = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "EmployerAccount",
       required: true,
-      index: true,
     },
     countryName: {
       type: String,
+      unique: true,
+      required: true,
+      index: true,
     },
   },
   {

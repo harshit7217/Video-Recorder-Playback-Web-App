@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { apiUrl } from "../../../api";
 
 const Polygon = ({ setBoundary }) => {
   const [countryDetails, setCountryDetails] = useState([]);
@@ -25,7 +26,7 @@ const Polygon = ({ setBoundary }) => {
     fetchBoundary();
   }, [countryName]);
 
-  const handleCountryBoundary = (country) => {
+  const handleCountryBoundary = async (country) => {
     setBoundary([]);
     if (country.geometry.type === "MultiPolygon") {
       country.geometry.coordinates.map((loc) => {
@@ -37,6 +38,23 @@ const Polygon = ({ setBoundary }) => {
       const ring = country.geometry.coordinates[0]; // outer ring
       const polygon = ring.map(([lng, lat]) => [lat, lng]);
       setBoundary((prev) => [...prev, polygon]);
+    }
+    try {
+      const employer = JSON.parse(localStorage.getItem("employer"));
+      const response = await fetch(apiUrl("api/employers/country"), {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          countryName: country.properties.display_name,
+          employerId: employer._id,
+        }),
+      });
+      const result = await response.json();
+      console.log(result);
+    } catch (err) {
+      console.error("Storing the country Name", err.message);
     }
   };
 
