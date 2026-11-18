@@ -1,10 +1,50 @@
 import { useState, useEffect } from "react";
 import { apiUrl } from "../../../api";
 
-const Polygon = ({ setBoundary }) => {
+const Polygon = ({ setPolygonBoundary }) => {
   const [countryDetails, setCountryDetails] = useState([]);
   const [countryName, setCountryName] = useState("");
   const [countryList, setCountryList] = useState([]);
+  const employer = JSON.parse(localStorage.getItem("employer"));
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const fetchBoundary = async (name) => {
+      try {
+        const response = await fetch(
+          `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(name)}&format=geojson&polygon_geojson=1&limit=1`,
+        );
+        const result = await response.json();
+
+        const polygons = [];
+
+        result.features.forEach((feature) => {
+          const { type, coordinates } = feature.geometry;
+
+          // GeoJSON is [lng, lat]; Leaflet wants [lat, lng]
+          const flip = (ring) => ring.map(([lng, lat]) => [lat, lng]);
+
+          if (type === "Polygon") {
+            // outer ring only; pass the whole `coordinates.map(flip)` to keep holes
+            polygons.push(flip(coordinates[0]));
+          } else if (type === "MultiPolygon") {
+            coordinates.forEach((poly) => {
+              polygons.push(flip(poly[0]));
+            });
+          }
+        });
+
+        // One state, one shape: Leaflet's <Polygon> accepts either type
+        setPolygonBoundary((prev) => [...prev, polygons]);
+      } catch (err) {
+        console.error("Error fetching polygon boundary:", err);
+      }
+    };
+
+    data.map((d) => {
+      fetchBoundary(d.countryName);
+    });
+  }, [data]);
 
   useEffect(() => {
     if (!countryName) {
@@ -26,21 +66,58 @@ const Polygon = ({ setBoundary }) => {
     fetchBoundary();
   }, [countryName]);
 
+  useEffect(() => {
+    const getAllDetails = async () => {
+      try {
+        const response = await fetch(
+          apiUrl(
+            `api/employers/country-details?employerID=${encodeURIComponent(employer._id)}`,
+          ),
+          {
+            method: "GET",
+            headers: {
+              "content-type": "application/json",
+            },
+          },
+        );
+        const result = await response.json();
+        setData(result);
+      } catch (err) {
+        console.error("Fetching the data", err);
+      }
+    };
+
+    getAllDetails();
+  }, []);
+
   const handleCountryBoundary = async (country) => {
-    setBoundary([]);
-    if (country.geometry.type === "MultiPolygon") {
-      country.geometry.coordinates.map((loc) => {
-        const ring = loc;
-        const polygon = ring.map((r) => r.map(([lng, lat]) => [lat, lng]));
-        setBoundary((prev) => [...prev, polygon]);
+    // if (country.geometry.type === "MultiPolygon") {
+    //   country.geometry.coordinates.map((loc) => {
+    //     const ring = loc;
+    //     const polygon = ring.map((r) => r.map(([lng, lat]) => [lat, lng]));
+    //     setMultiPolygonBoundary((prev) => [...prev, polygon]);
+
+    //   });
+    // } else {
+    //   const ring = country.geometry.coordinates[0]; // outer ring
+    //   const polygon = ring.map(([lng, lat]) => [lat, lng]);
+    //   setPolygonBoundary((prev) => [...prev, polygon]);
+    // }
+    const polygons = [];
+
+    const { type, coordinates } = country.geometry;
+
+    const flip = (ring) => ring.map(([lng, lat]) => [lat, lng]);
+
+    if (type === "Polygon") {
+      polygons.push(flip(coordinates[0]));
+    } else if (type === "MultiPolygon") {
+      coordinates.forEach((poly) => {
+        polygons.push(flip(poly[0]));
       });
-    } else {
-      const ring = country.geometry.coordinates[0]; // outer ring
-      const polygon = ring.map(([lng, lat]) => [lat, lng]);
-      setBoundary((prev) => [...prev, polygon]);
     }
+    setPolygonBoundary((prev) => [...prev, polygons]);
     try {
-      const employer = JSON.parse(localStorage.getItem("employer"));
       const response = await fetch(apiUrl("api/employers/country"), {
         method: "POST",
         headers: {
@@ -49,10 +126,10 @@ const Polygon = ({ setBoundary }) => {
         body: JSON.stringify({
           countryName: country.properties.display_name,
           employerId: employer._id,
+          typeOfPolygon: country.geometry.type,
         }),
       });
       const result = await response.json();
-      console.log(result);
     } catch (err) {
       console.error("Storing the country Name", err.message);
     }

@@ -7,6 +7,7 @@ import {
   registerEmployer,
   loginEmployer,
   addingCountryPolygon,
+  gettingAllCountryPolygon,
 } from "../controllers/employerControllers.js";
 
 const router = express.Router();
@@ -18,5 +19,6 @@ router.put("/:id", updateEmployerById);
 router.post("/register-employer", registerEmployer);
 router.post("/login-employer", loginEmployer);
 router.post("/country", addingCountryPolygon);
+router.get("/country-details", gettingAllCountryPolygon);
 
 export default router;

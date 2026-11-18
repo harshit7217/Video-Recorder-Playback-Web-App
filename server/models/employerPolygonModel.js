@@ -13,6 +13,10 @@ const employerPolygonModel = new mongoose.Schema(
       required: true,
       index: true,
     },
+    typeOfPolygon: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,

@@ -203,6 +203,7 @@ export const addingCountryPolygon = async (req, res) => {
   try {
     const { countryName } = req.body;
     const { employerId } = req.body;
+    const { typeOfPolygon } = req.body;
 
     if (!employerId) {
       return res.status(400).json({ message: "Employer id is required" });
@@ -216,11 +217,27 @@ export const addingCountryPolygon = async (req, res) => {
     const payload = new employerPolygonModel({
       countryName: countryName,
       employerId: new mongoose.Types.ObjectId(employerId),
+      typeOfPolygon: typeOfPolygon,
     });
 
     await payload.save();
 
     res.status(201).json({ message: "New Location Selected" });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
+
+export const gettingAllCountryPolygon = async (req, res) => {
+  try {
+    const { employerId } = req.query;
+
+    const filter = employerId
+      ? { employerId: new mongoose.Types.ObjectId(employerId) }
+      : {};
+
+    const data = await employerPolygonModel.find(filter).lean();
+    res.status(200).json(data);
   } catch (err) {
     res.status(400).json({ error: err.message });
   }

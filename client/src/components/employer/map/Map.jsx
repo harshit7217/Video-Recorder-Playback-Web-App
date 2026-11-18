@@ -23,7 +23,7 @@ const Map = ({
 }) => {
   const url = window.location.href;
   const purpleOptions = { color: "purple" };
-  const [boundary, setBoundary] = useState([]);
+  const [polygonBoundary, setPolygonBoundary] = useState([]);
   const [isCircle, setIsCircle] = useState(true);
 
   useEffect(() => {
@@ -47,7 +47,7 @@ const Map = ({
                 updateSelectedMarkerRadius={updateSelectedMarkerRadius}
               />
             ) : (
-              <PolygonComponent setBoundary={setBoundary} />
+              <PolygonComponent setPolygonBoundary={setPolygonBoundary} />
             )}
           </div>
         </aside>
@@ -150,7 +150,10 @@ const Map = ({
                   />
                 ))
               ) : (
-                <Polygon pathOptions={purpleOptions} positions={boundary} />
+                <Polygon
+                  pathOptions={purpleOptions}
+                  positions={polygonBoundary}
+                />
               )}
 
               <ZoomControl position="topright" />
