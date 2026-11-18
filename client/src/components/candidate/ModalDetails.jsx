@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { apiUrl, readApiResponse } from "../../api";
 import { useNavigate } from "react-router";
-import RadiusStatus from "./RadiusStatus";
+import Circle from "./Circle";
 
-const ModalDetails = ({ closeModal, mapLocation }) => {
+const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
   const navigate = useNavigate();
   const [geolocation, setGeolocation] = useState({
     loading: true,
@@ -207,7 +207,9 @@ const ModalDetails = ({ closeModal, mapLocation }) => {
       }
     };
 
-    checkLocationRadii();
+    if (isCircle) {
+      checkLocationRadii();
+    }
     return () => controller.abort();
   }, [
     geolocation.loading,
@@ -443,20 +445,15 @@ const ModalDetails = ({ closeModal, mapLocation }) => {
           </div>
         </section>
 
-        <RadiusStatus
-          radiusStatus={mapRadiusStatus}
-          radiusStatusStyles={radiusStatusStyles}
-          radiusStatusValue={mapRadiusStatusValue}
-          locationLabel="Map"
-        />
-        <RadiusStatus
-          radiusStatus={ipRadiusStatus}
-          radiusStatusStyles={radiusStatusStyles}
-          radiusStatusValue={ipRadiusStatusValue}
-          locationLabel="IP"
-          outsideRadiusText="The IP location is not within the same radius as the map location"
-          waitingForMap={mapRadiusStatus.loading}
-        />
+        {isCircle === true ? (
+          <Circle
+            mapRadiusStatus={mapRadiusStatus}
+            mapRadiusStatusValue={mapRadiusStatusValue}
+            radiusStatusStyles={radiusStatusStyles}
+            ipRadiusStatus={ipRadiusStatus}
+            ipRadiusStatusValue={ipRadiusStatusValue}
+          />
+        ) : null}
 
         <section className="flex items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white p-3">
           <div className="flex min-w-0 items-center gap-3">

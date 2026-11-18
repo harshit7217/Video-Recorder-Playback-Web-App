@@ -86,10 +86,7 @@ const CandidateInfo = () => {
             name: locationName,
             state: mapState,
           });
-          if (isCircle) {
-            setmodalIsOpenCircle(true);
-          } else {
-          }
+          setmodalIsOpenCircle(true);
         } catch (error) {
           console.error(error);
         }
@@ -121,7 +118,11 @@ const CandidateInfo = () => {
             },
           }}
         >
-          <ModalDetails closeModal={closeModal} mapLocation={position} />
+          <ModalDetails
+            closeModal={closeModal}
+            mapLocation={position}
+            isCircle={isCircle}
+          />
         </Modal>
         <Popup>{position.name}</Popup>
       </Marker>
