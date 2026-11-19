@@ -9,6 +9,7 @@ import FileListPanel from "./components/activity/FileListPanel.jsx";
 import EmploymentPage from "./components/employer/EmploymentPage.jsx";
 import CandidateInfo from "./components/candidate/CandidateInfo.jsx";
 import EntryPoint from "./components/EntryPoint.jsx";
+import SignalFraud from "./components/employer/SignalFraud.jsx";
 
 function App() {
   const [connectionStatus, setConnectionStatus] = useState(
@@ -53,6 +54,7 @@ function App() {
               <Route path="file-list" element={<FileListPanel />} />
               <Route path="circle" element={<EmploymentPage />} />
               <Route path="polygon" element={<EmploymentPage />} />
+              <Route path="signal-fraud" element={<SignalFraud />} />
             </Route>
 
             <Route path="/api/candidate">

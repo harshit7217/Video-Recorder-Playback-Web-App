@@ -34,6 +34,7 @@ export default function TopNavigation() {
     { to: "/api/interviewer/file-list", label: "File List Panel" },
     { to: "/api/interviewer/circle", label: "Circle" },
     { to: "/api/interviewer/polygon", label: "Polygon" },
+    { to: "/api/interviewer/signal-fraud", label: "Signal Fraud" },
   ];
 
   const links = isCandidateView ? candidateLinks : interviewerLinks;

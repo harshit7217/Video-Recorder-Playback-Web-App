@@ -23,6 +23,24 @@ const validatePayload = (body, employerId) => {
   return null;
 };
 
+export const gettingLocationFlag = async (req, res) => {
+  try {
+    const { employerId } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(employerId)) {
+      return res.status(400).json({ message: "Employer id is invalid" });
+    }
+
+    const locationFlag = await LocationSignal.findOne({ employerId });
+    if (!locationFlag) {
+      return res.status(404).json({ message: "Location flags not found" });
+    }
+
+    return res.status(200).json({ locationFlag });
+  } catch (error) {
+    return res.status(400).json({ message: error.message || error });
+  }
+};
+
 export const creatingLocationFlag = async (req, res) => {
   try {
     const { employerId } = req.body;
