@@ -81,6 +81,7 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
           response,
           "VPN and proxy detection lookup failed",
         );
+        console.log(result);
         setNetworkDetection({
           loading: false,
           error: "",
@@ -170,32 +171,24 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
   );
 
   useEffect(() => {
-    if (
-      !signalFlags?.jobCountry ||
-      geolocation.loading ||
-      geolocation.error
-    ) {
+    if (!signalFlags?.jobCountry || geolocation.loading || geolocation.error) {
       return;
     }
 
     const controller = new AbortController();
-    const candidateCountry =
-      location?.country ?? ipDetails?.country_name ?? "";
+    const candidateCountry = location?.country ?? ipDetails?.country_name ?? "";
 
     const checkJobCountry = async () => {
       try {
-        const response = await fetch(
-          apiUrl("/api/candidates/check-country"),
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              employerId: SIGNAL_FRAUD_EMPLOYER_ID,
-              candidateCountry,
-            }),
-            signal: controller.signal,
-          },
-        );
+        const response = await fetch(apiUrl("/api/candidates/check-country"), {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            employerId: SIGNAL_FRAUD_EMPLOYER_ID,
+            candidateCountry,
+          }),
+          signal: controller.signal,
+        });
         const result = await readApiResponse(
           response,
           "Job country verification failed",
@@ -572,60 +565,60 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
         )}
 
         {signalFlags && (signalFlags.ipAddress || signalFlags.jobCountry) && (
-        <section>
-          <div className="mb-2 flex items-center justify-between gap-3">
-            <div>
-              <h3 className="text-sm font-semibold text-slate-900">
-                IP and location
-              </h3>
-              <p className="mt-0.5 text-[11px] text-slate-500">
-                Information provided by your network
-              </p>
-            </div>
-            {geolocation.loading && (
-              <span className="flex items-center gap-2 text-xs font-medium text-slate-500">
-                <span className="h-2 w-2 animate-pulse rounded-full bg-indigo-500" />
-                Looking up
-              </span>
-            )}
-          </div>
-
-          <div className="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50/70">
-            {geolocation.loading && (
-              <div className="space-y-2 p-3" aria-label="Loading IP details">
-                <div className="h-3 w-2/5 animate-pulse rounded bg-slate-200" />
-                <div className="h-3 w-3/5 animate-pulse rounded bg-slate-200" />
-                <div className="h-3 w-1/2 animate-pulse rounded bg-slate-200" />
-              </div>
-            )}
-            {geolocation.error && (
-              <p role="alert" className="p-3 text-xs leading-5 text-rose-700">
-                {geolocation.error}
-              </p>
-            )}
-            {!geolocation.loading &&
-              !geolocation.error &&
-              (details.length > 0 ? (
-                <dl className="divide-y divide-slate-200/80">
-                  {details.map(([label, value]) => (
-                    <div
-                      key={label}
-                      className="grid grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] gap-3 px-3 py-2 text-xs"
-                    >
-                      <dt className="text-slate-500">{label}</dt>
-                      <dd className="break-words text-right font-medium text-slate-800">
-                        {value}
-                      </dd>
-                    </div>
-                  ))}
-                </dl>
-              ) : (
-                <p className="p-3 text-xs text-slate-500">
-                  No IP details were returned.
+          <section>
+            <div className="mb-2 flex items-center justify-between gap-3">
+              <div>
+                <h3 className="text-sm font-semibold text-slate-900">
+                  IP and location
+                </h3>
+                <p className="mt-0.5 text-[11px] text-slate-500">
+                  Information provided by your network
                 </p>
-              ))}
-          </div>
-        </section>
+              </div>
+              {geolocation.loading && (
+                <span className="flex items-center gap-2 text-xs font-medium text-slate-500">
+                  <span className="h-2 w-2 animate-pulse rounded-full bg-indigo-500" />
+                  Looking up
+                </span>
+              )}
+            </div>
+
+            <div className="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50/70">
+              {geolocation.loading && (
+                <div className="space-y-2 p-3" aria-label="Loading IP details">
+                  <div className="h-3 w-2/5 animate-pulse rounded bg-slate-200" />
+                  <div className="h-3 w-3/5 animate-pulse rounded bg-slate-200" />
+                  <div className="h-3 w-1/2 animate-pulse rounded bg-slate-200" />
+                </div>
+              )}
+              {geolocation.error && (
+                <p role="alert" className="p-3 text-xs leading-5 text-rose-700">
+                  {geolocation.error}
+                </p>
+              )}
+              {!geolocation.loading &&
+                !geolocation.error &&
+                (details.length > 0 ? (
+                  <dl className="divide-y divide-slate-200/80">
+                    {details.map(([label, value]) => (
+                      <div
+                        key={label}
+                        className="grid grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] gap-3 px-3 py-2 text-xs"
+                      >
+                        <dt className="text-slate-500">{label}</dt>
+                        <dd className="break-words text-right font-medium text-slate-800">
+                          {value}
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
+                ) : (
+                  <p className="p-3 text-xs text-slate-500">
+                    No IP details were returned.
+                  </p>
+                ))}
+            </div>
+          </section>
         )}
 
         {isCircle === true && signalFlags ? (

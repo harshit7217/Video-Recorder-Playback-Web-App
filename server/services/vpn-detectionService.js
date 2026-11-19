@@ -17,7 +17,7 @@ export const vpnService = async (ipAddress) => {
   ) {
     throw new Error("iplogs.com returned incomplete VPN and proxy results");
   }
-
+  
   return {
     isVpn: result.is_vpn,
     isResidentialProxy:
