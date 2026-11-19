@@ -5,6 +5,5 @@ export const ipService = async (ipAddress) => {
 };
 
 export const getIPAddress = (req) => {
-  return "14.140.15.12";
-  // req.headers["x-forwarded-for"]?.split(",")[0].trim() || req.ip;
+  return req.headers["x-forwarded-for"]?.split(",")[0].trim() || req.ip;
 };

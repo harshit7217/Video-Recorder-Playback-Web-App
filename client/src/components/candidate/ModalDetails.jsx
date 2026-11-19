@@ -400,19 +400,20 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
     recordingBlockReason = "Loading employer signal fraud settings...";
   } else if (signalFraud.error) {
     recordingBlockReason = "Could not load employer signal fraud settings.";
-  } else if (mapRadiusStatus.loading) {
+  } else if (isCircle && mapRadiusStatus.loading) {
     recordingBlockReason =
       "Checking map location against interviewer radius...";
-  } else if (mapRadiusStatus.error) {
+  } else if (isCircle && mapRadiusStatus.error) {
     recordingBlockReason = "Could not verify the map location radius.";
-  } else if (mapRadiusStatus.isWithinRadius !== true) {
+  } else if (isCircle && mapRadiusStatus.isWithinRadius !== true) {
     recordingBlockReason =
       "Your map location is outside the interviewer radius.";
-  } else if (signalFlags.ipAddress && ipRadiusStatus.loading) {
+  } else if (isCircle && signalFlags.ipAddress && ipRadiusStatus.loading) {
     recordingBlockReason = "Checking IP location against interviewer radius...";
-  } else if (signalFlags.ipAddress && ipRadiusStatus.error) {
+  } else if (isCircle && signalFlags.ipAddress && ipRadiusStatus.error) {
     recordingBlockReason = "Could not verify the IP location radius.";
   } else if (
+    isCircle &&
     signalFlags.ipAddress &&
     ipRadiusStatus.isWithinRadius !== true
   ) {
