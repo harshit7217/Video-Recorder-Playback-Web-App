@@ -12,7 +12,7 @@ const locationFlagSchema = new mongoose.Schema(
       type: Boolean,
       required: true,
     },
-    ipAddress: {
+    ipStatus: {
       type: Boolean,
       required: true,
     },

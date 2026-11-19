@@ -3,7 +3,7 @@ import { apiUrl, readApiResponse } from "../../api.js";
 
 const flagOptions = [
   { key: "jobCountry", label: "Job country" },
-  { key: "ipAddress", label: "IP address" },
+  { key: "ipStatus", label: "IP status" },
   { key: "vpnDetection", label: "VPN detection" },
   { key: "residentialProxy", label: "Residential proxy" },
   { key: "publicProxy", label: "Public proxy" },

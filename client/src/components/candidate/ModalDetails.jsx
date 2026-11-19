@@ -38,6 +38,8 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
     isVpn: null,
     isResidentialProxy: null,
     isPublicProxy: null,
+    ipStatus: "",
+    isSuspicious: null,
   });
 
   useEffect(() => {
@@ -45,7 +47,7 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
 
     const controller = new AbortController();
     const shouldFetchGeolocation =
-      signalFlags.ipAddress || signalFlags.jobCountry;
+      signalFlags.ipStatus || signalFlags.jobCountry;
 
     const fetchIpGeolocation = async () => {
       try {
@@ -81,7 +83,6 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
           response,
           "VPN and proxy detection lookup failed",
         );
-        console.log(result);
         setNetworkDetection({
           loading: false,
           error: "",
@@ -94,6 +95,12 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
             typeof result?.isPublicProxy === "boolean"
               ? result.isPublicProxy
               : null,
+          ipStatus:
+            typeof result?.ipStatus === "string" ? result.ipStatus : "",
+          isSuspicious:
+            typeof result?.isSuspicious === "boolean"
+              ? result.isSuspicious
+              : null,
         });
       } catch (error) {
         if (error.name !== "AbortError") {
@@ -103,6 +110,8 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
             isVpn: null,
             isResidentialProxy: null,
             isPublicProxy: null,
+            ipStatus: "",
+            isSuspicious: null,
           });
         }
       }
@@ -110,6 +119,7 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
 
     const shouldFetchNetworkDetection =
       signalFlags.vpnDetection ||
+      signalFlags.ipStatus ||
       signalFlags.residentialProxy ||
       signalFlags.publicProxy;
     if (shouldFetchGeolocation) fetchIpGeolocation();
@@ -143,7 +153,7 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
         error: "Map location coordinates are unavailable.",
         isWithinRadius: null,
       };
-  const ipRadiusStatus = !signalFlags?.ipAddress
+  const ipRadiusStatus = !signalFlags?.ipStatus
     ? { loading: false, error: "", isWithinRadius: null, skipped: true }
     : mapRadiusStatus.loading
       ? { loading: true, error: "", isWithinRadius: null }
@@ -231,13 +241,13 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
       signalFraud.loading ||
       signalFraud.error ||
       !signalFlags ||
-      (signalFlags.ipAddress && geolocation.loading)
+      (signalFlags.ipStatus && geolocation.loading)
     ) {
       return;
     }
 
     const controller = new AbortController();
-    const shouldCheckIpRadius = signalFlags.ipAddress;
+    const shouldCheckIpRadius = signalFlags.ipStatus;
     const checkLocationRadii = async () => {
       setMapRadiusCheck({ loading: true, error: "", isWithinRadius: null });
       if (shouldCheckIpRadius && hasIpCoordinates) {
@@ -341,6 +351,14 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
       blockMessage: "VPN detected. Turn it off to continue.",
     },
     {
+      flag: "ipStatus",
+      label: "IP status",
+      detected: networkDetection.isSuspicious,
+      detectedMessage: `IP status is suspicious (${networkDetection.ipStatus})`,
+      clearMessage: `IP status is ${networkDetection.ipStatus || "clean"}`,
+      blockMessage: `Suspicious IP status detected (${networkDetection.ipStatus}).`,
+    },
+    {
       flag: "residentialProxy",
       label: "Residential proxy detection",
       detected: networkDetection.isResidentialProxy,
@@ -401,24 +419,24 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
   } else if (isCircle && mapRadiusStatus.isWithinRadius !== true) {
     recordingBlockReason =
       "Your map location is outside the interviewer radius.";
-  } else if (isCircle && signalFlags.ipAddress && ipRadiusStatus.loading) {
+  } else if (isCircle && signalFlags.ipStatus && ipRadiusStatus.loading) {
     recordingBlockReason = "Checking IP location against interviewer radius...";
-  } else if (isCircle && signalFlags.ipAddress && ipRadiusStatus.error) {
+  } else if (isCircle && signalFlags.ipStatus && ipRadiusStatus.error) {
     recordingBlockReason = "Could not verify the IP location radius.";
   } else if (
     isCircle &&
-    signalFlags.ipAddress &&
+    signalFlags.ipStatus &&
     ipRadiusStatus.isWithinRadius !== true
   ) {
     recordingBlockReason =
       "Your IP location is not within the same interviewer radius as the map location.";
   } else if (
-    (signalFlags.ipAddress || signalFlags.jobCountry) &&
+    (signalFlags.ipStatus || signalFlags.jobCountry) &&
     geolocation.loading
   ) {
     recordingBlockReason = "Checking the IP location...";
   } else if (
-    (signalFlags.ipAddress || signalFlags.jobCountry) &&
+    (signalFlags.ipStatus || signalFlags.jobCountry) &&
     geolocation.error
   ) {
     recordingBlockReason = "Could not verify the IP location.";
@@ -564,7 +582,7 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
           </section>
         )}
 
-        {signalFlags && (signalFlags.ipAddress || signalFlags.jobCountry) && (
+        {signalFlags && (signalFlags.ipStatus || signalFlags.jobCountry) && (
           <section>
             <div className="mb-2 flex items-center justify-between gap-3">
               <div>
@@ -628,7 +646,7 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
             radiusStatusStyles={radiusStatusStyles}
             ipRadiusStatus={ipRadiusStatus}
             ipRadiusStatusValue={ipRadiusStatusValue}
-            showIpRadiusStatus={signalFlags.ipAddress}
+            showIpRadiusStatus={signalFlags.ipStatus}
           />
         ) : null}
 

@@ -9,11 +9,13 @@ export const vpnService = async (ipAddress) => {
   });
   if (!response.ok) throw new Error(`iplogs.com answered ${response.status}`);
   const result = await response.json();
+  const validVerdicts = ["clean", "suspicious", "vpn_likely", "vpn_detected"];
 
   if (
     typeof result?.is_vpn !== "boolean" ||
     typeof result?.is_proxy !== "boolean" ||
-    (result.is_proxy && typeof result.proxy_type !== "string")
+    (result.is_proxy && typeof result.proxy_type !== "string") ||
+    !validVerdicts.includes(result?.verdict)
   ) {
     throw new Error("iplogs.com returned incomplete VPN and proxy results");
   }
@@ -21,6 +23,7 @@ export const vpnService = async (ipAddress) => {
     isVpn: result.is_vpn,
     isResidentialProxy: result.is_proxy && result.proxy_type === "residential",
     isPublicProxy: result.is_proxy && result.proxy_type === "public",
-    result: result.verdict,
+    ipStatus: result.verdict,
+    isSuspicious: result.verdict !== "clean",
   };
 };

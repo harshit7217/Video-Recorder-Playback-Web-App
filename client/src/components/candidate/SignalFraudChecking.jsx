@@ -5,7 +5,7 @@ export const SIGNAL_FRAUD_EMPLOYER_ID = "6aedaaa31678958d084176f4";
 
 const flagNames = [
   "jobCountry",
-  "ipAddress",
+  "ipStatus",
   "vpnDetection",
   "residentialProxy",
   "publicProxy",
