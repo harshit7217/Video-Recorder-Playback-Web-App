@@ -91,18 +91,6 @@ const Polygon = ({ setPolygonBoundary }) => {
   }, []);
 
   const handleCountryBoundary = async (country) => {
-    // if (country.geometry.type === "MultiPolygon") {
-    //   country.geometry.coordinates.map((loc) => {
-    //     const ring = loc;
-    //     const polygon = ring.map((r) => r.map(([lng, lat]) => [lat, lng]));
-    //     setMultiPolygonBoundary((prev) => [...prev, polygon]);
-
-    //   });
-    // } else {
-    //   const ring = country.geometry.coordinates[0]; // outer ring
-    //   const polygon = ring.map(([lng, lat]) => [lat, lng]);
-    //   setPolygonBoundary((prev) => [...prev, polygon]);
-    // }
     const polygons = [];
 
     const { type, coordinates } = country.geometry;

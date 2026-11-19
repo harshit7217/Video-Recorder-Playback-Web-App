@@ -3,6 +3,10 @@ import Candidate from "../models/candidateModel.js";
 import Employer from "../models/employerModels.js";
 import { isLocationWithinRadius } from "../services/checkRadiusOfCandidate.js";
 import validator from "validator";
+import {
+  boundaryofPolygons,
+  countryOfPolygons,
+} from "../services/polygonService.js";
 
 export const createCandidate = async (req, res) => {
   try {
@@ -81,8 +85,7 @@ export const checkCandidateInEmployerRadius = async (req, res) => {
     if (
       !Number.isFinite(lat) ||
       !Number.isFinite(lng) ||
-      (hasIpLocation &&
-        (!Number.isFinite(ipLat) || !Number.isFinite(ipLng)))
+      (hasIpLocation && (!Number.isFinite(ipLat) || !Number.isFinite(ipLng)))
     ) {
       return res.status(400).json({
         message: "Candidate location is not available",
@@ -147,4 +150,12 @@ export const checkCandidateInEmployerRadius = async (req, res) => {
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
+};
+
+export const polygonController = async () => {
+  const data = await countryOfPolygons();
+  const countryName = [];
+  data.map((d) => countryName.push(d.countryName));
+  const a = await boundaryofPolygons(countryName);
+  console.log(a);
 };
