@@ -208,5 +208,5 @@ export const polygonController = async () => {
   const countryName = [];
   data.map((d) => countryName.push(d.countryName));
   const a = await boundaryofPolygons(countryName);
-  console.log(a);
+  
 };

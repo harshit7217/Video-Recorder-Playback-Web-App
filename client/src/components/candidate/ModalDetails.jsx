@@ -35,7 +35,7 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
   const [networkDetection, setNetworkDetection] = useState({
     loading: true,
     error: "",
-    isVpn: null,
+    isVpn: "clean",
     isResidentialProxy: null,
     isPublicProxy: null,
   });
@@ -81,11 +81,10 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
           response,
           "VPN and proxy detection lookup failed",
         );
-        console.log(result);
         setNetworkDetection({
           loading: false,
           error: "",
-          isVpn: typeof result?.isVpn === "boolean" ? result.isVpn : null,
+          isVpn: typeof result?.isVpn === "string" ? result.isVpn : null,
           isResidentialProxy:
             typeof result?.isResidentialProxy === "boolean"
               ? result.isResidentialProxy
@@ -100,7 +99,7 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
           setNetworkDetection({
             loading: false,
             error: error.message,
-            isVpn: null,
+            isVpn: "clean",
             isResidentialProxy: null,
             isPublicProxy: null,
           });
