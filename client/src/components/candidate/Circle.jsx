@@ -6,6 +6,7 @@ const Circle = ({
   mapRadiusStatusValue,
   ipRadiusStatus,
   ipRadiusStatusValue,
+  showIpRadiusStatus,
 }) => {
   return (
     <div>
@@ -16,15 +17,16 @@ const Circle = ({
         radiusStatusValue={mapRadiusStatusValue}
         locationLabel="Map"
       />
-      {/* IP Radius */}
-      <RadiusStatus
-        radiusStatus={ipRadiusStatus}
-        radiusStatusStyles={radiusStatusStyles}
-        radiusStatusValue={ipRadiusStatusValue}
-        locationLabel="IP"
-        outsideRadiusText="The IP location is not within the same radius as the map location"
-        waitingForMap={mapRadiusStatus.loading}
-      />
+      {showIpRadiusStatus && (
+        <RadiusStatus
+          radiusStatus={ipRadiusStatus}
+          radiusStatusStyles={radiusStatusStyles}
+          radiusStatusValue={ipRadiusStatusValue}
+          locationLabel="IP"
+          outsideRadiusText="The IP location is not within the same radius as the map location"
+          waitingForMap={mapRadiusStatus.loading}
+        />
+      )}
     </div>
   );
 };

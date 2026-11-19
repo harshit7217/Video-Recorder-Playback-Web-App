@@ -2,9 +2,15 @@ import { useEffect, useState } from "react";
 import { apiUrl, readApiResponse } from "../../api";
 import { useNavigate } from "react-router";
 import Circle from "./Circle";
+import {
+  SIGNAL_FRAUD_EMPLOYER_ID,
+  useSignalFraudChecking,
+} from "./SignalFraudChecking.jsx";
 
 const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
   const navigate = useNavigate();
+  const signalFraud = useSignalFraudChecking(SIGNAL_FRAUD_EMPLOYER_ID);
+  const signalFlags = signalFraud.flags;
   const [geolocation, setGeolocation] = useState({
     loading: true,
     error: "",
@@ -27,7 +33,11 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
   });
 
   useEffect(() => {
+    if (signalFraud.loading || signalFraud.error || !signalFlags) return;
+
     const controller = new AbortController();
+    const shouldFetchGeolocation =
+      signalFlags.ipAddress || signalFlags.jobCountry;
 
     const fetchIpGeolocation = async () => {
       try {
@@ -38,7 +48,11 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
           response,
           "IP geolocation lookup failed",
         );
-        setGeolocation({ loading: false, error: "", data: result });
+        setGeolocation({
+          loading: false,
+          error: "",
+          data: result,
+        });
       } catch (error) {
         if (error.name !== "AbortError") {
           setGeolocation({
@@ -80,11 +94,16 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
       }
     };
 
-    fetchIpGeolocation();
-    fetchVPNDetection();
+    if (shouldFetchGeolocation) {
+      fetchIpGeolocation();
+    }
+
+    if (signalFlags.vpnDetection) {
+      fetchVPNDetection();
+    }
 
     return () => controller.abort();
-  }, []);
+  }, [signalFraud.error, signalFraud.loading, signalFlags]);
 
   const ipDetails = geolocation.data;
   const location = ipDetails?.location;
@@ -109,18 +128,20 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
         error: "Map location coordinates are unavailable.",
         isWithinRadius: null,
       };
-  const ipRadiusStatus = mapRadiusStatus.loading
-    ? { loading: true, error: "", isWithinRadius: null }
-    : geolocation.loading
+  const ipRadiusStatus = !signalFlags?.ipAddress
+    ? { loading: false, error: "", isWithinRadius: null, skipped: true }
+    : mapRadiusStatus.loading
       ? { loading: true, error: "", isWithinRadius: null }
-      : geolocation.error || !hasIpCoordinates
-        ? {
-            loading: false,
-            error:
-              geolocation.error || "IP location coordinates are unavailable.",
-            isWithinRadius: null,
-          }
-        : ipRadiusCheck;
+      : geolocation.loading
+        ? { loading: true, error: "", isWithinRadius: null }
+        : geolocation.error || !hasIpCoordinates
+          ? {
+              loading: false,
+              error:
+                geolocation.error || "IP location coordinates are unavailable.",
+              isWithinRadius: null,
+            }
+          : ipRadiusCheck;
   const ipState = location?.stateProv ?? ipDetails?.region_name;
   const details = [
     ["IP address", ipDetails?.ip],
@@ -135,12 +156,21 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
   );
 
   useEffect(() => {
-    if (!hasMapCoordinates || geolocation.loading) return;
+    if (
+      !hasMapCoordinates ||
+      signalFraud.loading ||
+      signalFraud.error ||
+      !signalFlags ||
+      (signalFlags.ipAddress && geolocation.loading)
+    ) {
+      return;
+    }
 
     const controller = new AbortController();
+    const shouldCheckIpRadius = signalFlags.ipAddress;
     const checkLocationRadii = async () => {
       setMapRadiusCheck({ loading: true, error: "", isWithinRadius: null });
-      if (hasIpCoordinates) {
+      if (shouldCheckIpRadius && hasIpCoordinates) {
         setIpRadiusCheck({ loading: true, error: "", isWithinRadius: null });
       }
 
@@ -148,9 +178,9 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
         const requestBody = {
           lat: Number(mapLocation.lat),
           lng: Number(mapLocation.lng),
-          employerId: "6aedaaa31678958d084176f4",
+          employerId: SIGNAL_FRAUD_EMPLOYER_ID,
         };
-        if (hasIpCoordinates) {
+        if (shouldCheckIpRadius && hasIpCoordinates) {
           requestBody.ipLat = Number(ipLatitude);
           requestBody.ipLng = Number(ipLongitude);
         }
@@ -176,7 +206,7 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
           error: "",
           isWithinRadius: isMapWithinRadius,
         });
-        if (hasIpCoordinates) {
+        if (shouldCheckIpRadius && hasIpCoordinates) {
           setIpRadiusCheck({
             loading: false,
             error:
@@ -196,7 +226,7 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
             error: error.message,
             isWithinRadius: null,
           });
-          if (hasIpCoordinates) {
+          if (shouldCheckIpRadius && hasIpCoordinates) {
             setIpRadiusCheck({
               loading: false,
               error: error.message,
@@ -217,8 +247,12 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
     hasMapCoordinates,
     ipLatitude,
     ipLongitude,
+    isCircle,
     mapLocation?.lat,
     mapLocation?.lng,
+    signalFraud.error,
+    signalFraud.loading,
+    signalFlags,
   ]);
 
   const vpnStatus = vpnDetection.loading
@@ -248,6 +282,13 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
             : "unavailable";
   const mapRadiusStatusValue = getRadiusStatusValue(mapRadiusStatus);
   const ipRadiusStatusValue = getRadiusStatusValue(ipRadiusStatus);
+  const unsupportedEnabledFlags = signalFlags
+    ? [
+        signalFlags.jobCountry && "job country",
+        signalFlags.residentialProxy && "residential proxy",
+        signalFlags.publicProxy && "public proxy",
+      ].filter(Boolean)
+    : [];
   const radiusStatusStyles = {
     checking: "bg-amber-50 text-amber-700 ring-amber-200",
     unavailable: "bg-slate-100 text-slate-600 ring-slate-200",
@@ -256,7 +297,13 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
   };
 
   let recordingBlockReason = "";
-  if (mapRadiusStatus.loading) {
+  if (signalFraud.loading) {
+    recordingBlockReason = "Loading employer signal fraud settings...";
+  } else if (signalFraud.error) {
+    recordingBlockReason = "Could not load employer signal fraud settings.";
+  } else if (unsupportedEnabledFlags.length > 0) {
+    recordingBlockReason = `Enabled checks are not available yet: ${unsupportedEnabledFlags.join(", ")}.`;
+  } else if (mapRadiusStatus.loading) {
     recordingBlockReason =
       "Checking map location against interviewer radius...";
   } else if (mapRadiusStatus.error) {
@@ -264,22 +311,34 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
   } else if (mapRadiusStatus.isWithinRadius !== true) {
     recordingBlockReason =
       "Your map location is outside the interviewer radius.";
-  } else if (ipRadiusStatus.loading) {
+  } else if (signalFlags.ipAddress && ipRadiusStatus.loading) {
     recordingBlockReason = "Checking IP location against interviewer radius...";
-  } else if (ipRadiusStatus.error) {
+  } else if (signalFlags.ipAddress && ipRadiusStatus.error) {
     recordingBlockReason = "Could not verify the IP location radius.";
-  } else if (ipRadiusStatus.isWithinRadius !== true) {
+  } else if (
+    signalFlags.ipAddress &&
+    ipRadiusStatus.isWithinRadius !== true
+  ) {
     recordingBlockReason =
       "Your IP location is not within the same interviewer radius as the map location.";
-  } else if (geolocation.loading) {
+  } else if (
+    (signalFlags.ipAddress || signalFlags.jobCountry) &&
+    geolocation.loading
+  ) {
     recordingBlockReason = "Checking the IP location...";
-  } else if (geolocation.error) {
+  } else if (
+    (signalFlags.ipAddress || signalFlags.jobCountry) &&
+    geolocation.error
+  ) {
     recordingBlockReason = "Could not verify the IP location.";
-  } else if (vpnDetection.loading) {
+  } else if (signalFlags.vpnDetection && vpnDetection.loading) {
     recordingBlockReason = "Checking VPN status...";
-  } else if (vpnDetection.error || vpnDetection.isVpn === null) {
+  } else if (
+    signalFlags.vpnDetection &&
+    (vpnDetection.error || vpnDetection.isVpn === null)
+  ) {
     recordingBlockReason = "Could not verify VPN status.";
-  } else if (vpnDetection.isVpn) {
+  } else if (signalFlags.vpnDetection && vpnDetection.isVpn) {
     recordingBlockReason = "VPN detected. Turn it off to continue.";
   }
 
@@ -342,6 +401,17 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
       </header>
 
       <div className="min-h-0 flex-1 space-y-3 overflow-y-auto p-4 sm:p-5">
+        {signalFraud.loading && (
+          <p className="text-xs text-slate-500" role="status">
+            Loading employer signal fraud settings...
+          </p>
+        )}
+        {signalFraud.error && (
+          <p className="text-xs text-rose-700" role="alert">
+            {signalFraud.error}
+          </p>
+        )}
+
         {mapLocation && (
           <section className="rounded-2xl border border-indigo-100 bg-indigo-50/60 p-3 sm:p-4">
             <div className="flex items-start gap-3">
@@ -390,6 +460,7 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
           </section>
         )}
 
+        {signalFlags && (signalFlags.ipAddress || signalFlags.jobCountry) && (
         <section>
           <div className="mb-2 flex items-center justify-between gap-3">
             <div>
@@ -444,17 +515,27 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
               ))}
           </div>
         </section>
+        )}
 
-        {isCircle === true ? (
+        {isCircle === true && signalFlags ? (
           <Circle
             mapRadiusStatus={mapRadiusStatus}
             mapRadiusStatusValue={mapRadiusStatusValue}
             radiusStatusStyles={radiusStatusStyles}
             ipRadiusStatus={ipRadiusStatus}
             ipRadiusStatusValue={ipRadiusStatusValue}
+            showIpRadiusStatus={signalFlags.ipAddress}
           />
         ) : null}
 
+        {signalFlags && unsupportedEnabledFlags.length > 0 && (
+          <p className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-xs text-amber-800" role="alert">
+            These enabled checks do not have a supporting verification API yet:{" "}
+            {unsupportedEnabledFlags.join(", ")}.
+          </p>
+        )}
+
+        {signalFlags?.vpnDetection && (
         <section className="flex items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white p-3">
           <div className="flex min-w-0 items-center gap-3">
             <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600">
@@ -499,6 +580,7 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
                   : "Clear"}
           </span>
         </section>
+        )}
       </div>
 
       <footer className="flex shrink-0 flex-col gap-2 border-t border-slate-100 bg-slate-50/80 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-5">

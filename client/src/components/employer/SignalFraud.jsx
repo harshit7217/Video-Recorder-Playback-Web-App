@@ -125,8 +125,8 @@ const SignalFraud = () => {
           Signal fraud flags
         </h1>
         <p className="mt-2 text-sm text-slate-600">
-          Choose which location and network checks to apply to candidates.
-          Newly created flags start turned off.
+          Choose which location and network checks to apply to candidates. Newly
+          created flags start turned off.
         </p>
       </div>
 
