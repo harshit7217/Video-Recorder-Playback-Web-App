@@ -81,6 +81,7 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
           response,
           "VPN and proxy detection lookup failed",
         );
+        console.log(result);
         setNetworkDetection({
           loading: false,
           error: "",
