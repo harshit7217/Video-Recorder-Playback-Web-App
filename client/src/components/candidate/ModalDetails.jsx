@@ -26,10 +26,12 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
     error: "",
     isWithinRadius: null,
   });
-  const [vpnDetection, setVpnDetection] = useState({
+  const [networkDetection, setNetworkDetection] = useState({
     loading: true,
     error: "",
     isVpn: null,
+    isResidentialProxy: null,
+    isPublicProxy: null,
   });
 
   useEffect(() => {
@@ -64,42 +66,48 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
       }
     };
 
-    const fetchVPNDetection = async () => {
+    const fetchNetworkDetection = async () => {
       try {
         const response = await fetch(apiUrl("api/vpn/detection"), {
           signal: controller.signal,
         });
         const result = await readApiResponse(
           response,
-          "VPN Detection lookup failed",
+          "VPN and proxy detection lookup failed",
         );
-        setVpnDetection({
+        setNetworkDetection({
           loading: false,
           error: "",
-          isVpn:
-            typeof result === "boolean"
-              ? result
-              : typeof result?.isVpn === "boolean"
-                ? result.isVpn
-                : null,
+          isVpn: typeof result?.isVpn === "boolean" ? result.isVpn : null,
+          isResidentialProxy:
+            typeof result?.isResidentialProxy === "boolean"
+              ? result.isResidentialProxy
+              : null,
+          isPublicProxy:
+            typeof result?.isPublicProxy === "boolean"
+              ? result.isPublicProxy
+              : null,
         });
       } catch (error) {
         if (error.name !== "AbortError") {
-          setVpnDetection({
+          setNetworkDetection({
             loading: false,
             error: error.message,
             isVpn: null,
+            isResidentialProxy: null,
+            isPublicProxy: null,
           });
         }
       }
     };
 
-    if (shouldFetchGeolocation) {
-      fetchIpGeolocation();
-    }
-
-    if (signalFlags.vpnDetection) {
-      fetchVPNDetection();
+    const shouldFetchNetworkDetection =
+      signalFlags.vpnDetection ||
+      signalFlags.residentialProxy ||
+      signalFlags.publicProxy;
+    if (shouldFetchGeolocation) fetchIpGeolocation();
+    if (shouldFetchNetworkDetection) {
+      fetchNetworkDetection();
     }
 
     return () => controller.abort();
@@ -255,20 +263,49 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
     signalFlags,
   ]);
 
-  const vpnStatus = vpnDetection.loading
-    ? "checking"
-    : vpnDetection.error || vpnDetection.isVpn === null
-      ? "unavailable"
-      : vpnDetection.isVpn
-        ? "detected"
-        : "clear";
-
-  const vpnStatusStyles = {
+  const networkStatusStyles = {
     checking: "bg-amber-50 text-amber-700 ring-amber-200",
     unavailable: "bg-slate-100 text-slate-600 ring-slate-200",
     detected: "bg-rose-50 text-rose-700 ring-rose-200",
     clear: "bg-emerald-50 text-emerald-700 ring-emerald-200",
   };
+  const networkChecks = [
+    {
+      flag: "vpnDetection",
+      label: "VPN detection",
+      detected: networkDetection.isVpn,
+      detectedMessage: "A VPN connection was identified",
+      clearMessage: "No VPN connection was identified",
+      blockMessage: "VPN detected. Turn it off to continue.",
+    },
+    {
+      flag: "residentialProxy",
+      label: "Residential proxy detection",
+      detected: networkDetection.isResidentialProxy,
+      detectedMessage: "A residential proxy was identified",
+      clearMessage: "No residential proxy was identified",
+      blockMessage: "A residential proxy was detected.",
+    },
+    {
+      flag: "publicProxy",
+      label: "Public proxy detection",
+      detected: networkDetection.isPublicProxy,
+      detectedMessage: "A public proxy was identified",
+      clearMessage: "No public proxy was identified",
+      blockMessage: "A public proxy was detected.",
+    },
+  ];
+  const enabledNetworkChecks = signalFlags
+    ? networkChecks.filter(({ flag }) => signalFlags[flag])
+    : [];
+  const getNetworkStatus = (detected) =>
+    networkDetection.loading
+      ? "checking"
+      : networkDetection.error || detected === null
+        ? "unavailable"
+        : detected
+          ? "detected"
+          : "clear";
 
   const getRadiusStatusValue = (status) =>
     status?.loading
@@ -283,11 +320,7 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
   const mapRadiusStatusValue = getRadiusStatusValue(mapRadiusStatus);
   const ipRadiusStatusValue = getRadiusStatusValue(ipRadiusStatus);
   const unsupportedEnabledFlags = signalFlags
-    ? [
-        signalFlags.jobCountry && "job country",
-        signalFlags.residentialProxy && "residential proxy",
-        signalFlags.publicProxy && "public proxy",
-      ].filter(Boolean)
+    ? [signalFlags.jobCountry && "job country"].filter(Boolean)
     : [];
   const radiusStatusStyles = {
     checking: "bg-amber-50 text-amber-700 ring-amber-200",
@@ -331,15 +364,22 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
     geolocation.error
   ) {
     recordingBlockReason = "Could not verify the IP location.";
-  } else if (signalFlags.vpnDetection && vpnDetection.loading) {
-    recordingBlockReason = "Checking VPN status...";
-  } else if (
-    signalFlags.vpnDetection &&
-    (vpnDetection.error || vpnDetection.isVpn === null)
-  ) {
-    recordingBlockReason = "Could not verify VPN status.";
-  } else if (signalFlags.vpnDetection && vpnDetection.isVpn) {
-    recordingBlockReason = "VPN detected. Turn it off to continue.";
+  } else if (enabledNetworkChecks.length > 0 && networkDetection.loading) {
+    recordingBlockReason = "Checking enabled VPN and proxy detections...";
+  } else if (enabledNetworkChecks.length > 0 && networkDetection.error) {
+    recordingBlockReason = "Could not verify VPN or proxy status.";
+  } else {
+    const failedNetworkCheck = enabledNetworkChecks.find(
+      ({ detected }) => detected === null,
+    );
+    const detectedNetworkCheck = enabledNetworkChecks.find(
+      ({ detected }) => detected === true,
+    );
+    if (failedNetworkCheck) {
+      recordingBlockReason = `Could not verify ${failedNetworkCheck.label.toLowerCase()}.`;
+    } else if (detectedNetworkCheck) {
+      recordingBlockReason = detectedNetworkCheck.blockMessage;
+    }
   }
 
   const canStartRecording = recordingBlockReason === "";
@@ -535,52 +575,60 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
           </p>
         )}
 
-        {signalFlags?.vpnDetection && (
-        <section className="flex items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white p-3">
-          <div className="flex min-w-0 items-center gap-3">
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600">
-              <svg
-                aria-hidden="true"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.7"
-                className="h-4 w-4"
+        {enabledNetworkChecks.map((check) => {
+          const status = getNetworkStatus(check.detected);
+          const statusMessage = networkDetection.loading
+            ? "Checking your network connection"
+            : networkDetection.error
+              ? networkDetection.error
+              : status === "unavailable"
+                ? "Detection result could not be determined"
+                : status === "detected"
+                  ? check.detectedMessage
+                  : check.clearMessage;
+
+          return (
+            <section
+              key={check.flag}
+              className="flex items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white p-3"
+            >
+              <div className="flex min-w-0 items-center gap-3">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600">
+                  <svg
+                    aria-hidden="true"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.7"
+                    className="h-4 w-4"
+                  >
+                    <path d="M4 8h16M4 16h16M8 4l-4 4 4 4m8 0 4 4-4 4" />
+                  </svg>
+                </div>
+                <div className="min-w-0">
+                  <h3 className="text-sm font-semibold text-slate-900">
+                    {check.label}
+                  </h3>
+                  <p className="mt-0.5 text-[11px] text-slate-500">
+                    {statusMessage}
+                  </p>
+                </div>
+              </div>
+              <span
+                className={`shrink-0 rounded-full px-2.5 py-1 text-[11px] font-semibold ring-1 ring-inset ${networkStatusStyles[status]}`}
+                role={networkDetection.error ? "alert" : "status"}
               >
-                <path d="M4 8h16M4 16h16M8 4l-4 4 4 4m8 0 4 4-4 4" />
-              </svg>
-            </div>
-            <div className="min-w-0">
-              <h3 className="text-sm font-semibold text-slate-900">
-                VPN detection
-              </h3>
-              <p className="mt-0.5 text-[11px] text-slate-500">
-                {vpnDetection.loading
-                  ? "Checking your network connection"
-                  : vpnDetection.error
-                    ? vpnDetection.error
-                    : vpnDetection.isVpn === null
-                      ? "VPN status could not be determined"
-                      : vpnDetection.isVpn
-                        ? "A VPN connection was identified"
-                        : "No VPN connection was identified"}
-              </p>
-            </div>
-          </div>
-          <span
-            className={`shrink-0 rounded-full px-2.5 py-1 text-[11px] font-semibold ring-1 ring-inset ${vpnStatusStyles[vpnStatus]}`}
-            role={vpnDetection.error ? "alert" : undefined}
-          >
-            {vpnStatus === "checking"
-              ? "Checking"
-              : vpnStatus === "unavailable"
-                ? "Unavailable"
-                : vpnStatus === "detected"
-                  ? "Detected"
-                  : "Clear"}
-          </span>
-        </section>
-        )}
+                {status === "checking"
+                  ? "Checking"
+                  : status === "unavailable"
+                    ? "Unavailable"
+                    : status === "detected"
+                      ? "Detected"
+                      : "Clear"}
+              </span>
+            </section>
+          );
+        })}
       </div>
 
       <footer className="flex shrink-0 flex-col gap-2 border-t border-slate-100 bg-slate-50/80 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-5">
@@ -589,7 +637,7 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
           role="status"
         >
           {canStartRecording
-            ? "Location states match and no VPN was detected."
+            ? "Location checks passed and enabled network checks are clear."
             : recordingBlockReason}
         </p>
         <div className="flex justify-end gap-3">
