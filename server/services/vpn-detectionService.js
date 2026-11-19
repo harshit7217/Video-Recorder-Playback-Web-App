@@ -21,5 +21,6 @@ export const vpnService = async (ipAddress) => {
     isVpn: result.is_vpn,
     isResidentialProxy: result.is_proxy && result.proxy_type === "residential",
     isPublicProxy: result.is_proxy && result.proxy_type === "public",
+    result: result,
   };
 };
