@@ -16,6 +16,12 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
     error: "",
     data: null,
   });
+  const [countryCheck, setCountryCheck] = useState({
+    loading: true,
+    error: "",
+    isAllowed: null,
+    candidateCountry: "",
+  });
   const [mapRadiusCheck, setMapRadiusCheck] = useState({
     loading: true,
     error: "",
@@ -162,6 +168,69 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
   ].filter(
     ([, value]) => value !== undefined && value !== null && value !== "",
   );
+
+  useEffect(() => {
+    if (
+      !signalFlags?.jobCountry ||
+      geolocation.loading ||
+      geolocation.error
+    ) {
+      return;
+    }
+
+    const controller = new AbortController();
+    const candidateCountry =
+      location?.country ?? ipDetails?.country_name ?? "";
+
+    const checkJobCountry = async () => {
+      try {
+        const response = await fetch(
+          apiUrl("/api/candidates/check-country"),
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              employerId: SIGNAL_FRAUD_EMPLOYER_ID,
+              candidateCountry,
+            }),
+            signal: controller.signal,
+          },
+        );
+        const result = await readApiResponse(
+          response,
+          "Job country verification failed",
+        );
+        if (typeof result?.isAllowed !== "boolean") {
+          throw new Error("The server returned an invalid country check.");
+        }
+
+        setCountryCheck({
+          loading: false,
+          error: "",
+          isAllowed: result.isAllowed,
+          candidateCountry: result.candidateCountry,
+        });
+      } catch (error) {
+        if (error.name !== "AbortError") {
+          setCountryCheck({
+            loading: false,
+            error: error.message || "Job country verification failed.",
+            isAllowed: null,
+            candidateCountry,
+          });
+        }
+      }
+    };
+
+    checkJobCountry();
+    return () => controller.abort();
+  }, [
+    geolocation.error,
+    geolocation.loading,
+    ipDetails?.country_name,
+    location?.country,
+    signalFlags?.jobCountry,
+  ]);
 
   useEffect(() => {
     if (
@@ -319,9 +388,6 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
             : "unavailable";
   const mapRadiusStatusValue = getRadiusStatusValue(mapRadiusStatus);
   const ipRadiusStatusValue = getRadiusStatusValue(ipRadiusStatus);
-  const unsupportedEnabledFlags = signalFlags
-    ? [signalFlags.jobCountry && "job country"].filter(Boolean)
-    : [];
   const radiusStatusStyles = {
     checking: "bg-amber-50 text-amber-700 ring-amber-200",
     unavailable: "bg-slate-100 text-slate-600 ring-slate-200",
@@ -334,8 +400,6 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
     recordingBlockReason = "Loading employer signal fraud settings...";
   } else if (signalFraud.error) {
     recordingBlockReason = "Could not load employer signal fraud settings.";
-  } else if (unsupportedEnabledFlags.length > 0) {
-    recordingBlockReason = `Enabled checks are not available yet: ${unsupportedEnabledFlags.join(", ")}.`;
   } else if (mapRadiusStatus.loading) {
     recordingBlockReason =
       "Checking map location against interviewer radius...";
@@ -364,6 +428,12 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
     geolocation.error
   ) {
     recordingBlockReason = "Could not verify the IP location.";
+  } else if (signalFlags.jobCountry && countryCheck.loading) {
+    recordingBlockReason = "Checking the candidate's job country...";
+  } else if (signalFlags.jobCountry && countryCheck.error) {
+    recordingBlockReason = countryCheck.error;
+  } else if (signalFlags.jobCountry && countryCheck.isAllowed !== true) {
+    recordingBlockReason = "Your IP country is not allowed for this job.";
   } else if (enabledNetworkChecks.length > 0 && networkDetection.loading) {
     recordingBlockReason = "Checking enabled VPN and proxy detections...";
   } else if (enabledNetworkChecks.length > 0 && networkDetection.error) {
@@ -568,11 +638,43 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
           />
         ) : null}
 
-        {signalFlags && unsupportedEnabledFlags.length > 0 && (
-          <p className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-xs text-amber-800" role="alert">
-            These enabled checks do not have a supporting verification API yet:{" "}
-            {unsupportedEnabledFlags.join(", ")}.
-          </p>
+        {signalFlags?.jobCountry && (
+          <section className="flex items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white p-3">
+            <div className="min-w-0">
+              <h3 className="text-sm font-semibold text-slate-900">
+                Job country verification
+              </h3>
+              <p className="mt-0.5 text-[11px] text-slate-500">
+                {countryCheck.loading
+                  ? "Comparing your IP country with the employer's allowed countries"
+                  : countryCheck.error
+                    ? countryCheck.error
+                    : countryCheck.isAllowed
+                      ? `${countryCheck.candidateCountry} is allowed for this job`
+                      : `${countryCheck.candidateCountry} is not allowed for this job`}
+              </p>
+            </div>
+            <span
+              className={`shrink-0 rounded-full px-2.5 py-1 text-[11px] font-semibold ${
+                countryCheck.loading
+                  ? "bg-amber-50 text-amber-700"
+                  : countryCheck.error
+                    ? "bg-slate-100 text-slate-600"
+                    : countryCheck.isAllowed
+                      ? "bg-emerald-50 text-emerald-700"
+                      : "bg-rose-50 text-rose-700"
+              }`}
+              role={countryCheck.error ? "alert" : "status"}
+            >
+              {countryCheck.loading
+                ? "Checking"
+                : countryCheck.error
+                  ? "Unavailable"
+                  : countryCheck.isAllowed
+                    ? "Allowed"
+                    : "Not allowed"}
+            </span>
+          </section>
         )}
 
         {enabledNetworkChecks.map((check) => {

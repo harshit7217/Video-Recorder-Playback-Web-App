@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import Candidate from "../models/candidateModel.js";
 import Employer from "../models/employerModels.js";
+import EmployerPolygon from "../models/employerPolygonModel.js";
 import { isLocationWithinRadius } from "../services/checkRadiusOfCandidate.js";
 import validator from "validator";
 import {
@@ -149,6 +150,56 @@ export const checkCandidateInEmployerRadius = async (req, res) => {
     });
   } catch (error) {
     res.status(400).json({ message: error.message });
+  }
+};
+
+const normalizeCountryName = (countryName) =>
+  countryName
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, "");
+
+export const checkCandidateJobCountry = async (req, res) => {
+  try {
+    const { employerId, candidateCountry } = req.body;
+
+    if (!mongoose.Types.ObjectId.isValid(employerId)) {
+      return res.status(400).json({ message: "Employer id is invalid" });
+    }
+    if (typeof candidateCountry !== "string" || !candidateCountry.trim()) {
+      return res.status(400).json({ message: "Candidate country is required" });
+    }
+
+    const employerCountries = await EmployerPolygon.find({ employerId })
+      .select("countryName -_id")
+      .lean();
+
+    if (employerCountries.length === 0) {
+      return res.status(404).json({
+        message: "No job countries are configured for this employer",
+      });
+    }
+
+    const normalizedCandidateCountry = normalizeCountryName(candidateCountry);
+    const allowedCountries = employerCountries.map(
+      ({ countryName }) => countryName,
+    );
+    const isAllowed = allowedCountries.some(
+      (countryName) =>
+        normalizeCountryName(countryName) === normalizedCandidateCountry,
+    );
+
+    return res.status(200).json({
+      candidateCountry,
+      allowedCountries,
+      isAllowed,
+    });
+  } catch (error) {
+    console.error("Candidate job country verification failed:", error);
+    return res.status(500).json({
+      message: "Unable to verify candidate job country.",
+    });
   }
 };
 
