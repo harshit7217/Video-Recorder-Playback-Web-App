@@ -135,7 +135,7 @@ const CandidateInfo = () => {
       <div className="overflow-hidden rounded-2xl bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 p-5 shadow-lg sm:rounded-3xl sm:p-6">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-3">
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/10 text-indigo-300">
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white/10 text-indigo-300">
               <svg
                 viewBox="0 0 24 24"
                 fill="none"
@@ -184,9 +184,9 @@ const CandidateInfo = () => {
       </div>
 
       {/* MAP SECTION */}
-      <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:rounded-3xl">
+      <section className="overflow-hidden rounded-2xl bg-white shadow-sm dark:bg-slate-900 sm:rounded-3xl">
         {/* MAP HEADER */}
-        <div className="flex flex-col gap-3 border-b border-slate-100 px-4 py-4 dark:border-slate-800 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+        <div className="flex flex-col gap-3 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-300">
               <svg
@@ -211,7 +211,7 @@ const CandidateInfo = () => {
             </div>
           </div>
 
-          <span className="flex w-fit items-center gap-2 rounded-full border border-emerald-100 bg-emerald-50 px-3 py-1.5 text-[10px] font-bold text-emerald-700 dark:border-emerald-500/20 dark:bg-emerald-500/10 dark:text-emerald-300">
+          <span className="flex w-fit items-center gap-2 rounded-full bg-emerald-50 px-3 py-1.5 text-[10px] font-bold text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-300">
             <span className="h-2 w-2 rounded-full bg-emerald-500" />
             Map Available
           </span>
@@ -236,7 +236,7 @@ const CandidateInfo = () => {
         </div>
 
         {/* MAP FOOTER */}
-        <div className="flex flex-col gap-2 border-t border-slate-100 bg-white px-4 py-3 dark:border-slate-800 dark:bg-slate-900 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+        <div className="flex flex-col gap-2 bg-white px-4 py-3 dark:bg-slate-900 sm:flex-row sm:items-center sm:justify-between sm:px-6">
           <div className="flex items-center gap-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-300">
               <svg

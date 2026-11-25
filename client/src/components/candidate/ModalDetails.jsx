@@ -471,14 +471,14 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
   };
 
   return (
-    <div className="flex w-full max-h-[92dvh] flex-col overflow-hidden rounded-2xl sm:rounded-3xl border border-slate-200 bg-white text-slate-900 shadow-2xl">
+    <div className="flex w-full max-h-[92dvh] flex-col overflow-hidden rounded-2xl sm:rounded-3xl bg-white text-slate-900 shadow-2xl">
       {/* HEADER */}
       <header className="relative shrink-0 overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 px-4 py-4 sm:px-6 sm:py-5">
         <div className="absolute -right-12 -top-20 h-48 w-48 rounded-full bg-indigo-500/15 blur-3xl" />
 
         <div className="relative flex items-center justify-between gap-3">
           <div className="flex min-w-0 items-center gap-3">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/10 text-indigo-300">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/10 text-indigo-300">
               <svg
                 viewBox="0 0 24 24"
                 fill="none"
@@ -527,7 +527,7 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
       <main className="min-h-0 flex-1 overflow-y-auto overscroll-contain bg-slate-50/80 p-3 sm:p-5">
         {/* LOADING / ERROR */}
         {signalFraud.loading && (
-          <div className="mb-4 rounded-xl border border-indigo-100 bg-indigo-50 p-3 text-xs text-indigo-700">
+          <div className="mb-4 rounded-xl bg-indigo-50 p-3 text-xs text-indigo-700">
             Loading employer security settings...
           </div>
         )}
@@ -535,7 +535,7 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
         {signalFraud.error && (
           <div
             role="alert"
-            className="mb-4 rounded-xl border border-rose-200 bg-rose-50 p-3 text-xs text-rose-700"
+            className="mb-4 rounded-xl bg-rose-50 p-3 text-xs text-rose-700"
           >
             {signalFraud.error}
           </div>
@@ -544,8 +544,8 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
           {/* MAP LOCATION */}
           {mapLocation && (
-            <section className="min-w-0 overflow-hidden rounded-2xl border border-indigo-100 bg-white shadow-sm">
-              <div className="flex items-center gap-3 border-b border-slate-100 px-4 py-3">
+            <section className="min-w-0 overflow-hidden rounded-2xl bg-white shadow-sm">
+              <div className="flex items-center gap-3 px-4 py-3">
                 <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600">
                   <svg
                     viewBox="0 0 24 24"
@@ -605,8 +605,8 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
 
           {/* IP DETAILS */}
           {signalFlags && (signalFlags.ipStatus || signalFlags.jobCountry) && (
-            <section className="min-w-0 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-              <div className="flex items-center justify-between gap-3 border-b border-slate-100 px-4 py-3">
+            <section className="min-w-0 overflow-hidden rounded-2xl bg-white shadow-sm">
+              <div className="flex items-center justify-between gap-3 px-4 py-3">
                 <div className="flex items-center gap-3">
                   <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-sky-50 text-sky-600">
                     <svg
@@ -673,7 +673,7 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
 
           {/* RADIUS CHECK */}
           {isCircle === true && signalFlags && (
-            <section className="min-w-0 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm lg:col-span-2">
+            <section className="min-w-0 rounded-2xl bg-white p-4 shadow-sm lg:col-span-2">
               <Circle
                 mapRadiusStatus={mapRadiusStatus}
                 mapRadiusStatusValue={mapRadiusStatusValue}
@@ -687,7 +687,7 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
 
           {/* COUNTRY VERIFICATION */}
           {signalFlags?.jobCountry && (
-            <section className="flex min-w-0 items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+            <section className="flex min-w-0 items-center justify-between gap-3 rounded-2xl bg-white p-4 shadow-sm">
               <div className="flex min-w-0 items-center gap-3">
                 <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-violet-50 text-violet-600">
                   <svg
@@ -755,7 +755,7 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
             return (
               <section
                 key={check.flag}
-                className="flex min-w-0 items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition hover:border-indigo-200 hover:shadow-md"
+                className="flex min-w-0 items-center justify-between gap-3 rounded-2xl bg-white p-4 shadow-sm transition hover:shadow-md"
               >
                 <div className="flex min-w-0 items-center gap-3">
                   <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600">
@@ -799,7 +799,7 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
       </main>
 
       {/* FOOTER */}
-      <footer className="z-10 shrink-0 border-t border-slate-200 bg-white px-4 py-3 sm:px-6 sm:py-4">
+      <footer className="z-10 shrink-0 bg-white px-4 py-3 sm:px-6 sm:py-4">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-start gap-2">
             <span

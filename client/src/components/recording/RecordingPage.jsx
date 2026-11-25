@@ -128,11 +128,10 @@ const RecordingPage = ({ connectionStatus }) => {
             <div
               className="
           mb-2 inline-flex items-center gap-2
-          rounded-full border border-indigo-100
+          rounded-full
           bg-indigo-50 px-3 py-1
           text-[10px] font-bold uppercase
           tracking-widest text-indigo-600
-          dark:border-indigo-500/20
           dark:bg-indigo-500/10 dark:text-indigo-300
         "
             >
@@ -165,10 +164,10 @@ const RecordingPage = ({ connectionStatus }) => {
           <div
             className="
         inline-flex w-fit items-center gap-2
-        rounded-xl border border-slate-200
+        rounded-xl
         bg-white/80 px-3.5 py-2.5
         shadow-sm backdrop-blur-sm
-        dark:border-slate-700 dark:bg-slate-800
+        dark:bg-slate-800
       "
           >
             <span
@@ -198,20 +197,16 @@ const RecordingPage = ({ connectionStatus }) => {
           className="
       overflow-hidden
       rounded-2xl sm:rounded-3xl
-      border border-slate-200/80
       bg-white/95
       shadow-[0_20px_70px_-25px_rgba(103,111,163,0.20)]
-      dark:border-slate-700
       dark:bg-slate-800/95
     "
         >
           {/* Recording Header */}
           <div
             className="
-        border-b border-slate-100
         bg-gradient-to-r
         from-white via-[#F8F8FF] to-[#F4F3FF]
-        dark:border-slate-700
         dark:from-slate-800
         dark:via-slate-800
         dark:to-indigo-950/30

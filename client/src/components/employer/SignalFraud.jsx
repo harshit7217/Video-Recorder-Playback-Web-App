@@ -120,18 +120,16 @@ const SignalFraud = () => {
       className="
   mx-auto w-full max-w-4xl
   overflow-hidden rounded-2xl
-  border border-slate-200 bg-white
+  bg-white
   shadow-xl shadow-slate-200/40
-  dark:border-slate-700 dark:bg-slate-900
+  dark:bg-slate-900
 "
     >
       {/* Header */}
       <div
         className="
-    border-b border-slate-200
     bg-gradient-to-r from-indigo-50 to-white
     p-5 sm:p-7
-    dark:border-slate-700
     dark:from-indigo-950/40 dark:to-slate-900
   "
       >
@@ -221,13 +219,13 @@ const SignalFraud = () => {
               key={key}
               className={`
             flex flex-col gap-3 rounded-xl
-            border p-4 transition-all duration-200
+            p-4 transition-all duration-200
             sm:flex-row sm:items-center
             sm:justify-between
             ${
               flags[key]
-                ? "border-indigo-200 bg-indigo-50/60 dark:border-indigo-500/30 dark:bg-indigo-500/10"
-                : "border-slate-200 bg-white hover:border-indigo-200 dark:border-slate-700 dark:bg-slate-800"
+                ? "bg-indigo-50/60 dark:bg-indigo-500/10"
+                : "bg-slate-50 hover:bg-indigo-50 dark:bg-slate-800 dark:hover:bg-slate-700"
             }
           `}
             >
@@ -331,9 +329,9 @@ const SignalFraud = () => {
         {error && (
           <div
             className="
-          mt-5 rounded-xl border border-red-200
+          mt-5 rounded-xl
           bg-red-50 p-3 text-sm text-red-700
-          dark:border-red-500/20 dark:bg-red-500/10
+          dark:bg-red-500/10
           dark:text-red-300
         "
             role="alert"
@@ -346,9 +344,9 @@ const SignalFraud = () => {
         {message && (
           <div
             className="
-          mt-5 rounded-xl border border-emerald-200
+          mt-5 rounded-xl
           bg-emerald-50 p-3 text-sm text-emerald-700
-          dark:border-emerald-500/20 dark:bg-emerald-500/10
+          dark:bg-emerald-500/10
           dark:text-emerald-300
         "
             role="status"
@@ -361,10 +359,9 @@ const SignalFraud = () => {
         <div
           className="
       mt-7 flex flex-col gap-4
-      border-t border-slate-100 pt-5
+      pt-5
       sm:flex-row sm:items-center
       sm:justify-between
-      dark:border-slate-700
     "
         >
           <div

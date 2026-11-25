@@ -99,8 +99,7 @@ const ImageBackground = ({
       {bgImageState && (
         <div
           className="
-      mt-3 border-t border-amber-200/70
-      pt-2 dark:border-amber-500/20
+      mt-3 pt-2
     "
         >
           <span

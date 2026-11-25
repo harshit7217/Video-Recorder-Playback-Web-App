@@ -4,12 +4,11 @@ const CountdownOverlay = ({ secondsUntilStart }) => {
       <div
         className="
     inline-flex items-center gap-3
-    rounded-2xl border border-indigo-100
+    rounded-2xl
     bg-gradient-to-r from-white via-indigo-50 to-violet-50
     px-5 py-3.5
     shadow-lg shadow-indigo-200/30
     backdrop-blur-md
-    dark:border-indigo-500/20
     dark:from-slate-800 dark:via-indigo-950 dark:to-violet-950
     sm:gap-4 sm:px-7 sm:py-4
   "

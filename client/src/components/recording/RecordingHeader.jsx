@@ -94,10 +94,9 @@ const RecordingHeader = ({ connectionStatus, isRecordingActive }) => {
     <div
       className="
   flex flex-col gap-4
-  border-b border-slate-100
   bg-gradient-to-r from-white via-[#F8F8FF] to-[#F5F4FF]
   px-4 py-5
-  dark:border-slate-700 dark:from-slate-800 dark:via-slate-800 dark:to-indigo-950/30
+  dark:from-slate-800 dark:via-slate-800 dark:to-indigo-950/30
   sm:px-6 sm:py-5
   md:flex-row md:items-center md:justify-between
   md:px-7
@@ -154,12 +153,12 @@ const RecordingHeader = ({ connectionStatus, isRecordingActive }) => {
         <div
           className={`
         mt-3 inline-flex items-center gap-2
-        rounded-full border px-3 py-1.5
+        rounded-full px-3 py-1.5
         text-[11px] font-semibold
         ${
           connectionStatus === "connected"
-            ? "border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-400"
-            : "border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-400"
+            ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400"
+            : "bg-amber-50 text-amber-700 dark:bg-amber-950/40 dark:text-amber-400"
         }
       `}
           role="status"
@@ -191,10 +190,9 @@ const RecordingHeader = ({ connectionStatus, isRecordingActive }) => {
           <div
             className="
         inline-flex items-center gap-2
-        rounded-xl border border-red-100
+        rounded-xl
         bg-red-50 px-3.5 py-2.5
         text-xs font-bold text-red-600
-        dark:border-red-900/50
         dark:bg-red-950/40 dark:text-red-400
       "
           >

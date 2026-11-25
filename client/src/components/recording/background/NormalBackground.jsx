@@ -101,8 +101,7 @@ const NormalBackground = ({
       {normalOn && (
         <div
           className="
-      mt-3 border-t border-indigo-200/70
-      pt-2 dark:border-indigo-400/20
+      mt-3 pt-2
     "
         >
           <span

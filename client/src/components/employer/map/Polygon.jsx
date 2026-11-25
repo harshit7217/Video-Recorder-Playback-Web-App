@@ -170,9 +170,9 @@ const Polygon = ({ setPolygonBoundary }) => {
   // ));
 
   return (
-    <aside className="flex h-full min-h-0 w-full min-w-0 flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+    <aside className="flex h-full min-h-0 w-full min-w-0 flex-col overflow-hidden rounded-2xl bg-white shadow-sm">
       {/* HEADER */}
-      <div className="shrink-0 border-b border-slate-100 bg-white px-4 py-4 sm:px-5">
+      <div className="shrink-0 bg-white px-4 py-4 sm:px-5">
         <div className="flex items-center gap-3">
           <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600">
             <svg
@@ -220,12 +220,12 @@ const Polygon = ({ setPolygonBoundary }) => {
               </span>
             </div>
             <p className="mt-1 text-xs leading-5 text-slate-500">
-              Search for a country to retrieve its geographic boundary.
+              Search for a city or place to retrieve its boundary.
             </p>
           </div>
 
           {/* STAT CARD */}
-          <div className="mb-4 flex items-center justify-between rounded-xl border border-indigo-100 bg-gradient-to-r from-indigo-50 to-white p-3.5">
+          <div className="mb-4 flex items-center justify-between rounded-xl bg-indigo-50/70 p-3.5">
             <div className="flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white text-indigo-600 shadow-sm">
                 <svg
@@ -269,7 +269,7 @@ const Polygon = ({ setPolygonBoundary }) => {
               htmlFor="city-search"
               className="block text-xs font-semibold text-slate-700"
             >
-              Country Name
+              City or place
             </label>
 
             <div className="group relative">
@@ -288,8 +288,8 @@ const Polygon = ({ setPolygonBoundary }) => {
                 type="text"
                 value={tempCity}
                 onChange={(e) => setTempCity(e.target.value)}
-                placeholder="Enter country name..."
-                className="h-12 w-full rounded-xl border border-slate-200 bg-slate-50 pl-10 pr-3 text-sm text-slate-800 outline-none transition placeholder:text-slate-400 hover:border-slate-300 focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/10"
+                placeholder="e.g. Gurgaon, India"
+                className="h-12 w-full rounded-xl border-0 bg-slate-100 pl-10 pr-3 text-sm text-slate-800 outline-none transition placeholder:text-slate-400 focus:bg-white focus:ring-2 focus:ring-indigo-500/30"
               />
             </div>
 
@@ -312,7 +312,7 @@ const Polygon = ({ setPolygonBoundary }) => {
             <button
               type="button"
               onClick={handleRemovePolygon}
-              className="flex h-10 w-full items-center justify-center gap-2 rounded-xl border border-rose-200 bg-rose-50 text-xs font-semibold text-rose-600 transition hover:border-rose-300 hover:bg-rose-100 active:scale-[0.99]"
+              className="flex h-10 w-full items-center justify-center gap-2 rounded-xl bg-rose-50 text-xs font-semibold text-rose-600 transition hover:bg-rose-100 active:scale-[0.99]"
             >
               <svg
                 className="h-4 w-4"
@@ -333,7 +333,7 @@ const Polygon = ({ setPolygonBoundary }) => {
         </section>
 
         {/* SEARCH RESULTS */}
-        <section className="border-t border-slate-100 pt-5">
+        <section>
           <div className="mb-3 flex items-center justify-between gap-2">
             <div>
               <h3 className="text-sm font-bold text-slate-800">
@@ -372,7 +372,7 @@ const Polygon = ({ setPolygonBoundary }) => {
                     key={index}
                     type="button"
                     onClick={() => handleCountryBoundary(country)}
-                    className="group flex w-full items-center gap-3 rounded-xl border border-slate-200 bg-white p-3 text-left transition-all hover:border-indigo-300 hover:bg-indigo-50/50 hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+                    className="group flex w-full items-center gap-3 rounded-xl bg-slate-50 p-3 text-left transition-all hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
                   >
                     <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 transition group-hover:bg-indigo-600 group-hover:text-white">
                       <svg
@@ -419,7 +419,7 @@ const Polygon = ({ setPolygonBoundary }) => {
                   </button>
                 ))
             ) : (
-              <div className="rounded-xl border border-dashed border-slate-300 bg-slate-50 px-4 py-9 text-center">
+              <div className="rounded-xl bg-slate-50 px-4 py-9 text-center">
                 <div className="mx-auto flex h-11 w-11 items-center justify-center rounded-xl bg-white text-slate-400 shadow-sm">
                   <svg
                     className="h-5 w-5"
@@ -439,7 +439,7 @@ const Polygon = ({ setPolygonBoundary }) => {
                   No Boundaries Found
                 </p>
                 <p className="mt-1 text-xs leading-5 text-slate-400">
-                  Search for a country to explore its geographic boundary.
+                  Search for a city or place to explore its boundary.
                 </p>
               </div>
             )}
@@ -447,7 +447,7 @@ const Polygon = ({ setPolygonBoundary }) => {
         </section>
 
         {/* QUICK GUIDE */}
-        <section className="rounded-xl border border-blue-100 bg-blue-50/70 p-4">
+        <section className="rounded-xl bg-blue-50/80 p-4">
           <div className="flex items-center gap-2">
             <svg
               className="h-4 w-4 text-blue-600"
@@ -465,14 +465,14 @@ const Polygon = ({ setPolygonBoundary }) => {
             <h4 className="text-xs font-bold text-blue-900">Quick Guide</h4>
           </div>
           <p className="mt-2 text-xs leading-5 text-blue-700">
-            Search for a country, select a result, and visualize its geographic
-            boundary directly on the map.
+            Search for a city or place, select a result, and view its boundary
+            on the map.
           </p>
         </section>
       </div>
 
       {/* FOOTER */}
-      <div className="flex shrink-0 items-center justify-between border-t border-slate-100 bg-slate-50 px-4 py-3 sm:px-5">
+      <div className="flex shrink-0 items-center justify-between bg-slate-50 px-4 py-3 sm:px-5">
         <span className="text-[10px] font-medium uppercase tracking-wider text-slate-400">
           Polygon Explorer
         </span>

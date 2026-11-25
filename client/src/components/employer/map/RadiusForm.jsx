@@ -13,19 +13,16 @@ export default function RadiusForm({ radius, setRadius }) {
       className="
   mx-auto w-full max-w-2xl
   overflow-hidden rounded-2xl
-  border border-slate-200
   bg-white shadow-lg shadow-slate-200/40
-  dark:border-slate-700 dark:bg-slate-900
+  dark:bg-slate-900
 "
     >
       {/* Header */}
       <div
         className="
     flex items-center gap-3
-    border-b border-slate-100
     bg-gradient-to-r from-indigo-50 to-white
     p-5 sm:p-6
-    dark:border-slate-700
     dark:from-indigo-950/40 dark:to-slate-900
   "
       >

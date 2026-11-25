@@ -184,9 +184,9 @@ const BackgroundController = ({
     <div
       className="
   relative w-full overflow-hidden
-  rounded-2xl border border-slate-200/80
+  rounded-2xl
   bg-white shadow-sm
-  dark:border-slate-700 dark:bg-slate-800
+  dark:bg-slate-800
   sm:rounded-3xl
 "
     >
@@ -194,9 +194,8 @@ const BackgroundController = ({
       <div
         className="
     flex flex-col gap-3
-    border-b border-slate-100
     bg-gradient-to-r from-white via-indigo-50/40 to-violet-50/50
-    p-4 dark:border-slate-700
+    p-4
     dark:from-slate-800 dark:via-slate-800 dark:to-indigo-950/30
     sm:flex-row sm:items-center sm:justify-between
     sm:px-6 sm:py-5
@@ -253,10 +252,9 @@ const BackgroundController = ({
           <div
             className="
         flex w-fit items-center gap-2
-        rounded-full border border-indigo-100
+        rounded-full
         bg-indigo-50 px-3 py-2
         text-xs font-semibold text-indigo-700
-        dark:border-indigo-500/20
         dark:bg-indigo-500/10 dark:text-indigo-300
       "
           >
@@ -312,11 +310,11 @@ const BackgroundController = ({
 
           <span
             className="
-        rounded-lg border border-slate-200
+        rounded-lg
         bg-white px-2.5 py-1.5
         text-[10px] font-semibold
         text-slate-500
-        dark:border-slate-700 dark:bg-slate-800
+        dark:bg-slate-800
         dark:text-slate-400
       "
           >
@@ -377,9 +375,8 @@ const BackgroundController = ({
         <div
           className="
       mt-5 flex items-start gap-2.5
-      rounded-xl border border-indigo-100/80
+      rounded-xl
       bg-indigo-50/70 px-3.5 py-3
-      dark:border-indigo-500/20
       dark:bg-indigo-500/10
     "
         >

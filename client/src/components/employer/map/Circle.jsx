@@ -3,9 +3,9 @@ import RadiusForm from "./RadiusForm";
 const Circle = ({ selectedMarker, updateSelectedMarkerRadius }) => {
   return (
     <aside className="w-full min-w-0 h-full">
-      <div className="flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+      <div className="flex h-full flex-col overflow-hidden rounded-2xl bg-white shadow-sm">
         {/* HEADER */}
-        <div className="border-b border-slate-100 bg-gradient-to-r from-indigo-50/80 to-white p-4 sm:p-5">
+        <div className="bg-gradient-to-r from-indigo-50/80 to-white p-4 sm:p-5">
           <div className="flex items-center justify-between gap-3">
             <div className="flex min-w-0 items-center gap-3">
               <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-indigo-600 text-white shadow-md shadow-indigo-200">
@@ -34,7 +34,7 @@ const Circle = ({ selectedMarker, updateSelectedMarkerRadius }) => {
               </div>
             </div>
 
-            <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-emerald-100 bg-emerald-50 px-2.5 py-1.5 text-[10px] font-bold text-emerald-700">
+            <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-emerald-50 px-2.5 py-1.5 text-[10px] font-bold text-emerald-700">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
               GIS Ready
             </span>
@@ -60,7 +60,7 @@ const Circle = ({ selectedMarker, updateSelectedMarkerRadius }) => {
               </span>
             </div>
 
-            <div className="rounded-xl border border-indigo-100 bg-gradient-to-br from-indigo-50/80 to-white p-4">
+            <div className="rounded-xl bg-gradient-to-br from-indigo-50/80 to-white p-4">
               <div className="mb-4 flex items-center justify-between gap-2">
                 <div>
                   <p className="text-xs font-medium text-slate-500">
@@ -81,7 +81,7 @@ const Circle = ({ selectedMarker, updateSelectedMarkerRadius }) => {
                 </div>
               </div>
 
-              <div className="rounded-lg border border-slate-100 bg-white p-3 shadow-sm">
+              <div className="rounded-lg bg-white p-3 shadow-sm">
                 <RadiusForm
                   radius={selectedMarker?.radius ?? 500}
                   setRadius={updateSelectedMarkerRadius}
@@ -103,7 +103,7 @@ const Circle = ({ selectedMarker, updateSelectedMarkerRadius }) => {
 
             <div className="grid grid-cols-2 gap-3">
               {/* ACTIVE MARKER */}
-              <div className="rounded-xl border border-slate-200 bg-white p-3 transition hover:border-blue-200 hover:shadow-sm">
+              <div className="rounded-xl bg-slate-50 p-3 transition hover:bg-blue-50 hover:shadow-sm">
                 <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
                   <svg
                     className="h-4 w-4"
@@ -128,7 +128,7 @@ const Circle = ({ selectedMarker, updateSelectedMarkerRadius }) => {
               </div>
 
               {/* RADIUS */}
-              <div className="rounded-xl border border-slate-200 bg-white p-3 transition hover:border-indigo-200 hover:shadow-sm">
+              <div className="rounded-xl bg-slate-50 p-3 transition hover:bg-indigo-50 hover:shadow-sm">
                 <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600">
                   <svg
                     className="h-4 w-4"
@@ -152,10 +152,10 @@ const Circle = ({ selectedMarker, updateSelectedMarkerRadius }) => {
 
           {/* MARKER STATUS */}
           <section
-            className={`rounded-xl border p-4 ${
+            className={`rounded-xl p-4 ${
               selectedMarker
-                ? "border-emerald-100 bg-emerald-50/70"
-                : "border-amber-100 bg-amber-50/70"
+                ? "bg-emerald-50/70"
+                : "bg-amber-50/70"
             }`}
           >
             <div className="flex items-center gap-2">
@@ -186,7 +186,7 @@ const Circle = ({ selectedMarker, updateSelectedMarkerRadius }) => {
           </section>
 
           {/* QUICK GUIDE */}
-          <section className="rounded-xl border border-blue-100 bg-blue-50/70 p-4">
+          <section className="rounded-xl bg-blue-50/70 p-4">
             <div className="mb-4 flex items-center gap-2">
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-100 text-blue-600">
                 <svg
@@ -233,7 +233,7 @@ const Circle = ({ selectedMarker, updateSelectedMarkerRadius }) => {
         </div>
 
         {/* FOOTER */}
-        <div className="border-t border-slate-100 bg-slate-50 px-4 py-3 sm:px-5">
+        <div className="bg-slate-50 px-4 py-3 sm:px-5">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <span className="text-[10px] font-medium text-slate-400">
               Geographic Area Settings

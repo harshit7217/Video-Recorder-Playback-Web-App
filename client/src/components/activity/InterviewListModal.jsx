@@ -61,7 +61,7 @@ const InterviewListModal = ({ filename, closeFileDetailsModal }) => {
     <li
       onClick={() => handleEntrySelection(id)}
       key={id ?? index}
-      className="group flex items-center gap-3 rounded-xl border border-gray-100 bg-white p-3 transition hover:border-blue-200 hover:bg-blue-50/60 cursor-pointer"
+      className="group flex items-center gap-3 rounded-xl bg-slate-50 p-3 transition hover:bg-blue-50/60 cursor-pointer"
     >
       {id}
     </li>
@@ -70,7 +70,7 @@ const InterviewListModal = ({ filename, closeFileDetailsModal }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 p-3 backdrop-blur-sm sm:p-5">
       <div
-        className="flex max-h-[90dvh] w-full max-w-xl flex-col overflow-hidden rounded-2xl border border-white/70 bg-white shadow-2xl sm:rounded-3xl"
+        className="flex max-h-[90dvh] w-full max-w-xl flex-col overflow-hidden rounded-2xl bg-white shadow-2xl sm:rounded-3xl"
         role="dialog"
         aria-modal="true"
         aria-labelledby="file-details-title"
@@ -81,7 +81,7 @@ const InterviewListModal = ({ filename, closeFileDetailsModal }) => {
 
           <div className="relative flex items-center justify-between gap-3">
             <div className="flex min-w-0 items-center gap-3">
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/10 text-indigo-300">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/10 text-indigo-300">
                 <svg
                   viewBox="0 0 24 24"
                   fill="none"
@@ -135,7 +135,7 @@ const InterviewListModal = ({ filename, closeFileDetailsModal }) => {
         {/* CONTENT */}
         <main className="min-h-0 flex-1 overflow-y-auto bg-slate-50/70 p-4 sm:p-6">
           {/* SUMMARY */}
-          <div className="mb-5 flex items-center justify-between gap-3 rounded-2xl border border-indigo-100 bg-white p-4 shadow-sm">
+          <div className="mb-5 flex items-center justify-between gap-3 rounded-2xl bg-white p-4 shadow-sm">
             <div className="flex min-w-0 items-center gap-3">
               <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600">
                 <svg
@@ -185,7 +185,7 @@ const InterviewListModal = ({ filename, closeFileDetailsModal }) => {
               {entryListItems}
             </ul>
           ) : (
-            <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 bg-white px-4 py-12 text-center">
+            <div className="flex flex-col items-center justify-center rounded-2xl bg-white px-4 py-12 text-center">
               <div className="mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-100 text-slate-400">
                 <svg
                   viewBox="0 0 24 24"
@@ -210,7 +210,7 @@ const InterviewListModal = ({ filename, closeFileDetailsModal }) => {
         </main>
 
         {/* FOOTER */}
-        <footer className="shrink-0 border-t border-slate-200 bg-white px-4 py-3 sm:px-6 sm:py-4">
+        <footer className="shrink-0 bg-white px-4 py-3 sm:px-6 sm:py-4">
           <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
             <button
               type="button"

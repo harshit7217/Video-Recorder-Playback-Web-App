@@ -7,7 +7,7 @@ const RadiusStatus = ({
   waitingForMap,
 }) => {
   return (
-    <section className="group flex w-full items-center justify-between gap-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition-all duration-200 hover:border-indigo-200 hover:shadow-md sm:p-5">
+    <section className="group flex w-full items-center justify-between gap-4 rounded-2xl bg-white p-4 shadow-sm transition-all duration-200 hover:shadow-md sm:p-5">
       {/* LEFT CONTENT */}
       <div className="flex min-w-0 items-center gap-3.5">
         {/* ICON */}

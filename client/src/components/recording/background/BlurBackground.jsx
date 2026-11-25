@@ -99,8 +99,7 @@ const BlurBackground = ({
       {blurOn && (
         <div
           className="
-      mt-3 border-t border-violet-200/70
-      pt-2 dark:border-violet-500/20
+      mt-3 pt-2
     "
         >
           <span

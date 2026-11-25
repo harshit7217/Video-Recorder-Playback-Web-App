@@ -6,7 +6,7 @@ const InterviewDetailsModal = ({
   const activityDetailCards = selectedActivityDetails.map((detail, index) => (
     <div
       key={detail.id ?? `${detail.eventName}-${detail.timestamp}-${index}`}
-      className="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-indigo-200 hover:shadow-lg sm:p-5"
+      className="group relative overflow-hidden rounded-2xl bg-white p-4 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg sm:p-5"
     >
       {/* Subtle hover accent */}
       <div className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-gradient-to-r from-indigo-500 to-violet-500 transition-transform duration-300 group-hover:scale-x-100" />
@@ -42,7 +42,7 @@ const InterviewDetailsModal = ({
               </h4>
             </div>
 
-            <span className="w-fit shrink-0 rounded-full border border-indigo-100 bg-indigo-50 px-3 py-1 text-[10px] font-bold text-indigo-700 sm:text-xs">
+            <span className="w-fit shrink-0 rounded-full bg-indigo-50 px-3 py-1 text-[10px] font-bold text-indigo-700 sm:text-xs">
               Activity {index + 1}
             </span>
           </div>
@@ -59,7 +59,7 @@ const InterviewDetailsModal = ({
           </div>
 
           {/* Timestamp */}
-          <div className="mt-3 flex flex-wrap items-center gap-2 border-t border-slate-100 pt-3">
+          <div className="mt-3 flex flex-wrap items-center gap-2 pt-3">
             <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-500">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -94,7 +94,7 @@ const InterviewDetailsModal = ({
         role="dialog"
         aria-modal="true"
         aria-labelledby="event-modal-title"
-        className="flex max-h-[92dvh] w-full max-w-2xl flex-col overflow-hidden rounded-2xl border border-white/70 bg-white shadow-2xl sm:rounded-3xl"
+        className="flex max-h-[92dvh] w-full max-w-2xl flex-col overflow-hidden rounded-2xl bg-white shadow-2xl sm:rounded-3xl"
       >
         {/* HEADER */}
         <header className="relative shrink-0 overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 px-5 py-5 sm:px-6 sm:py-6">
@@ -102,7 +102,7 @@ const InterviewDetailsModal = ({
 
           <div className="relative flex items-center justify-between gap-4">
             <div className="flex min-w-0 items-center gap-3">
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/10 text-indigo-300">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/10 text-indigo-300">
                 <svg
                   viewBox="0 0 24 24"
                   fill="none"
@@ -154,7 +154,7 @@ const InterviewDetailsModal = ({
           </div>
 
           {/* SELECTED ID */}
-          <div className="relative mt-5 flex flex-col gap-2 rounded-xl border border-white/10 bg-white/[0.07] p-3 sm:flex-row sm:items-center sm:justify-between sm:px-4">
+          <div className="relative mt-5 flex flex-col gap-2 rounded-xl bg-white/[0.07] p-3 sm:flex-row sm:items-center sm:justify-between sm:px-4">
             <div>
               <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">
                 Selected ID
@@ -174,7 +174,7 @@ const InterviewDetailsModal = ({
         {/* BODY */}
         <main className="min-h-0 flex-1 overflow-y-auto overscroll-contain bg-slate-50/80 p-4 sm:p-6">
           {/* ACTIVITY SUMMARY */}
-          <div className="mb-5 flex items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+          <div className="mb-5 flex items-center justify-between gap-3 rounded-2xl bg-white p-4 shadow-sm">
             <div className="flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600">
                 <svg
@@ -214,7 +214,7 @@ const InterviewDetailsModal = ({
             <div className="space-y-3 sm:space-y-4">{activityDetailCards}</div>
           ) : (
             /* EMPTY STATE */
-            <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 bg-white px-5 py-14 text-center">
+            <div className="flex flex-col items-center justify-center rounded-2xl bg-white px-5 py-14 text-center">
               <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-400">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -242,7 +242,7 @@ const InterviewDetailsModal = ({
         </main>
 
         {/* FOOTER */}
-        <footer className="shrink-0 border-t border-slate-200 bg-white px-4 py-3 sm:px-6 sm:py-4">
+        <footer className="shrink-0 bg-white px-4 py-3 sm:px-6 sm:py-4">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-2 text-xs text-slate-500">
               <span className="h-2 w-2 shrink-0 rounded-full bg-emerald-500" />

@@ -34,7 +34,7 @@ const RegisterCandidate = () => {
   return (
     <div className="min-h-screen w-full overflow-x-hidden bg-[#F4F6FC] px-3 py-5 sm:px-6 sm:py-8 lg:flex lg:items-center lg:justify-center">
       {/* Main Authentication Card */}
-      <div className="mx-auto grid w-full max-w-5xl grid-cols-1 overflow-hidden rounded-2xl border border-slate-200/70 bg-white shadow-[0_20px_70px_-25px_rgba(30,41,59,0.18)] sm:rounded-3xl md:grid-cols-2">
+      <div className="mx-auto grid w-full max-w-5xl grid-cols-1 overflow-hidden rounded-2xl bg-white shadow-[0_20px_70px_-25px_rgba(30,41,59,0.18)] sm:rounded-3xl md:grid-cols-2">
         {/* LEFT SIDE - Authentication Form */}
         <div className="flex min-w-0 flex-col justify-center p-5 sm:p-8 md:p-7 lg:p-10 xl:p-12">
           {/* Brand Header */}
@@ -68,8 +68,8 @@ const RegisterCandidate = () => {
 
             <p className="mt-2 max-w-sm text-xs leading-6 text-slate-500 sm:text-sm">
               {isLogin
-                ? "Enter your credentials to access your account and continue your journey."
-                : "Join our platform and unlock new opportunities."}
+                ? "Sign in to continue to your candidate workspace."
+                : "Create an account to find your next opportunity."}
             </p>
           </div>
 
@@ -83,7 +83,7 @@ const RegisterCandidate = () => {
           </div>
 
           {/* Footer */}
-          <div className="mt-6 border-t border-slate-100 pt-4 sm:mt-8 sm:pt-5">
+          <div className="mt-6 pt-4 sm:mt-8 sm:pt-5">
             <p className="text-center text-[10px] leading-5 text-slate-400 sm:text-xs">
               By continuing, you agree to our{" "}
               <span className="cursor-pointer font-medium text-indigo-600 hover:underline">
@@ -101,38 +101,24 @@ const RegisterCandidate = () => {
         {/* RIGHT SIDE - Welcome Panel */}
         <div className="relative flex min-w-0 flex-col justify-between overflow-hidden bg-gradient-to-br from-indigo-700 via-indigo-700 to-violet-900 p-6 text-white sm:p-9 md:p-7 lg:p-10 xl:p-12">
           {/* Decorative Background */}
-          <div className="pointer-events-none absolute -right-24 -top-24 h-64 w-64 rounded-full border border-white/10 sm:h-80 sm:w-80" />
-          <div className="pointer-events-none absolute -right-12 -top-12 h-48 w-48 rounded-full border border-white/10 sm:h-56 sm:w-56" />
           <div className="pointer-events-none absolute -bottom-32 -left-20 h-72 w-72 rounded-full bg-violet-400/10 blur-2xl" />
 
           {/* Top Content */}
           <div className="relative z-10">
-            <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-[9px] font-semibold uppercase tracking-widest text-indigo-100 backdrop-blur-sm sm:text-[10px]">
+            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-[9px] font-semibold uppercase tracking-widest text-indigo-100 backdrop-blur-sm sm:text-[10px]">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
               Secure Authentication
             </div>
 
             <h2 className="mt-7 text-2xl font-bold leading-tight tracking-tight sm:mt-10 sm:text-4xl">
-              {isLogin ? (
-                <>
-                  Great to see
-                  <br />
-                  you again<span className="text-indigo-300">.</span>
-                </>
-              ) : (
-                <>
-                  Your next
-                  <br />
-                  chapter starts
-                  <span className="text-indigo-300"> here.</span>
-                </>
-              )}
+              Move your career
+              <br />
+              forward<span className="text-indigo-300">.</span>
             </h2>
 
             <p className="mt-4 max-w-sm text-xs leading-6 text-indigo-100/90 sm:mt-5 sm:text-sm sm:leading-7">
-              {isLogin
-                ? "Your workspace is waiting. Sign in to manage your profile, explore opportunities, and stay connected."
-                : "Create your account and become part of a growing community of professionals and industry experts."}
+              Keep your profile, opportunities, and conversations together in
+              one place.
             </p>
 
             {/* Feature Highlights */}
@@ -203,7 +189,7 @@ const RegisterCandidate = () => {
 
             <button
               onClick={() => setIsLogin(!isLogin)}
-              className="group mt-3 flex min-h-11 w-full items-center justify-center gap-3 rounded-xl border border-white/30 bg-white px-4 py-3 text-xs font-bold text-indigo-700 shadow-lg shadow-indigo-950/10 transition-all duration-300 hover:-translate-y-0.5 hover:bg-indigo-50 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-white/20 sm:mt-4 sm:px-5 sm:text-sm"
+              className="group mt-3 flex min-h-11 w-full items-center justify-center gap-3 rounded-xl bg-white px-4 py-3 text-xs font-bold text-indigo-700 shadow-lg shadow-indigo-950/10 transition-all duration-300 hover:-translate-y-0.5 hover:bg-indigo-50 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-white/20 sm:mt-4 sm:px-5 sm:text-sm"
             >
               {isLogin ? "Create Your Account" : "Sign In to Your Account"}
 

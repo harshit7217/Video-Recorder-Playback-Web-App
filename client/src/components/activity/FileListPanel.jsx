@@ -50,7 +50,7 @@ const FileListPanel = () => {
       role="button"
       tabIndex={0}
       aria-label={`View details for ${fileName}`}
-      className="group relative flex cursor-pointer items-center gap-3 overflow-hidden rounded-xl border border-slate-200 bg-white p-3 transition-all duration-200 hover:border-indigo-200 hover:bg-indigo-50/40 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:gap-4 sm:p-4"
+      className="group relative flex cursor-pointer items-center gap-3 overflow-hidden rounded-xl bg-white p-3 transition-all duration-200 hover:bg-indigo-50/40 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:gap-4 sm:p-4"
     >
       {/* Hover accent */}
       <div className="absolute inset-y-0 left-0 w-1 scale-y-0 rounded-r-full bg-indigo-500 transition-transform duration-200 group-hover:scale-y-100" />
@@ -109,14 +109,14 @@ const FileListPanel = () => {
   return (
     <div className="mx-auto w-full max-w-5xl p-3 sm:p-5 lg:p-6">
       {/* MAIN CONTAINER */}
-      <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm sm:rounded-3xl">
+      <div className="overflow-hidden rounded-2xl bg-white shadow-sm sm:rounded-3xl">
         {/* HEADER */}
         <div className="relative overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 px-5 py-5 sm:px-6 sm:py-6">
           <div className="absolute -right-12 -top-16 h-40 w-40 rounded-full bg-indigo-500/20 blur-3xl" />
 
           <div className="relative flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-3">
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/10 text-indigo-300">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white/10 text-indigo-300">
                 <svg
                   viewBox="0 0 24 24"
                   fill="none"
@@ -144,7 +144,7 @@ const FileListPanel = () => {
             </div>
 
             {/* FILE COUNT */}
-            <div className="flex w-fit items-center gap-2 rounded-xl border border-white/10 bg-white/[0.07] px-4 py-2.5">
+            <div className="flex w-fit items-center gap-2 rounded-xl bg-white/[0.07] px-4 py-2.5">
               <svg
                 viewBox="0 0 24 24"
                 fill="none"
@@ -175,13 +175,13 @@ const FileListPanel = () => {
               </p>
             </div>
 
-            <span className="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-[10px] font-semibold text-slate-500">
+            <span className="rounded-lg bg-white px-3 py-1.5 text-[10px] font-semibold text-slate-500">
               File Library
             </span>
           </div>
 
           {/* LIST */}
-          <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+          <div className="overflow-hidden rounded-2xl bg-white shadow-sm">
             {fileListEntries ? (
               <ul className="divide-y divide-slate-100">{fileListEntries}</ul>
             ) : (
@@ -212,7 +212,7 @@ const FileListPanel = () => {
         </div>
 
         {/* FOOTER */}
-        <div className="flex flex-col gap-1 border-t border-slate-100 bg-white px-5 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+        <div className="flex flex-col gap-1 bg-white px-5 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-6">
           <p className="text-[11px] text-slate-500">
             Select any file to explore its interview records.
           </p>

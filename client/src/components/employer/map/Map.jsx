@@ -134,12 +134,12 @@ const Map = ({
             </div>
 
             <div className="flex flex-wrap items-center gap-2">
-              <span className="inline-flex items-center gap-2 rounded-lg border border-indigo-100 bg-indigo-50 px-3 py-2 text-xs font-semibold text-indigo-700">
+              <span className="inline-flex items-center gap-2 rounded-lg bg-indigo-50 px-3 py-2 text-xs font-semibold text-indigo-700">
                 <span className="h-2 w-2 rounded-full bg-indigo-500" />
                 {isCircle ? "Circle Mode" : "Polygon Mode"}
               </span>
 
-              <span className="inline-flex items-center gap-2 rounded-lg border border-emerald-100 bg-emerald-50 px-3 py-2 text-xs font-semibold text-emerald-700">
+              <span className="inline-flex items-center gap-2 rounded-lg bg-emerald-50 px-3 py-2 text-xs font-semibold text-emerald-700">
                 <span className="h-2 w-2 rounded-full bg-emerald-500" />
                 Live Map
               </span>
@@ -209,7 +209,7 @@ const Map = ({
           {/* ACTIVE RADIUS */}
           {isCircle && (
             <div className="absolute left-3 top-3 z-[1000] max-w-[calc(100%-5rem)] sm:left-5 sm:top-5">
-              <div className="rounded-xl border border-white bg-white/95 px-3 py-2.5 shadow-lg backdrop-blur-md sm:px-4 sm:py-3">
+              <div className="rounded-xl bg-white/95 px-3 py-2.5 shadow-lg backdrop-blur-md sm:px-4 sm:py-3">
                 <div className="mb-1 flex items-center gap-2">
                   <span className="h-2 w-2 rounded-full bg-blue-600" />
                   <p className="text-[9px] font-bold uppercase tracking-wider text-slate-400 sm:text-[10px]">
@@ -235,7 +235,7 @@ const Map = ({
 
           {/* MAP PROVIDER */}
           <div className="absolute right-12 top-3 z-[1000] sm:right-14 sm:top-5">
-            <div className="flex items-center gap-2 rounded-lg border border-slate-200 bg-white/95 px-2.5 py-2 shadow-md backdrop-blur-md sm:px-3">
+            <div className="flex items-center gap-2 rounded-lg bg-white/95 px-2.5 py-2 shadow-md backdrop-blur-md sm:px-3">
               <svg className="h-4 w-4 shrink-0 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3V6z"
@@ -251,7 +251,7 @@ const Map = ({
 
           {/* MAP LEGEND */}
           <div className="absolute bottom-3 left-3 z-[1000] sm:bottom-5 sm:left-5">
-            <div className="min-w-[155px] rounded-xl border border-white bg-white/95 p-3 shadow-lg backdrop-blur-md sm:min-w-[190px] sm:p-4">
+            <div className="min-w-[155px] rounded-xl bg-white/95 p-3 shadow-lg backdrop-blur-md sm:min-w-[190px] sm:p-4">
 
               <div className="mb-3 flex items-center justify-between">
                 <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500">

@@ -294,10 +294,8 @@ const RecordingScreen = ({
         className="
     relative mx-auto w-full
     overflow-hidden rounded-2xl sm:rounded-3xl
-    border border-slate-200/70
     bg-slate-950
     shadow-[0_20px_60px_-20px_rgba(15,23,42,0.3)]
-    dark:border-slate-700
   "
       >
         {/* Preview Header */}
@@ -313,7 +311,7 @@ const RecordingScreen = ({
             <span
               className="
           flex h-8 w-8 shrink-0 items-center justify-center
-          rounded-lg border border-white/15
+          rounded-lg
           bg-white/10 text-white backdrop-blur-md
         "
             >
@@ -344,7 +342,7 @@ const RecordingScreen = ({
             <div
               className="
           flex shrink-0 items-center gap-2
-          rounded-full border border-red-400/30
+          rounded-full
           bg-red-500/15 px-3 py-1.5
           text-[10px] font-bold uppercase
           tracking-wider text-red-200
@@ -358,7 +356,7 @@ const RecordingScreen = ({
             <div
               className="
           flex shrink-0 items-center gap-2
-          rounded-full border border-white/15
+          rounded-full
           bg-white/10 px-3 py-1.5
           text-[10px] font-medium
           text-white/80 backdrop-blur-md sm:text-xs
@@ -400,7 +398,6 @@ const RecordingScreen = ({
               <div
                 className="
             mx-4 max-w-xs rounded-2xl
-            border border-white/10
             bg-black/40 px-5 py-5
             text-center text-white
             shadow-xl backdrop-blur-md
@@ -483,9 +480,9 @@ const RecordingScreen = ({
       {isRecordingActive && (
         <div
           className="
-      rounded-2xl border border-slate-200
+      rounded-2xl
       bg-white p-4 shadow-sm
-      dark:border-slate-700 dark:bg-slate-800
+      dark:bg-slate-800
       sm:p-6
     "
         >
@@ -571,16 +568,13 @@ const RecordingScreen = ({
           <div
             className="
         overflow-hidden rounded-2xl
-        border border-slate-200
         bg-white shadow-sm
-        dark:border-slate-700 dark:bg-slate-800
+        dark:bg-slate-800
       "
           >
             <div
               className="
-          border-b border-slate-100
           px-4 py-4
-          dark:border-slate-700
           sm:px-6
         "
             >

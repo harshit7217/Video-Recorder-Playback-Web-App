@@ -17,7 +17,6 @@ const RecordingTimer = ({ remainingSeconds }) => {
   absolute right-3 top-3 z-20
   inline-flex items-center gap-2.5
   rounded-full
-  border border-white/15
   bg-slate-950/75
   px-4 py-2.5
   text-sm font-semibold text-white

@@ -48,10 +48,9 @@ const Employer = () => {
     grid-cols-1 md:grid-cols-2
     overflow-hidden
     rounded-2xl sm:rounded-3xl
-    border border-slate-200/70
     bg-white
     shadow-[0_20px_70px_-25px_rgba(30,41,59,0.18)]
-    dark:border-slate-700 dark:bg-slate-800
+    dark:bg-slate-800
   "
       >
         {/* LEFT SIDE - Authentication Form */}
@@ -100,8 +99,8 @@ const Employer = () => {
 
             <p className="mt-2 max-w-sm text-xs leading-6 text-slate-500 dark:text-slate-400 sm:text-sm">
               {isLogin
-                ? "Sign in to manage your hiring workflow, review candidates, and find the right talent."
-                : "Create your employer account and start building your dream team."}
+                ? "Sign in to manage your hiring workspace."
+                : "Create an account to connect with qualified candidates."}
             </p>
           </div>
 
@@ -115,7 +114,7 @@ const Employer = () => {
           </div>
 
           {/* Footer */}
-          <div className="mt-6 border-t border-slate-100 pt-5 dark:border-slate-700 sm:mt-8">
+          <div className="mt-6 pt-5 sm:mt-8">
             <p className="text-center text-[10px] leading-5 text-slate-400 sm:text-xs">
               Secure Employer Portal
               <span className="mx-2">•</span>© {new Date().getFullYear()} All
@@ -140,7 +139,7 @@ const Employer = () => {
         pointer-events-none absolute
         -right-24 -top-24
         h-80 w-80 rounded-full
-        border border-white/10
+
       "
           />
 
@@ -149,7 +148,7 @@ const Employer = () => {
         pointer-events-none absolute
         -right-12 -top-12
         h-56 w-56 rounded-full
-        border border-white/10
+
       "
           />
 
@@ -168,7 +167,7 @@ const Employer = () => {
             <div
               className="
           inline-flex items-center gap-2
-          rounded-full border border-white/20
+          rounded-full
           bg-white/10 px-3 py-1.5
           text-[9px] font-semibold uppercase
           tracking-widest text-indigo-100
@@ -187,20 +186,9 @@ const Employer = () => {
           sm:mt-10 sm:text-4xl
         "
             >
-              {isLogin ? (
-                <>
-                  Build your
-                  <br />
-                  dream team<span className="text-indigo-300">.</span>
-                </>
-              ) : (
-                <>
-                  Great talent
-                  <br />
-                  starts with
-                  <span className="text-indigo-300"> you.</span>
-                </>
-              )}
+              Build your
+              <br />
+              dream team<span className="text-indigo-300">.</span>
             </h2>
 
             {/* Description */}
@@ -212,9 +200,8 @@ const Employer = () => {
           sm:text-sm sm:leading-7
         "
             >
-              {isLogin
-                ? "Your hiring workspace is waiting. Sign in to discover talented professionals, manage applications, and streamline your recruitment process."
-                : "Join our hiring community, connect with talented candidates, and discover the people who will help your organization grow."}
+              Discover candidates, organize applications, and keep your hiring
+              process moving in one workspace.
             </p>
 
             {/* Feature Highlights */}
@@ -306,7 +293,6 @@ const Employer = () => {
           <div
             className="
         relative z-10 mt-9
-        border-t border-white/20
         pt-6 sm:mt-12 sm:pt-7
       "
           >
@@ -322,7 +308,7 @@ const Employer = () => {
               className="
             group mt-4 flex min-h-11 w-full
             items-center justify-center gap-3
-            rounded-xl border border-white/30
+            rounded-xl
             bg-white px-5 py-3.5
             text-xs font-bold text-indigo-700
             shadow-lg shadow-indigo-950/10
@@ -351,9 +337,6 @@ const Employer = () => {
               </svg>
             </button>
 
-            <p className="mt-5 text-center text-[10px] text-indigo-200/70 sm:text-[11px]">
-              © {new Date().getFullYear()} All rights reserved.
-            </p>
           </div>
         </div>
       </div>

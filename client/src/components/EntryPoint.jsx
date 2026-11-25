@@ -10,7 +10,7 @@ const EntryPoint = () => {
       <div className="mx-auto max-w-5xl">
         {/* Header */}
         <div className="mb-12 text-center">
-          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-indigo-100 bg-indigo-50 px-4 py-2 text-xs font-semibold tracking-wide text-indigo-600">
+          <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-indigo-50 px-4 py-2 text-xs font-semibold tracking-wide text-indigo-600">
             <ShieldCheck size={15} />
             YOUR PROFESSIONAL WORKSPACE
           </div>
@@ -103,9 +103,9 @@ const EntryPoint = () => {
         {/* Dynamic Content */}
         <div
           key={isCandidate ? "candidate" : "interviewer"}
-          className="overflow-hidden rounded-3xl border border-slate-200/80 bg-white shadow-xl shadow-slate-200/50 animate-in fade-in slide-in-from-bottom-2 duration-300"
+          className="overflow-hidden rounded-3xl bg-white shadow-xl shadow-slate-200/50 animate-in fade-in slide-in-from-bottom-2 duration-300"
         >
-          <div className="border-b border-slate-100 px-6 py-5 sm:px-10">
+          <div className="px-6 py-5 sm:px-10">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-widest text-indigo-500">
