@@ -91,38 +91,134 @@ const RecordingHeader = ({ connectionStatus, isRecordingActive }) => {
   }, []);
 
   return (
-    <div className="flex flex-col gap-3 border-b border-[#EEF0F7] px-5 py-4 sm:flex-row sm:items-center sm:justify-between md:px-7">
-      <div>
-        <h2 className="text-lg font-semibold text-[#030164] md:text-xl">
-          Video Recording
-        </h2>
-        <p className="mt-1 text-sm text-gray-500">
-          Record your video and customize the background
-        </p>
-        <p
-          className={`mt-2 flex items-center gap-2 text-xs ${
-            connectionStatus === "connected"
-              ? "text-green-700"
-              : "text-amber-700"
-          }`}
+    <div
+      className="
+  flex flex-col gap-4
+  border-b border-slate-100
+  bg-gradient-to-r from-white via-[#F8F8FF] to-[#F5F4FF]
+  px-4 py-5
+  dark:border-slate-700 dark:from-slate-800 dark:via-slate-800 dark:to-indigo-950/30
+  sm:px-6 sm:py-5
+  md:flex-row md:items-center md:justify-between
+  md:px-7
+"
+    >
+      {/* Left Section */}
+      <div className="min-w-0">
+        <div className="flex items-center gap-3">
+          <div
+            className="
+        flex h-11 w-11 shrink-0
+        items-center justify-center
+        rounded-xl bg-indigo-600
+        text-white shadow-lg shadow-indigo-200/60
+        dark:shadow-none
+      "
+          >
+            <svg
+              className="h-5 w-5"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+            >
+              <rect x="3" y="5" width="18" height="14" rx="2" />
+              <path d="m10 9 5 3-5 3z" />
+            </svg>
+          </div>
+
+          <div className="min-w-0">
+            <h2
+              className="
+          text-lg font-bold tracking-tight
+          text-slate-900 dark:text-white
+          sm:text-xl
+        "
+            >
+              Video Recording
+            </h2>
+
+            <p
+              className="
+          mt-0.5 text-xs leading-5
+          text-slate-500 dark:text-slate-400
+          sm:text-sm
+        "
+            >
+              Record your video and customize the background.
+            </p>
+          </div>
+        </div>
+
+        {/* Connection Status */}
+        <div
+          className={`
+        mt-3 inline-flex items-center gap-2
+        rounded-full border px-3 py-1.5
+        text-[11px] font-semibold
+        ${
+          connectionStatus === "connected"
+            ? "border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-400"
+            : "border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-400"
+        }
+      `}
           role="status"
+          aria-live="polite"
         >
           <span
-            className={`h-2 w-2 rounded-full ${
-              connectionStatus === "connected" ? "bg-green-500" : "bg-amber-500"
-            }`}
+            className={`
+        h-2 w-2 rounded-full
+        ${
+          connectionStatus === "connected"
+            ? "bg-emerald-500"
+            : "animate-pulse bg-amber-500"
+        }
+      `}
           />
-          Socket server: {connectionStatus}
-        </p>
+          Socket Server: {connectionStatus}
+        </div>
       </div>
 
-      <div className="flex flex-col justify-between gap-2">
+      {/* Right Section */}
+      <div
+        className="
+    flex flex-wrap items-center
+    gap-2.5 sm:gap-3
+  "
+      >
+        {/* Recording Status */}
         {isRecordingActive && (
-          <div className="flex items-center gap-2 self-center rounded-full bg-red-50 px-3 py-1.5 text-sm font-medium text-red-600">
-            <span className="h-2 w-2 animate-pulse rounded-full bg-red-500" />
-            Recording
+          <div
+            className="
+        inline-flex items-center gap-2
+        rounded-xl border border-red-100
+        bg-red-50 px-3.5 py-2.5
+        text-xs font-bold text-red-600
+        dark:border-red-900/50
+        dark:bg-red-950/40 dark:text-red-400
+      "
+          >
+            <span className="relative flex h-2.5 w-2.5">
+              <span
+                className="
+            absolute inline-flex h-full w-full
+            animate-ping rounded-full
+            bg-red-400 opacity-60
+          "
+              />
+              <span
+                className="
+            relative inline-flex h-2.5 w-2.5
+            rounded-full bg-red-500
+          "
+              />
+            </span>
+            REC
+            <span className="font-medium">Recording</span>
           </div>
         )}
+
+        {/* Fullscreen Button */}
         <Button
           label={isFullScreen ? "Exit Full Screen" : "Full Screen"}
           onClick={toggleFullScreen}

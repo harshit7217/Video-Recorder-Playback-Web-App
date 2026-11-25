@@ -104,40 +104,197 @@ const RecordingPage = ({ connectionStatus }) => {
   }, []);
 
   return (
-    <div className="min-h-[500px] w-full bg-gradient-to-br from-[#FFFDEB] via-white to-[#F5F6FF] px-4 py-6 md:px-8">
-      <div className="mx-auto w-full max-w-5xl">
+    <div
+      className="
+  min-h-screen w-full
+  bg-gradient-to-br
+  from-[#F5F6FF] via-white to-[#FFFDEB]
+  px-3 py-5
+  dark:from-slate-950 dark:via-slate-900 dark:to-slate-950
+  sm:px-6 sm:py-8
+  lg:px-8 lg:py-10
+"
+    >
+      <div className="mx-auto w-full max-w-6xl">
+        {/* Page Heading */}
+        <div
+          className="
+      mb-5 flex flex-col gap-3
+      sm:mb-7 sm:flex-row
+      sm:items-center sm:justify-between
+    "
+        >
+          <div>
+            <div
+              className="
+          mb-2 inline-flex items-center gap-2
+          rounded-full border border-indigo-100
+          bg-indigo-50 px-3 py-1
+          text-[10px] font-bold uppercase
+          tracking-widest text-indigo-600
+          dark:border-indigo-500/20
+          dark:bg-indigo-500/10 dark:text-indigo-300
+        "
+            >
+              <span className="h-1.5 w-1.5 rounded-full bg-indigo-500" />
+              Interview Workspace
+            </div>
+
+            <h1
+              className="
+          text-2xl font-bold tracking-tight
+          text-slate-900 dark:text-white
+          sm:text-3xl
+        "
+            >
+              Interview Recording
+            </h1>
+
+            <p
+              className="
+          mt-1 text-xs leading-5
+          text-slate-500 dark:text-slate-400
+          sm:text-sm
+        "
+            >
+              Record your responses and review your interview videos.
+            </p>
+          </div>
+
+          {/* Connection Indicator */}
+          <div
+            className="
+        inline-flex w-fit items-center gap-2
+        rounded-xl border border-slate-200
+        bg-white/80 px-3.5 py-2.5
+        shadow-sm backdrop-blur-sm
+        dark:border-slate-700 dark:bg-slate-800
+      "
+          >
+            <span
+              className={`
+          h-2 w-2 rounded-full
+          ${
+            connectionStatus === "connected" ? "bg-emerald-500" : "bg-amber-500"
+          }
+        `}
+            />
+
+            <span
+              className="
+          text-xs font-semibold
+          text-slate-700 dark:text-slate-200
+        "
+            >
+              {connectionStatus === "connected"
+                ? "Camera Connected"
+                : "Connecting..."}
+            </span>
+          </div>
+        </div>
+
         {/* Main Recorder Card */}
-        <div className="overflow-hidden rounded-3xl border border-[#E7E8F5] bg-white shadow-[0_20px_60px_rgba(103,111,163,0.12)]">
-          {/* Header */}
-          <RecordingHeader
-            connectionStatus={connectionStatus}
-            isRecordingActive={isRecordingActive}
-          />
-          {/* Content */}
-          <div className="p-4 sm:p-6 md:p-8">
-            {/* ================= START SCREEN ================= */}
+        <div
+          className="
+      overflow-hidden
+      rounded-2xl sm:rounded-3xl
+      border border-slate-200/80
+      bg-white/95
+      shadow-[0_20px_70px_-25px_rgba(103,111,163,0.20)]
+      dark:border-slate-700
+      dark:bg-slate-800/95
+    "
+        >
+          {/* Recording Header */}
+          <div
+            className="
+        border-b border-slate-100
+        bg-gradient-to-r
+        from-white via-[#F8F8FF] to-[#F4F3FF]
+        dark:border-slate-700
+        dark:from-slate-800
+        dark:via-slate-800
+        dark:to-indigo-950/30
+      "
+          >
+            <RecordingHeader
+              connectionStatus={connectionStatus}
+              isRecordingActive={isRecordingActive}
+            />
+          </div>
+
+          {/* Main Content */}
+          <div
+            className="
+        p-3 sm:p-5
+        md:p-7 lg:p-9
+      "
+          >
+            {/* START SCREEN */}
             {!recordedVideos[currentVideoIndex] && (
-              <RecordingScreen
-                isRecordingActive={isRecordingActive}
-                videoElementRef={videoElementRef}
-                setIsRecordingActive={setIsRecordingActive}
-                currentVideoIndex={currentVideoIndex}
-                setRecordedVideos={setRecordedVideos}
-                setCurrentVideoIndex={setCurrentVideoIndex}
-                recordedVideos={recordedVideos}
-                bgImageRef={backgroundImagesRef}
-              />
+              <div className="animate-in fade-in duration-300">
+                <RecordingScreen
+                  isRecordingActive={isRecordingActive}
+                  videoElementRef={videoElementRef}
+                  setIsRecordingActive={setIsRecordingActive}
+                  currentVideoIndex={currentVideoIndex}
+                  setRecordedVideos={setRecordedVideos}
+                  setCurrentVideoIndex={setCurrentVideoIndex}
+                  recordedVideos={recordedVideos}
+                  bgImageRef={backgroundImagesRef}
+                />
+              </div>
             )}
-            {/* ================= VIDEO RESULT ================= */}
+
+            {/* VIDEO RESULT */}
             {recordedVideos[currentVideoIndex] && (
-              <RecordingVideoResult
-                recordedVideos={recordedVideos}
-                currentVideoIndex={currentVideoIndex}
-                setCurrentVideoIndex={setCurrentVideoIndex}
-                setRecordedVideos={setRecordedVideos}
-              />
+              <div className="animate-in fade-in duration-300">
+                <RecordingVideoResult
+                  recordedVideos={recordedVideos}
+                  currentVideoIndex={currentVideoIndex}
+                  setCurrentVideoIndex={setCurrentVideoIndex}
+                  setRecordedVideos={setRecordedVideos}
+                />
+              </div>
             )}
           </div>
+
+          {/* Bottom Accent */}
+          <div
+            className="
+        h-1 w-full
+        bg-gradient-to-r
+        from-indigo-500 via-violet-500 to-purple-400
+      "
+          />
+        </div>
+
+        {/* Bottom Information */}
+        <div
+          className="
+      mt-5 flex flex-col
+      items-center justify-between gap-2
+      text-center sm:flex-row
+      sm:text-left
+    "
+        >
+          <p
+            className="
+        text-[11px] text-slate-400
+        dark:text-slate-500
+      "
+          >
+            Interview Workspace · Secure Recording
+          </p>
+
+          <p
+            className="
+        text-[11px] text-slate-400
+        dark:text-slate-500
+      "
+          >
+            Make sure your camera is ready before recording.
+          </p>
         </div>
       </div>
     </div>

@@ -64,278 +64,271 @@ const Map = ({
   }, []);
 
   return (
-    <section className="w-full min-h-screen bg-[#f5f7fb] px-3 sm:px-5 lg:px-8 py-6">
-      {/* MAP WORKSPACE */}
-      <div className="grid grid-cols-1 lg:grid-cols-[300px_minmax(0,1fr)] gap-5 items-stretch">
-        {/* LEFT CONTROL PANEL */}
-        <aside className="min-w-0 w-full h-full">
-          <div className="h-full min-h-[450px]">
+    
+<section className="min-h-screen w-full overflow-x-hidden bg-slate-50 px-3 py-4 sm:px-5 sm:py-6 lg:px-8">
+  <div className="mx-auto w-full max-w-[1800px]">
+
+    {/* WORKSPACE */}
+    <div className="grid grid-cols-1 items-start gap-5 xl:grid-cols-[320px_minmax(0,1fr)]">
+
+      {/* LEFT SIDEBAR */}
+      <aside className="min-w-0 w-full">
+        <div className="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm sm:p-4">
+          <div className="mb-4 flex items-center justify-between">
+            <div>
+              <h2 className="text-base font-bold text-slate-900">
+                Search Controls
+              </h2>
+              <p className="mt-1 text-xs text-slate-500">
+                Configure your geographic search area
+              </p>
+            </div>
+
+            <span className="rounded-lg bg-indigo-50 px-3 py-1.5 text-xs font-semibold text-indigo-600">
+              Settings
+            </span>
+          </div>
+
+          <div className="min-w-0">
             {isCircle ? (
               <CircleComponent
                 selectedMarker={selectedMarker}
                 updateSelectedMarkerRadius={updateSelectedMarkerRadius}
               />
             ) : (
-              <PolygonComponent setPolygonBoundary={setPolygonBoundary} />
+              <PolygonComponent
+                setPolygonBoundary={setPolygonBoundary}
+              />
             )}
           </div>
-        </aside>
+        </div>
+      </aside>
 
-        {/* RIGHT MAP PANEL */}
-        <div className="min-w-0 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
-          {/* MAP HEADER */}
-          <div className="px-4 sm:px-6 py-4 border-b border-slate-100">
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-              <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeWidth="1.8"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3V6z"
-                    />
-                    <path strokeWidth="1.8" d="M9 3v15m6-12v15" />
-                  </svg>
-                </div>
+      {/* RIGHT MAP PANEL */}
+      <div className="flex min-w-0 flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
 
-                <div>
-                  <h3 className="text-base font-bold text-slate-900">
-                    Interactive Map
-                  </h3>
-                  <p className="text-xs text-slate-500 mt-1">
-                    Visualize and manage geographic search areas
-                  </p>
-                </div>
-              </div>
+        {/* MAP HEADER */}
+        <div className="border-b border-slate-100 px-4 py-4 sm:px-6">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
 
-              <div className="flex items-center gap-2 flex-wrap">
-                <span className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-600">
-                  <svg
-                    className="w-3.5 h-3.5 text-indigo-500"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <circle cx="12" cy="12" r="3" strokeWidth="1.8" />
-                    <path
-                      strokeWidth="1.8"
-                      strokeLinecap="round"
-                      d="M12 2v3m0 14v3M2 12h3m14 0h3"
-                    />
-                  </svg>
-                  {isCircle ? "Circle Mode" : "Polygon Mode"}
-                </span>
-
-                <span className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-emerald-50 border border-emerald-100 text-xs font-semibold text-emerald-700">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                  Live Map
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* MAP AREA */}
-          <div className="relative flex-1 min-h-[450px] lg:min-h-[650px] w-full bg-slate-100">
-            <MapContainer
-              center={[
-                selectedMarker?.lat ?? defaultLocation.lat,
-                selectedMarker?.lng ?? defaultLocation.lng,
-              ]}
-              zoom={13}
-              scrollWheelZoom={true}
-              zoomControl={false}
-              className="h-full w-full z-0"
-            >
-              <TileLayer
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
-                maxZoom={19}
-              />
-
-              {isCircle ? (
-                positions.map((position) => (
-                  <Circle
-                    key={position.id || `${position.lat}-${position.lng}`}
-                    center={[position.lat, position.lng]}
-                    radius={position.radius}
-                    pathOptions={{
-                      color:
-                        position.id === selectedMarkerId
-                          ? "#2563eb"
-                          : "#60a5fa",
-                      fillColor:
-                        position.id === selectedMarkerId
-                          ? "#3b82f6"
-                          : "#93c5fd",
-                      fillOpacity: position.id === selectedMarkerId ? 0.2 : 0.1,
-                      weight: position.id === selectedMarkerId ? 2 : 1.5,
-                    }}
-                  />
-                ))
-              ) : (
-                <Polygon
-                  pathOptions={purpleOptions}
-                  positions={polygonBoundary}
-                />
-              )}
-
-              <ZoomControl position="topright" />
-
-              <LocationMarker
-                positions={positions}
-                setPositions={setPositions}
-                selectedMarkerId={selectedMarkerId}
-                setSelectedMarkerId={setSelectedMarkerId}
-                isCircle={isCircle}
-              />
-            </MapContainer>
-
-            {/* TOP LEFT MAP INFORMATION */}
-            {isCircle && (
-              <div className="absolute top-4 left-4 z-[1000] max-w-[calc(100%-5rem)]">
-                <div className="bg-white/95 backdrop-blur-md border border-white rounded-xl shadow-lg px-4 py-3">
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="w-2 h-2 rounded-full bg-blue-600" />
-                    <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                      Active Search Radius
-                    </p>
-                  </div>
-
-                  <p className="text-xl font-bold text-blue-600">
-                    {selectedMarker?.radius ?? 500}
-                    <span className="text-xs font-semibold text-slate-500 ml-1">
-                      meters
-                    </span>
-                  </p>
-
-                  <p className="text-[10px] text-slate-400 mt-1">
-                    {selectedMarker
-                      ? "Selected marker coverage"
-                      : "Default radius"}
-                  </p>
-                </div>
-              </div>
-            )}
-
-            {/* MAP LEGEND */}
-            <div className="absolute bottom-4 left-4 z-[1000]">
-              <div className="bg-white/95 backdrop-blur-md border border-white rounded-xl shadow-lg p-4 min-w-[190px]">
-                <div className="flex items-center justify-between mb-3">
-                  <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
-                    Map Legend
-                  </p>
-
-                  <svg
-                    className="w-4 h-4 text-slate-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M4 6h16M4 12h16M4 18h16"
-                      strokeWidth="1.8"
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                </div>
-
-                <div className="space-y-3">
-                  {isCircle && (
-                    <>
-                      <div className="flex items-center gap-3">
-                        <span className="w-3 h-3 rounded-full bg-blue-600 ring-4 ring-blue-100" />
-                        <span className="text-xs font-medium text-slate-700">
-                          Selected radius
-                        </span>
-                      </div>
-
-                      <div className="flex items-center gap-3">
-                        <span className="w-3 h-3 rounded-full bg-blue-300" />
-                        <span className="text-xs font-medium text-slate-700">
-                          Other search areas
-                        </span>
-                      </div>
-                    </>
-                  )}
-
-                  {!isCircle && (
-                    <div className="flex items-center gap-3">
-                      <span className="w-3 h-3 rounded-sm bg-purple-500" />
-                      <span className="text-xs font-medium text-slate-700">
-                        City boundary
-                      </span>
-                    </div>
-                  )}
-
-                  <div className="pt-2 border-t border-slate-100 flex items-center gap-3">
-                    <span className="w-3 h-3 rounded-full bg-emerald-500" />
-                    <span className="text-xs font-medium text-slate-700">
-                      Map locations
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* MAP MODE INDICATOR */}
-            <div className="absolute top-4 right-14 z-[1000]">
-              <div className="bg-white/95 backdrop-blur-md border border-slate-200 rounded-lg shadow-md px-3 py-2 flex items-center gap-2">
-                <svg
-                  className="w-4 h-4 text-indigo-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
+            <div className="flex min-w-0 items-center gap-3">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600">
+                <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
-                    d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3V6z"
-                    strokeWidth="1.8"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-                <span className="text-[11px] font-semibold text-slate-600">
-                  OpenStreetMap
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* MAP FOOTER */}
-          <div className="px-4 sm:px-6 py-3 bg-white border-t border-slate-100">
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-              <div className="flex items-center gap-2">
-                <svg
-                  className="w-4 h-4 text-blue-500 shrink-0"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M12 11v5m0-8h.01M22 12a10 10 0 11-20 0 10 10 0 0120 0z"
                     strokeWidth="1.8"
                     strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3V6z M9 3v15m6-12v15"
                   />
                 </svg>
-                <p className="text-xs text-slate-500">
-                  Click on the map to create markers and configure geographic
-                  coverage.
-                </p>
               </div>
 
-              <div className="flex items-center gap-2 text-[11px] text-slate-400">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                Map tiles provided by OpenStreetMap
+              <div className="min-w-0">
+                <h3 className="text-base font-bold text-slate-900">
+                  Interactive Map
+                </h3>
+                <p className="mt-1 text-xs text-slate-500">
+                  Visualize and manage geographic search areas
+                </p>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="inline-flex items-center gap-2 rounded-lg border border-indigo-100 bg-indigo-50 px-3 py-2 text-xs font-semibold text-indigo-700">
+                <span className="h-2 w-2 rounded-full bg-indigo-500" />
+                {isCircle ? "Circle Mode" : "Polygon Mode"}
+              </span>
+
+              <span className="inline-flex items-center gap-2 rounded-lg border border-emerald-100 bg-emerald-50 px-3 py-2 text-xs font-semibold text-emerald-700">
+                <span className="h-2 w-2 rounded-full bg-emerald-500" />
+                Live Map
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* MAP AREA */}
+        <div className="relative h-[55vh] min-h-[400px] w-full bg-slate-100 sm:h-[65vh] sm:min-h-[500px] lg:h-[72vh] lg:min-h-[600px]">
+
+          <MapContainer
+            center={[
+              selectedMarker?.lat ?? defaultLocation.lat,
+              selectedMarker?.lng ?? defaultLocation.lng,
+            ]}
+            zoom={13}
+            scrollWheelZoom={true}
+            zoomControl={false}
+            className="z-0 h-full w-full"
+          >
+            <TileLayer
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+              maxZoom={19}
+            />
+
+            {isCircle ? (
+              positions.map((position) => (
+                <Circle
+                  key={position.id || `${position.lat}-${position.lng}`}
+                  center={[position.lat, position.lng]}
+                  radius={position.radius}
+                  pathOptions={{
+                    color:
+                      position.id === selectedMarkerId
+                        ? "#2563eb"
+                        : "#60a5fa",
+                    fillColor:
+                      position.id === selectedMarkerId
+                        ? "#3b82f6"
+                        : "#93c5fd",
+                    fillOpacity:
+                      position.id === selectedMarkerId ? 0.2 : 0.1,
+                    weight:
+                      position.id === selectedMarkerId ? 2 : 1.5,
+                  }}
+                />
+              ))
+            ) : (
+              <Polygon
+                pathOptions={purpleOptions}
+                positions={polygonBoundary}
+              />
+            )}
+
+            <ZoomControl position="topright" />
+
+            <LocationMarker
+              positions={positions}
+              setPositions={setPositions}
+              selectedMarkerId={selectedMarkerId}
+              setSelectedMarkerId={setSelectedMarkerId}
+              isCircle={isCircle}
+            />
+          </MapContainer>
+
+          {/* ACTIVE RADIUS */}
+          {isCircle && (
+            <div className="absolute left-3 top-3 z-[1000] max-w-[calc(100%-5rem)] sm:left-5 sm:top-5">
+              <div className="rounded-xl border border-white bg-white/95 px-3 py-2.5 shadow-lg backdrop-blur-md sm:px-4 sm:py-3">
+                <div className="mb-1 flex items-center gap-2">
+                  <span className="h-2 w-2 rounded-full bg-blue-600" />
+                  <p className="text-[9px] font-bold uppercase tracking-wider text-slate-400 sm:text-[10px]">
+                    Active Search Radius
+                  </p>
+                </div>
+
+                <p className="text-lg font-bold text-blue-600 sm:text-xl">
+                  {selectedMarker?.radius ?? 500}
+                  <span className="ml-1 text-xs font-semibold text-slate-500">
+                    meters
+                  </span>
+                </p>
+
+                <p className="mt-1 text-[10px] text-slate-400">
+                  {selectedMarker
+                    ? "Selected marker coverage"
+                    : "Default radius"}
+                </p>
+              </div>
+            </div>
+          )}
+
+          {/* MAP PROVIDER */}
+          <div className="absolute right-12 top-3 z-[1000] sm:right-14 sm:top-5">
+            <div className="flex items-center gap-2 rounded-lg border border-slate-200 bg-white/95 px-2.5 py-2 shadow-md backdrop-blur-md sm:px-3">
+              <svg className="h-4 w-4 shrink-0 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3V6z"
+                  strokeWidth="1.8"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              <span className="text-[10px] font-semibold text-slate-600 sm:text-xs">
+                OpenStreetMap
+              </span>
+            </div>
+          </div>
+
+          {/* MAP LEGEND */}
+          <div className="absolute bottom-3 left-3 z-[1000] sm:bottom-5 sm:left-5">
+            <div className="min-w-[155px] rounded-xl border border-white bg-white/95 p-3 shadow-lg backdrop-blur-md sm:min-w-[190px] sm:p-4">
+
+              <div className="mb-3 flex items-center justify-between">
+                <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
+                  Map Legend
+                </p>
+                <svg className="h-4 w-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path d="M4 6h16M4 12h16M4 18h16" strokeWidth="1.8" strokeLinecap="round" />
+                </svg>
+              </div>
+
+              <div className="space-y-2.5">
+                {isCircle ? (
+                  <>
+                    <div className="flex items-center gap-2.5">
+                      <span className="h-3 w-3 rounded-full bg-blue-600 ring-4 ring-blue-100" />
+                      <span className="text-[11px] font-medium text-slate-700">
+                        Selected radius
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-2.5">
+                      <span className="h-3 w-3 rounded-full bg-blue-300" />
+                      <span className="text-[11px] font-medium text-slate-700">
+                        Other search areas
+                      </span>
+                    </div>
+                  </>
+                ) : (
+                  <div className="flex items-center gap-2.5">
+                    <span className="h-3 w-3 rounded-sm bg-purple-500" />
+                    <span className="text-[11px] font-medium text-slate-700">
+                      City boundary
+                    </span>
+                  </div>
+                )}
+
+                <div className="flex items-center gap-2.5 border-t border-slate-100 pt-2">
+                  <span className="h-3 w-3 rounded-full bg-emerald-500" />
+                  <span className="text-[11px] font-medium text-slate-700">
+                    Map locations
+                  </span>
+                </div>
               </div>
             </div>
           </div>
         </div>
+
+        {/* MAP FOOTER */}
+        <div className="border-t border-slate-100 bg-white px-4 py-3 sm:px-6">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+
+            <div className="flex items-start gap-2">
+              <svg className="mt-0.5 h-4 w-4 shrink-0 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M12 11v5m0-8h.01M22 12a10 10 0 11-20 0 10 10 0 0120 0z"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                />
+              </svg>
+
+              <p className="text-xs leading-relaxed text-slate-500">
+                Click on the map to create markers and configure geographic coverage.
+              </p>
+            </div>
+
+            <div className="flex items-center gap-2 text-[10px] font-medium text-slate-400">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+              Map tiles provided by OpenStreetMap
+            </div>
+          </div>
+        </div>
+
       </div>
-    </section>
+    </div>
+  </div>
+</section>
+
   );
 };
 

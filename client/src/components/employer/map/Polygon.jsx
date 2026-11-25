@@ -170,57 +170,66 @@ const Polygon = ({ setPolygonBoundary }) => {
   // ));
 
   return (
-    <aside className="w-full h-full min-w-0">
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm h-full flex flex-col overflow-hidden">
-        {/* HEADER */}
-        <div className="p-5 border-b border-slate-100">
-          <div className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeWidth="1.8"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3V6z M9 3v15 M15 6v15"
-                />
-              </svg>
-            </div>
-
-            <div className="min-w-0">
-              <h2 className="font-bold text-slate-900">City Boundaries</h2>
-              <p className="text-xs text-slate-500 mt-0.5">
-                Geographic boundary explorer
-              </p>
-            </div>
+    <aside className="flex h-full min-h-0 w-full min-w-0 flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+      {/* HEADER */}
+      <div className="shrink-0 border-b border-slate-100 bg-white px-4 py-4 sm:px-5">
+        <div className="flex items-center gap-3">
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600">
+            <svg
+              className="h-5 w-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3V6z M9 3v15 M15 6v15"
+              />
+            </svg>
           </div>
+
+          <div className="min-w-0 flex-1">
+            <h2 className="text-base font-bold tracking-tight text-slate-900 sm:text-lg">
+              City Boundaries
+            </h2>
+            <p className="mt-0.5 text-xs text-slate-500">
+              Explore and visualize geographic boundaries
+            </p>
+          </div>
+
+          <span className="hidden shrink-0 items-center gap-1.5 rounded-full bg-emerald-50 px-2.5 py-1.5 text-[10px] font-semibold text-emerald-700 sm:inline-flex">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+            Ready
+          </span>
         </div>
+      </div>
 
-        {/* BODY */}
-        <div className="p-5 flex-1 space-y-5">
-          {/* SEARCH SECTION */}
-          <div>
-            <div className="flex items-center justify-between gap-2 mb-1">
-              <h3 className="text-sm font-bold text-slate-800">City Search</h3>
-
-              <span className="text-[10px] font-semibold text-blue-600 bg-blue-50 px-2 py-1 rounded-md">
+      {/* SCROLLABLE BODY */}
+      <div className="min-h-0 flex-1 space-y-5 overflow-y-auto overscroll-contain p-4 sm:p-5">
+        {/* SEARCH SECTION */}
+        <section>
+          <div className="mb-4">
+            <div className="flex items-center justify-between gap-2">
+              <h3 className="text-sm font-bold text-slate-800">
+                Search Location
+              </h3>
+              <span className="rounded-lg bg-indigo-50 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-indigo-600">
                 Explorer
               </span>
             </div>
-
-            <p className="text-xs text-slate-500 mb-4">
-              Find a country and load its geographic boundary.
+            <p className="mt-1 text-xs leading-5 text-slate-500">
+              Search for a country to retrieve its geographic boundary.
             </p>
+          </div>
 
-            {/* COUNTRY COUNT */}
-            <div className="flex items-center gap-3 bg-slate-50 border border-slate-200 rounded-xl p-3 mb-4">
-              <div className="w-9 h-9 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">
+          {/* STAT CARD */}
+          <div className="mb-4 flex items-center justify-between rounded-xl border border-indigo-100 bg-gradient-to-r from-indigo-50 to-white p-3.5">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white text-indigo-600 shadow-sm">
                 <svg
-                  className="w-5 h-5"
+                  className="h-5 w-5"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -231,12 +240,14 @@ const Polygon = ({ setPolygonBoundary }) => {
                     strokeLinejoin="round"
                     d="M12 21s7-5.5 7-12a7 7 0 10-14 0c0 6.5 7 12 7 12z"
                   />
-                  <circle cx="12" cy="9" r="2.5" strokeWidth="1.8" />
+                  <circle cx="12" cy="9" r="2.5" />
                 </svg>
               </div>
-
               <div>
-                <p className="text-lg font-bold text-slate-900 leading-none">
+                <p className="text-xs font-medium text-slate-500">
+                  Available Boundaries
+                </p>
+                <p className="mt-0.5 text-xl font-bold text-slate-900">
                   {
                     cityDetails.filter(
                       (country) =>
@@ -245,18 +256,173 @@ const Polygon = ({ setPolygonBoundary }) => {
                     ).length
                   }
                 </p>
-                <p className="text-[11px] text-slate-500 mt-1">
-                  Available Cities
-                </p>
               </div>
             </div>
+            <span className="text-xs font-medium text-indigo-600">
+              Locations
+            </span>
+          </div>
 
-            {/* SEARCH FORM */}
-            <form onSubmit={(e) => handleSubmit(e)} className="space-y-3">
-              <div className="relative">
-                <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+          {/* SEARCH FORM */}
+          <form onSubmit={(e) => handleSubmit(e)} className="space-y-3">
+            <label
+              htmlFor="city-search"
+              className="block text-xs font-semibold text-slate-700"
+            >
+              Country Name
+            </label>
+
+            <div className="group relative">
+              <svg
+                className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400 transition group-focus-within:text-indigo-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <circle cx="11" cy="11" r="7" strokeWidth="1.8" />
+                <path d="m16 16 4 4" strokeWidth="1.8" strokeLinecap="round" />
+              </svg>
+
+              <input
+                id="city-search"
+                type="text"
+                value={tempCity}
+                onChange={(e) => setTempCity(e.target.value)}
+                placeholder="Enter country name..."
+                className="h-12 w-full rounded-xl border border-slate-200 bg-slate-50 pl-10 pr-3 text-sm text-slate-800 outline-none transition placeholder:text-slate-400 hover:border-slate-300 focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/10"
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 px-4 text-sm font-semibold text-white shadow-sm shadow-indigo-600/20 transition hover:bg-indigo-700 active:scale-[0.99] focus:outline-none focus:ring-4 focus:ring-indigo-500/20"
+            >
+              <svg
+                className="h-4 w-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <circle cx="11" cy="11" r="7" strokeWidth="2" />
+                <path d="m16 16 4 4" strokeWidth="2" strokeLinecap="round" />
+              </svg>
+              Search Boundaries
+            </button>
+
+            <button
+              type="button"
+              onClick={handleRemovePolygon}
+              className="flex h-10 w-full items-center justify-center gap-2 rounded-xl border border-rose-200 bg-rose-50 text-xs font-semibold text-rose-600 transition hover:border-rose-300 hover:bg-rose-100 active:scale-[0.99]"
+            >
+              <svg
+                className="h-4 w-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M4 7h16M10 11v6m4-6v6M5 7l1 14h12l1-14M9 7V4h6v3"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              Remove Polygon
+            </button>
+          </form>
+        </section>
+
+        {/* SEARCH RESULTS */}
+        <section className="border-t border-slate-100 pt-5">
+          <div className="mb-3 flex items-center justify-between gap-2">
+            <div>
+              <h3 className="text-sm font-bold text-slate-800">
+                Search Results
+              </h3>
+              <p className="mt-1 text-xs text-slate-500">
+                Select a location to display its boundary.
+              </p>
+            </div>
+
+            <span className="rounded-lg bg-slate-100 px-2.5 py-1 text-xs font-bold text-slate-600">
+              {
+                cityDetails.filter(
+                  (country) =>
+                    country.geometry.type === "Polygon" ||
+                    country.geometry.type === "MultiPolygon",
+                ).length
+              }
+            </span>
+          </div>
+
+          <div className="max-h-[320px] space-y-2 overflow-y-auto overscroll-contain pr-1 sm:max-h-[380px]">
+            {cityDetails.filter(
+              (country) =>
+                country.geometry.type === "Polygon" ||
+                country.geometry.type === "MultiPolygon",
+            ).length > 0 ? (
+              cityDetails
+                .filter(
+                  (country) =>
+                    country.geometry.type === "Polygon" ||
+                    country.geometry.type === "MultiPolygon",
+                )
+                .map((country, index) => (
+                  <button
+                    key={index}
+                    type="button"
+                    onClick={() => handleCountryBoundary(country)}
+                    className="group flex w-full items-center gap-3 rounded-xl border border-slate-200 bg-white p-3 text-left transition-all hover:border-indigo-300 hover:bg-indigo-50/50 hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+                  >
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 transition group-hover:bg-indigo-600 group-hover:text-white">
+                      <svg
+                        className="h-5 w-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeWidth="1.8"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M12 21s7-5.5 7-12a7 7 0 10-14 0c0 6.5 7 12 7 12z"
+                        />
+                        <circle cx="12" cy="9" r="2.5" />
+                      </svg>
+                    </div>
+
+                    <div className="min-w-0 flex-1">
+                      <p className="break-words text-xs font-semibold leading-5 text-slate-800 transition group-hover:text-indigo-700 sm:text-sm">
+                        {country.properties.display_name}
+                      </p>
+                      <div className="mt-1 flex items-center gap-1.5">
+                        <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                        <span className="text-[10px] font-medium text-slate-400">
+                          Polygon Boundary
+                        </span>
+                      </div>
+                    </div>
+
+                    <svg
+                      className="h-4 w-4 shrink-0 text-slate-400 transition group-hover:translate-x-0.5 group-hover:text-indigo-600"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="m9 18 6-6-6-6"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </button>
+                ))
+            ) : (
+              <div className="rounded-xl border border-dashed border-slate-300 bg-slate-50 px-4 py-9 text-center">
+                <div className="mx-auto flex h-11 w-11 items-center justify-center rounded-xl bg-white text-slate-400 shadow-sm">
                   <svg
-                    className="w-4 h-4 text-slate-400"
+                    className="h-5 w-5"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -269,313 +435,51 @@ const Polygon = ({ setPolygonBoundary }) => {
                     />
                   </svg>
                 </div>
-
-                <input
-                  type="text"
-                  value={tempCity}
-                  onChange={(e) => setTempCity(e.target.value)}
-                  placeholder="Enter country name..."
-                  className="w-full h-11 pl-10 pr-3 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-800 placeholder:text-slate-400 outline-none transition-all focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10"
-                />
-              </div>
-
-              <button
-                type="submit"
-                className="w-full h-11 flex items-center justify-center gap-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold shadow-sm transition-all active:scale-[0.98]"
-              >
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <circle cx="11" cy="11" r="7" strokeWidth="2" />
-                  <path d="m16 16 4 4" strokeWidth="2" strokeLinecap="round" />
-                </svg>
-                Search City
-              </button>
-
-              <button
-                type="button"
-                onClick={handleRemovePolygon}
-                className="w-full h-10 flex items-center justify-center gap-2 rounded-xl border border-red-200 bg-red-50 hover:bg-red-100 text-red-600 text-xs font-semibold transition-all"
-              >
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M4 7h16M10 11v6m4-6v6M5 7l1 14h12l1-14M9 7V4h6v3"
-                    strokeWidth="1.8"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-                Remove Polygon
-              </button>
-            </form>
-
-            {/* <div className="w-full">
-              <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-5">
-                {/* HEADER 
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
-                    <svg
-                      className="w-5 h-5"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <circle cx="12" cy="12" r="9" strokeWidth="1.8" />
-                      <path
-                        d="M3 12h18M12 3a15 15 0 010 18M12 3a15 15 0 000 18"
-                        strokeWidth="1.5"
-                      />
-                    </svg>
-                  </div>
-
-                  <div>
-                    <h3 className="text-sm font-bold text-slate-900">
-                      Country Selection
-                    </h3>
-                    <p className="text-xs text-slate-500 mt-0.5">
-                      Select a country to explore its geographic data.
-                    </p>
-                  </div>
-                </div>
-
-                {/* SELECT
-                <form className="space-y-2">
-                  <label
-                    htmlFor="country"
-                    className="block text-xs font-semibold text-slate-700"
-                  >
-                    Choose Country
-                  </label>
-
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
-                      <svg
-                        className="w-4 h-4 text-slate-400"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeWidth="1.8"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M12 21s7-5.5 7-12a7 7 0 10-14 0c0 6.5 7 12 7 12z"
-                        />
-                        <circle cx="12" cy="9" r="2.5" strokeWidth="1.8" />
-                      </svg>
-                    </div>
-
-                    <select
-                      name="country"
-                      id="country"
-                      value={countryName}
-                      onChange={(e) => setCountryName(e.target.value)}
-                      className="w-full h-12 pl-10 pr-10 appearance-none rounded-xl border border-slate-200 bg-slate-50 text-sm text-slate-700 font-medium outline-none cursor-pointer transition-all hover:border-blue-300 focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10"
-                    >
-                      <option value="" disabled>
-                        Select a country...
-                      </option>
-                      {countryListOption}
-                    </select>
-
-                    <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
-                      <svg
-                        className="w-4 h-4 text-slate-400"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          d="m7 10 5 5 5-5"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    </div>
-                  </div>
-
-                  <p className="text-[11px] text-slate-400 flex items-center gap-1.5 pt-1">
-                    <svg
-                      className="w-3.5 h-3.5"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <circle cx="12" cy="12" r="10" strokeWidth="1.7" />
-                      <path
-                        d="M12 11v5m0-8h.01"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                      />
-                    </svg>
-                    Choose a country to continue.
-                  </p>
-                </form>
-              </div>
-            </div> */}
-          </div>
-
-          {/* SEARCH RESULTS */}
-          <div className="border-t border-slate-100 pt-5">
-            <div className="flex items-center justify-between gap-2 mb-3">
-              <div>
-                <h3 className="text-sm font-bold text-slate-800">
-                  Search Results
-                </h3>
-                <p className="text-[11px] text-slate-400 mt-0.5">
-                  Select a city to view its boundary.
+                <p className="mt-3 text-sm font-semibold text-slate-700">
+                  No Boundaries Found
+                </p>
+                <p className="mt-1 text-xs leading-5 text-slate-400">
+                  Search for a country to explore its geographic boundary.
                 </p>
               </div>
-
-              <span className="text-xs font-semibold text-slate-500 bg-slate-100 px-2.5 py-1 rounded-lg">
-                {
-                  cityDetails.filter(
-                    (country) =>
-                      country.geometry.type === "Polygon" ||
-                      country.geometry.type === "MultiPolygon",
-                  ).length
-                }
-              </span>
-            </div>
-
-            <div className="space-y-2 max-h-[360px] overflow-y-auto pr-1">
-              {cityDetails.filter(
-                (country) =>
-                  country.geometry.type === "Polygon" ||
-                  country.geometry.type === "MultiPolygon",
-              ).length > 0 ? (
-                cityDetails
-                  .filter(
-                    (country) =>
-                      country.geometry.type === "Polygon" ||
-                      country.geometry.type === "MultiPolygon",
-                  )
-                  .map((country, index) => (
-                    <button
-                      key={index}
-                      type="button"
-                      onClick={() => handleCountryBoundary(country)}
-                      className="group w-full flex items-center gap-3 p-3 text-left rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 hover:shadow-sm transition-all"
-                    >
-                      <div className="w-9 h-9 shrink-0 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors">
-                        <svg
-                          className="w-4 h-4"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeWidth="1.8"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M12 21s7-5.5 7-12a7 7 0 10-14 0c0 6.5 7 12 7 12z"
-                          />
-                          <circle cx="12" cy="9" r="2.5" strokeWidth="1.8" />
-                        </svg>
-                      </div>
-
-                      <div className="flex-1 min-w-0">
-                        <p className="text-xs font-semibold text-slate-800 group-hover:text-blue-700 line-clamp-2">
-                          {country.properties.display_name}
-                        </p>
-
-                        <div className="flex items-center gap-1.5 mt-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                          <span className="text-[10px] text-slate-400">
-                            Polygon Boundary
-                          </span>
-                        </div>
-                      </div>
-
-                      <svg
-                        className="w-4 h-4 shrink-0 text-slate-400 group-hover:text-blue-600 transition-colors"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          d="m9 18 6-6-6-6"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    </button>
-                  ))
-              ) : (
-                <div className="py-7 px-3 text-center rounded-xl border border-dashed border-slate-200 bg-slate-50">
-                  <div className="w-10 h-10 mx-auto rounded-xl bg-white border border-slate-200 flex items-center justify-center mb-2">
-                    <svg
-                      className="w-5 h-5 text-slate-400"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <circle cx="11" cy="11" r="7" strokeWidth="1.8" />
-                      <path
-                        d="m16 16 4 4"
-                        strokeWidth="1.8"
-                        strokeLinecap="round"
-                      />
-                    </svg>
-                  </div>
-
-                  <p className="text-xs font-semibold text-slate-700">
-                    No Cities Found
-                  </p>
-                  <p className="text-[11px] text-slate-400 mt-1">
-                    Search for a country to explore its boundary.
-                  </p>
-                </div>
-              )}
-            </div>
+            )}
           </div>
+        </section>
 
-          {/* QUICK GUIDE */}
-          <div className="rounded-xl bg-blue-50 border border-blue-100 p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <svg
-                className="w-4 h-4 text-blue-600"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <circle cx="12" cy="12" r="10" strokeWidth="1.8" />
-                <path
-                  d="M12 11v5m0-8h.01"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                />
-              </svg>
-              <p className="text-xs font-bold text-blue-900">How to use</p>
-            </div>
-
-            <p className="text-xs text-blue-700 leading-relaxed">
-              Search for a country and select a result to visualize its
-              geographic boundary directly on the map.
-            </p>
+        {/* QUICK GUIDE */}
+        <section className="rounded-xl border border-blue-100 bg-blue-50/70 p-4">
+          <div className="flex items-center gap-2">
+            <svg
+              className="h-4 w-4 text-blue-600"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <circle cx="12" cy="12" r="10" strokeWidth="1.8" />
+              <path
+                d="M12 11v5m0-8h.01"
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
+            </svg>
+            <h4 className="text-xs font-bold text-blue-900">Quick Guide</h4>
           </div>
-        </div>
+          <p className="mt-2 text-xs leading-5 text-blue-700">
+            Search for a country, select a result, and visualize its geographic
+            boundary directly on the map.
+          </p>
+        </section>
+      </div>
 
-        {/* FOOTER */}
-        <div className="px-5 py-3 border-t border-slate-100 bg-slate-50/70">
-          <div className="flex items-center justify-between">
-            <span className="text-[11px] text-slate-400">Polygon Explorer</span>
-            <span className="flex items-center gap-1.5 text-[11px] font-medium text-emerald-600">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-              Ready
-            </span>
-          </div>
-        </div>
+      {/* FOOTER */}
+      <div className="flex shrink-0 items-center justify-between border-t border-slate-100 bg-slate-50 px-4 py-3 sm:px-5">
+        <span className="text-[10px] font-medium uppercase tracking-wider text-slate-400">
+          Polygon Explorer
+        </span>
+        <span className="flex items-center gap-1.5 text-[11px] font-semibold text-emerald-600">
+          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+          System Ready
+        </span>
       </div>
     </aside>
   );

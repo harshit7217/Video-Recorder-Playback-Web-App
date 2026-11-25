@@ -130,32 +130,140 @@ const CandidateInfo = () => {
   }
 
   return (
-    <div className="space-y-4">
-      <div className="flex justify-end">
-        <button
-          type="button"
-          onClick={handleLogout}
-          className="rounded-lg border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100 dark:border-slate-600 dark:text-slate-200 dark:hover:bg-slate-700"
-        >
-          Logout
-        </button>
+    <div className="min-h-screen space-y-5 bg-slate-50 p-3 dark:bg-slate-950 sm:p-5 lg:p-7">
+      {/* HEADER */}
+      <div className="overflow-hidden rounded-2xl bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 p-5 shadow-lg sm:rounded-3xl sm:p-6">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center gap-3">
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/10 text-indigo-300">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.7"
+                className="h-6 w-6"
+              >
+                <path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z" />
+                <circle cx="12" cy="10" r="2.5" />
+              </svg>
+            </div>
+
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-indigo-300">
+                Location Monitoring
+              </p>
+
+              <h1 className="mt-1 text-xl font-bold text-white sm:text-2xl">
+                Candidate Location
+              </h1>
+
+              <p className="mt-1 text-xs text-slate-400">
+                View the candidate's current reported location
+              </p>
+            </div>
+          </div>
+
+          {/* LOGOUT */}
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="flex w-full items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/10 px-5 py-2.5 text-sm font-semibold text-white transition hover:border-rose-400/40 hover:bg-rose-500/15 hover:text-rose-200 focus:outline-none focus:ring-2 focus:ring-white/50 sm:w-auto"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              className="h-4 w-4"
+            >
+              <path d="M10 17l5-5-5-5m5 5H3m9-9h7a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-7" />
+            </svg>
+            Logout
+          </button>
+        </div>
       </div>
 
-      <div className="h-[500px] w-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800">
-        <MapContainer
-          center={defaultPosition}
-          zoom={13}
-          scrollWheelZoom={false}
-          className="h-full w-full"
-          style={{ height: "100%", width: "100%" }}
-        >
-          <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
-          <LocationMarker username={candidate.username} />
-        </MapContainer>
-      </div>
+      {/* MAP SECTION */}
+      <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:rounded-3xl">
+        {/* MAP HEADER */}
+        <div className="flex flex-col gap-3 border-b border-slate-100 px-4 py-4 dark:border-slate-800 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-300">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.7"
+                className="h-5 w-5"
+              >
+                <path d="m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3V6Z" />
+                <path d="M9 3v15m6-12v15" />
+              </svg>
+            </div>
+
+            <div>
+              <h2 className="text-sm font-bold text-slate-900 dark:text-white">
+                Location Map
+              </h2>
+              <p className="mt-0.5 text-[11px] text-slate-500 dark:text-slate-400">
+                Geographic view of candidate location
+              </p>
+            </div>
+          </div>
+
+          <span className="flex w-fit items-center gap-2 rounded-full border border-emerald-100 bg-emerald-50 px-3 py-1.5 text-[10px] font-bold text-emerald-700 dark:border-emerald-500/20 dark:bg-emerald-500/10 dark:text-emerald-300">
+            <span className="h-2 w-2 rounded-full bg-emerald-500" />
+            Map Available
+          </span>
+        </div>
+
+        {/* MAP */}
+        <div className="relative h-[350px] w-full bg-slate-100 sm:h-[450px] lg:h-[550px]">
+          <MapContainer
+            center={defaultPosition}
+            zoom={13}
+            scrollWheelZoom={false}
+            className="h-full w-full"
+            style={{ height: "100%", width: "100%", zIndex: 0 }}
+          >
+            <TileLayer
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+
+            <LocationMarker username={candidate.username} />
+          </MapContainer>
+        </div>
+
+        {/* MAP FOOTER */}
+        <div className="flex flex-col gap-2 border-t border-slate-100 bg-white px-4 py-3 dark:border-slate-800 dark:bg-slate-900 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+          <div className="flex items-center gap-2">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-300">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.7"
+                className="h-4 w-4"
+              >
+                <circle cx="12" cy="12" r="9" />
+                <path d="M12 7v5l3 2" />
+              </svg>
+            </div>
+
+            <p className="text-xs text-slate-500 dark:text-slate-400">
+              Location information for{" "}
+              <span className="font-semibold text-slate-800 dark:text-slate-200">
+                {candidate.username}
+              </span>
+            </p>
+          </div>
+
+          <p className="text-[10px] text-slate-400">
+            Map data © OpenStreetMap contributors
+          </p>
+        </div>
+      </section>
     </div>
   );
 };

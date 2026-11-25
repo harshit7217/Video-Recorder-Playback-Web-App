@@ -95,8 +95,7 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
             typeof result?.isPublicProxy === "boolean"
               ? result.isPublicProxy
               : null,
-          ipStatus:
-            typeof result?.ipStatus === "string" ? result.ipStatus : "",
+          ipStatus: typeof result?.ipStatus === "string" ? result.ipStatus : "",
           isSuspicious:
             typeof result?.isSuspicious === "boolean"
               ? result.isSuspicious
@@ -472,48 +471,50 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
   };
 
   return (
-    <div className="flex max-h-[85dvh] flex-col overflow-hidden rounded-3xl border border-white/70 bg-white text-slate-900 shadow-2xl shadow-slate-950/25">
-      <header className="relative shrink-0 overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-950 px-5 py-4 text-white sm:px-6 sm:py-5">
-        <div className="absolute -right-10 -top-16 h-48 w-48 rounded-full bg-indigo-400/10 blur-2xl" />
-        <div className="relative flex items-start justify-between gap-3">
-          <div className="flex items-start gap-3">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/10 text-indigo-200 ring-1 ring-white/15">
+    <div className="flex w-full max-h-[92dvh] flex-col overflow-hidden rounded-2xl sm:rounded-3xl border border-slate-200 bg-white text-slate-900 shadow-2xl">
+      {/* HEADER */}
+      <header className="relative shrink-0 overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 px-4 py-4 sm:px-6 sm:py-5">
+        <div className="absolute -right-12 -top-20 h-48 w-48 rounded-full bg-indigo-500/15 blur-3xl" />
+
+        <div className="relative flex items-center justify-between gap-3">
+          <div className="flex min-w-0 items-center gap-3">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/10 text-indigo-300">
               <svg
-                aria-hidden="true"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="1.7"
-                className="h-5 w-5"
+                className="h-6 w-6"
               >
                 <path d="M12 3 19 6v5c0 4.5-2.9 8.2-7 10-4.1-1.8-7-5.5-7-10V6l7-3Z" />
                 <path d="m9 12 2 2 4-4" />
               </svg>
             </div>
-            <div>
-              <p className="text-[10px] font-semibold tracking-[0.18em] text-indigo-200">
+
+            <div className="min-w-0">
+              <p className="text-[10px] font-bold tracking-[0.2em] text-indigo-300">
                 SECURITY CHECK
               </p>
-              <h2 className="mt-0.5 text-lg font-semibold tracking-tight sm:text-xl">
+              <h2 className="truncate text-lg font-bold tracking-tight text-white sm:text-xl">
                 Connection details
               </h2>
-              <p className="mt-1 max-w-sm text-xs leading-4 text-slate-300">
-                Review the network information detected for this session.
+              <p className="mt-0.5 text-xs text-slate-400">
+                Review your session security information
               </p>
             </div>
           </div>
+
           <button
             type="button"
             onClick={closeModal}
             aria-label="Close connection details"
-            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-slate-300 transition hover:bg-white/10 hover:text-white focus:outline-none focus:ring-2 focus:ring-white/60"
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl text-slate-400 transition hover:bg-white/10 hover:text-white focus:outline-none focus:ring-2 focus:ring-indigo-400"
           >
             <svg
-              aria-hidden="true"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              strokeWidth="1.8"
+              strokeWidth="2"
               className="h-5 w-5"
             >
               <path d="m6 6 12 12M18 6 6 18" />
@@ -522,254 +523,323 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
         </div>
       </header>
 
-      <div className="min-h-0 flex-1 space-y-3 overflow-y-auto p-4 sm:p-5">
+      {/* BODY */}
+      <main className="min-h-0 flex-1 overflow-y-auto overscroll-contain bg-slate-50/80 p-3 sm:p-5">
+        {/* LOADING / ERROR */}
         {signalFraud.loading && (
-          <p className="text-xs text-slate-500" role="status">
-            Loading employer signal fraud settings...
-          </p>
+          <div className="mb-4 rounded-xl border border-indigo-100 bg-indigo-50 p-3 text-xs text-indigo-700">
+            Loading employer security settings...
+          </div>
         )}
+
         {signalFraud.error && (
-          <p className="text-xs text-rose-700" role="alert">
+          <div
+            role="alert"
+            className="mb-4 rounded-xl border border-rose-200 bg-rose-50 p-3 text-xs text-rose-700"
+          >
             {signalFraud.error}
-          </p>
+          </div>
         )}
 
-        {mapLocation && (
-          <section className="rounded-2xl border border-indigo-100 bg-indigo-50/60 p-3 sm:p-4">
-            <div className="flex items-start gap-3">
-              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white text-indigo-600 shadow-sm ring-1 ring-indigo-100">
-                <svg
-                  aria-hidden="true"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.7"
-                  className="h-4 w-4"
-                >
-                  <path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z" />
-                  <circle cx="12" cy="10" r="2.5" />
-                </svg>
-              </div>
-              <div className="min-w-0 flex-1">
-                <h3 className="text-sm font-semibold text-slate-900">
-                  Map location
-                </h3>
-                <p className="mt-0.5 break-words text-xs leading-5 text-slate-700">
-                  {mapLocation.name || "Address unavailable"}
-                </p>
-                <dl className="mt-2 grid grid-cols-2 gap-2 border-t border-indigo-100 pt-2 text-[11px]">
-                  <div className="col-span-2">
-                    <dt className="text-slate-500">State</dt>
-                    <dd className="mt-1 font-medium text-slate-800">
-                      {mapLocation.state || "Unavailable"}
-                    </dd>
-                  </div>
-                  <div>
-                    <dt className="text-slate-500">Latitude</dt>
-                    <dd className="mt-1 font-medium tabular-nums text-slate-800">
-                      {mapLocation.lat.toFixed(5)}
-                    </dd>
-                  </div>
-                  <div>
-                    <dt className="text-slate-500">Longitude</dt>
-                    <dd className="mt-1 font-medium tabular-nums text-slate-800">
-                      {mapLocation.lng.toFixed(5)}
-                    </dd>
-                  </div>
-                </dl>
-              </div>
-            </div>
-          </section>
-        )}
-
-        {signalFlags && (signalFlags.ipStatus || signalFlags.jobCountry) && (
-          <section>
-            <div className="mb-2 flex items-center justify-between gap-3">
-              <div>
-                <h3 className="text-sm font-semibold text-slate-900">
-                  IP and location
-                </h3>
-                <p className="mt-0.5 text-[11px] text-slate-500">
-                  Information provided by your network
-                </p>
-              </div>
-              {geolocation.loading && (
-                <span className="flex items-center gap-2 text-xs font-medium text-slate-500">
-                  <span className="h-2 w-2 animate-pulse rounded-full bg-indigo-500" />
-                  Looking up
-                </span>
-              )}
-            </div>
-
-            <div className="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50/70">
-              {geolocation.loading && (
-                <div className="space-y-2 p-3" aria-label="Loading IP details">
-                  <div className="h-3 w-2/5 animate-pulse rounded bg-slate-200" />
-                  <div className="h-3 w-3/5 animate-pulse rounded bg-slate-200" />
-                  <div className="h-3 w-1/2 animate-pulse rounded bg-slate-200" />
-                </div>
-              )}
-              {geolocation.error && (
-                <p role="alert" className="p-3 text-xs leading-5 text-rose-700">
-                  {geolocation.error}
-                </p>
-              )}
-              {!geolocation.loading &&
-                !geolocation.error &&
-                (details.length > 0 ? (
-                  <dl className="divide-y divide-slate-200/80">
-                    {details.map(([label, value]) => (
-                      <div
-                        key={label}
-                        className="grid grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] gap-3 px-3 py-2 text-xs"
-                      >
-                        <dt className="text-slate-500">{label}</dt>
-                        <dd className="break-words text-right font-medium text-slate-800">
-                          {value}
-                        </dd>
-                      </div>
-                    ))}
-                  </dl>
-                ) : (
-                  <p className="p-3 text-xs text-slate-500">
-                    No IP details were returned.
-                  </p>
-                ))}
-            </div>
-          </section>
-        )}
-
-        {isCircle === true && signalFlags ? (
-          <Circle
-            mapRadiusStatus={mapRadiusStatus}
-            mapRadiusStatusValue={mapRadiusStatusValue}
-            radiusStatusStyles={radiusStatusStyles}
-            ipRadiusStatus={ipRadiusStatus}
-            ipRadiusStatusValue={ipRadiusStatusValue}
-            showIpRadiusStatus={signalFlags.ipStatus}
-          />
-        ) : null}
-
-        {signalFlags?.jobCountry && (
-          <section className="flex items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white p-3">
-            <div className="min-w-0">
-              <h3 className="text-sm font-semibold text-slate-900">
-                Job country verification
-              </h3>
-              <p className="mt-0.5 text-[11px] text-slate-500">
-                {countryCheck.loading
-                  ? "Comparing your IP country with the employer's allowed countries"
-                  : countryCheck.error
-                    ? countryCheck.error
-                    : countryCheck.isAllowed
-                      ? `${countryCheck.candidateCountry} is allowed for this job`
-                      : `${countryCheck.candidateCountry} is not allowed for this job`}
-              </p>
-            </div>
-            <span
-              className={`shrink-0 rounded-full px-2.5 py-1 text-[11px] font-semibold ${
-                countryCheck.loading
-                  ? "bg-amber-50 text-amber-700"
-                  : countryCheck.error
-                    ? "bg-slate-100 text-slate-600"
-                    : countryCheck.isAllowed
-                      ? "bg-emerald-50 text-emerald-700"
-                      : "bg-rose-50 text-rose-700"
-              }`}
-              role={countryCheck.error ? "alert" : "status"}
-            >
-              {countryCheck.loading
-                ? "Checking"
-                : countryCheck.error
-                  ? "Unavailable"
-                  : countryCheck.isAllowed
-                    ? "Allowed"
-                    : "Not allowed"}
-            </span>
-          </section>
-        )}
-
-        {enabledNetworkChecks.map((check) => {
-          const status = getNetworkStatus(check.detected);
-          const statusMessage = networkDetection.loading
-            ? "Checking your network connection"
-            : networkDetection.error
-              ? networkDetection.error
-              : status === "unavailable"
-                ? "Detection result could not be determined"
-                : status === "detected"
-                  ? check.detectedMessage
-                  : check.clearMessage;
-
-          return (
-            <section
-              key={check.flag}
-              className="flex items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white p-3"
-            >
-              <div className="flex min-w-0 items-center gap-3">
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600">
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+          {/* MAP LOCATION */}
+          {mapLocation && (
+            <section className="min-w-0 overflow-hidden rounded-2xl border border-indigo-100 bg-white shadow-sm">
+              <div className="flex items-center gap-3 border-b border-slate-100 px-4 py-3">
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600">
                   <svg
-                    aria-hidden="true"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="1.7"
-                    className="h-4 w-4"
+                    className="h-5 w-5"
                   >
-                    <path d="M4 8h16M4 16h16M8 4l-4 4 4 4m8 0 4 4-4 4" />
+                    <path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z" />
+                    <circle cx="12" cy="10" r="2.5" />
                   </svg>
                 </div>
                 <div className="min-w-0">
-                  <h3 className="text-sm font-semibold text-slate-900">
-                    {check.label}
-                  </h3>
-                  <p className="mt-0.5 text-[11px] text-slate-500">
-                    {statusMessage}
+                  <h3 className="text-sm font-bold">Map location</h3>
+                  <p className="text-[11px] text-slate-500">
+                    Detected session location
                   </p>
                 </div>
               </div>
+
+              <div className="p-4">
+                <p className="break-words text-sm font-semibold text-slate-800">
+                  {mapLocation.name || "Address unavailable"}
+                </p>
+
+                <div className="mt-4 grid grid-cols-2 gap-3">
+                  <div className="col-span-2 rounded-xl bg-slate-50 p-3">
+                    <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">
+                      State
+                    </p>
+                    <p className="mt-1 text-xs font-semibold text-slate-800">
+                      {mapLocation.state || "Unavailable"}
+                    </p>
+                  </div>
+
+                  <div className="rounded-xl bg-slate-50 p-3">
+                    <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">
+                      Latitude
+                    </p>
+                    <p className="mt-1 break-all text-xs font-semibold tabular-nums text-slate-800">
+                      {mapLocation.lat.toFixed(5)}
+                    </p>
+                  </div>
+
+                  <div className="rounded-xl bg-slate-50 p-3">
+                    <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">
+                      Longitude
+                    </p>
+                    <p className="mt-1 break-all text-xs font-semibold tabular-nums text-slate-800">
+                      {mapLocation.lng.toFixed(5)}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </section>
+          )}
+
+          {/* IP DETAILS */}
+          {signalFlags && (signalFlags.ipStatus || signalFlags.jobCountry) && (
+            <section className="min-w-0 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+              <div className="flex items-center justify-between gap-3 border-b border-slate-100 px-4 py-3">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-sky-50 text-sky-600">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.7"
+                      className="h-5 w-5"
+                    >
+                      <circle cx="12" cy="12" r="9" />
+                      <path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold">IP and location</h3>
+                    <p className="text-[11px] text-slate-500">
+                      Network information
+                    </p>
+                  </div>
+                </div>
+
+                {geolocation.loading && (
+                  <span className="flex items-center gap-1.5 text-[11px] font-semibold text-indigo-600">
+                    <span className="h-2 w-2 animate-pulse rounded-full bg-indigo-500" />
+                    Looking up
+                  </span>
+                )}
+              </div>
+
+              {geolocation.loading ? (
+                <div className="space-y-3 p-4">
+                  {[1, 2, 3, 4].map((i) => (
+                    <div
+                      key={i}
+                      className="h-4 animate-pulse rounded-lg bg-slate-100"
+                    />
+                  ))}
+                </div>
+              ) : geolocation.error ? (
+                <p role="alert" className="p-4 text-xs text-rose-600">
+                  {geolocation.error}
+                </p>
+              ) : details.length > 0 ? (
+                <dl className="divide-y divide-slate-100">
+                  {details.map(([label, value]) => (
+                    <div
+                      key={label}
+                      className="grid grid-cols-2 gap-3 px-4 py-3 text-xs"
+                    >
+                      <dt className="text-slate-500">{label}</dt>
+                      <dd className="break-words text-right font-semibold text-slate-800">
+                        {value}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+              ) : (
+                <p className="p-4 text-xs text-slate-500">
+                  No IP details were returned.
+                </p>
+              )}
+            </section>
+          )}
+
+          {/* RADIUS CHECK */}
+          {isCircle === true && signalFlags && (
+            <section className="min-w-0 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm lg:col-span-2">
+              <Circle
+                mapRadiusStatus={mapRadiusStatus}
+                mapRadiusStatusValue={mapRadiusStatusValue}
+                radiusStatusStyles={radiusStatusStyles}
+                ipRadiusStatus={ipRadiusStatus}
+                ipRadiusStatusValue={ipRadiusStatusValue}
+                showIpRadiusStatus={signalFlags.ipStatus}
+              />
+            </section>
+          )}
+
+          {/* COUNTRY VERIFICATION */}
+          {signalFlags?.jobCountry && (
+            <section className="flex min-w-0 items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+              <div className="flex min-w-0 items-center gap-3">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-violet-50 text-violet-600">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.7"
+                    className="h-5 w-5"
+                  >
+                    <path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z" />
+                    <path d="m9 12 2 2 4-4" />
+                  </svg>
+                </div>
+                <div className="min-w-0">
+                  <h3 className="text-sm font-bold">Country verification</h3>
+                  <p className="mt-1 text-[11px] leading-4 text-slate-500">
+                    {countryCheck.loading
+                      ? "Comparing IP country with allowed countries"
+                      : countryCheck.error
+                        ? countryCheck.error
+                        : countryCheck.isAllowed
+                          ? `${countryCheck.candidateCountry} is allowed for this job`
+                          : `${countryCheck.candidateCountry} is not allowed for this job`}
+                  </p>
+                </div>
+              </div>
+
               <span
-                className={`shrink-0 rounded-full px-2.5 py-1 text-[11px] font-semibold ring-1 ring-inset ${networkStatusStyles[status]}`}
-                role={networkDetection.error ? "alert" : "status"}
+                className={`shrink-0 rounded-full px-2.5 py-1 text-[10px] font-bold ${
+                  countryCheck.loading
+                    ? "bg-amber-50 text-amber-700"
+                    : countryCheck.error
+                      ? "bg-slate-100 text-slate-600"
+                      : countryCheck.isAllowed
+                        ? "bg-emerald-50 text-emerald-700"
+                        : "bg-rose-50 text-rose-700"
+                }`}
+                role={countryCheck.error ? "alert" : "status"}
               >
-                {status === "checking"
+                {countryCheck.loading
                   ? "Checking"
-                  : status === "unavailable"
+                  : countryCheck.error
                     ? "Unavailable"
-                    : status === "detected"
-                      ? "Detected"
-                      : "Clear"}
+                    : countryCheck.isAllowed
+                      ? "Allowed"
+                      : "Not allowed"}
               </span>
             </section>
-          );
-        })}
-      </div>
+          )}
 
-      <footer className="flex shrink-0 flex-col gap-2 border-t border-slate-100 bg-slate-50/80 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-5">
-        <p
-          className={`text-[11px] ${canStartRecording ? "text-emerald-700" : "text-slate-500"}`}
-          role="status"
-        >
-          {canStartRecording
-            ? "Location checks passed and enabled network checks are clear."
-            : recordingBlockReason}
-        </p>
-        <div className="flex justify-end gap-3">
-          <button
-            type="button"
-            onClick={closeModal}
-            className="rounded-xl bg-slate-900 px-4 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-          >
-            Close
-          </button>
-          <button
-            type="button"
-            onClick={handleRecording}
-            disabled={!canStartRecording}
-            className="rounded-xl bg-indigo-600 px-4 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-500 disabled:shadow-none disabled:hover:bg-slate-300"
-          >
-            Go to recording
-          </button>
+          {/* NETWORK DETECTION */}
+          {enabledNetworkChecks.map((check) => {
+            const status = getNetworkStatus(check.detected);
+
+            const statusMessage = networkDetection.loading
+              ? "Checking your network connection"
+              : networkDetection.error
+                ? networkDetection.error
+                : status === "unavailable"
+                  ? "Detection result could not be determined"
+                  : status === "detected"
+                    ? check.detectedMessage
+                    : check.clearMessage;
+
+            return (
+              <section
+                key={check.flag}
+                className="flex min-w-0 items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition hover:border-indigo-200 hover:shadow-md"
+              >
+                <div className="flex min-w-0 items-center gap-3">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.7"
+                      className="h-5 w-5"
+                    >
+                      <path d="M4 8h16M4 16h16M8 4l-4 4 4 4m8 0 4 4-4 4" />
+                    </svg>
+                  </div>
+
+                  <div className="min-w-0">
+                    <h3 className="truncate text-sm font-bold text-slate-800">
+                      {check.label}
+                    </h3>
+                    <p className="mt-1 text-[11px] leading-4 text-slate-500">
+                      {statusMessage}
+                    </p>
+                  </div>
+                </div>
+
+                <span
+                  className={`shrink-0 rounded-full px-2.5 py-1 text-[10px] font-bold ring-1 ring-inset ${networkStatusStyles[status]}`}
+                  role={networkDetection.error ? "alert" : "status"}
+                >
+                  {status === "checking"
+                    ? "Checking"
+                    : status === "unavailable"
+                      ? "Unavailable"
+                      : status === "detected"
+                        ? "Detected"
+                        : "Clear"}
+                </span>
+              </section>
+            );
+          })}
+        </div>
+      </main>
+
+      {/* FOOTER */}
+      <footer className="z-10 shrink-0 border-t border-slate-200 bg-white px-4 py-3 sm:px-6 sm:py-4">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-start gap-2">
+            <span
+              className={`mt-0.5 h-2.5 w-2.5 shrink-0 rounded-full ${
+                canStartRecording ? "bg-emerald-500" : "bg-amber-500"
+              }`}
+            />
+
+            <p
+              className={`text-[11px] leading-5 ${
+                canStartRecording ? "text-emerald-700" : "text-slate-500"
+              }`}
+            >
+              {canStartRecording
+                ? "Location checks passed and enabled network checks are clear."
+                : recordingBlockReason}
+            </p>
+          </div>
+
+          <div className="flex w-full flex-col-reverse gap-2 sm:w-auto sm:flex-row sm:justify-end">
+            <button
+              type="button"
+              onClick={closeModal}
+              className="w-full rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-xs font-semibold text-slate-700 transition hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:w-auto"
+            >
+              Close
+            </button>
+
+            <button
+              type="button"
+              onClick={handleRecording}
+              disabled={!canStartRecording}
+              className="w-full rounded-xl bg-indigo-600 px-5 py-2.5 text-xs font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-500 disabled:shadow-none sm:w-auto"
+            >
+              Go to recording
+              <span className="ml-2" aria-hidden="true">
+                →
+              </span>
+            </button>
+          </div>
         </div>
       </footer>
     </div>

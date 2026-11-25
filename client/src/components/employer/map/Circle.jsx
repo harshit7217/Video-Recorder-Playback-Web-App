@@ -2,15 +2,15 @@ import RadiusForm from "./RadiusForm";
 
 const Circle = ({ selectedMarker, updateSelectedMarkerRadius }) => {
   return (
-    <aside className="min-w-0 h-full">
-      <div className="h-full bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col overflow-hidden">
+    <aside className="w-full min-w-0 h-full">
+      <div className="flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
         {/* HEADER */}
-        <div className="p-5 border-b border-slate-100">
+        <div className="border-b border-slate-100 bg-gradient-to-r from-indigo-50/80 to-white p-4 sm:p-5">
           <div className="flex items-center justify-between gap-3">
-            <div className="flex items-center gap-3">
-              <div className="w-11 h-11 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+            <div className="flex min-w-0 items-center gap-3">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-indigo-600 text-white shadow-md shadow-indigo-200">
                 <svg
-                  className="w-5 h-5"
+                  className="h-5 w-5"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -23,86 +23,90 @@ const Circle = ({ selectedMarker, updateSelectedMarkerRadius }) => {
                   />
                 </svg>
               </div>
-              <div>
+
+              <div className="min-w-0">
                 <h2 className="text-base font-bold text-slate-900">
                   Area Controls
                 </h2>
-                <p className="text-xs text-slate-500 mt-0.5">
+                <p className="mt-0.5 text-xs text-slate-500">
                   Manage geographic search areas
                 </p>
               </div>
             </div>
 
-            <span className="flex items-center gap-1.5 text-[10px] font-semibold text-emerald-700 bg-emerald-50 border border-emerald-100 px-2.5 py-1.5 rounded-full whitespace-nowrap">
-              <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full" />
+            <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-emerald-100 bg-emerald-50 px-2.5 py-1.5 text-[10px] font-bold text-emerald-700">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
               GIS Ready
             </span>
           </div>
         </div>
 
         {/* BODY */}
-        <div className="p-5 flex-1 space-y-5">
-          {/* RADIUS SECTION */}
-          <div>
-            <div className="flex items-center justify-between mb-1">
-              <h3 className="text-sm font-bold text-slate-800">
-                Search Radius
-              </h3>
-              <span className="text-[10px] font-semibold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-2 py-1 rounded-md">
+        <div className="flex-1 space-y-5 overflow-y-auto p-4 sm:p-5">
+          {/* RADIUS CONFIGURATION */}
+          <section>
+            <div className="mb-3 flex items-center justify-between gap-2">
+              <div>
+                <h3 className="text-sm font-bold text-slate-800">
+                  Search Radius
+                </h3>
+                <p className="mt-1 text-xs text-slate-500">
+                  Configure your marker coverage distance
+                </p>
+              </div>
+
+              <span className="rounded-lg bg-indigo-50 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-indigo-600">
                 Coverage
               </span>
             </div>
 
-            <p className="text-xs text-slate-500 mb-4">
-              Define the coverage distance around your selected marker.
-            </p>
+            <div className="rounded-xl border border-indigo-100 bg-gradient-to-br from-indigo-50/80 to-white p-4">
+              <div className="mb-4 flex items-center justify-between gap-2">
+                <div>
+                  <p className="text-xs font-medium text-slate-500">
+                    Configured Radius
+                  </p>
+                  <p className="mt-1 text-[10px] text-slate-400">
+                    Current search distance
+                  </p>
+                </div>
 
-            <div className="rounded-xl border border-slate-200 bg-slate-50/70 p-4">
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-xs font-medium text-slate-600">
-                  Configured Radius
-                </span>
-                <span className="text-lg font-bold text-indigo-600">
-                  {selectedMarker?.radius ?? 500}
-                  <span className="text-xs font-semibold text-slate-400 ml-1">
-                    m
-                  </span>
-                </span>
+                <div className="text-right">
+                  <p className="text-2xl font-extrabold tracking-tight text-indigo-600">
+                    {selectedMarker?.radius ?? 500}
+                    <span className="ml-1 text-xs font-semibold text-slate-400">
+                      m
+                    </span>
+                  </p>
+                </div>
               </div>
 
-              <RadiusForm
-                radius={selectedMarker?.radius ?? 500}
-                setRadius={updateSelectedMarkerRadius}
-              />
+              <div className="rounded-lg border border-slate-100 bg-white p-3 shadow-sm">
+                <RadiusForm
+                  radius={selectedMarker?.radius ?? 500}
+                  setRadius={updateSelectedMarkerRadius}
+                />
+              </div>
             </div>
-          </div>
+          </section>
 
-          {/* CONFIGURATION */}
-          <div>
-            <div className="flex items-center justify-between mb-3">
+          {/* AREA STATISTICS */}
+          <section>
+            <div className="mb-3 flex items-center justify-between">
               <h3 className="text-sm font-bold text-slate-800">
                 Area Configuration
               </h3>
-              <svg
-                className="w-4 h-4 text-slate-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M12 8v4l3 2m6-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                  strokeWidth="1.7"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+              <span className="text-[10px] font-medium text-slate-400">
+                Live statistics
+              </span>
             </div>
 
             <div className="grid grid-cols-2 gap-3">
-              <div className="rounded-xl border border-slate-200 bg-white p-3.5">
-                <div className="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center mb-3">
+              {/* ACTIVE MARKER */}
+              <div className="rounded-xl border border-slate-200 bg-white p-3 transition hover:border-blue-200 hover:shadow-sm">
+                <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
                   <svg
-                    className="w-4 h-4"
+                    className="h-4 w-4"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -111,18 +115,23 @@ const Circle = ({ selectedMarker, updateSelectedMarkerRadius }) => {
                     <path strokeWidth="1.8" d="M12 2v3m0 14v3M2 12h3m14 0h3" />
                   </svg>
                 </div>
-                <p className="text-[11px] text-slate-500 mb-1">Active Marker</p>
+
+                <p className="text-[11px] text-slate-500">Active Marker</p>
+
                 <p
-                  className={`text-sm font-bold ${selectedMarker ? "text-emerald-600" : "text-slate-400"}`}
+                  className={`mt-1 text-sm font-bold ${
+                    selectedMarker ? "text-emerald-600" : "text-slate-400"
+                  }`}
                 >
                   {selectedMarker ? "Selected" : "None"}
                 </p>
               </div>
 
-              <div className="rounded-xl border border-slate-200 bg-white p-3.5">
-                <div className="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center mb-3">
+              {/* RADIUS */}
+              <div className="rounded-xl border border-slate-200 bg-white p-3 transition hover:border-indigo-200 hover:shadow-sm">
+                <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600">
                   <svg
-                    className="w-4 h-4"
+                    className="h-4 w-4"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -131,40 +140,42 @@ const Circle = ({ selectedMarker, updateSelectedMarkerRadius }) => {
                     <circle cx="12" cy="12" r="3" strokeWidth="1.8" />
                   </svg>
                 </div>
-                <p className="text-[11px] text-slate-500 mb-1">
-                  Radius Distance
-                </p>
-                <p className="text-sm font-bold text-indigo-600">
+
+                <p className="text-[11px] text-slate-500">Radius Distance</p>
+
+                <p className="mt-1 text-sm font-bold text-indigo-600">
                   {selectedMarker?.radius ?? 500} m
                 </p>
               </div>
             </div>
-          </div>
+          </section>
 
-          {/* STATUS */}
-          <div
+          {/* MARKER STATUS */}
+          <section
             className={`rounded-xl border p-4 ${
               selectedMarker
-                ? "bg-emerald-50/60 border-emerald-100"
-                : "bg-amber-50/60 border-amber-100"
+                ? "border-emerald-100 bg-emerald-50/70"
+                : "border-amber-100 bg-amber-50/70"
             }`}
           >
-            <div className="flex items-center gap-2 mb-2">
+            <div className="flex items-center gap-2">
               <span
-                className={`w-2 h-2 rounded-full ${
+                className={`h-2.5 w-2.5 rounded-full ${
                   selectedMarker ? "bg-emerald-500" : "bg-amber-500"
                 }`}
               />
-              <p
+
+              <h3
                 className={`text-xs font-bold ${
                   selectedMarker ? "text-emerald-800" : "text-amber-800"
                 }`}
               >
                 {selectedMarker ? "Marker Active" : "Waiting for Marker"}
-              </p>
+              </h3>
             </div>
+
             <p
-              className={`text-xs leading-relaxed ${
+              className={`mt-2 text-xs leading-relaxed ${
                 selectedMarker ? "text-emerald-700" : "text-amber-700"
               }`}
             >
@@ -172,14 +183,14 @@ const Circle = ({ selectedMarker, updateSelectedMarkerRadius }) => {
                 ? "Your marker is selected. Adjust the radius to customize its geographic coverage."
                 : "No marker selected. Click anywhere on the map to add a marker and configure its search area."}
             </p>
-          </div>
+          </section>
 
-          {/* INSTRUCTIONS */}
-          <div className="rounded-xl bg-blue-50 border border-blue-100 p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <div className="w-7 h-7 rounded-lg bg-blue-100 flex items-center justify-center">
+          {/* QUICK GUIDE */}
+          <section className="rounded-xl border border-blue-100 bg-blue-50/70 p-4">
+            <div className="mb-4 flex items-center gap-2">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-100 text-blue-600">
                 <svg
-                  className="w-4 h-4 text-blue-600"
+                  className="h-4 w-4"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -192,45 +203,44 @@ const Circle = ({ selectedMarker, updateSelectedMarkerRadius }) => {
                   />
                 </svg>
               </div>
-              <p className="text-xs font-bold text-blue-900">Quick Guide</p>
+
+              <div>
+                <h3 className="text-xs font-bold text-blue-900">Quick Guide</h3>
+                <p className="text-[10px] text-blue-600">
+                  How to configure your search area
+                </p>
+              </div>
             </div>
 
-            <div className="space-y-2.5 mt-3">
-              <div className="flex gap-2.5">
-                <span className="w-5 h-5 shrink-0 rounded-full bg-blue-100 text-blue-700 text-[10px] font-bold flex items-center justify-center">
-                  1
-                </span>
-                <p className="text-xs text-blue-800 leading-relaxed">
-                  Click anywhere on the map to create a marker.
-                </p>
-              </div>
-              <div className="flex gap-2.5">
-                <span className="w-5 h-5 shrink-0 rounded-full bg-blue-100 text-blue-700 text-[10px] font-bold flex items-center justify-center">
-                  2
-                </span>
-                <p className="text-xs text-blue-800 leading-relaxed">
-                  Select the marker to configure its radius.
-                </p>
-              </div>
-              <div className="flex gap-2.5">
-                <span className="w-5 h-5 shrink-0 rounded-full bg-blue-100 text-blue-700 text-[10px] font-bold flex items-center justify-center">
-                  3
-                </span>
-                <p className="text-xs text-blue-800 leading-relaxed">
-                  Visualize the coverage area directly on the map.
-                </p>
-              </div>
+            <div className="space-y-3">
+              {[
+                "Click anywhere on the map to create a marker.",
+                "Select the marker to configure its radius.",
+                "Visualize the coverage area directly on the map.",
+              ].map((instruction, index) => (
+                <div key={index} className="flex items-start gap-2.5">
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-blue-100 text-[10px] font-bold text-blue-700">
+                    {index + 1}
+                  </span>
+
+                  <p className="text-xs leading-relaxed text-blue-800">
+                    {instruction}
+                  </p>
+                </div>
+              ))}
             </div>
-          </div>
+          </section>
         </div>
 
         {/* FOOTER */}
-        <div className="px-5 py-3 border-t border-slate-100 bg-slate-50/70">
-          <div className="flex items-center justify-between">
-            <span className="text-[11px] text-slate-400">
+        <div className="border-t border-slate-100 bg-slate-50 px-4 py-3 sm:px-5">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <span className="text-[10px] font-medium text-slate-400">
               Geographic Area Settings
             </span>
-            <span className="text-[11px] font-medium text-slate-500">
+
+            <span className="flex items-center gap-1.5 text-[10px] font-semibold text-emerald-600">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
               Live Configuration
             </span>
           </div>
