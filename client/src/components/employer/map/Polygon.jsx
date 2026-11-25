@@ -2,11 +2,10 @@ import { useState, useEffect } from "react";
 import { apiUrl } from "../../../api";
 
 const Polygon = ({ setPolygonBoundary }) => {
-  const [countryDetails, setCountryDetails] = useState([]);
-  const [countryName, setCountryName] = useState("");
-  const [countryList, setCountryList] = useState([]);
+  const [cityDetails, setCityDetails] = useState([]);
   const employer = JSON.parse(localStorage.getItem("employer"));
-  const [data, setData] = useState([]);
+  const [tempCity, setTempCity] = useState("");
+  const [city, setCity] = useState([]);
 
   useEffect(() => {
     const fetchBoundary = async (name) => {
@@ -20,12 +19,9 @@ const Polygon = ({ setPolygonBoundary }) => {
 
         result.features.forEach((feature) => {
           const { type, coordinates } = feature.geometry;
-
-          // GeoJSON is [lng, lat]; Leaflet wants [lat, lng]
           const flip = (ring) => ring.map(([lng, lat]) => [lat, lng]);
 
           if (type === "Polygon") {
-            // outer ring only; pass the whole `coordinates.map(flip)` to keep holes
             polygons.push(flip(coordinates[0]));
           } else if (type === "MultiPolygon") {
             coordinates.forEach((poly) => {
@@ -33,62 +29,58 @@ const Polygon = ({ setPolygonBoundary }) => {
             });
           }
         });
-
-        // One state, one shape: Leaflet's <Polygon> accepts either type
         setPolygonBoundary((prev) => [...prev, polygons]);
       } catch (err) {
         console.error("Error fetching polygon boundary:", err);
       }
     };
 
-    data.map((d) => {
+    city.map((d) => {
       fetchBoundary(d.countryName);
     });
-  }, [data]);
+  }, [city]);
 
   useEffect(() => {
-    if (!countryName) {
-      return;
-    }
+    if (city.length === 0) return;
 
-    const fetchBoundary = async () => {
+    const fetchBoundary = async (cityName) => {
       try {
         const response = await fetch(
-          `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(countryName)}&format=geojson&polygon_geojson=1`,
+          `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(cityName)}&format=geojson&polygon_geojson=1`,
         );
         const result = await response.json();
-        setCountryDetails(result.features);
+        setCityDetails(result.features);
       } catch (err) {
         console.error("Fetching boundary error:", err);
       }
     };
 
-    fetchBoundary();
-  }, [countryName]);
+    fetchBoundary(city[city.length - 1]);
+  }, [city]);
 
-  useEffect(() => {
-    const getAllDetails = async () => {
-      try {
-        const response = await fetch(
-          apiUrl(
-            `api/employers/country-details?employerID=${encodeURIComponent(employer._id)}`,
-          ),
-          {
-            method: "GET",
-            headers: {
-              "content-type": "application/json",
-            },
-          },
-        );
-        const result = await response.json();
-        setData(result);
-      } catch (err) {
-        console.error("Fetching the data", err);
-      }
-    };
+  // useEffect(() => {
+  //   const getAllDetails = async () => {
+  //     try {
+  //       const response = await fetch(
+  //         apiUrl(
+  //           `api/employers/country-details?employerID=${encodeURIComponent(employer._id)}`,
+  //         ),
+  //         {
+  //           method: "GET",
+  //           headers: {
+  //             "content-type": "application/json",
+  //           },
+  //         },
+  //       );
+  //       const result = await response.json();
+  //       setData(result);
+  //     } catch (err) {
+  //       console.error("Fetching the data", err);
+  //     }
+  //   };
 
-    getAllDetails();
-  }, []);
+  //   getAllDetails();
+  // }, []);
 
   const handleCountryBoundary = async (country) => {
     const polygons = [];
@@ -106,7 +98,7 @@ const Polygon = ({ setPolygonBoundary }) => {
     }
     setPolygonBoundary((prev) => [...prev, polygons]);
     try {
-      const response = await fetch(apiUrl("api/employers/country"), {
+      await fetch(apiUrl("api/employers/country"), {
         method: "POST",
         headers: {
           "content-type": "application/json",
@@ -117,32 +109,42 @@ const Polygon = ({ setPolygonBoundary }) => {
           typeOfPolygon: country.geometry.type,
         }),
       });
-      const result = await response.json();
     } catch (err) {
       console.error("Storing the country Name", err.message);
     }
   };
 
-  useEffect(() => {
-    const listOfCountry = async () => {
-      try {
-        const response = await fetch(
-          "https://countriesnow.space/api/v0.1/countries/iso",
-        );
-        const result = await response.json();
-        setCountryList(result.data);
-      } catch (err) {
-        console.error("List of Country: ", err);
-      }
-    };
-    listOfCountry();
-  }, []);
+  // useEffect(() => {
+  //   const listOfCountry = async () => {
+  //     try {
+  //       const response = await fetch(
+  //         "https://countriesnow.space/api/v0.1/countries/iso",
+  //       );
+  //       const result = await response.json();
+  //       setCountryList(result.data);
+  //     } catch (err) {
+  //       console.error("List of Country: ", err);
+  //     }
+  //   };
+  //   listOfCountry();
+  // }, []);
 
-  const countryListOption = countryList.map((res, index) => (
-    <option key={res.name || index} value={res.name}>
-      {res.name}
-    </option>
-  ));
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (tempCity === "" && city.includes(tempCity)) return;
+    setCity((prev) => [...prev, tempCity]);
+  };
+  console.log(city);
+  const handleRemovePolygon = () => {
+    setCity([]);
+    setPolygonBoundary([]);
+  };
+
+  // const countryListOption = countryList.map((res, index) => (
+  //   <option key={res.name || index} value={res.name}>
+  //     {res.name}
+  //   </option>
+  // ));
 
   return (
     <aside className="w-full h-full min-w-0">
@@ -167,7 +169,7 @@ const Polygon = ({ setPolygonBoundary }) => {
             </div>
 
             <div className="min-w-0">
-              <h2 className="font-bold text-slate-900">Country Boundaries</h2>
+              <h2 className="font-bold text-slate-900">City Boundaries</h2>
               <p className="text-xs text-slate-500 mt-0.5">
                 Geographic boundary explorer
               </p>
@@ -180,9 +182,7 @@ const Polygon = ({ setPolygonBoundary }) => {
           {/* SEARCH SECTION */}
           <div>
             <div className="flex items-center justify-between gap-2 mb-1">
-              <h3 className="text-sm font-bold text-slate-800">
-                Country Search
-              </h3>
+              <h3 className="text-sm font-bold text-slate-800">City Search</h3>
 
               <span className="text-[10px] font-semibold text-blue-600 bg-blue-50 px-2 py-1 rounded-md">
                 Explorer
@@ -215,7 +215,7 @@ const Polygon = ({ setPolygonBoundary }) => {
               <div>
                 <p className="text-lg font-bold text-slate-900 leading-none">
                   {
-                    countryDetails.filter(
+                    cityDetails.filter(
                       (country) =>
                         country.geometry.type === "Polygon" ||
                         country.geometry.type === "MultiPolygon",
@@ -223,13 +223,13 @@ const Polygon = ({ setPolygonBoundary }) => {
                   }
                 </p>
                 <p className="text-[11px] text-slate-500 mt-1">
-                  Available Countries
+                  Available Cities
                 </p>
               </div>
             </div>
 
             {/* SEARCH FORM */}
-            {/* <form onSubmit={handleSubmit} className="space-y-3">
+            <form onSubmit={(e) => handleSubmit(e)} className="space-y-3">
               <div className="relative">
                 <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
                   <svg
@@ -249,8 +249,8 @@ const Polygon = ({ setPolygonBoundary }) => {
 
                 <input
                   type="text"
-                  value={temp}
-                  onChange={(e) => setTemp(e.target.value)}
+                  value={tempCity}
+                  onChange={(e) => setTempCity(e.target.value)}
                   placeholder="Enter country name..."
                   className="w-full h-11 pl-10 pr-3 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-800 placeholder:text-slate-400 outline-none transition-all focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10"
                 />
@@ -269,7 +269,7 @@ const Polygon = ({ setPolygonBoundary }) => {
                   <circle cx="11" cy="11" r="7" strokeWidth="2" />
                   <path d="m16 16 4 4" strokeWidth="2" strokeLinecap="round" />
                 </svg>
-                Search Countries
+                Search City
               </button>
 
               <button
@@ -292,11 +292,11 @@ const Polygon = ({ setPolygonBoundary }) => {
                 </svg>
                 Remove Polygon
               </button>
-            </form> */}
+            </form>
 
-            <div className="w-full">
+            {/* <div className="w-full">
               <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-5">
-                {/* HEADER */}
+                {/* HEADER 
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
                     <svg
@@ -323,7 +323,7 @@ const Polygon = ({ setPolygonBoundary }) => {
                   </div>
                 </div>
 
-                {/* SELECT */}
+                {/* SELECT
                 <form className="space-y-2">
                   <label
                     htmlFor="country"
@@ -398,7 +398,7 @@ const Polygon = ({ setPolygonBoundary }) => {
                   </p>
                 </form>
               </div>
-            </div>
+            </div> */}
           </div>
 
           {/* SEARCH RESULTS */}
@@ -415,7 +415,7 @@ const Polygon = ({ setPolygonBoundary }) => {
 
               <span className="text-xs font-semibold text-slate-500 bg-slate-100 px-2.5 py-1 rounded-lg">
                 {
-                  countryDetails.filter(
+                  cityDetails.filter(
                     (country) =>
                       country.geometry.type === "Polygon" ||
                       country.geometry.type === "MultiPolygon",
@@ -425,12 +425,12 @@ const Polygon = ({ setPolygonBoundary }) => {
             </div>
 
             <div className="space-y-2 max-h-[360px] overflow-y-auto pr-1">
-              {countryDetails.filter(
+              {cityDetails.filter(
                 (country) =>
                   country.geometry.type === "Polygon" ||
                   country.geometry.type === "MultiPolygon",
               ).length > 0 ? (
-                countryDetails
+                cityDetails
                   .filter(
                     (country) =>
                       country.geometry.type === "Polygon" ||
