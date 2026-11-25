@@ -4,10 +4,7 @@ import Employer from "../models/employerModels.js";
 import EmployerPolygon from "../models/employerPolygonModel.js";
 import { isLocationWithinRadius } from "../services/checkRadiusOfCandidate.js";
 import validator from "validator";
-import {
-  boundaryofPolygons,
-  countryOfPolygons,
-} from "../services/polygonService.js";
+import { boundaryofPolygons, isInside } from "../services/polygonService.js";
 
 export const createCandidate = async (req, res) => {
   try {
@@ -203,10 +200,15 @@ export const checkCandidateJobCountry = async (req, res) => {
   }
 };
 
-export const polygonController = async () => {
-  const data = await countryOfPolygons();
-  const countryName = [];
-  data.map((d) => countryName.push(d.countryName));
-  const a = await boundaryofPolygons(countryName);
-  
+export const polygonController = async (req, res) => {
+  const array = await boundaryofPolygons();
+  const lat = 28.44374;
+  const lng = 77.05596;
+  array.map((arr) => {
+    const isCheckInside = isInside(arr, lat, lng);
+    if (isCheckInside) {
+      return res.status(200).json({ message: "candidate inside the city" });
+    }
+  });
+  return res.status(200).json({ message: "candidate not inside the city" });
 };
