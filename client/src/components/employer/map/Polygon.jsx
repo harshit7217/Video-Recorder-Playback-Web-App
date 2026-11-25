@@ -41,7 +41,7 @@ const Polygon = ({ setPolygonBoundary }) => {
     city.map((d) => {
       fetchBoundary(d.countryName);
     });
-  }, [city]);
+  }, [city, setPolygonBoundary]);
 
   useEffect(() => {
     if (city.length === 0) return;
@@ -51,7 +51,6 @@ const Polygon = ({ setPolygonBoundary }) => {
         const response = await fetch(
           `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(cityName)}&format=geojson&polygon_geojson=1`,
         );
-        console.log(response);
         const result = await response.json();
         setCityDetails(result.features);
       } catch (err) {

@@ -10,6 +10,7 @@ import LocationMarker from "./LocationMarker";
 import { defaultLocation } from "../../utils/defaultLoction";
 import { useEffect, useState } from "react";
 import { fullUrl } from "../../../url";
+import { apiUrl, readApiResponse } from "../../../api";
 import CircleComponent from "./Circle.jsx";
 import PolygonComponent from "./Polygon.jsx";
 
@@ -22,16 +23,45 @@ const Map = ({
   setSelectedMarkerId,
 }) => {
   const url = window.location.href;
+  const isCircle = fullUrl("/api/interviewer/circle") === url;
   const purpleOptions = { color: "purple" };
   const [polygonBoundary, setPolygonBoundary] = useState([]);
-  const [isCircle, setIsCircle] = useState(true);
+
   useEffect(() => {
-    if (fullUrl("/api/interviewer/circle") === url) {
-      setIsCircle(true);
-    } else {
-      setIsCircle(false);
-    }
-  }, [url]);
+    const employer = JSON.parse(localStorage.getItem("employer"));
+    if (!employer?._id) return;
+
+    const loadSavedBoundaries = async () => {
+      try {
+        const response = await fetch(
+          apiUrl(
+            `api/employers/country-details?employerId=${encodeURIComponent(employer._id)}`,
+          ),
+        );
+        const polygons = await readApiResponse(
+          response,
+          "Unable to load saved city boundaries",
+        );
+
+        if (!Array.isArray(polygons)) {
+          throw new Error("Saved city boundaries response is not a list");
+        }
+
+        const boundaries = polygons.flatMap((polygon) => {
+          if (!Array.isArray(polygon.boundary)) {
+            throw new Error("Saved city boundary has an invalid format");
+          }
+          return polygon.boundary;
+        });
+
+        setPolygonBoundary(boundaries);
+      } catch (error) {
+        console.error("Loading saved city boundaries failed:", error.message);
+      }
+    };
+
+    loadSavedBoundaries();
+  }, []);
 
   return (
     <section className="w-full min-h-screen bg-[#f5f7fb] px-3 sm:px-5 lg:px-8 py-6">
