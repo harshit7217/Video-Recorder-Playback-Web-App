@@ -13,6 +13,11 @@ const Polygon = ({ setPolygonBoundary }) => {
         const response = await fetch(
           `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(name)}&format=geojson&polygon_geojson=1&limit=1`,
         );
+        if (!response.ok) {
+          throw new Error(
+            `Boundary lookup failed with status ${response.status}`,
+          );
+        }
         const result = await response.json();
 
         const polygons = [];
@@ -22,14 +27,12 @@ const Polygon = ({ setPolygonBoundary }) => {
           const flip = (ring) => ring.map(([lng, lat]) => [lat, lng]);
 
           if (type === "Polygon") {
-            polygons.push(flip(coordinates[0]));
+            polygons.push(coordinates.map(flip));
           } else if (type === "MultiPolygon") {
-            coordinates.forEach((poly) => {
-              polygons.push(flip(poly[0]));
-            });
+            polygons.push(...coordinates.map((polygon) => polygon.map(flip)));
           }
         });
-        setPolygonBoundary((prev) => [...prev, polygons]);
+        setPolygonBoundary((prev) => [...prev, ...polygons]);
       } catch (err) {
         console.error("Error fetching polygon boundary:", err);
       }
@@ -48,6 +51,7 @@ const Polygon = ({ setPolygonBoundary }) => {
         const response = await fetch(
           `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(cityName)}&format=geojson&polygon_geojson=1`,
         );
+        console.log(response);
         const result = await response.json();
         setCityDetails(result.features);
       } catch (err) {
@@ -83,34 +87,36 @@ const Polygon = ({ setPolygonBoundary }) => {
   // }, []);
 
   const handleCountryBoundary = async (country) => {
-    const polygons = [];
-
     const { type, coordinates } = country.geometry;
-
     const flip = (ring) => ring.map(([lng, lat]) => [lat, lng]);
+    const boundary =
+      type === "Polygon"
+        ? [coordinates.map(flip)]
+        : coordinates.map((polygon) => polygon.map(flip));
 
-    if (type === "Polygon") {
-      polygons.push(flip(coordinates[0]));
-    } else if (type === "MultiPolygon") {
-      coordinates.forEach((poly) => {
-        polygons.push(flip(poly[0]));
-      });
-    }
-    setPolygonBoundary((prev) => [...prev, polygons]);
     try {
-      await fetch(apiUrl("api/employers/country"), {
+      const response = await fetch(apiUrl("api/employers/country"), {
         method: "POST",
         headers: {
           "content-type": "application/json",
         },
         body: JSON.stringify({
+          boundary,
           countryName: country.properties.display_name,
           employerId: employer._id,
-          typeOfPolygon: country.geometry.type,
+          typeOfPolygon: type,
         }),
       });
+      if (!response.ok) {
+        const result = await response.json();
+        throw new Error(
+          result.message ||
+            `Saving boundary failed with status ${response.status}`,
+        );
+      }
+      setPolygonBoundary((prev) => [...prev, ...boundary]);
     } catch (err) {
-      console.error("Storing the country Name", err.message);
+      console.error("Storing the city boundary failed:", err.message);
     }
   };
 
@@ -134,7 +140,7 @@ const Polygon = ({ setPolygonBoundary }) => {
     if (tempCity === "" && city.includes(tempCity)) return;
     setCity((prev) => [...prev, tempCity]);
   };
-  console.log(city);
+
   const handleRemovePolygon = () => {
     setCity([]);
     setPolygonBoundary([]);
@@ -409,7 +415,7 @@ const Polygon = ({ setPolygonBoundary }) => {
                   Search Results
                 </h3>
                 <p className="text-[11px] text-slate-400 mt-0.5">
-                  Select a country to view its boundary.
+                  Select a city to view its boundary.
                 </p>
               </div>
 
@@ -507,7 +513,7 @@ const Polygon = ({ setPolygonBoundary }) => {
                   </div>
 
                   <p className="text-xs font-semibold text-slate-700">
-                    No Countries Found
+                    No Cities Found
                   </p>
                   <p className="text-[11px] text-slate-400 mt-1">
                     Search for a country to explore its boundary.

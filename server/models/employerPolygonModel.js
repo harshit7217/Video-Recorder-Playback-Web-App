@@ -9,13 +9,18 @@ const employerPolygonModel = new mongoose.Schema(
     },
     countryName: {
       type: String,
-      unique: true,
       required: true,
+      trim: true,
       index: true,
+    },
+    boundary: {
+      type: [[[[Number]]]],
+      required: true,
     },
     typeOfPolygon: {
       type: String,
       required: true,
+      enum: ["Polygon", "MultiPolygon"],
     },
   },
   {

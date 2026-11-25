@@ -201,12 +201,26 @@ export const deleteEmployerById = async (req, res) => {
 
 export const addingCountryPolygon = async (req, res) => {
   try {
-    const { countryName } = req.body;
-    const { employerId } = req.body;
-    const { typeOfPolygon } = req.body;
+    const { countryName, employerId, typeOfPolygon, boundary } = req.body;
 
     if (!employerId) {
       return res.status(400).json({ message: "Employer id is required" });
+    }
+
+    if (!mongoose.isValidObjectId(employerId)) {
+      return res.status(400).json({ message: "Employer id is invalid" });
+    }
+
+    if (
+      typeof countryName !== "string" ||
+      !countryName.trim() ||
+      !Array.isArray(boundary) ||
+      boundary.length === 0 ||
+      !["Polygon", "MultiPolygon"].includes(typeOfPolygon)
+    ) {
+      return res.status(400).json({
+        message: "City name and a valid polygon boundary are required",
+      });
     }
 
     const account = await EmployerAccount.findById(employerId);
@@ -215,14 +229,18 @@ export const addingCountryPolygon = async (req, res) => {
     }
 
     const payload = new employerPolygonModel({
-      countryName: countryName,
-      employerId: new mongoose.Types.ObjectId(employerId),
-      typeOfPolygon: typeOfPolygon,
+      countryName: countryName.trim(),
+      employerId,
+      boundary,
+      typeOfPolygon,
     });
 
     await payload.save();
 
-    res.status(201).json({ message: "New Location Selected" });
+    res.status(201).json({
+      message: "City boundary saved",
+      polygon: payload,
+    });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
