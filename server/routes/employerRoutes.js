@@ -8,12 +8,14 @@ import {
   loginEmployer,
   addingCountryPolygon,
   gettingAllCountryPolygon,
+  deletingAllCountryPolygons,
 } from "../controllers/employerControllers.js";
 
 const router = express.Router();
 
 router.post("/post", postEmployer);
 router.get("/", getAllEmployers);
+router.delete("/country-details", deletingAllCountryPolygons);
 router.delete("/:id", deleteEmployerById);
 router.put("/:id", updateEmployerById);
 router.post("/register-employer", registerEmployer);

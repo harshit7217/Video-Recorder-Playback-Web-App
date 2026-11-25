@@ -260,3 +260,26 @@ export const gettingAllCountryPolygon = async (req, res) => {
     res.status(400).json({ error: err.message });
   }
 };
+
+export const deletingAllCountryPolygons = async (req, res) => {
+  try {
+    const { employerId } = req.query;
+
+    if (!employerId || !mongoose.isValidObjectId(employerId)) {
+      return res.status(400).json({ message: "A valid employer id is required" });
+    }
+
+    const account = await EmployerAccount.exists({ _id: employerId });
+    if (!account) {
+      return res.status(404).json({ message: "Employer account not found" });
+    }
+
+    const result = await employerPolygonModel.deleteMany({ employerId });
+    res.status(200).json({
+      message: "Saved city boundaries deleted",
+      deletedCount: result.deletedCount,
+    });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};

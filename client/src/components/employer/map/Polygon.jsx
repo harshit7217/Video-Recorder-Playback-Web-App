@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { apiUrl } from "../../../api";
+import { apiUrl, readApiResponse } from "../../../api";
 
 const Polygon = ({ setPolygonBoundary }) => {
   const [cityDetails, setCityDetails] = useState([]);
@@ -140,9 +140,27 @@ const Polygon = ({ setPolygonBoundary }) => {
     setCity((prev) => [...prev, tempCity]);
   };
 
-  const handleRemovePolygon = () => {
-    setCity([]);
-    setPolygonBoundary([]);
+  const handleRemovePolygon = async () => {
+    if (!employer?._id) {
+      console.error("Cannot remove saved boundaries without an employer id");
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        apiUrl(
+          `api/employers/country-details?employerId=${encodeURIComponent(employer._id)}`,
+        ),
+        { method: "DELETE" },
+      );
+      await readApiResponse(response, "Unable to remove saved city boundaries");
+      setCity([]);
+      setCityDetails([]);
+      setTempCity("");
+      setPolygonBoundary([]);
+    } catch (error) {
+      console.error("Removing saved city boundaries failed:", error.message);
+    }
   };
 
   // const countryListOption = countryList.map((res, index) => (
