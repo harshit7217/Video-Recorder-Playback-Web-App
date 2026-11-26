@@ -9,13 +9,6 @@ const Polygon = ({ setPolygonBoundary }) => {
   const [cityUniqueId, setCityUniqueId] = useState("");
 
   useEffect(() => {
-    // const savingOSMIdOfPlace = async () => {
-    //   try {
-    //     const response = await fetch();
-    //   } catch (error) {
-    //     console.error("Saving OSM ID Error", error);
-    //   }
-    // };
     const fetchBoundary = async (name) => {
       try {
         const response = await fetch(
@@ -56,6 +49,18 @@ const Polygon = ({ setPolygonBoundary }) => {
           `https://nominatim.openstreetmap.org/lookup?osm_ids=${cityUniqueId}&format=geojson&polygon_geojson=1`,
         );
         const result = await response.json();
+        const polygons = [];
+        result.features.forEach((feature) => {
+          const { type, coordinates } = feature.geometry;
+          const flip = (ring) => ring.map(([lng, lat]) => [lat, lng]);
+
+          if (type === "Polygon") {
+            polygons.push(coordinates.map(flip));
+          } else if (type === "MultiPolygon") {
+            polygons.push(...coordinates.map((polygon) => polygon.map(flip)));
+          }
+        });
+        setPolygonBoundary((prev) => [...prev, ...polygons]);
       } catch (error) {
         console.error("fetching the data from city unique id", error);
       }
@@ -82,29 +87,31 @@ const Polygon = ({ setPolygonBoundary }) => {
     fetchBoundary(city[city.length - 1]);
   }, [city]);
 
-  // useEffect(() => {
-  //   const getAllDetails = async () => {
-  //     try {
-  //       const response = await fetch(
-  //         apiUrl(
-  //           `api/employers/country-details?employerID=${encodeURIComponent(employer._id)}`,
-  //         ),
-  //         {
-  //           method: "GET",
-  //           headers: {
-  //             "content-type": "application/json",
-  //           },
-  //         },
-  //       );
-  //       const result = await response.json();
-  //       setData(result);
-  //     } catch (err) {
-  //       console.error("Fetching the data", err);
-  //     }
-  //   };
+  useEffect(() => {
+    const getAllDetails = async () => {
+      try {
+        const response = await fetch(
+          apiUrl(
+            `api/employers/country-details?employerID=${encodeURIComponent(employer._id)}`,
+          ),
+          {
+            method: "GET",
+            headers: {
+              "content-type": "application/json",
+            },
+          },
+        );
+        const result = await response.json();
+        result.map((res) => {
+          setCityUniqueId((prev) => [...prev, res]);
+        });
+      } catch (err) {
+        console.error("Fetching the data", err);
+      }
+    };
 
-  //   getAllDetails();
-  // }, []);
+    getAllDetails();
+  }, []);
 
   const handleCountryBoundary = async (country) => {
     const osmId = "R" + country.properties.osm_id;
@@ -134,21 +141,6 @@ const Polygon = ({ setPolygonBoundary }) => {
     }
   };
 
-  // useEffect(() => {
-  //   const listOfCountry = async () => {
-  //     try {
-  //       const response = await fetch(
-  //         "https://countriesnow.space/api/v0.1/countries/iso",
-  //       );
-  //       const result = await response.json();
-  //       setCountryList(result.data);
-  //     } catch (err) {
-  //       console.error("List of Country: ", err);
-  //     }
-  //   };
-  //   listOfCountry();
-  // }, []);
-
   const handleSubmit = (e) => {
     e.preventDefault();
     if (tempCity === "" && city.includes(tempCity)) return;
@@ -177,12 +169,6 @@ const Polygon = ({ setPolygonBoundary }) => {
       console.error("Removing saved city boundaries failed:", error.message);
     }
   };
-
-  // const countryListOption = countryList.map((res, index) => (
-  //   <option key={res.name || index} value={res.name}>
-  //     {res.name}
-  //   </option>
-  // ));
 
   return (
     <aside className="flex h-full min-h-0 w-full min-w-0 flex-col overflow-hidden rounded-2xl bg-white shadow-sm">

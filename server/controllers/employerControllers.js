@@ -262,7 +262,11 @@ export const gettingAllCountryPolygon = async (req, res) => {
       : {};
 
     const data = await employerPolygonModel.find(filter).lean();
-    res.status(200).json(data);
+    const finalData = [];
+    data.map((d) => {
+      finalData.push(d.osmIds);
+    });
+    res.status(200).json(finalData);
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
