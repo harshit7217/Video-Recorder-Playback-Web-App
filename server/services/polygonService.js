@@ -42,7 +42,6 @@ const fetchingTheBoundary = async (arr) => {
     }),
   );
 
-  // Log failed requests
   results.forEach((result, index) => {
     if (result.status === "rejected") {
       console.error(`Failed request ${index}:`, result.reason);
