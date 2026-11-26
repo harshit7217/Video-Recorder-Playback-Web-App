@@ -15,6 +15,7 @@ The frontend is a React + Vite application located in the [client/](./client/) f
 - a central API helper layer for backend requests
 - Socket.IO client setup for live activity tracking
 - map and geolocation features for candidate eligibility checks
+- employer map controls for selecting and displaying OpenStreetMap country boundaries
 - local development support through Vite proxy rules and environment variables such as `VITE_API_URL` and `VITE_SOCKET_URL`
 
 The frontend documentation includes operational details from the git history, especially around backend URL configuration, socket transport handling, and deployment-safe runtime behavior.
@@ -24,7 +25,7 @@ The frontend documentation includes operational details from the git history, es
 The backend is a Node.js + Express service located in the [server/](./server/) folder. It includes:
 
 - REST APIs for candidate and employer authentication and data management
-- MongoDB persistence for accounts and employer location records
+- MongoDB persistence for accounts, employer locations, and selected country OSM IDs
 - geolocation and radius validation logic using IP-based lookups and geographic distance calculations
 - Socket.IO event handling for recording activity logs and file-backed persistence
 - CORS and environment-variable configuration for deployment compatibility

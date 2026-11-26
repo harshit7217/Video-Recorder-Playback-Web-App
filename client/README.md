@@ -194,6 +194,12 @@ From the routed screens and component layout, the frontend is organized around a
 
 The codebase includes components and logic for geolocation, map marker placement, radius validation, and candidate eligibility. The git history shows repeated fixes in these areas, such as null-handling guards, IP state tracking, and logic updates for location checks. This indicates the frontend is handling real-world edge cases around user location and geofencing.
 
+### Employer country boundaries
+
+The employer map lets an employer select a country from the OpenStreetMap-backed map. The frontend formats the feature's OSM relation ID as `R<osm_id>`, sends it with the employer ID to `POST /api/employers/country`, then looks up the boundary geometry with Nominatim and displays it on the map. The backend stores selected OSM IDs in an array for that employer and ignores duplicate IDs.
+
+The map's remove-boundaries action sends `DELETE /api/employers/country-details?employerId=<employerId>` and clears the displayed boundary state after a successful response.
+
 ## 12. Git history takeaways
 
 The frontend’s git history is useful as a design and maintenance history:

@@ -115,6 +115,16 @@ This model is used for candidate sign-up, login, and lookup flows.
 
 This model is the core data source for geofencing and candidate-radius eligibility checks.
 
+### Employer polygon model
+
+`server/models/employerPolygonModel.js` stores the OSM IDs of the countries selected by an employer:
+
+- `employerId` — unique reference to the employer account, so each employer has one polygon record
+- `osmIds` — array of OSM IDs; duplicate IDs are not added
+- timestamps enabled via `timestamps: true`
+
+The country-selection endpoint upserts by `employerId`. The first selection creates the employer's record; later selections add IDs to its `osmIds` array.
+
 ## 6. API routes
 
 The backend has separate route modules under `server/routes`.
@@ -138,10 +148,24 @@ These endpoints coordinate with `candidateControllers.js` for user registration,
 - `GET /api/employers/`
 - `DELETE /api/employers/:id`
 - `PUT /api/employers/:id`
+- `POST /api/employers/country`
+- `GET /api/employers/country-details?employerId=<employerId>`
+- `DELETE /api/employers/country-details?employerId=<employerId>`
 - `POST /api/employers/register-employer`
 - `POST /api/employers/login-employer`
 
-This indicates a simple CRUD display of employer location records plus authentication endpoints for employer accounts.
+`POST /api/employers/country` accepts an `employerId` and `osmId` in its JSON body:
+
+```json
+{
+  "employerId": "<employer account id>",
+  "osmId": "R12345"
+}
+```
+
+It verifies the employer account, creates the polygon record if needed, and adds the OSM ID only if it is not already present. The country-details GET endpoint returns saved OSM ID arrays, optionally filtered by employer; the DELETE endpoint removes that employer's saved polygon record.
+
+These endpoints complement employer location CRUD and employer account authentication.
 
 ### IP geolocation route
 
@@ -176,6 +200,9 @@ Core behaviors:
 - `getAllEmployers`: fetches employer location records, optionally filtered by employer ID
 - `updateEmployerById`: updates an employer location and returns a trimmed radius payload
 - `deleteEmployerById`: deletes a specific employer location record
+- `addingCountryPolygon`: creates or updates the employer's saved OSM ID array without adding duplicate IDs
+- `gettingAllCountryPolygon`: returns saved country OSM ID arrays, optionally filtered by employer
+- `deletingAllCountryPolygons`: deletes the saved polygon record for an employer
 
 A default location is defined in the controller:
 
