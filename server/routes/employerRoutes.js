@@ -17,10 +17,9 @@ router.post("/post", postEmployer);
 router.get("/", getAllEmployers);
 router.delete("/country-details", deletingAllCountryPolygons);
 router.delete("/:id", deleteEmployerById);
-router.put("/:id", updateEmployerById);
+router.post("/country", addingCountryPolygon);
 router.post("/register-employer", registerEmployer);
 router.post("/login-employer", loginEmployer);
-router.post("/country", addingCountryPolygon);
 router.get("/country-details", gettingAllCountryPolygon);
 
 export default router;

@@ -6,8 +6,16 @@ const Polygon = ({ setPolygonBoundary }) => {
   const employer = JSON.parse(localStorage.getItem("employer"));
   const [tempCity, setTempCity] = useState("");
   const [city, setCity] = useState([]);
+  const [cityUniqueId, setCityUniqueId] = useState("");
 
   useEffect(() => {
+    // const savingOSMIdOfPlace = async () => {
+    //   try {
+    //     const response = await fetch();
+    //   } catch (error) {
+    //     console.error("Saving OSM ID Error", error);
+    //   }
+    // };
     const fetchBoundary = async (name) => {
       try {
         const response = await fetch(
@@ -19,9 +27,7 @@ const Polygon = ({ setPolygonBoundary }) => {
           );
         }
         const result = await response.json();
-
         const polygons = [];
-
         result.features.forEach((feature) => {
           const { type, coordinates } = feature.geometry;
           const flip = (ring) => ring.map(([lng, lat]) => [lat, lng]);
@@ -42,6 +48,21 @@ const Polygon = ({ setPolygonBoundary }) => {
       fetchBoundary(d.countryName);
     });
   }, [city, setPolygonBoundary]);
+
+  useEffect(() => {
+    const fetchingDataByCityUniqueId = async () => {
+      try {
+        const response = await fetch(
+          `https://nominatim.openstreetmap.org/lookup?osm_ids=${cityUniqueId}&format=geojson&polygon_geojson=1`,
+        );
+        const result = await response.json();
+      } catch (error) {
+        console.error("fetching the data from city unique id", error);
+      }
+    };
+
+    fetchingDataByCityUniqueId();
+  }, [cityUniqueId]);
 
   useEffect(() => {
     if (city.length === 0) return;
@@ -86,34 +107,28 @@ const Polygon = ({ setPolygonBoundary }) => {
   // }, []);
 
   const handleCountryBoundary = async (country) => {
-    const { type, coordinates } = country.geometry;
-    const flip = (ring) => ring.map(([lng, lat]) => [lat, lng]);
-    const boundary =
-      type === "Polygon"
-        ? [coordinates.map(flip)]
-        : coordinates.map((polygon) => polygon.map(flip));
-
+    const osmId = "R" + country.properties.osm_id;
     try {
-      const response = await fetch(apiUrl("api/employers/country"), {
+      const response = await fetch(apiUrl("/api/employers/country"), {
         method: "POST",
         headers: {
           "content-type": "application/json",
         },
         body: JSON.stringify({
-          boundary,
-          countryName: country.properties.display_name,
           employerId: employer._id,
-          typeOfPolygon: type,
+          osmId: String(osmId).trim(),
         }),
       });
+
       if (!response.ok) {
         const result = await response.json();
+        console.log(result);
         throw new Error(
           result.message ||
             `Saving boundary failed with status ${response.status}`,
         );
       }
-      setPolygonBoundary((prev) => [...prev, ...boundary]);
+      setCityUniqueId(osmId);
     } catch (err) {
       console.error("Storing the city boundary failed:", err.message);
     }

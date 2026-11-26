@@ -201,48 +201,55 @@ export const deleteEmployerById = async (req, res) => {
 
 export const addingCountryPolygon = async (req, res) => {
   try {
-    const { countryName, employerId, typeOfPolygon, boundary } = req.body;
+    const { employerId, osmId } = req.body;
 
     if (!employerId) {
-      return res.status(400).json({ message: "Employer id is required" });
-    }
-
-    if (!mongoose.isValidObjectId(employerId)) {
-      return res.status(400).json({ message: "Employer id is invalid" });
-    }
-
-    if (
-      typeof countryName !== "string" ||
-      !countryName.trim() ||
-      !Array.isArray(boundary) ||
-      boundary.length === 0 ||
-      !["Polygon", "MultiPolygon"].includes(typeOfPolygon)
-    ) {
       return res.status(400).json({
-        message: "City name and a valid polygon boundary are required",
+        message: "Employer id is required",
       });
     }
 
-    const account = await EmployerAccount.findById(employerId);
-    if (!account) {
-      return res.status(404).json({ message: "Employer account not found" });
+    if (!mongoose.isValidObjectId(employerId)) {
+      return res.status(400).json({
+        message: "Employer id is invalid",
+      });
     }
 
-    const payload = new employerPolygonModel({
-      countryName: countryName.trim(),
-      employerId,
-      boundary,
-      typeOfPolygon,
-    });
+    if (typeof osmId !== "string" || !osmId.trim()) {
+      return res.status(400).json({
+        message: "OSM Id is required",
+      });
+    }
 
-    await payload.save();
+    const cleanOsmId = osmId.trim();
 
-    res.status(201).json({
-      message: "City boundary saved",
-      polygon: payload,
+    const account = await EmployerAccount.findById(employerId);
+
+    if (!account) {
+      return res.status(404).json({
+        message: "Employer account not found",
+      });
+    }
+
+    const polygon = await employerPolygonModel.findOneAndUpdate(
+      { employerId },
+      { $addToSet: { osmIds: cleanOsmId } },
+      {
+        new: false,
+        upsert: true,
+        runValidators: true,
+        setDefaultsOnInsert: true,
+      },
+    );
+
+    return res.status(200).json({
+      message: "OSM ID saved successfully",
+      polygon,
     });
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    return res.status(500).json({
+      error: err.message,
+    });
   }
 };
 
@@ -266,7 +273,9 @@ export const deletingAllCountryPolygons = async (req, res) => {
     const { employerId } = req.query;
 
     if (!employerId || !mongoose.isValidObjectId(employerId)) {
-      return res.status(400).json({ message: "A valid employer id is required" });
+      return res
+        .status(400)
+        .json({ message: "A valid employer id is required" });
     }
 
     const account = await EmployerAccount.exists({ _id: employerId });
