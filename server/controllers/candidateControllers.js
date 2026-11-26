@@ -204,11 +204,9 @@ export const polygonController = async (req, res) => {
   const array = await boundaryofPolygons();
   const lat = 28.44374;
   const lng = 77.05596;
-  array.map((arr) => {
-    const isCheckInside = isInside(arr, lat, lng);
-    if (isCheckInside) {
-      return res.status(200).json({ message: "candidate inside the city" });
-    }
-  });
+  const isCheckInside = isInside(array, lat, lng);
+  if (isCheckInside) {
+    return res.status(200).json({ message: "candidate inside the city" });
+  }
   return res.status(200).json({ message: "candidate not inside the city" });
 };

@@ -6,17 +6,64 @@ export function apiUrl(path) {
   return `${API_BASE_URL}/${path.replace(/^\/+/, "")}`;
 }
 
+const fetchingTheBoundary = async (arr) => {
+  const polygons = [];
+
+  const results = await Promise.allSettled(
+    arr.flat().map(async (a) => {
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/lookup?osm_ids=${encodeURIComponent(a)}&format=geojson&polygon_geojson=1`,
+        {
+          headers: {
+            "User-Agent":
+              "Video Recorder and Web Playback Application/1.0 (harshit@jobma.com)",
+            Accept: "application/json",
+          },
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error(`Nominatim error: ${response.status} for ${a}`);
+      }
+
+      const result = await response.json();
+
+      result.features?.forEach((feature) => {
+        const { type, coordinates } = feature.geometry;
+
+        const flip = (ring) => ring.map(([lng, lat]) => [lat, lng]);
+
+        if (type === "Polygon") {
+          polygons.push(coordinates.map(flip));
+        } else if (type === "MultiPolygon") {
+          polygons.push(...coordinates.map((polygon) => polygon.map(flip)));
+        }
+      });
+    }),
+  );
+
+  // Log failed requests
+  results.forEach((result, index) => {
+    if (result.status === "rejected") {
+      console.error(`Failed request ${index}:`, result.reason);
+    }
+  });
+  return polygons;
+};
+
 export const boundaryofPolygons = async () => {
   try {
-    const response = await fetch(apiUrl("/api/employers/country-details"));
+    const response = await fetch(
+      apiUrl(
+        "api/employers/country-details?employerID=6aedaaa31678958d084176f4",
+      ),
+    );
     const result = await response.json();
-    const arrayResult = [];
-    result.map((res) => {
-      arrayResult.push(convertedIntoTwoDArray(res.boundary));
-    });
-    return arrayResult;
+    const a = await fetchingTheBoundary(result);
+    const twoD = convertedIntoTwoDArray(a);
+    return twoD;
   } catch (error) {
-    console.error(error);
+    console.error("error", error);
   }
 };
 
