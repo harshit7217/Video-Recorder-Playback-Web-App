@@ -6,28 +6,22 @@ import { useState, useEffect } from "react";
 const RegisterCandidate = () => {
   const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(false);
+  const savedCandidate = localStorage.getItem("candidate");
+
   const [candidate, setCandidate] = useState(() => {
-    try {
-      const savedCandidate = localStorage.getItem("candidate");
-      return savedCandidate ? JSON.parse(savedCandidate) : null;
-    } catch (error) {
-      console.error("Error reading saved candidate:", error);
-      return null;
-    }
+    return savedCandidate ? JSON.parse(savedCandidate) : null;
   });
 
   useEffect(() => {
-    if (candidate) {
+    if (candidate !== null) {
       localStorage.setItem("candidate", JSON.stringify(candidate));
-      return;
+    } else {
+      localStorage.removeItem("candidate");
     }
-
-    localStorage.removeItem("candidate");
   }, [candidate]);
 
   const handleLoginSuccess = (loggedInCandidate) => {
     setCandidate(loggedInCandidate);
-    localStorage.setItem("candidate", JSON.stringify(loggedInCandidate));
     navigate("/api/candidate/circle");
   };
 

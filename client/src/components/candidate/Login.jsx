@@ -25,7 +25,6 @@ const Login = ({ onLogin }) => {
         onLogin(data.candidate);
       }
     } catch (error) {
-      console.error("Login error:", error);
       setLoginError(error.message || "Login failed. Please try again.");
     }
   };

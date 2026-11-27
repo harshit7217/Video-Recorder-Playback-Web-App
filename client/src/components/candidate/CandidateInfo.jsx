@@ -16,18 +16,14 @@ Modal.setAppElement("#root");
 
 const CandidateInfo = () => {
   const navigate = useNavigate();
+  const savedCandidate = localStorage.getItem("candidate");
   const [candidate, setCandidate] = useState(() => {
-    try {
-      const savedCandidate = localStorage.getItem("candidate");
-      return savedCandidate ? JSON.parse(savedCandidate) : null;
-    } catch (error) {
-      console.error("Error reading saved candidate:", error);
-      return null;
-    }
+    return savedCandidate ? JSON.parse(savedCandidate) : null;
   });
 
   const handleLogout = () => {
     localStorage.removeItem("candidate");
+    setCandidate(null);
     navigate("/");
   };
 
