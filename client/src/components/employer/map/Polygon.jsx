@@ -40,22 +40,6 @@ const Polygon = ({ setPolygonBoundary }) => {
     city.map((d) => {
       fetchBoundary(d.countryName);
     });
-
-    if (city.length === 0) return;
-
-    const fetchBoundarySecond = async (cityName) => {
-      try {
-        const response = await fetch(
-          `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(cityName)}&format=geojson&polygon_geojson=1`,
-        );
-        const result = await response.json();
-        setCityDetails(result.features);
-      } catch (err) {
-        console.error("Fetching boundary error:", err);
-      }
-    };
-
-    fetchBoundarySecond(city[city.length - 1]);
   }, [city, setPolygonBoundary]);
 
   useEffect(() => {
@@ -84,6 +68,24 @@ const Polygon = ({ setPolygonBoundary }) => {
 
     fetchingDataByCityUniqueId();
   }, [cityUniqueId]);
+
+  useEffect(() => {
+    if (city.length === 0) return;
+
+    const fetchBoundary = async (cityName) => {
+      try {
+        const response = await fetch(
+          `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(cityName)}&format=geojson&polygon_geojson=1`,
+        );
+        const result = await response.json();
+        setCityDetails(result.features);
+      } catch (err) {
+        console.error("Fetching boundary error:", err);
+      }
+    };
+
+    fetchBoundary(city[city.length - 1]);
+  }, [city]);
 
   useEffect(() => {
     const getAllDetails = async () => {
