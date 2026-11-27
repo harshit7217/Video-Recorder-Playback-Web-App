@@ -40,6 +40,22 @@ const Polygon = ({ setPolygonBoundary }) => {
     city.map((d) => {
       fetchBoundary(d.countryName);
     });
+
+    if (city.length === 0) return;
+
+    const fetchBoundarySecond = async (cityName) => {
+      try {
+        const response = await fetch(
+          `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(cityName)}&format=geojson&polygon_geojson=1`,
+        );
+        const result = await response.json();
+        setCityDetails(result.features);
+      } catch (err) {
+        console.error("Fetching boundary error:", err);
+      }
+    };
+
+    fetchBoundarySecond(city[city.length - 1]);
   }, [city, setPolygonBoundary]);
 
   useEffect(() => {
@@ -68,24 +84,6 @@ const Polygon = ({ setPolygonBoundary }) => {
 
     fetchingDataByCityUniqueId();
   }, [cityUniqueId]);
-
-  useEffect(() => {
-    if (city.length === 0) return;
-
-    const fetchBoundary = async (cityName) => {
-      try {
-        const response = await fetch(
-          `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(cityName)}&format=geojson&polygon_geojson=1`,
-        );
-        const result = await response.json();
-        setCityDetails(result.features);
-      } catch (err) {
-        console.error("Fetching boundary error:", err);
-      }
-    };
-
-    fetchBoundary(city[city.length - 1]);
-  }, [city]);
 
   useEffect(() => {
     const getAllDetails = async () => {
@@ -172,41 +170,6 @@ const Polygon = ({ setPolygonBoundary }) => {
 
   return (
     <aside className="flex h-full min-h-0 w-full min-w-0 flex-col overflow-hidden rounded-2xl bg-white shadow-sm">
-      {/* HEADER */}
-      <div className="shrink-0 bg-white px-4 py-4 sm:px-5">
-        <div className="flex items-center gap-3">
-          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600">
-            <svg
-              className="h-5 w-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeWidth="1.8"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3V6z M9 3v15 M15 6v15"
-              />
-            </svg>
-          </div>
-
-          <div className="min-w-0 flex-1">
-            <h2 className="text-base font-bold tracking-tight text-slate-900 sm:text-lg">
-              City Boundaries
-            </h2>
-            <p className="mt-0.5 text-xs text-slate-500">
-              Explore and visualize geographic boundaries
-            </p>
-          </div>
-
-          <span className="hidden shrink-0 items-center gap-1.5 rounded-full bg-emerald-50 px-2.5 py-1.5 text-[10px] font-semibold text-emerald-700 sm:inline-flex">
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-            Ready
-          </span>
-        </div>
-      </div>
-
       {/* SCROLLABLE BODY */}
       <div className="min-h-0 flex-1 space-y-5 overflow-y-auto overscroll-contain p-4 sm:p-5">
         {/* SEARCH SECTION */}
@@ -223,45 +186,6 @@ const Polygon = ({ setPolygonBoundary }) => {
             <p className="mt-1 text-xs leading-5 text-slate-500">
               Search for a city or place to retrieve its boundary.
             </p>
-          </div>
-
-          {/* STAT CARD */}
-          <div className="mb-4 flex items-center justify-between rounded-xl bg-indigo-50/70 p-3.5">
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white text-indigo-600 shadow-sm">
-                <svg
-                  className="h-5 w-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeWidth="1.8"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M12 21s7-5.5 7-12a7 7 0 10-14 0c0 6.5 7 12 7 12z"
-                  />
-                  <circle cx="12" cy="9" r="2.5" />
-                </svg>
-              </div>
-              <div>
-                <p className="text-xs font-medium text-slate-500">
-                  Available Boundaries
-                </p>
-                <p className="mt-0.5 text-xl font-bold text-slate-900">
-                  {
-                    cityDetails.filter(
-                      (country) =>
-                        country.geometry.type === "Polygon" ||
-                        country.geometry.type === "MultiPolygon",
-                    ).length
-                  }
-                </p>
-              </div>
-            </div>
-            <span className="text-xs font-medium text-indigo-600">
-              Locations
-            </span>
           </div>
 
           {/* SEARCH FORM */}
@@ -470,17 +394,6 @@ const Polygon = ({ setPolygonBoundary }) => {
             on the map.
           </p>
         </section>
-      </div>
-
-      {/* FOOTER */}
-      <div className="flex shrink-0 items-center justify-between bg-slate-50 px-4 py-3 sm:px-5">
-        <span className="text-[10px] font-medium uppercase tracking-wider text-slate-400">
-          Polygon Explorer
-        </span>
-        <span className="flex items-center gap-1.5 text-[11px] font-semibold text-emerald-600">
-          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-          System Ready
-        </span>
       </div>
     </aside>
   );

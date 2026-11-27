@@ -4,63 +4,11 @@ const Circle = ({ selectedMarker, updateSelectedMarkerRadius }) => {
   return (
     <aside className="w-full min-w-0 h-full">
       <div className="flex h-full flex-col overflow-hidden rounded-2xl bg-white shadow-sm">
-        {/* HEADER */}
-        <div className="bg-gradient-to-r from-indigo-50/80 to-white p-4 sm:p-5">
-          <div className="flex items-center justify-between gap-3">
-            <div className="flex min-w-0 items-center gap-3">
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-indigo-600 text-white shadow-md shadow-indigo-200">
-                <svg
-                  className="h-5 w-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <circle cx="12" cy="12" r="3" strokeWidth="1.8" />
-                  <path
-                    strokeWidth="1.8"
-                    strokeLinecap="round"
-                    d="M12 2v3m0 14v3M2 12h3m14 0h3"
-                  />
-                </svg>
-              </div>
-
-              <div className="min-w-0">
-                <h2 className="text-base font-bold text-slate-900">
-                  Area Controls
-                </h2>
-                <p className="mt-0.5 text-xs text-slate-500">
-                  Manage geographic search areas
-                </p>
-              </div>
-            </div>
-
-            <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-emerald-50 px-2.5 py-1.5 text-[10px] font-bold text-emerald-700">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-              GIS Ready
-            </span>
-          </div>
-        </div>
-
         {/* BODY */}
-        <div className="flex-1 space-y-5 overflow-y-auto p-4 sm:p-5">
+        <div className="flex-1 space-y-5 overflow-y-auto p-1 sm:p-2">
           {/* RADIUS CONFIGURATION */}
           <section>
-            <div className="mb-3 flex items-center justify-between gap-2">
-              <div>
-                <h3 className="text-sm font-bold text-slate-800">
-                  Search Radius
-                </h3>
-                <p className="mt-1 text-xs text-slate-500">
-                  Configure your marker coverage distance
-                </p>
-              </div>
-
-              <span className="rounded-lg bg-indigo-50 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-indigo-600">
-                Coverage
-              </span>
-            </div>
-
-            <div className="rounded-xl bg-gradient-to-br from-indigo-50/80 to-white p-4">
+            <div className="rounded-xl bg-gradient-to-br from-indigo-50/80 to-white p-1">
               <div className="mb-4 flex items-center justify-between gap-2">
                 <div>
                   <p className="text-xs font-medium text-slate-500">
@@ -153,9 +101,7 @@ const Circle = ({ selectedMarker, updateSelectedMarkerRadius }) => {
           {/* MARKER STATUS */}
           <section
             className={`rounded-xl p-4 ${
-              selectedMarker
-                ? "bg-emerald-50/70"
-                : "bg-amber-50/70"
+              selectedMarker ? "bg-emerald-50/70" : "bg-amber-50/70"
             }`}
           >
             <div className="flex items-center gap-2">
@@ -230,20 +176,6 @@ const Circle = ({ selectedMarker, updateSelectedMarkerRadius }) => {
               ))}
             </div>
           </section>
-        </div>
-
-        {/* FOOTER */}
-        <div className="bg-slate-50 px-4 py-3 sm:px-5">
-          <div className="flex flex-wrap items-center justify-between gap-2">
-            <span className="text-[10px] font-medium text-slate-400">
-              Geographic Area Settings
-            </span>
-
-            <span className="flex items-center gap-1.5 text-[10px] font-semibold text-emerald-600">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-              Live Configuration
-            </span>
-          </div>
         </div>
       </div>
     </aside>
