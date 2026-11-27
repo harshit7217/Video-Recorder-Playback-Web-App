@@ -16,12 +16,6 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
     error: "",
     data: null,
   });
-  const [countryCheck, setCountryCheck] = useState({
-    loading: true,
-    error: "",
-    isAllowed: null,
-    candidateCountry: "",
-  });
   const [mapRadiusCheck, setMapRadiusCheck] = useState({
     loading: true,
     error: "",
@@ -51,8 +45,7 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
     if (signalFraud.loading || signalFraud.error || !signalFlags) return;
 
     const controller = new AbortController();
-    const shouldFetchGeolocation =
-      signalFlags.ipStatus || signalFlags.jobCountry;
+    const shouldFetchGeolocation = signalFlags.ipStatus;
 
     const fetchIpGeolocation = async () => {
       try {
@@ -183,61 +176,6 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
   ].filter(
     ([, value]) => value !== undefined && value !== null && value !== "",
   );
-
-  useEffect(() => {
-    if (!signalFlags?.jobCountry || geolocation.loading || geolocation.error) {
-      return;
-    }
-
-    const controller = new AbortController();
-    const candidateCountry = location?.country ?? ipDetails?.country_name ?? "";
-
-    const checkJobCountry = async () => {
-      try {
-        const response = await fetch(apiUrl("/api/candidates/check-country"), {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            employerId: SIGNAL_FRAUD_EMPLOYER_ID,
-            candidateCountry,
-          }),
-          signal: controller.signal,
-        });
-        const result = await readApiResponse(
-          response,
-          "Job country verification failed",
-        );
-        if (typeof result?.isAllowed !== "boolean") {
-          throw new Error("The server returned an invalid country check.");
-        }
-
-        setCountryCheck({
-          loading: false,
-          error: "",
-          isAllowed: result.isAllowed,
-          candidateCountry: result.candidateCountry,
-        });
-      } catch (error) {
-        if (error.name !== "AbortError") {
-          setCountryCheck({
-            loading: false,
-            error: error.message || "Job country verification failed.",
-            isAllowed: null,
-            candidateCountry,
-          });
-        }
-      }
-    };
-
-    checkJobCountry();
-    return () => controller.abort();
-  }, [
-    geolocation.error,
-    geolocation.loading,
-    ipDetails?.country_name,
-    location?.country,
-    signalFlags?.jobCountry,
-  ]);
 
   useEffect(() => {
     if (
@@ -476,22 +414,10 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
   ) {
     recordingBlockReason =
       "Your IP location is not within the same interviewer radius as the map location.";
-  } else if (
-    (signalFlags.ipStatus || signalFlags.jobCountry) &&
-    geolocation.loading
-  ) {
+  } else if (signalFlags.ipStatus && geolocation.loading) {
     recordingBlockReason = "Checking the IP location...";
-  } else if (
-    (signalFlags.ipStatus || signalFlags.jobCountry) &&
-    geolocation.error
-  ) {
+  } else if (signalFlags.ipStatus && geolocation.error) {
     recordingBlockReason = "Could not verify the IP location.";
-  } else if (signalFlags.jobCountry && countryCheck.loading) {
-    recordingBlockReason = "Checking the candidate's job country...";
-  } else if (signalFlags.jobCountry && countryCheck.error) {
-    recordingBlockReason = countryCheck.error;
-  } else if (signalFlags.jobCountry && countryCheck.isAllowed !== true) {
-    recordingBlockReason = "Your IP country is not allowed for this job.";
   } else if (enabledNetworkChecks.length > 0 && networkDetection.loading) {
     recordingBlockReason = "Checking enabled VPN and proxy detections...";
   } else if (enabledNetworkChecks.length > 0 && networkDetection.error) {
@@ -651,7 +577,7 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
           )}
 
           {/* IP DETAILS */}
-          {signalFlags && (signalFlags.ipStatus || signalFlags.jobCountry) && (
+          {signalFlags?.ipStatus && (
             <section className="min-w-0 overflow-hidden rounded-2xl bg-white shadow-sm">
               <div className="flex items-center justify-between gap-3 px-4 py-3">
                 <div className="flex items-center gap-3">
@@ -729,59 +655,6 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
                 ipRadiusStatusValue={ipRadiusStatusValue}
                 showIpRadiusStatus={signalFlags.ipStatus}
               />
-            </section>
-          )}
-
-          {/* COUNTRY VERIFICATION */}
-          {signalFlags?.jobCountry && isCircle && (
-            <section className="flex min-w-0 items-center justify-between gap-3 rounded-2xl bg-white p-4 shadow-sm">
-              <div className="flex min-w-0 items-center gap-3">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-violet-50 text-violet-600">
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.7"
-                    className="h-5 w-5"
-                  >
-                    <path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z" />
-                    <path d="m9 12 2 2 4-4" />
-                  </svg>
-                </div>
-                <div className="min-w-0">
-                  <h3 className="text-sm font-bold">Country verification</h3>
-                  <p className="mt-1 text-[11px] leading-4 text-slate-500">
-                    {countryCheck.loading
-                      ? "Comparing IP country with allowed countries"
-                      : countryCheck.error
-                        ? countryCheck.error
-                        : countryCheck.isAllowed
-                          ? `${countryCheck.candidateCountry} is allowed for this job`
-                          : `${countryCheck.candidateCountry} is not allowed for this job`}
-                  </p>
-                </div>
-              </div>
-
-              <span
-                className={`shrink-0 rounded-full px-2.5 py-1 text-[10px] font-bold ${
-                  countryCheck.loading
-                    ? "bg-amber-50 text-amber-700"
-                    : countryCheck.error
-                      ? "bg-slate-100 text-slate-600"
-                      : countryCheck.isAllowed
-                        ? "bg-emerald-50 text-emerald-700"
-                        : "bg-rose-50 text-rose-700"
-                }`}
-                role={countryCheck.error ? "alert" : "status"}
-              >
-                {countryCheck.loading
-                  ? "Checking"
-                  : countryCheck.error
-                    ? "Unavailable"
-                    : countryCheck.isAllowed
-                      ? "Allowed"
-                      : "Not allowed"}
-              </span>
             </section>
           )}
 
