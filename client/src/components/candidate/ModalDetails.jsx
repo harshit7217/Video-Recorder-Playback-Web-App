@@ -41,6 +41,11 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
     ipStatus: "",
     isSuspicious: null,
   });
+  const [polygonCheck, setPolygonCheck] = useState({
+    loading: true,
+    error: "",
+    isInside: null,
+  });
 
   useEffect(() => {
     if (signalFraud.loading || signalFraud.error || !signalFlags) return;
@@ -316,9 +321,51 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
       }
     };
 
+    const checkInsidePolygon = async (lat, lng) => {
+      if (typeof lat !== "number" || typeof lng !== "number") {
+        setPolygonCheck({
+          loading: false,
+          error: "Candidate location coordinates are unavailable.",
+          isInside: null,
+        });
+        return;
+      }
+
+      setPolygonCheck({ loading: true, error: "", isInside: null });
+      try {
+        const response = await fetch(
+          apiUrl(
+            `api/candidates/polygon?lat=${encodeURIComponent(lat)}&lng=${encodeURIComponent(lng)}`,
+          ),
+          { signal: controller.signal },
+        );
+        const result = await readApiResponse(
+          response,
+          "Candidate polygon check failed",
+        );
+        if (typeof result?.isCheckInside !== "boolean") {
+          throw new Error("The server did not return the polygon check result.");
+        }
+        setPolygonCheck({
+          loading: false,
+          error: "",
+          isInside: result.isCheckInside,
+        });
+      } catch (error) {
+        if (error.name !== "AbortError") {
+          setPolygonCheck({
+            loading: false,
+            error: error.message,
+            isInside: null,
+          });
+        }
+      }
+    };
+
     if (isCircle) {
       checkLocationRadii();
     }
+    checkInsidePolygon(mapLocation?.lat, mapLocation?.lng);
     return () => controller.abort();
   }, [
     geolocation.loading,
@@ -686,7 +733,7 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
           )}
 
           {/* COUNTRY VERIFICATION */}
-          {signalFlags?.jobCountry && (
+          {signalFlags?.jobCountry && isCircle && (
             <section className="flex min-w-0 items-center justify-between gap-3 rounded-2xl bg-white p-4 shadow-sm">
               <div className="flex min-w-0 items-center gap-3">
                 <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-violet-50 text-violet-600">
@@ -734,6 +781,58 @@ const ModalDetails = ({ closeModal, mapLocation, isCircle }) => {
                     : countryCheck.isAllowed
                       ? "Allowed"
                       : "Not allowed"}
+              </span>
+            </section>
+          )}
+
+          {isCircle === false && (
+            <section className="flex min-w-0 items-center justify-between gap-3 rounded-2xl bg-white p-4 shadow-sm">
+              <div className="flex min-w-0 items-center gap-3">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-violet-50 text-violet-600">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.7"
+                    className="h-5 w-5"
+                  >
+                    <path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z" />
+                    <path d="m9 12 2 2 4-4" />
+                  </svg>
+                </div>
+                <div className="min-w-0">
+                  <h3 className="text-sm font-bold">Location verification</h3>
+                  <p className="mt-1 text-[11px] leading-4 text-slate-500">
+                    {polygonCheck.loading
+                      ? "Checking whether your location is inside the allowed area"
+                      : polygonCheck.error
+                        ? polygonCheck.error
+                        : polygonCheck.isInside
+                          ? "Your location is inside the allowed area"
+                          : "Your location is outside the allowed area"}
+                  </p>
+                </div>
+              </div>
+
+              <span
+                className={`shrink-0 rounded-full px-2.5 py-1 text-[10px] font-bold ${
+                  polygonCheck.loading
+                    ? "bg-amber-50 text-amber-700"
+                    : polygonCheck.error
+                      ? "bg-slate-100 text-slate-600"
+                      : polygonCheck.isInside
+                        ? "bg-emerald-50 text-emerald-700"
+                        : "bg-rose-50 text-rose-700"
+                }`}
+                role={polygonCheck.error ? "alert" : "status"}
+              >
+                {polygonCheck.loading
+                  ? "Checking"
+                  : polygonCheck.error
+                    ? "Unavailable"
+                    : polygonCheck.isInside
+                      ? "Inside"
+                      : "Outside"}
               </span>
             </section>
           )}
