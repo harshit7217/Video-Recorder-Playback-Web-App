@@ -31,6 +31,7 @@ const Circle = ({ selectedMarker, updateSelectedMarkerRadius }) => {
 
               <div className="rounded-lg bg-white p-3 shadow-sm">
                 <RadiusForm
+                  key={selectedMarker?.id ?? selectedMarker?._id ?? "radius-form"}
                   radius={selectedMarker?.radius ?? 500}
                   setRadius={updateSelectedMarkerRadius}
                 />

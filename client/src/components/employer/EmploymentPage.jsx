@@ -1,4 +1,4 @@
-import { apiUrl } from "../../api";
+import { apiUrl, readApiResponse } from "../../api";
 import Map from "./map/Map.jsx";
 import { useEffect, useMemo, useState } from "react";
 import { defaultLocation } from "../utils/defaultLoction.js";
@@ -39,29 +39,28 @@ const EmploymentPage = () => {
     const storedEmployer = localStorage.getItem("employer");
     const employerId = storedEmployer ? JSON.parse(storedEmployer)._id : null;
 
-    async () => {
-      try {
-        await fetch(
-          apiUrl(
-            `/api/employers/${selectedMarkerSnapshot._id}?employerId=${employerId}`,
-          ),
-          {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              ...selectedMarkerSnapshot,
-              employerId,
-              radius: safeRadius,
-              name: selectedMarkerSnapshot.name ?? "Selected position",
-            }),
+    try {
+      const response = await fetch(
+        apiUrl(
+          `/api/employers/${selectedMarkerSnapshot._id}?employerId=${encodeURIComponent(employerId)}`,
+        ),
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
           },
-        );
-      } catch (error) {
-        console.error("Error updating employer radius:", error);
-      }
-    };
+          body: JSON.stringify({
+            ...selectedMarkerSnapshot,
+            employerId,
+            radius: safeRadius,
+            name: selectedMarkerSnapshot.name ?? "Selected position",
+          }),
+        },
+      );
+      await readApiResponse(response, "Unable to update employer radius");
+    } catch (error) {
+      console.error("Error updating employer radius:", error);
+    }
   };
 
   useEffect(() => {

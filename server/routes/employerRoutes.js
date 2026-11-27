@@ -15,6 +15,7 @@ const router = express.Router();
 
 router.post("/post", postEmployer);
 router.get("/", getAllEmployers);
+router.put("/:id", updateEmployerById);
 router.delete("/country-details", deletingAllCountryPolygons);
 router.delete("/:id", deleteEmployerById);
 router.post("/country", addingCountryPolygon);
